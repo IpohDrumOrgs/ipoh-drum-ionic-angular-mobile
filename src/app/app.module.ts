@@ -10,9 +10,19 @@ import { LaravelPassportModule } from 'laravel-passport';
 import { UserControllerServiceService } from './_dal/ipohdrum';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthzInterceptor } from './_dal/common/services/authz-interceptor';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { ShopComponent } from './shop/shop.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserProfileDetailsComponent } from './user-profile/user-profile-details/user-profile-details.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    ShopComponent,
+    ShoppingCartComponent,
+    UserProfileComponent,
+    UserProfileDetailsComponent
+  ],
   entryComponents: [],
   imports: [
     BrowserModule,
