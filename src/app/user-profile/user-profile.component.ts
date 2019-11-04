@@ -11,33 +11,11 @@ export class UserProfileComponent implements OnInit {
 
   constructor(private menuController: MenuController) { }
 
-  ngOnInit() {}
-
-  openMenu() {
-    this.menuController.enable(true, 'first');
-    this.menuController.open('first');
+  ngOnInit() {
+    this.menuController.enable(true, 'userProfileSideBar');
   }
 
-  myVideos() {
-    console.log('my videos');
-    // navigate to myvideos page
-    this.menuController.close('first');
-  }
-
-  myStore() {
-    console.log('my store');
-    // navigate to mystore page
-    this.menuController.close('first');
-  }
-
-  myOrders() {
-    console.log('my orders');
-    // navigate to myorders page
-    this.menuController.close('first');
-  }
-
-  myStatistics() {
-    console.log('my statistics');
-    this.menuController.close('first');
+  closeSideMenu() {
+    this.menuController.close('userProfileSideBar');
   }
 }

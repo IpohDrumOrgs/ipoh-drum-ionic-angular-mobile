@@ -14,6 +14,14 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { ShopComponent } from './shop/shop.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserProfileDetailsComponent } from './user-profile/user-profile-details/user-profile-details.component';
+import { MyVideosComponent } from './user-profile/my-videos/my-videos.component';
+import { MyStoreComponent } from './user-profile/my-store/my-store.component';
+import { MyOrdersComponent } from './user-profile/my-orders/my-orders.component';
+import { MyStatisticsComponent } from './user-profile/my-statistics/my-statistics.component';
+import { LoginComponent } from './login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { AuthenticationService } from './_dal/common/services/authentication.service';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -21,13 +29,20 @@ import { UserProfileDetailsComponent } from './user-profile/user-profile-details
     ShopComponent,
     ShoppingCartComponent,
     UserProfileComponent,
-    UserProfileDetailsComponent
+    UserProfileDetailsComponent,
+    MyVideosComponent,
+    MyStoreComponent,
+    MyOrdersComponent,
+    MyStatisticsComponent,
+    LoginComponent
   ],
   entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    ReactiveFormsModule,
     AppRoutingModule,
+    IonicStorageModule.forRoot(),
     LaravelPassportModule.forRoot(
       {apiRoot : 'http://localhost:8000', clientId : 2, clientSecret : 'IaZUzWgbQ0GACSBjzUz2xNgdEWDOVWB0pRZkMg1K'}
     )
@@ -36,6 +51,7 @@ import { UserProfileDetailsComponent } from './user-profile/user-profile-details
     StatusBar,
     SplashScreen,
     UserControllerServiceService,
+    AuthenticationService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HTTP_INTERCEPTORS,
