@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { AuthenticationService } from '../_dal/common/services/authentication.service';
 import { User } from '../_dal/ipohdrum';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -22,7 +22,9 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginUserSubscription: any;
 
-  constructor(private authenticationService: AuthenticationService) {}
+  constructor(
+    private authenticationService: AuthenticationService,
+    private ngZone: NgZone) {}
 
   ngOnInit() {
     this.userLoginFormGroup = new FormGroup({
@@ -43,15 +45,23 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   loginUser() {
-    console.log('login user');
-    console.log(this.userToLogin);
-    this.userToLogin.email = this.userEmail;
-    this.userToLogin.password = this.userPassword;
-    this.loginUserSubscription = this.authenticationService.login(this.userToLogin).then(resp => {
-      console.log(resp);
-      // Redirect users to home page
-    }, error => {
-      // Show error toast
-    });
+    this.ngZone.run(() => {
+      console.log('before if');
+      console.log(this.loginUserSubscription);
+      this.userToLogin.email = this.userEmail;
+      this.userToLogin.password = this.userPassword;
+      this.loginUserSubscription = this.authenticationService.login(this.userToLogin).then(resp => {
+        console.log('loginusersubscription');
+        console.log(resp);
+        console.log('inside if');
+        console.log(this.loginUserSubscription);
+        // Redirect users to home page
+      }, error => {
+        console.log('error login user at front');
+        // Show error toast
+      });
+      console.log('outside if');
+      console.log(this.loginUserSubscription);
+     });
   }
 }
