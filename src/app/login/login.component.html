@@ -19,7 +19,7 @@
             </ion-row>
             <ion-row>
               <ion-col size="12">
-                <input type="text" class="form-control" [(ngModel)]="userEmail" [ngClass]="{'is-invalid': userLoginFormGroup.get('userEmail').invalid && userLoginFormGroup.get('userEmail').touched, 'is-valid': userLoginFormGroup.get('userEmail').valid}" formControlName="userEmail">
+                <input type="text" class="form-control" [(ngModel)]="userEmail" (keydown.enter)="loginUser()" [ngClass]="{'is-invalid': userLoginFormGroup.get('userEmail').invalid && userLoginFormGroup.get('userEmail').touched, 'is-valid': userLoginFormGroup.get('userEmail').valid}" formControlName="userEmail">
                 <ul class="errorMessages" *ngIf="userLoginFormGroup.get('userEmail').invalid && userLoginFormGroup.get('userEmail').touched">
                   <li *ngIf="userLoginFormGroup.get('userEmail').hasError('required') && userLoginFormGroup.get('userEmail').touched">
                     Email is required.
@@ -37,7 +37,7 @@
             </ion-row>
             <ion-row>
               <ion-col size="12">
-                <input type="password" class="form-control" [(ngModel)]="userPassword" [ngClass]="{'is-invalid': userLoginFormGroup.get('userPassword').invalid && userLoginFormGroup.get('userPassword').touched, 'is-valid': userLoginFormGroup.get('userPassword').valid}" formControlName="userPassword">
+                <input type="password" class="form-control" [(ngModel)]="userPassword" formControlName="userPassword" (keydown.enter)="loginUser()" [ngClass]="{'is-invalid': userLoginFormGroup.get('userPassword').invalid && userLoginFormGroup.get('userPassword').touched, 'is-valid': userLoginFormGroup.get('userPassword').valid}">
                 <ul class="errorMessages" *ngIf="userLoginFormGroup.get('userPassword').invalid && userLoginFormGroup.get('userPassword').touched">
                     <li *ngIf="userLoginFormGroup.get('userPassword').hasError('required') && userLoginFormGroup.get('userPassword').touched">
                       Email is required.

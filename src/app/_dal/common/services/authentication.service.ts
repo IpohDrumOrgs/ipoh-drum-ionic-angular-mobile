@@ -4,6 +4,7 @@ import { GlobalfunctionService } from '../services/globalfunction.service';
 import { commonConfig } from '../commonConfig';
 import axios from 'axios';
 import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,13 @@ import { Storage } from '@ionic/storage';
 export class AuthenticationService {
   baseLink: any;
   requestConfig: any;
-  private authenticated = false;
   private user: any;
 
   constructor(
     private laravelPassport: LaravelPassportService,
     private globalFunctionService: GlobalfunctionService,
-    private storage: Storage
+    private storage: Storage,
+    private router: Router
   ) {
     this.baseLink = commonConfig.baseLink;
     this.requestConfig = {
@@ -29,37 +30,29 @@ export class AuthenticationService {
     };
   }
 
-  async authenticate(token) {
+  async authenticate() {
     try {
-      const response = await axios
-        .post(
-          this.baseLink + '/authentication',
-          { token },
+      const resp = await axios.post(this.baseLink + '/authentication', null,
           this.requestConfig
-        )
-        .then(response => {
-          this.authenticated = true;
-          this.user = response.data;
-          console.log(response);
+        ).then((res) => {
+          return res;
+        }, err => {
+          return JSON.parse(JSON.stringify(err));
         });
-    } catch {
-      this.authenticated = false;
+      return resp;
+    } catch (error) {
+      return error.response;
     }
   }
 
-  // Login user with Email and Password
   async login(data) {
-    const response = this.laravelPassport
-      .loginWithEmailAndPassword(data.email, data.password)
-      .subscribe(res => {
-        console.log('success res');
-        console.log(res);
-        localStorage.setItem('access_token', res.access_token);
-        this.storage.set('access_token', res.access_token);
-        return true;
-      }, err => {
-        this.globalFunctionService.simpleToast('Email and Password didn\' t matched');
-        return false;
-      });
+    this.laravelPassport.loginWithEmailAndPassword(data.email, data.password).subscribe(res => {
+      localStorage.setItem('access_token', res.access_token);
+      this.storage.set('access_token', res.access_token);
+      this.globalFunctionService.simpleToast(undefined, 'Successfully logged in!', 'primary');
+      this.router.navigate(['/home']);
+    }, err => {
+      this.globalFunctionService.simpleToast('Warning!', 'Email and Password mismatched!', 'danger');
+    });
   }
 }

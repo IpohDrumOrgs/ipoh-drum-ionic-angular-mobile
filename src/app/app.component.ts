@@ -2,8 +2,11 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
-import { UserControllerServiceService } from './_dal/ipohdrum';
 import { User } from './_dal/ipohdrum/model/user';
+import { AuthenticationService } from './_dal/common/services/authentication.service';
+import { Router, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import { GlobalfunctionService } from './_dal/common/services/globalfunction.service';
+import { UserControllerServiceService } from './_dal/ipohdrum';
 
 @Component({
   selector: 'app-root',
@@ -15,14 +18,38 @@ export class AppComponent implements OnInit {
 
   listOfUsers: User[] = [];
 
+  isLoginPage = false;
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private ngZone: NgZone,
-    private userControllerServicesService: UserControllerServiceService
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private globalFunctionService: GlobalfunctionService, 
+    private userControllerService: UserControllerServiceService
   ) {
     this.initializeApp();
+    this.router.events.subscribe((event) => {
+      // // From which url
+      // if (event instanceof NavigationStart) {
+      //     // Show loading indicator
+      // }
+      // To which url
+      if (event instanceof NavigationEnd) {
+          // Hide loading indicator
+          if (this.router.url === '/login') {
+            this.isLoginPage = true;
+          } else {
+            this.isLoginPage = false;
+          }
+      }
+      // if (event instanceof NavigationError) {
+      //     // Hide loading indicator
+      //     console.log('navigate error');
+      // }
+    });
   }
 
   initializeApp() {
@@ -33,11 +60,30 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ngZone.run(() => {
-      console.log('Getting list of users.');
-      this.userControllerServicesService.getUserList().subscribe(resp => {
-        console.log(resp);
-      });
+    this.userControllerService.getUserList().subscribe(resp => {
+      console.log('list of users');
+      console.log(resp);
     });
+    // this.ngZone.run(() => {
+    //   this.authenticationService.authenticate().then(resp => {
+    //     if (resp.status) {
+    //       if (resp.status === 200) {
+    //         console.log('Authenticated');
+    //         this.globalFunctionService.simpleToast(undefined, 'You are logged in!', 'primary');
+    //         this.router.navigate(['/shop']);
+    //       }
+    //     } else {
+    //       if (resp.name === 'Error') {
+    //         console.log('Unauthorized');
+    //         this.globalFunctionService.simpleToast('Error!', 'You are not authenticated, please login first!', 'danger');
+    //         this.router.navigate(['/login']);
+    //       }
+    //     }
+    //   }, error => {
+    //     console.log('front-end authenticate api error');
+    //     this.globalFunctionService.simpleToast('Error!', 'Something went wrong, please refresh the page or try again later!', 'danger');
+    //     this.router.navigate(['/**']);
+    //   });
+    // });
   }
 }

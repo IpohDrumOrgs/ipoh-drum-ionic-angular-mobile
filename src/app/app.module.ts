@@ -22,6 +22,15 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService } from './_dal/common/services/authentication.service';
 import { IonicStorageModule } from '@ionic/storage';
+import { ErrorPageComponent } from './shared/error-page/error-page.component';
+import { SharedModule } from '../app/shared/shared.module';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
 
 @NgModule({
   declarations: [
@@ -34,18 +43,21 @@ import { IonicStorageModule } from '@ionic/storage';
     MyStoreComponent,
     MyOrdersComponent,
     MyStatisticsComponent,
-    LoginComponent
+    LoginComponent,
+    ErrorPageComponent
   ],
   entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     ReactiveFormsModule,
+    SharedModule,
     AppRoutingModule,
     IonicStorageModule.forRoot(),
     LaravelPassportModule.forRoot(
       {apiRoot : 'http://localhost:8000', clientId : 2, clientSecret : 'IaZUzWgbQ0GACSBjzUz2xNgdEWDOVWB0pRZkMg1K'}
-    )
+    ),
+    PerfectScrollbarModule
   ],
   providers: [
     StatusBar,
@@ -58,6 +70,10 @@ import { IonicStorageModule } from '@ionic/storage';
       useClass: AuthzInterceptor,
       multi: true
     },
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -9,11 +9,12 @@ export class GlobalfunctionService {
 
   constructor(public toastController: ToastController) { }
 
-  async simpleToast(msg) {
+  async simpleToast(header, msg, color) {
     const toast = await this.toastController.create({
+      header,
       message: msg,
       duration: 3000,
-      color : 'dark',
+      color,
       position: 'top',
     });
     toast.present();
@@ -26,17 +27,6 @@ export class GlobalfunctionService {
       color,
       position: 'top',
       showCloseButton : true,
-    });
-    toast.present();
-  }
-
-  async errorToast() {
-    const toast = await this.toastController.create({
-      header : 'Error 404',
-      message: 'Something Went Wrong ! Please Try Again Later !',
-      position : 'top',
-      color : 'warning',
-      duration: 3000
     });
     toast.present();
   }
