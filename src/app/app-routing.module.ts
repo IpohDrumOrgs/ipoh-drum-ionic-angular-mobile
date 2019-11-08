@@ -8,13 +8,13 @@ import { MyVideosComponent } from './user-profile/my-videos/my-videos.component'
 import { MyStoreComponent } from './user-profile/my-store/my-store.component';
 import { MyOrdersComponent } from './user-profile/my-orders/my-orders.component';
 import { MyStatisticsComponent } from './user-profile/my-statistics/my-statistics.component';
-import { LoginComponent } from './login/login.component';
+import { LoginRegisterComponent } from './login-register/login-register.component';
 import { ErrorPageComponent } from './shared/error-page/error-page.component';
 import { BottomMenuComponent } from './shared/bottom-menu/bottom-menu.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: 'login', pathMatch: 'full', component: LoginComponent},
+  { path: 'login', pathMatch: 'full', component: LoginRegisterComponent},
   { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
   { path: 'shop', component: ShopComponent },
   { path: 'shopping-cart', pathMatch: 'full', component: ShoppingCartComponent},

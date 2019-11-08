@@ -18,7 +18,7 @@ import { MyVideosComponent } from './user-profile/my-videos/my-videos.component'
 import { MyStoreComponent } from './user-profile/my-store/my-store.component';
 import { MyOrdersComponent } from './user-profile/my-orders/my-orders.component';
 import { MyStatisticsComponent } from './user-profile/my-statistics/my-statistics.component';
-import { LoginComponent } from './login/login.component';
+import { LoginRegisterComponent } from './login-register/login-register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService } from './_dal/common/services/authentication.service';
 import { IonicStorageModule } from '@ionic/storage';
@@ -43,7 +43,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MyStoreComponent,
     MyOrdersComponent,
     MyStatisticsComponent,
-    LoginComponent,
+    LoginRegisterComponent,
     ErrorPageComponent
   ],
   entryComponents: [],

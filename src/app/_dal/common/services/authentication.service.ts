@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { LaravelPassportService } from 'laravel-passport';
-import { GlobalfunctionService } from '../services/globalfunction.service';
-import { commonConfig } from '../commonConfig';
+import {Injectable} from '@angular/core';
+import {LaravelPassportService} from 'laravel-passport';
+import {GlobalfunctionService} from './globalfunction.service';
+import {commonConfig} from '../commonConfig';
 import axios from 'axios';
-import { Storage } from '@ionic/storage';
-import { Router } from '@angular/router';
+import {Storage} from '@ionic/storage';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -32,14 +32,13 @@ export class AuthenticationService {
 
   async authenticate() {
     try {
-      const resp = await axios.post(this.baseLink + '/authentication', null,
+      return await axios.post(this.baseLink + '/authentication', null,
           this.requestConfig
-        ).then((res) => {
-          return res;
-        }, err => {
-          return JSON.parse(JSON.stringify(err));
-        });
-      return resp;
+      ).then((res) => {
+        return res;
+      }, err => {
+        return JSON.parse(JSON.stringify(err));
+      });
     } catch (error) {
       return error.response;
     }
@@ -54,5 +53,13 @@ export class AuthenticationService {
     }, err => {
       this.globalFunctionService.simpleToast('Warning!', 'Email and Password mismatched!', 'danger');
     });
+  }
+  
+  isUserLoggedIn() {
+    return this.laravelPassport.isUserLoggedIn();
+  }
+
+  logoutUser() {
+    this.laravelPassport.logout();
   }
 }

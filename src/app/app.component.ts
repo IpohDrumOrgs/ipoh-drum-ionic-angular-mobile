@@ -60,30 +60,13 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userControllerService.getUserList().subscribe(resp => {
-      console.log('list of users');
-      console.log(resp);
+    this.ngZone.run(() => {
+      if (this.authenticationService.isUserLoggedIn()) {
+        this.globalFunctionService.simpleToast(undefined, 'You are logged in!', 'primary');
+      } else {
+        this.globalFunctionService.simpleToast('Error!', 'You are not authenticated, please login first!', 'danger');
+        this.router.navigate(['/login']);
+      }
     });
-    // this.ngZone.run(() => {
-    //   this.authenticationService.authenticate().then(resp => {
-    //     if (resp.status) {
-    //       if (resp.status === 200) {
-    //         console.log('Authenticated');
-    //         this.globalFunctionService.simpleToast(undefined, 'You are logged in!', 'primary');
-    //         this.router.navigate(['/shop']);
-    //       }
-    //     } else {
-    //       if (resp.name === 'Error') {
-    //         console.log('Unauthorized');
-    //         this.globalFunctionService.simpleToast('Error!', 'You are not authenticated, please login first!', 'danger');
-    //         this.router.navigate(['/login']);
-    //       }
-    //     }
-    //   }, error => {
-    //     console.log('front-end authenticate api error');
-    //     this.globalFunctionService.simpleToast('Error!', 'Something went wrong, please refresh the page or try again later!', 'danger');
-    //     this.router.navigate(['/**']);
-    //   });
-    // });
   }
 }
