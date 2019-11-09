@@ -40,7 +40,7 @@
                 <input type="password" class="form-control" [(ngModel)]="userPasswordLogin" formControlName="userPassword" (keydown.enter)="loginUser()" [ngClass]="{'is-invalid': userLoginFormGroup.get('userPassword').invalid && userLoginFormGroup.get('userPassword').touched, 'is-valid': userLoginFormGroup.get('userPassword').valid}">
                 <ul class="errorMessages" *ngIf="userLoginFormGroup.get('userPassword').invalid && userLoginFormGroup.get('userPassword').touched">
                   <li *ngIf="userLoginFormGroup.get('userPassword').hasError('required') && userLoginFormGroup.get('userPassword').touched">
-                    Email is required.
+                    Password is required.
                   </li>
                 </ul>
               </ion-col>
@@ -59,7 +59,6 @@
         </ion-row>
       </ion-card-content>
     </ion-card>
-
     <ion-card *ngIf="showRegisterCard">
       <ion-card-header>
         <ion-card-subtitle>
@@ -163,7 +162,6 @@
                 <a (click)="changeToUserLoginCard()">Already a member? Login here!</a>
               </ion-col>
             </ion-row>
-
           </ion-col>
         </ion-row>
       </ion-card-content>

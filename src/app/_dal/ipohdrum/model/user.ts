@@ -13,7 +13,6 @@
 
 export interface User { 
     id?: number;
-    roleId?: number;
     uid?: number;
     name?: string;
     email?: string;

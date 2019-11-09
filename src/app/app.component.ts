@@ -4,9 +4,8 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { User } from './_dal/ipohdrum/model/user';
 import { AuthenticationService } from './_dal/common/services/authentication.service';
-import { Router, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { GlobalfunctionService } from './_dal/common/services/globalfunction.service';
-import { UserControllerServiceService } from './_dal/ipohdrum';
 
 @Component({
   selector: 'app-root',
@@ -27,8 +26,7 @@ export class AppComponent implements OnInit {
     private ngZone: NgZone,
     private authenticationService: AuthenticationService,
     private router: Router,
-    private globalFunctionService: GlobalfunctionService, 
-    private userControllerService: UserControllerServiceService
+    private globalFunctionService: GlobalfunctionService
   ) {
     this.initializeApp();
     this.router.events.subscribe((event) => {
@@ -39,11 +37,7 @@ export class AppComponent implements OnInit {
       // To which url
       if (event instanceof NavigationEnd) {
           // Hide loading indicator
-          if (this.router.url === '/login') {
-            this.isLoginPage = true;
-          } else {
-            this.isLoginPage = false;
-          }
+          this.isLoginPage = this.router.url === '/login';
       }
       // if (event instanceof NavigationError) {
       //     // Hide loading indicator
@@ -68,5 +62,26 @@ export class AppComponent implements OnInit {
         this.router.navigate(['/login']);
       }
     });
+    // this.ngZone.run(() => {
+    //   this.authenticationService.authenticate().then(resp => {
+    //     if (resp.status) {
+    //       if (resp.status === 200) {
+    //         console.log('Authenticated');
+    //         this.globalFunctionService.simpleToast(undefined, 'You are logged in!', 'primary');
+    //         this.router.navigate(['/shop']);
+    //       }
+    //     } else {
+    //       if (resp.name === 'Error') {
+    //         console.log('Unauthorized');
+    //         this.globalFunctionService.simpleToast('Error!', 'You are not authenticated, please login first!', 'danger');
+    //         this.router.navigate(['/login']);
+    //       }
+    //     }
+    //   }, error => {
+    //     console.log('front-end authenticate api error');
+    //     this.globalFunctionService.simpleToast('Error!', 'Something went wrong, please refresh the page or try again later!', 'danger');
+    //     this.router.navigate(['/**']);
+    //   });
+    // });
   }
 }

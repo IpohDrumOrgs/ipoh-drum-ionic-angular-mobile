@@ -35,3 +35,17 @@
     color: #ff1749;
     padding-left:0;
 }
+
+input.ng-dirty.ng-invalid.ng-touched {
+    border: 1px solid #ff1749;
+}
+
+.cardShadow {
+    -webkit-box-shadow: 0 0 5px;
+    -moz-box-shadow: 0 0 5px;
+    -box-shadow: 0 0 5px;
+    -webkit-transition: box-shadow 0.1s ease-in-out;
+    -moz-transition: box-shadow 0.1s ease-in-out;
+    -ms-transition: box-shadow 0.1s ease-in-out;
+    -o-transition: box-shadow 0.1s ease-in-out;
+}
