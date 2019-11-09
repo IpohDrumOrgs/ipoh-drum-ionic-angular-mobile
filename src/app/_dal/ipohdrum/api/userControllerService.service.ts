@@ -80,30 +80,33 @@ export class UserControllerServiceService {
     }
 
     /**
-     * Creates a user.
+     * Creates a user. (Without authorization)
      * @param name Username
      * @param email Email
      * @param password Password
      * @param passwordConfirmation Password Confirmation
-     * @param country Country Name
+     * @param country Country
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createUser(name: string, email: string, password: string, passwordConfirmation: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createUser(name: string, email: string, password: string, passwordConfirmation: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createUser(name: string, email: string, password: string, passwordConfirmation: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createUser(name: string, email: string, password: string, passwordConfirmation: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, country: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, country: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, country: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, country: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling createUser.');
+            throw new Error('Required parameter name was null or undefined when calling createUserWithoutAuthorization.');
         }
         if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling createUser.');
+            throw new Error('Required parameter email was null or undefined when calling createUserWithoutAuthorization.');
         }
         if (password === null || password === undefined) {
-            throw new Error('Required parameter password was null or undefined when calling createUser.');
+            throw new Error('Required parameter password was null or undefined when calling createUserWithoutAuthorization.');
         }
         if (passwordConfirmation === null || passwordConfirmation === undefined) {
-            throw new Error('Required parameter passwordConfirmation was null or undefined when calling createUser.');
+            throw new Error('Required parameter passwordConfirmation was null or undefined when calling createUserWithoutAuthorization.');
+        }
+        if (country === null || country === undefined) {
+            throw new Error('Required parameter country was null or undefined when calling createUserWithoutAuthorization.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});

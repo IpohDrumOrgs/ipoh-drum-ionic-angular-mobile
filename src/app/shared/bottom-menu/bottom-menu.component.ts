@@ -20,17 +20,20 @@ export class BottomMenuComponent implements OnInit {
   navigateToPages(page: number) {
     switch (page) {
       case 0:
-        // this.router.navigate(['/home']);
-        this.navController.navigateRoot('/home');
+        this.router.navigateByUrl('/home', {skipLocationChange: true});
+        // this.navController.navigateRoot('/home');
         break;
       case 1:
-        this.navController.navigateRoot('/shop');
+        this.router.navigateByUrl('/shop', {skipLocationChange: true});
+        // this.navController.navigateRoot('/shop');
         break;
       case 2:
-        this.navController.navigateRoot('/shopping-cart');
+        this.router.navigateByUrl('/shopping-cart', {skipLocationChange: true});
+        // this.navController.navigateRoot('/shopping-cart');
         break;
       case 3:
-        this.navController.navigateRoot('/user-profile');
+        this.router.navigateByUrl('/user-profile', {skipLocationChange: true});
+        // this.navController.navigateRoot('/user-profile');
         break;
     }
   }

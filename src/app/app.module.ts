@@ -10,19 +10,9 @@ import {LaravelPassportModule} from 'laravel-passport';
 import {UserControllerServiceService} from './_dal/ipohdrum';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthzInterceptor} from './_dal/common/services/authz-interceptor';
-import {ShoppingCartComponent} from './shopping-cart/shopping-cart.component';
-import {ShopComponent} from './shop/shop.component';
-import {UserProfileComponent} from './user-profile/user-profile.component';
-import {UserProfileDetailsComponent} from './user-profile/user-profile-details/user-profile-details.component';
-import {MyVideosComponent} from './user-profile/my-videos/my-videos.component';
-import {MyStoreComponent} from './user-profile/my-store/my-store.component';
-import {MyOrdersComponent} from './user-profile/my-orders/my-orders.component';
-import {MyStatisticsComponent} from './user-profile/my-statistics/my-statistics.component';
-import {LoginRegisterComponent} from './login-register/login-register.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthenticationService} from './_dal/common/services/authentication.service';
 import {IonicStorageModule} from '@ionic/storage';
-import {ErrorPageComponent} from './shared/error-page/error-page.component';
 import {SharedModule} from './shared/shared.module';
 import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {PERFECT_SCROLLBAR_CONFIG} from 'ngx-perfect-scrollbar';
@@ -35,17 +25,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 @NgModule({
     declarations: [
-        AppComponent,
-        ShopComponent,
-        ShoppingCartComponent,
-        UserProfileComponent,
-        UserProfileDetailsComponent,
-        MyVideosComponent,
-        MyStoreComponent,
-        MyOrdersComponent,
-        MyStatisticsComponent,
-        LoginRegisterComponent,
-        ErrorPageComponent
+        AppComponent
     ],
     entryComponents: [],
     imports: [

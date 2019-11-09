@@ -6,7 +6,6 @@ import axios from 'axios';
 import {Storage} from '@ionic/storage';
 import {Router} from '@angular/router';
 import {LoadingService} from './loading.service';
-import {User} from '../../ipohdrum';
 
 @Injectable({
     providedIn: 'root'
@@ -58,10 +57,10 @@ export class AuthenticationService {
             this.storage.set('access_token', res.access_token);
             this.loadingService.dismiss();
             this.globalFunctionService.simpleToast(undefined, 'Successfully logged in!', 'primary');
-            this.router.navigate(['/home']);
+            this.router.navigate(['/ipoh-drum/home']);
         }, err => {
             this.loadingService.dismiss();
-            this.globalFunctionService.simpleToast('Warning!', 'Email and Password mismatched!', 'danger');
+            this.globalFunctionService.simpleToast('WARNING!', 'Email and Password mismatched!', 'danger');
         });
     }
 

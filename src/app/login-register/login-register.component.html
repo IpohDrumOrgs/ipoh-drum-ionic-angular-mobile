@@ -37,7 +37,9 @@
             </ion-row>
             <ion-row>
               <ion-col size="12">
-                <input type="password" class="form-control" [(ngModel)]="userPasswordLogin" formControlName="userPassword" (keydown.enter)="loginUser()" [ngClass]="{'is-invalid': userLoginFormGroup.get('userPassword').invalid && userLoginFormGroup.get('userPassword').touched, 'is-valid': userLoginFormGroup.get('userPassword').valid}">
+                <show-hide-password size="xs" btnStyle="secondary" [btnOutline]="false">
+                  <input type="password" class="form-control" [(ngModel)]="userPasswordLogin" formControlName="userPassword" (keydown.enter)="loginUser()" [ngClass]="{'is-invalid': userLoginFormGroup.get('userPassword').invalid && userLoginFormGroup.get('userPassword').touched, 'is-valid': userLoginFormGroup.get('userPassword').valid}">
+                </show-hide-password>
                 <ul class="errorMessages" *ngIf="userLoginFormGroup.get('userPassword').invalid && userLoginFormGroup.get('userPassword').touched">
                   <li *ngIf="userLoginFormGroup.get('userPassword').hasError('required') && userLoginFormGroup.get('userPassword').touched">
                     Password is required.
@@ -118,7 +120,9 @@
             </ion-row>
             <ion-row>
               <ion-col size="12">
-                <input type="password" class="form-control" [(ngModel)]="passwordRegister" formControlName="userPasswordFc" (keydown.enter)="registerUser()" [ngClass]="{'is-invalid': userRegisterFormGroup.get('userPasswordFc').invalid && userRegisterFormGroup.get('userPasswordFc').touched, 'is-valid': userRegisterFormGroup.get('userPasswordFc').valid}">
+                <show-hide-password size="xs" btnStyle="secondary" [btnOutline]="false">
+                  <input type="password" class="form-control" [(ngModel)]="passwordRegister" formControlName="userPasswordFc" (keydown.enter)="registerUser()" [ngClass]="{'is-invalid': userRegisterFormGroup.get('userPasswordFc').invalid && userRegisterFormGroup.get('userPasswordFc').touched, 'is-valid': userRegisterFormGroup.get('userPasswordFc').valid}">
+                </show-hide-password>
                 <ul class="errorMessages" *ngIf="userRegisterFormGroup.get('userPasswordFc').invalid && userRegisterFormGroup.get('userPasswordFc').touched">
                   <li *ngIf="userRegisterFormGroup.get('userPasswordFc').hasError('required') && userRegisterFormGroup.get('userPasswordFc').touched">
                     Password is required.
@@ -139,10 +143,18 @@
             </ion-row>
             <ion-row>
               <ion-col size="12">
-                <input type="password" class="form-control" [(ngModel)]="confirmPasswordRegister" formControlName="userConfirmPasswordFc" (keydown.enter)="registerUser()" [pattern]="passwordRegister" [ngClass]="{'is-invalid': userRegisterFormGroup.get('userConfirmPasswordFc').invalid && userRegisterFormGroup.get('userConfirmPasswordFc').touched, 'is-valid': userRegisterFormGroup.get('userConfirmPasswordFc').valid}">
+                <show-hide-password size="xs" btnStyle="secondary" [btnOutline]="false">
+                  <input type="password" class="form-control" [(ngModel)]="confirmPasswordRegister" formControlName="userConfirmPasswordFc" (keydown.enter)="registerUser()" [pattern]="passwordRegister" [ngClass]="{'is-invalid': userRegisterFormGroup.get('userConfirmPasswordFc').invalid && userRegisterFormGroup.get('userConfirmPasswordFc').touched, 'is-valid': userRegisterFormGroup.get('userConfirmPasswordFc').valid}">
+                </show-hide-password>
                 <ul class="errorMessages" *ngIf="userRegisterFormGroup.get('userConfirmPasswordFc').invalid && userRegisterFormGroup.get('userConfirmPasswordFc').touched">
                   <li *ngIf="userRegisterFormGroup.get('userConfirmPasswordFc').hasError('required') && userRegisterFormGroup.get('userConfirmPasswordFc').touched">
                     Confirm password is required.
+                  </li>
+                  <li *ngIf="userRegisterFormGroup.get('userConfirmPasswordFc').hasError('minlength') && userRegisterFormGroup.get('userConfirmPasswordFc').touched">
+                   Confirm  Password is too short.
+                  </li>
+                  <li *ngIf="userRegisterFormGroup.get('userConfirmPasswordFc').hasError('maxlength') && userRegisterFormGroup.get('userConfirmPasswordFc').touched">
+                    Confirm Password is too long.
                   </li>
                   <li *ngIf="userRegisterFormGroup.get('userConfirmPasswordFc').hasError('pattern') && userRegisterFormGroup.get('userConfirmPasswordFc').touched">
                     Passwords does not match.

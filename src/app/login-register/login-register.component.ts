@@ -1,10 +1,10 @@
-import {Component, OnInit, OnDestroy, NgZone} from '@angular/core';
+import {Component, OnInit, NgZone} from '@angular/core';
 import {AuthenticationService} from '../_dal/common/services/authentication.service';
 import {User, UserControllerServiceService} from '../_dal/ipohdrum';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {commonConfig} from '../_dal/common/commonConfig';
 import {NavController} from '@ionic/angular';
-import {Router} from '@angular/router';
+import {GlobalfunctionService} from '../_dal/common/services/globalfunction.service';
 
 @Component({
     selector: 'app-login-register',
@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
     styleUrls: ['./login-register.component.scss'],
 })
 
-export class LoginRegisterComponent implements OnInit, OnDestroy {
+export class LoginRegisterComponent implements OnInit {
 
     constructorName = '[' + this.constructor.name + ']';
     userEmailLogin: string;
@@ -23,6 +23,7 @@ export class LoginRegisterComponent implements OnInit, OnDestroy {
     passwordRegister: string;
     confirmPasswordRegister: string;
     userNameRegex = commonConfig.userNameRegex;
+    apiErrorMessage = commonConfig.apiErrorMessage;
 
     minLengthOfUsername = commonConfig.minLengthOfUsername;
     maxLengthOfUsername = commonConfig.maxLengthOfUsername;
@@ -37,14 +38,15 @@ export class LoginRegisterComponent implements OnInit, OnDestroy {
     userLoginFormGroup: FormGroup;
     userRegisterFormGroup: FormGroup;
 
+    userRegisterSubscription: any;
+
     constructor(
         private authenticationService: AuthenticationService,
         private ngZone: NgZone,
-        private navController: NavController,
-        private router: Router
-    ) {
-
-    }
+        private globalFunctionService: GlobalfunctionService,
+        private userControllerService: UserControllerServiceService,
+        private navController: NavController
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -75,36 +77,27 @@ export class LoginRegisterComponent implements OnInit, OnDestroy {
                 ]),
                 userConfirmPasswordFc: new FormControl(null, [
                     Validators.required,
+                    Validators.minLength(this.minLengthOfPassword),
+                    Validators.maxLength(this.maxLengthOfPassword),
                     Validators.pattern(this.passwordRegister)
                 ])
             });
         });
     }
 
-    ngOnDestroy() {
-        this.ngZone.run(() => {
-            console.log('destroy');
-        });
-    }
-
-    ionViewLoaded() {
-        console.log('ionviewloaded');
-    }
-
     ionViewWillEnter() {
-        console.log('ionviewwillenter');
-    }
-
-    ionViewDidEnter() {
-        console.log('ionviewdidenter');
+        this.userLoginFormGroup.reset();
+        this.userRegisterFormGroup.reset();
+        if (this.authenticationService.isUserLoggedIn()) {
+            this.globalFunctionService.simpleToast('WARNING!', 'You are already logged in!', 'warning');
+            // this.navController.navigateRoot('/ipoh-drum/home');
+        }
     }
 
     ionViewWillLeave() {
-        console.log('ionviewwillleave');
-    }
-
-    ionViewDidLeave() {
-        console.log('ionviewdidleave');
+        if (this.userRegisterSubscription) {
+            this.userRegisterSubscription.unsubscribe();
+        }
     }
 
     loginUser() {
@@ -112,13 +105,24 @@ export class LoginRegisterComponent implements OnInit, OnDestroy {
             this.userToLogin.email = this.userEmailLogin;
             this.userToLogin.password = this.userPasswordLogin;
             this.authenticationService.login(this.userToLogin);
-            this.router.navigate(['/home']);
         });
     }
 
     registerUser() {
         this.ngZone.run(() => {
             console.log('register user');
+            this.userRegisterSubscription = this.userControllerService.createUserWithoutAuthorization(
+                this.userNameRegister,
+                this.emailRegister,
+                this.passwordRegister,
+                this.confirmPasswordRegister,
+                'MALAYSIA'
+            ).subscribe(resp => {
+                console.log('resgister ok');
+                console.log(resp);
+            }, error => {
+                this.globalFunctionService.simpleToast('ERROR!', this.apiErrorMessage, 'danger');
+            });
         });
     }
 
@@ -133,5 +137,7 @@ export class LoginRegisterComponent implements OnInit, OnDestroy {
     showHideLoginAndRegisterCards(loginFlag: boolean, registerFlag: boolean) {
         this.showLoginCard = loginFlag;
         this.showRegisterCard = registerFlag;
+        this.userLoginFormGroup.reset();
+        this.userRegisterFormGroup.reset();
     }
 }
