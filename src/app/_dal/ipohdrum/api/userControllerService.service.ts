@@ -137,7 +137,7 @@ export class UserControllerServiceService {
         }
 
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/api/user`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/register`,
             null,
             {
                 params: queryParameters,
@@ -222,22 +222,13 @@ export class UserControllerServiceService {
     /**
      * Get list of users
      * Returns list of users
-     * @param companyId Company ID
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUserList(companyId: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getUserList(companyId: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getUserList(companyId: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getUserList(companyId: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (companyId === null || companyId === undefined) {
-            throw new Error('Required parameter companyId was null or undefined when calling getUserList.');
-        }
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (companyId !== undefined && companyId !== null) {
-            queryParameters = queryParameters.set('company_id', <any>companyId);
-        }
+    public getUserList(observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getUserList(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getUserList(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getUserList(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let headers = this.defaultHeaders;
 
@@ -252,7 +243,6 @@ export class UserControllerServiceService {
 
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/user`,
             {
-                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

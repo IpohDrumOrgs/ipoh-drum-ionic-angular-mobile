@@ -18,8 +18,6 @@ export class LoginRegisterComponent implements OnInit {
     userEmailLogin: string;
     userPasswordLogin: string;
 
-    userNameRegister: string;
-    emailRegister: string;
     passwordRegister: string;
     confirmPasswordRegister: string;
     userNameRegex = commonConfig.userNameRegex;
@@ -31,6 +29,7 @@ export class LoginRegisterComponent implements OnInit {
     maxLengthOfPassword = 20;
 
     userToLogin: User = {} as User;
+    userToRegister: User = {} as User;
 
     showLoginCard = true;
     showRegisterCard = false;
@@ -79,7 +78,7 @@ export class LoginRegisterComponent implements OnInit {
                     Validators.required,
                     Validators.minLength(this.minLengthOfPassword),
                     Validators.maxLength(this.maxLengthOfPassword),
-                    Validators.pattern(this.passwordRegister)
+                    Validators.pattern(this.userToRegister.password)
                 ])
             });
         });
@@ -88,8 +87,12 @@ export class LoginRegisterComponent implements OnInit {
     ionViewWillEnter() {
         this.userLoginFormGroup.reset();
         this.userRegisterFormGroup.reset();
+        this.userToLogin = {} as User;
+        this.userToRegister = {} as User;
+        this.changeToUserLoginCard();
         if (this.authenticationService.isUserLoggedIn()) {
             this.globalFunctionService.simpleToast('WARNING!', 'You are already logged in!', 'warning');
+            // TODO
             // this.navController.navigateRoot('/ipoh-drum/home');
         }
     }
@@ -110,16 +113,20 @@ export class LoginRegisterComponent implements OnInit {
 
     registerUser() {
         this.ngZone.run(() => {
-            console.log('register user');
             this.userRegisterSubscription = this.userControllerService.createUserWithoutAuthorization(
-                this.userNameRegister,
-                this.emailRegister,
+                this.userToRegister.name,
+                this.userToRegister.email,
                 this.passwordRegister,
                 this.confirmPasswordRegister,
                 'MALAYSIA'
             ).subscribe(resp => {
-                console.log('resgister ok');
-                console.log(resp);
+                if (resp.code === 200) {
+                    this.globalFunctionService.simpleToast('SUCCESS!', 'You are registered.', 'success');
+                    this.userToRegister.password = this.passwordRegister;
+                    this.authenticationService.login(this.userToRegister);
+                } else {
+                    this.globalFunctionService.simpleToast('ERROR!', this.apiErrorMessage, 'danger');
+                }
             }, error => {
                 this.globalFunctionService.simpleToast('ERROR!', this.apiErrorMessage, 'danger');
             });

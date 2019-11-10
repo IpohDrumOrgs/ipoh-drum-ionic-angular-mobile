@@ -228,6 +228,9 @@
                       <li *ngIf="editingUserFormGroup.get('userTel1Fc').hasError('required') && editingUserFormGroup.get('userTel1Fc').touched">
                         Mobile Phone Number is required.
                       </li>
+                      <li *ngIf="editingUserFormGroup.get('userTel1Fc').hasError('minlength') && editingUserFormGroup.get('userTel1Fc').touched">
+                        Mobile Phone Number cannot be less than {{maxLengthOfPhoneNumber}} digits.
+                      </li>
                       <li *ngIf="editingUserFormGroup.get('userTel1Fc').hasError('maxlength') && editingUserFormGroup.get('userTel1Fc').touched">
                         Mobile Phone Number cannot be more than {{maxLengthOfPhoneNumber}} digits.
                       </li>
@@ -262,6 +265,7 @@
           </ion-card>
         </ion-col>
       </ion-row>
+      <ion-button (click)="logoutUser()">Logout</ion-button>
     </ion-col>
   </ion-row>
 </ion-content>

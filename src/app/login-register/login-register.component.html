@@ -78,7 +78,7 @@
             </ion-row>
             <ion-row>
               <ion-col size="12">
-                <input type="text" class="form-control" [(ngModel)]="userNameRegister" formControlName="userNameFc" (keydown.enter)="registerUser()" [ngClass]="{'is-invalid': userRegisterFormGroup.get('userNameFc').invalid && userRegisterFormGroup.get('userNameFc').touched, 'is-valid': userRegisterFormGroup.get('userNameFc').valid}">
+                <input type="text" class="form-control" [(ngModel)]="userToRegister.name" formControlName="userNameFc" (keydown.enter)="registerUser()" [ngClass]="{'is-invalid': userRegisterFormGroup.get('userNameFc').invalid && userRegisterFormGroup.get('userNameFc').touched, 'is-valid': userRegisterFormGroup.get('userNameFc').valid}">
                 <ul class="errorMessages" *ngIf="userRegisterFormGroup.get('userNameFc').invalid && userRegisterFormGroup.get('userNameFc').touched">
                   <li *ngIf="userRegisterFormGroup.get('userNameFc').hasError('required') && userRegisterFormGroup.get('userNameFc').touched">
                     Username is required.
@@ -102,7 +102,7 @@
             </ion-row>
             <ion-row>
               <ion-col size="12">
-                <input type="email" class="form-control" [(ngModel)]="emailRegister" formControlName="userEmailFc" (keydown.enter)="registerUser()" [ngClass]="{'is-invalid': userRegisterFormGroup.get('userEmailFc').invalid && userRegisterFormGroup.get('userEmailFc').touched, 'is-valid': userRegisterFormGroup.get('userEmailFc').valid}">
+                <input type="email" class="form-control" [(ngModel)]="userToRegister.email" formControlName="userEmailFc" (keydown.enter)="registerUser()" [ngClass]="{'is-invalid': userRegisterFormGroup.get('userEmailFc').invalid && userRegisterFormGroup.get('userEmailFc').touched, 'is-valid': userRegisterFormGroup.get('userEmailFc').valid}">
                 <ul class="errorMessages" *ngIf="userRegisterFormGroup.get('userEmailFc').invalid && userRegisterFormGroup.get('userEmailFc').touched">
                   <li *ngIf="userRegisterFormGroup.get('userEmailFc').hasError('required') && userRegisterFormGroup.get('userEmailFc').touched">
                     Email is required.

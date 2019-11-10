@@ -6,6 +6,7 @@ import {AuthenticationService} from '../../_dal/common/services/authentication.s
 import {Router} from '@angular/router';
 import {LoadingService} from '../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
+import {NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-my-profile',
@@ -40,7 +41,8 @@ export class MyProfilePage implements OnInit {
       private router: Router,
       private globalFunctionService: GlobalfunctionService,
       private userControllerServicesService: UserControllerServiceService,
-      private loadingService: LoadingService
+      private loadingService: LoadingService,
+      private navController: NavController
   ) {
   }
 
@@ -64,6 +66,7 @@ export class MyProfilePage implements OnInit {
       ]),
       userTel1Fc: new FormControl(null, [
         Validators.required,
+        Validators.minLength(this.minLengthOfPhoneNumber),
         Validators.maxLength(this.maxLengthOfPhoneNumber),
         Validators.pattern(this.phoneNumberRegex)
       ]),
@@ -72,6 +75,12 @@ export class MyProfilePage implements OnInit {
       ])
     });
     this.initializeUserInfo();
+  }
+
+  ionViewWillEnter() {
+    if (this.editUserInformationPanelMode) {
+      this.enableEditingUser();
+    }
   }
 
   enableEditingUser() {
@@ -135,30 +144,10 @@ export class MyProfilePage implements OnInit {
     });
   }
 
-  ionViewWillEnter() {
-    if (this.editUserInformationPanelMode) {
-      this.enableEditingUser();
-    }
+  logoutUser() {
+    this.authenticationService.logoutUser();
+    this.globalFunctionService.simpleToast('SUCCESS!', 'You have been logged out.', 'primary');
+    this.navController.navigateRoot('/login');
   }
-  //
-  // ionViewLoaded() {
-  //   console.log('ionviewloaded');
-  // }
-  //
-  // ionViewWillEnter() {
-  //   console.log('ionviewwillenter');
-  // }
-  //
-  // ionViewDidEnter() {
-  //   console.log('ionviewdidenter');
-  // }
-  //
-  // ionViewWillLeave() {
-  //   console.log('ionviewwillleave');
-  // }
-  //
-  // ionViewDidLeave() {
-  //   console.log('ionviewdidleave');
-  // }
 }
 

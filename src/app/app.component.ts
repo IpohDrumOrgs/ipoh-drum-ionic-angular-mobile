@@ -5,6 +5,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthenticationService } from './_dal/common/services/authentication.service';
 import { Router } from '@angular/router';
 import { GlobalfunctionService } from './_dal/common/services/globalfunction.service';
+import {UserControllerServiceService} from './_dal/ipohdrum';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +22,8 @@ export class AppComponent implements OnInit {
     private ngZone: NgZone,
     private authenticationService: AuthenticationService,
     private router: Router,
-    private globalFunctionService: GlobalfunctionService
+    private globalFunctionService: GlobalfunctionService,
+    private userControllerService: UserControllerServiceService
   ) {
     this.initializeApp();
   }
