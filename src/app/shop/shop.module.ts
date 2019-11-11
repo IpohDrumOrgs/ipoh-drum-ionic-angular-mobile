@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ShopPage } from './shop.page';
+import {NgImageSliderModule} from 'ng-image-slider';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
+    NgImageSliderModule,
     RouterModule.forChild(routes)
   ],
   declarations: [ShopPage]

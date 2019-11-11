@@ -33,6 +33,7 @@
     "cordova-ios": "^5.0.1",
     "core-js": "^2.5.4",
     "laravel-passport": "0.0.6",
+    "ng-image-slider": "^2.2.0",
     "ngx-perfect-scrollbar": "^8.0.0",
     "ngx-show-hide-password": "^2.1.0",
     "rxjs": "~6.5.1",

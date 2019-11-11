@@ -36,13 +36,14 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.router.navigate(['/ipoh-drum/home']);
     this.ngZone.run(() => {
-      if (this.authenticationService.isUserLoggedIn()) {
-        this.globalFunctionService.simpleToast(undefined, 'You are logged in!', 'primary');
-      } else {
-        this.globalFunctionService.simpleToast('ERROR!', 'You are not authenticated, please login first!', 'danger');
-        this.router.navigate(['/login']);
-      }
+      // if (this.authenticationService.isUserLoggedIn()) {
+      //   this.globalFunctionService.simpleToast(undefined, 'You are logged in!', 'primary');
+      // } else {
+      //   this.globalFunctionService.simpleToast('ERROR!', 'You are not authenticated, please login first!', 'danger');
+      //   this.router.navigate(['/ipoh-drum/login']);
+      // }
     });
     // this.ngZone.run(() => {
     //   this.authenticationService.authenticate().then(resp => {

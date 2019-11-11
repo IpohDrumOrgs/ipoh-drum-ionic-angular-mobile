@@ -16,6 +16,7 @@ export class GlobalfunctionService {
       duration: 3000,
       color,
       position: 'top',
+      showCloseButton: true
     });
     toast.present();
   }
@@ -26,7 +27,7 @@ export class GlobalfunctionService {
       message: msg,
       color,
       position: 'top',
-      showCloseButton : true,
+      showCloseButton : true
     });
     toast.present();
   }
