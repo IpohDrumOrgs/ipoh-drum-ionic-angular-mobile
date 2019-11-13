@@ -80,7 +80,7 @@ export class UserControllerServiceService {
     }
 
     /**
-     * Creates a user. (Without authorization)
+     * Creates a user.
      * @param name Username
      * @param email Email
      * @param password Password
@@ -89,24 +89,21 @@ export class UserControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, country: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, country: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, country: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, country: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createUser(name: string, email: string, password: string, passwordConfirmation: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createUser(name: string, email: string, password: string, passwordConfirmation: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createUser(name: string, email: string, password: string, passwordConfirmation: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createUser(name: string, email: string, password: string, passwordConfirmation: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling createUserWithoutAuthorization.');
+            throw new Error('Required parameter name was null or undefined when calling createUser.');
         }
         if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling createUserWithoutAuthorization.');
+            throw new Error('Required parameter email was null or undefined when calling createUser.');
         }
         if (password === null || password === undefined) {
-            throw new Error('Required parameter password was null or undefined when calling createUserWithoutAuthorization.');
+            throw new Error('Required parameter password was null or undefined when calling createUser.');
         }
         if (passwordConfirmation === null || passwordConfirmation === undefined) {
-            throw new Error('Required parameter passwordConfirmation was null or undefined when calling createUserWithoutAuthorization.');
-        }
-        if (country === null || country === undefined) {
-            throw new Error('Required parameter country was null or undefined when calling createUserWithoutAuthorization.');
+            throw new Error('Required parameter passwordConfirmation was null or undefined when calling createUser.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -124,6 +121,69 @@ export class UserControllerServiceService {
         }
         if (country !== undefined && country !== null) {
             queryParameters = queryParameters.set('country', <any>country);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/user`,
+            null,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Creates a user without needing authorization.
+     * @param name Username.
+     * @param email Email.
+     * @param password Password.
+     * @param passwordConfirmation Confirm Password.
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling createUserWithoutAuthorization.');
+        }
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling createUserWithoutAuthorization.');
+        }
+        if (password === null || password === undefined) {
+            throw new Error('Required parameter password was null or undefined when calling createUserWithoutAuthorization.');
+        }
+        if (passwordConfirmation === null || passwordConfirmation === undefined) {
+            throw new Error('Required parameter passwordConfirmation was null or undefined when calling createUserWithoutAuthorization.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (name !== undefined && name !== null) {
+            queryParameters = queryParameters.set('name', <any>name);
+        }
+        if (email !== undefined && email !== null) {
+            queryParameters = queryParameters.set('email', <any>email);
+        }
+        if (password !== undefined && password !== null) {
+            queryParameters = queryParameters.set('password', <any>password);
+        }
+        if (passwordConfirmation !== undefined && passwordConfirmation !== null) {
+            queryParameters = queryParameters.set('password_confirmation', <any>passwordConfirmation);
         }
 
         let headers = this.defaultHeaders;
@@ -185,6 +245,139 @@ export class UserControllerServiceService {
     }
 
     /**
+     * Filter list of plucked users
+     * Returns list of filtered users
+     * @param cols Columns for pluck
+     * @param pageNumber Page number
+     * @param pageSize number of pageSize
+     * @param keyword Keyword for filter
+     * @param fromdate From Date for filter
+     * @param todate To string for filter
+     * @param status status for filter
+     * @param companyId Company id for filter
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public filterPluckedUserList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, companyId?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterPluckedUserList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, companyId?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterPluckedUserList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, companyId?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterPluckedUserList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, companyId?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (cols === null || cols === undefined) {
+            throw new Error('Required parameter cols was null or undefined when calling filterPluckedUserList.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (pageNumber !== undefined && pageNumber !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        }
+        if (pageSize !== undefined && pageSize !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        }
+        if (cols !== undefined && cols !== null) {
+            queryParameters = queryParameters.set('cols', <any>cols);
+        }
+        if (keyword !== undefined && keyword !== null) {
+            queryParameters = queryParameters.set('keyword', <any>keyword);
+        }
+        if (fromdate !== undefined && fromdate !== null) {
+            queryParameters = queryParameters.set('fromdate', <any>fromdate);
+        }
+        if (todate !== undefined && todate !== null) {
+            queryParameters = queryParameters.set('todate', <any>todate);
+        }
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
+        }
+        if (companyId !== undefined && companyId !== null) {
+            queryParameters = queryParameters.set('company_id', <any>companyId);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/filter/user`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Filter list of users
+     * Returns list of filtered users
+     * @param pageNumber Page number
+     * @param pageSize number of pageSize
+     * @param keyword Keyword for filter
+     * @param fromdate From Date for filter
+     * @param todate To string for filter
+     * @param status status for filter
+     * @param companyId Company id for filter
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public filterUserList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, companyId?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterUserList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, companyId?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterUserList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, companyId?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterUserList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, companyId?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (pageNumber !== undefined && pageNumber !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        }
+        if (pageSize !== undefined && pageSize !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        }
+        if (keyword !== undefined && keyword !== null) {
+            queryParameters = queryParameters.set('keyword', <any>keyword);
+        }
+        if (fromdate !== undefined && fromdate !== null) {
+            queryParameters = queryParameters.set('fromdate', <any>fromdate);
+        }
+        if (todate !== undefined && todate !== null) {
+            queryParameters = queryParameters.set('todate', <any>todate);
+        }
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
+        }
+        if (companyId !== undefined && companyId !== null) {
+            queryParameters = queryParameters.set('company_id', <any>companyId);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/user`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Retrieves user by userId.
      * @param uid User_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -222,13 +415,23 @@ export class UserControllerServiceService {
     /**
      * Get list of users
      * Returns list of users
+     * @param pageNumber Page number
+     * @param pageSize number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUserList(observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getUserList(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getUserList(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getUserList(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getUserList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getUserList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getUserList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getUserList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (pageNumber !== undefined && pageNumber !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        }
+        if (pageSize !== undefined && pageSize !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        }
 
         let headers = this.defaultHeaders;
 
@@ -243,6 +446,103 @@ export class UserControllerServiceService {
 
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/user`,
             {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * pluck user
+     * Returns plucked users
+     * @param uid User_ID, NOT \&#39;ID\&#39;.
+     * @param cols Columns for pluck
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public pluckUser(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckUser(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckUser(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckUser(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uid === null || uid === undefined) {
+            throw new Error('Required parameter uid was null or undefined when calling pluckUser.');
+        }
+        if (cols === null || cols === undefined) {
+            throw new Error('Required parameter cols was null or undefined when calling pluckUser.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (cols !== undefined && cols !== null) {
+            queryParameters = queryParameters.set('cols', <any>cols);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/user/${encodeURIComponent(String(uid))}`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * pluck list of users
+     * Returns list of plucked users
+     * @param cols Columns for pluck
+     * @param pageNumber Page number
+     * @param pageSize number of pageSize
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public pluckUserList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckUserList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckUserList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckUserList(cols: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (cols === null || cols === undefined) {
+            throw new Error('Required parameter cols was null or undefined when calling pluckUserList.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (cols !== undefined && cols !== null) {
+            queryParameters = queryParameters.set('cols', <any>cols);
+        }
+        if (pageNumber !== undefined && pageNumber !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        }
+        if (pageSize !== undefined && pageSize !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/users`,
+            {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

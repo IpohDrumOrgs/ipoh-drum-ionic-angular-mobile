@@ -1,0 +1,85 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            <ng-container *ngIf="isLoadingInventory else loadTitleButtons">
+                <ion-row>
+                    <ion-col size="12" style="text-align:center;">
+                        <ion-spinner name="crescent"></ion-spinner>
+                    </ion-col>
+                </ion-row>
+            </ng-container>
+            <ng-template #loadTitleButtons>
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="2" class="align-self-center" style="width:100%;text-align:left;">
+                    <span>
+                        <ion-icon name="arrow-back" style="font-size:25px;" (click)="backToShopPage()"></ion-icon>
+                    </span>
+                    </ion-col>
+                    <ion-col size="4">
+                    </ion-col>
+                    <ion-col size="2" style="text-align:center;">
+                        <ion-button fill="clear">
+                            <ion-icon slot="icon-only" name="share"></ion-icon>
+                        </ion-button>
+                    </ion-col>
+                    <ion-col size="2" style="text-align:center;">
+                        <ion-button fill="clear">
+                            <ion-icon slot="icon-only" name="cart"></ion-icon>
+                        </ion-button>
+                    </ion-col>
+                    <ion-col size="2" style="text-align:center;">
+                        <ion-button fill="clear">
+                            <ion-icon slot="icon-only" name="more"></ion-icon>
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </ng-template>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <!-- Product Image -->
+    <ion-row>
+        <ion-col size="12" style="padding:0;text-align:center;">
+            <ng-container *ngIf="isLoadingInventory else loadInventoryImage">
+                <img src="../../../assets/images/default_product.png" alt="product_image" style="max-height:350px;">
+            </ng-container>
+            <ng-template #loadInventoryImage>
+                <img src="../../../assets/images/test.jpg" alt="product_image" style="width:100%;max-height:350px;">
+            </ng-template>
+        </ion-col>
+    </ion-row>
+    <!-- Product Name -->
+    <ion-row>
+        <ion-col size="12">
+            <ng-container *ngIf="isLoadingInventory else loadInventoryInfo">
+                <h5>Loading...</h5>
+            </ng-container>
+            <ng-template #loadInventoryInfo>
+                <ion-row>
+                    <ion-col size="12">
+                        <h3>
+                            {{currentInventory?.name}}
+                        </h3>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="12">
+                        <ion-label style="font-size:30px;">
+                            RM{{currentInventory.price}}
+                        </ion-label>
+                        <br>
+                        No Ratings Yet&nbsp;&nbsp;|&nbsp;&nbsp;{{currentInventory.salesqty}}&nbsp;sold
+                        <br>
+                        <ion-chip outline style="margin-left:0;">
+                            <ion-icon name="cart" color="primary"></ion-icon>
+                            <ion-label>Add To Cart</ion-label>
+                            <ion-icon name="add-circle" color="primary"></ion-icon>
+                        </ion-chip>
+                    </ion-col>
+                </ion-row>
+            </ng-template>
+        </ion-col>
+    </ion-row>
+</ion-content>

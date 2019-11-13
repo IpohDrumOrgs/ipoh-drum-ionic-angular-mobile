@@ -1,3 +1,15 @@
+export * from './categoryControllerService.service';
+import { CategoryControllerServiceService } from './categoryControllerService.service';
+export * from './companyControllerService.service';
+import { CompanyControllerServiceService } from './companyControllerService.service';
+export * from './inventoryControllerService.service';
+import { InventoryControllerServiceService } from './inventoryControllerService.service';
+export * from './productFeatureControllerService.service';
+import { ProductFeatureControllerServiceService } from './productFeatureControllerService.service';
+export * from './ticketControllerService.service';
+import { TicketControllerServiceService } from './ticketControllerService.service';
+export * from './typeControllerService.service';
+import { TypeControllerServiceService } from './typeControllerService.service';
 export * from './userControllerService.service';
 import { UserControllerServiceService } from './userControllerService.service';
-export const APIS = [UserControllerServiceService];
+export const APIS = [CategoryControllerServiceService, CompanyControllerServiceService, InventoryControllerServiceService, ProductFeatureControllerServiceService, TicketControllerServiceService, TypeControllerServiceService, UserControllerServiceService];

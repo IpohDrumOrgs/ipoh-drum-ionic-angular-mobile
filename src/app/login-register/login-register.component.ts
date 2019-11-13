@@ -117,8 +117,7 @@ export class LoginRegisterComponent implements OnInit {
                 this.userToRegister.name,
                 this.userToRegister.email,
                 this.passwordRegister,
-                this.confirmPasswordRegister,
-                'MALAYSIA'
+                this.confirmPasswordRegister
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.globalFunctionService.simpleToast('SUCCESS!', 'You are registered.', 'success');

@@ -3,6 +3,12 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 
+import { CategoryControllerServiceService } from './api/categoryControllerService.service';
+import { CompanyControllerServiceService } from './api/companyControllerService.service';
+import { InventoryControllerServiceService } from './api/inventoryControllerService.service';
+import { ProductFeatureControllerServiceService } from './api/productFeatureControllerService.service';
+import { TicketControllerServiceService } from './api/ticketControllerService.service';
+import { TypeControllerServiceService } from './api/typeControllerService.service';
 import { UserControllerServiceService } from './api/userControllerService.service';
 
 @NgModule({
@@ -10,6 +16,12 @@ import { UserControllerServiceService } from './api/userControllerService.servic
   declarations: [],
   exports:      [],
   providers: [
+    CategoryControllerServiceService,
+    CompanyControllerServiceService,
+    InventoryControllerServiceService,
+    ProductFeatureControllerServiceService,
+    TicketControllerServiceService,
+    TypeControllerServiceService,
     UserControllerServiceService ]
 })
 export class ApiModule {
