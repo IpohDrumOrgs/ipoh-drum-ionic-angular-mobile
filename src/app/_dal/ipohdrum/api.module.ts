@@ -7,6 +7,7 @@ import { CategoryControllerServiceService } from './api/categoryControllerServic
 import { CompanyControllerServiceService } from './api/companyControllerService.service';
 import { InventoryControllerServiceService } from './api/inventoryControllerService.service';
 import { ProductFeatureControllerServiceService } from './api/productFeatureControllerService.service';
+import { StoreControllerServiceService } from './api/storeControllerService.service';
 import { TicketControllerServiceService } from './api/ticketControllerService.service';
 import { TypeControllerServiceService } from './api/typeControllerService.service';
 import { UserControllerServiceService } from './api/userControllerService.service';
@@ -20,6 +21,7 @@ import { UserControllerServiceService } from './api/userControllerService.servic
     CompanyControllerServiceService,
     InventoryControllerServiceService,
     ProductFeatureControllerServiceService,
+    StoreControllerServiceService,
     TicketControllerServiceService,
     TypeControllerServiceService,
     UserControllerServiceService ]

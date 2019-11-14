@@ -66,10 +66,10 @@ export class TicketControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createTicket(name: string, storeid: string, sku: string, price: number, enddate: string, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createTicket(name: string, storeid: string, sku: string, price: number, enddate: string, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createTicket(name: string, storeid: string, sku: string, price: number, enddate: string, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createTicket(name: string, storeid: string, sku: string, price: number, enddate: string, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createTicket(name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createTicket(name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createTicket(name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createTicket(name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createTicket.');
         }
@@ -165,12 +165,12 @@ export class TicketControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteTicketByTicketId(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteTicketByTicketId(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteTicketByTicketId(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteTicketByTicketId(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteTicketByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteTicketByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteTicketByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteTicketByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling deleteTicketByTicketId.');
+            throw new Error('Required parameter uid was null or undefined when calling deleteTicketByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -328,17 +328,17 @@ export class TicketControllerServiceService {
     }
 
     /**
-     * Retrieves ticket by ticketId.
+     * Retrieves ticket by Uid.
      * @param uid Ticket_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTicketByTicketId(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getTicketByTicketId(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getTicketByTicketId(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getTicketByTicketId(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getTicketByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getTicketByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getTicketByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getTicketByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getTicketByTicketId.');
+            throw new Error('Required parameter uid was null or undefined when calling getTicketByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -413,15 +413,15 @@ export class TicketControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pluckTicket(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckTicket(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckTicket(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckTicket(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pluckTicketByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckTicketByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckTicketByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckTicketByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling pluckTicket.');
+            throw new Error('Required parameter uid was null or undefined when calling pluckTicketByUid.');
         }
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckTicket.');
+            throw new Error('Required parameter cols was null or undefined when calling pluckTicketByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -502,7 +502,7 @@ export class TicketControllerServiceService {
     }
 
     /**
-     * Update ticket by ticketId.
+     * Update ticket by Uid.
      * @param uid Ticket_ID, NOT \&#39;ID\&#39;.
      * @param name Ticketname
      * @param storeid Store ID
@@ -521,36 +521,36 @@ export class TicketControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateTicketByTicketId(uid: string, name: string, storeid: string, sku: string, price: number, enddate: string, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateTicketByTicketId(uid: string, name: string, storeid: string, sku: string, price: number, enddate: string, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateTicketByTicketId(uid: string, name: string, storeid: string, sku: string, price: number, enddate: string, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateTicketByTicketId(uid: string, name: string, storeid: string, sku: string, price: number, enddate: string, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateTicketByUid(uid: string, name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateTicketByUid(uid: string, name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateTicketByUid(uid: string, name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateTicketByUid(uid: string, name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling updateTicketByTicketId.');
+            throw new Error('Required parameter uid was null or undefined when calling updateTicketByUid.');
         }
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling updateTicketByTicketId.');
+            throw new Error('Required parameter name was null or undefined when calling updateTicketByUid.');
         }
         if (storeid === null || storeid === undefined) {
-            throw new Error('Required parameter storeid was null or undefined when calling updateTicketByTicketId.');
+            throw new Error('Required parameter storeid was null or undefined when calling updateTicketByUid.');
         }
         if (sku === null || sku === undefined) {
-            throw new Error('Required parameter sku was null or undefined when calling updateTicketByTicketId.');
+            throw new Error('Required parameter sku was null or undefined when calling updateTicketByUid.');
         }
         if (price === null || price === undefined) {
-            throw new Error('Required parameter price was null or undefined when calling updateTicketByTicketId.');
+            throw new Error('Required parameter price was null or undefined when calling updateTicketByUid.');
         }
         if (enddate === null || enddate === undefined) {
-            throw new Error('Required parameter enddate was null or undefined when calling updateTicketByTicketId.');
+            throw new Error('Required parameter enddate was null or undefined when calling updateTicketByUid.');
         }
         if (stock === null || stock === undefined) {
-            throw new Error('Required parameter stock was null or undefined when calling updateTicketByTicketId.');
+            throw new Error('Required parameter stock was null or undefined when calling updateTicketByUid.');
         }
         if (stockthreshold === null || stockthreshold === undefined) {
-            throw new Error('Required parameter stockthreshold was null or undefined when calling updateTicketByTicketId.');
+            throw new Error('Required parameter stockthreshold was null or undefined when calling updateTicketByUid.');
         }
         if (onsale === null || onsale === undefined) {
-            throw new Error('Required parameter onsale was null or undefined when calling updateTicketByTicketId.');
+            throw new Error('Required parameter onsale was null or undefined when calling updateTicketByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});

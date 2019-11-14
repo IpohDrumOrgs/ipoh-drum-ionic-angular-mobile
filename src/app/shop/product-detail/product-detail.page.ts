@@ -23,9 +23,8 @@ export class ProductDetailPage implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe(params => {
-            console.log(+params.uid);
             this.inventoryUID = +params.uid;
-            this.inventoryControllerService.getInventoryByInventoryId(
+            this.inventoryControllerService.getInventoryByUid(
                 this.inventoryUID.toString()
             ).subscribe(resp => {
                 if (resp.code === 200) {
@@ -33,12 +32,13 @@ export class ProductDetailPage implements OnInit {
                     console.log(resp);
                     this.currentInventory = resp.data;
                 } else {
-                    // Navigate to 'Product not Available' page.
+                    // TODO: Navigate to Shop page after showed alert prompt
                 }
                 this.isLoadingInventory = false;
             }, error => {
                 console.log('cannot get item');
                 this.isLoadingInventory = false;
+                // TODO: Navigate to Shop page after showed alert prompt
             });
         });
     }
@@ -46,6 +46,7 @@ export class ProductDetailPage implements OnInit {
     backToShopPage() {
         this.router.navigate(['ipoh-drum/shop']).catch(reason => {
             console.log('Routing error, reason:', reason);
+            // TODO: Navigate to home page after showed alert prompt
         });
     }
 }

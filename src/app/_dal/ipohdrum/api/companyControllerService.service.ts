@@ -67,10 +67,10 @@ export class CompanyControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createCompany(name: string, companytypeid: string, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createCompany(name: string, companytypeid: string, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createCompany(name: string, companytypeid: string, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createCompany(name: string, companytypeid: string, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createCompany(name: string, companytypeid: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createCompany(name: string, companytypeid: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createCompany(name: string, companytypeid: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createCompany(name: string, companytypeid: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createCompany.');
         }
@@ -157,12 +157,12 @@ export class CompanyControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteCompanyByCompanyId(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteCompanyByCompanyId(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteCompanyByCompanyId(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteCompanyByCompanyId(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteCompanyByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteCompanyByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteCompanyByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteCompanyByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling deleteCompanyByCompanyId.');
+            throw new Error('Required parameter uid was null or undefined when calling deleteCompanyByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -320,17 +320,17 @@ export class CompanyControllerServiceService {
     }
 
     /**
-     * Retrieves company by companyId.
+     * Retrieves company by Uid.
      * @param uid Company_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCompanyByCompanyId(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getCompanyByCompanyId(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getCompanyByCompanyId(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getCompanyByCompanyId(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getCompanyByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getCompanyByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getCompanyByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getCompanyByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getCompanyByCompanyId.');
+            throw new Error('Required parameter uid was null or undefined when calling getCompanyByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -405,15 +405,15 @@ export class CompanyControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pluckCompany(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckCompany(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckCompany(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckCompany(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pluckCompanyByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckCompanyByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckCompanyByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckCompanyByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling pluckCompany.');
+            throw new Error('Required parameter uid was null or undefined when calling pluckCompanyByUid.');
         }
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckCompany.');
+            throw new Error('Required parameter cols was null or undefined when calling pluckCompanyByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -494,7 +494,7 @@ export class CompanyControllerServiceService {
     }
 
     /**
-     * Update company by companyId.
+     * Update company by Uid.
      * @param uid Company_ID, NOT \&#39;ID\&#39;.
      * @param name Companyname
      * @param companytypeid Company Type ID
@@ -514,21 +514,21 @@ export class CompanyControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateCompanyByCompanyId(uid: string, name: string, companytypeid: string, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateCompanyByCompanyId(uid: string, name: string, companytypeid: string, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateCompanyByCompanyId(uid: string, name: string, companytypeid: string, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateCompanyByCompanyId(uid: string, name: string, companytypeid: string, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateCompanyByUid(uid: string, name: string, companytypeid: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateCompanyByUid(uid: string, name: string, companytypeid: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateCompanyByUid(uid: string, name: string, companytypeid: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateCompanyByUid(uid: string, name: string, companytypeid: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling updateCompanyByCompanyId.');
+            throw new Error('Required parameter uid was null or undefined when calling updateCompanyByUid.');
         }
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling updateCompanyByCompanyId.');
+            throw new Error('Required parameter name was null or undefined when calling updateCompanyByUid.');
         }
         if (companytypeid === null || companytypeid === undefined) {
-            throw new Error('Required parameter companytypeid was null or undefined when calling updateCompanyByCompanyId.');
+            throw new Error('Required parameter companytypeid was null or undefined when calling updateCompanyByUid.');
         }
         if (regno === null || regno === undefined) {
-            throw new Error('Required parameter regno was null or undefined when calling updateCompanyByCompanyId.');
+            throw new Error('Required parameter regno was null or undefined when calling updateCompanyByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});

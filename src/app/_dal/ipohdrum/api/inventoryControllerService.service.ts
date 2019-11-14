@@ -67,10 +67,10 @@ export class InventoryControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createInventory(name: string, storeid: string, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createInventory(name: string, storeid: string, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createInventory(name: string, storeid: string, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createInventory(name: string, storeid: string, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createInventory(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createInventory(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createInventory(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createInventory(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createInventory.');
         }
@@ -169,12 +169,12 @@ export class InventoryControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteInventoryByInventoryId(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteInventoryByInventoryId(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteInventoryByInventoryId(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteInventoryByInventoryId(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteInventoryByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteInventoryByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteInventoryByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteInventoryByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling deleteInventoryByInventoryId.');
+            throw new Error('Required parameter uid was null or undefined when calling deleteInventoryByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -332,17 +332,17 @@ export class InventoryControllerServiceService {
     }
 
     /**
-     * Retrieves inventory by inventoryId.
+     * Retrieves inventory by Uid.
      * @param uid Inventory_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getInventoryByInventoryId(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getInventoryByInventoryId(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getInventoryByInventoryId(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getInventoryByInventoryId(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getInventoryByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getInventoryByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getInventoryByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getInventoryByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getInventoryByInventoryId.');
+            throw new Error('Required parameter uid was null or undefined when calling getInventoryByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -417,15 +417,15 @@ export class InventoryControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pluckInventory(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckInventory(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckInventory(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckInventory(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pluckInventoryByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckInventoryByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckInventoryByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckInventoryByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling pluckInventory.');
+            throw new Error('Required parameter uid was null or undefined when calling pluckInventoryByUid.');
         }
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckInventory.');
+            throw new Error('Required parameter cols was null or undefined when calling pluckInventoryByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -506,7 +506,7 @@ export class InventoryControllerServiceService {
     }
 
     /**
-     * Update inventory by inventoryId.
+     * Update inventory by Uid.
      * @param uid Inventory_ID, NOT \&#39;ID\&#39;.
      * @param name Inventoryname
      * @param storeid Store ID
@@ -526,36 +526,36 @@ export class InventoryControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateInventoryByInventoryId(uid: string, name: string, storeid: string, sku: string, cost: number, price: number, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateInventoryByInventoryId(uid: string, name: string, storeid: string, sku: string, cost: number, price: number, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateInventoryByInventoryId(uid: string, name: string, storeid: string, sku: string, cost: number, price: number, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateInventoryByInventoryId(uid: string, name: string, storeid: string, sku: string, cost: number, price: number, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateInventoryByUid(uid: string, name: string, storeid: number, sku: string, cost: number, price: number, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateInventoryByUid(uid: string, name: string, storeid: number, sku: string, cost: number, price: number, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateInventoryByUid(uid: string, name: string, storeid: number, sku: string, cost: number, price: number, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateInventoryByUid(uid: string, name: string, storeid: number, sku: string, cost: number, price: number, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling updateInventoryByInventoryId.');
+            throw new Error('Required parameter uid was null or undefined when calling updateInventoryByUid.');
         }
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling updateInventoryByInventoryId.');
+            throw new Error('Required parameter name was null or undefined when calling updateInventoryByUid.');
         }
         if (storeid === null || storeid === undefined) {
-            throw new Error('Required parameter storeid was null or undefined when calling updateInventoryByInventoryId.');
+            throw new Error('Required parameter storeid was null or undefined when calling updateInventoryByUid.');
         }
         if (sku === null || sku === undefined) {
-            throw new Error('Required parameter sku was null or undefined when calling updateInventoryByInventoryId.');
+            throw new Error('Required parameter sku was null or undefined when calling updateInventoryByUid.');
         }
         if (cost === null || cost === undefined) {
-            throw new Error('Required parameter cost was null or undefined when calling updateInventoryByInventoryId.');
+            throw new Error('Required parameter cost was null or undefined when calling updateInventoryByUid.');
         }
         if (price === null || price === undefined) {
-            throw new Error('Required parameter price was null or undefined when calling updateInventoryByInventoryId.');
+            throw new Error('Required parameter price was null or undefined when calling updateInventoryByUid.');
         }
         if (stock === null || stock === undefined) {
-            throw new Error('Required parameter stock was null or undefined when calling updateInventoryByInventoryId.');
+            throw new Error('Required parameter stock was null or undefined when calling updateInventoryByUid.');
         }
         if (stockthreshold === null || stockthreshold === undefined) {
-            throw new Error('Required parameter stockthreshold was null or undefined when calling updateInventoryByInventoryId.');
+            throw new Error('Required parameter stockthreshold was null or undefined when calling updateInventoryByUid.');
         }
         if (onsale === null || onsale === undefined) {
-            throw new Error('Required parameter onsale was null or undefined when calling updateInventoryByInventoryId.');
+            throw new Error('Required parameter onsale was null or undefined when calling updateInventoryByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});

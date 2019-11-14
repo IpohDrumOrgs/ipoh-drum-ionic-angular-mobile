@@ -15,19 +15,19 @@
                         <ion-icon name="arrow-back" style="font-size:25px;" (click)="backToShopPage()"></ion-icon>
                     </span>
                     </ion-col>
-                    <ion-col size="4">
+                    <ion-col size="1">
                     </ion-col>
-                    <ion-col size="2" style="text-align:center;">
+                    <ion-col size="3" style="text-align:center;">
                         <ion-button fill="clear">
                             <ion-icon slot="icon-only" name="share"></ion-icon>
                         </ion-button>
                     </ion-col>
-                    <ion-col size="2" style="text-align:center;">
+                    <ion-col size="3" style="text-align:center;">
                         <ion-button fill="clear">
                             <ion-icon slot="icon-only" name="cart"></ion-icon>
                         </ion-button>
                     </ion-col>
-                    <ion-col size="2" style="text-align:center;">
+                    <ion-col size="3" style="text-align:center;">
                         <ion-button fill="clear">
                             <ion-icon slot="icon-only" name="more"></ion-icon>
                         </ion-button>
@@ -66,9 +66,20 @@
                 </ion-row>
                 <ion-row>
                     <ion-col size="12">
-                        <ion-label style="font-size:30px;">
-                            RM{{currentInventory.price}}
-                        </ion-label>
+                        <ng-container *ngIf="currentInventory.onpromo else noPromoPrice">
+                            <ion-label style="font-size:20px;text-decoration:line-through">
+                                RM{{currentInventory.price}}
+                            </ion-label>
+                            <br>
+                            <ion-label style="font-size:30px;">
+                                RM{{currentInventory.promoprice}}
+                            </ion-label>
+                        </ng-container>
+                        <ng-template #noPromoPrice>
+                            <ion-label style="font-size:30px;">
+                                RM{{currentInventory.price}}
+                            </ion-label>
+                        </ng-template>
                         <br>
                         No Ratings Yet&nbsp;&nbsp;|&nbsp;&nbsp;{{currentInventory.salesqty}}&nbsp;sold
                         <br>

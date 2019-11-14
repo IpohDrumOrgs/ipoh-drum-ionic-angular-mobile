@@ -1,5 +1,5 @@
-import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
-import {InventoryControllerServiceService} from '../_dal/ipohdrum';
+import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
+import {Inventory, InventoryControllerServiceService, User} from '../_dal/ipohdrum';
 import {NavController} from '@ionic/angular';
 import {ActivatedRoute, Router} from '@angular/router';
 
@@ -9,7 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
     styleUrls: ['./shop.page.scss'],
 })
 
-export class ShopPage implements OnInit, OnDestroy {
+export class ShopPage implements OnInit {
 
     keywordToSearchItems = '';
 
@@ -30,10 +30,10 @@ export class ShopPage implements OnInit, OnDestroy {
             title: 'Deku'
         },
         {
-            image: 'assets/images/maxresdefault.jpg',
-            thumbImage: 'assets/images/maxresdefault.jpg',
-            alt: 'puppy alt of image',
-            title: 'Puppy'
+            image: 'assets/images/kitty.jpg',
+            thumbImage: 'assets/images/kitty.jpg',
+            alt: 'kitty alt of image',
+            title: 'Kitty'
         }
     ];
 
@@ -46,8 +46,7 @@ export class ShopPage implements OnInit, OnDestroy {
         private navController: NavController,
         private router: Router,
         private route: ActivatedRoute
-    ) {
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -62,32 +61,32 @@ export class ShopPage implements OnInit, OnDestroy {
                     this.specialDealsItemList = resp.data;
                 } else {
                     console.log('cannot get inventory list');
+                    // TODO: Show error popup prompt, then upon "OK", navigate to home
                 }
                 this.isLoadingSpecialDealsItemList = false;
             }, error => {
                 console.log('cannot get inventory list due to api error');
                 this.isLoadingSpecialDealsItemList = false;
+                // TODO: Show error popup prompt, then upon "OK", navigate to home
             });
         });
     }
 
-    ngOnDestroy() {
-        this.ngZone.run(() => {
-           if (this.inventorySubscription) {
-               this.inventorySubscription.unsubscribe();
-           }
+    ionViewWillLeave() {
+        if (this.inventorySubscription) {
+            this.inventorySubscription.unsubscribe();
+        }
+    }
+
+    productDetail(inventoryUID: number) {
+        this.router.navigate(['product-detail', inventoryUID], {relativeTo: this.route}).catch(reason => {
+            console.log('Routing navigateion error, reason: ' + reason);
+            // TODO: Navigate to home page
         });
     }
 
     searchItems() {
         console.log('search item:' + this.keywordToSearchItems);
-    }
-
-    productDetail(inventoryUID: number) {
-        console.log('product detail: ' + inventoryUID);
-        this.router.navigate(['product-detail', inventoryUID], {relativeTo: this.route}).catch(reason => {
-            console.log('Routing navigateion error, reason: ' + reason);
-        });
     }
 
     showMoreSpecialDeals() {

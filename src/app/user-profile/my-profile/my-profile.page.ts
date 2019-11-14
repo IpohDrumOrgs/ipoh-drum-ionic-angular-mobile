@@ -116,7 +116,7 @@ export class MyProfilePage implements OnInit {
     // TODO: Add last_updated date here
     this.ngZone.run(() => {
       this.loadingService.present();
-      this.updateUserInfoSubscription = this.userControllerServicesService.updateUserByUserId(
+      this.updateUserInfoSubscription = this.userControllerServicesService.updateUserByUid(
           this.editingUserInformation.uid.toString(),
           this.editingUserInformation.name,
           this.editingUserInformation.email,

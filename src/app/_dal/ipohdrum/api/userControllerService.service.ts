@@ -215,12 +215,12 @@ export class UserControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteUserByUserId(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteUserByUserId(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteUserByUserId(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteUserByUserId(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteUserByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteUserByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteUserByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteUserByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling deleteUserByUserId.');
+            throw new Error('Required parameter uid was null or undefined when calling deleteUserByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -378,17 +378,17 @@ export class UserControllerServiceService {
     }
 
     /**
-     * Retrieves user by userId.
+     * Retrieves user by Uid.
      * @param uid User_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUserByUserId(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getUserByUserId(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getUserByUserId(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getUserByUserId(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getUserByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getUserByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getUserByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getUserByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getUserByUserId.');
+            throw new Error('Required parameter uid was null or undefined when calling getUserByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -463,15 +463,15 @@ export class UserControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pluckUser(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckUser(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckUser(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckUser(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pluckUserByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckUserByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckUserByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckUserByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling pluckUser.');
+            throw new Error('Required parameter uid was null or undefined when calling pluckUserByUid.');
         }
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckUser.');
+            throw new Error('Required parameter cols was null or undefined when calling pluckUserByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -552,7 +552,7 @@ export class UserControllerServiceService {
     }
 
     /**
-     * Update user by userId.
+     * Update user by Uid.
      * @param uid User_ID, NOT \&#39;ID\&#39;.
      * @param name Username.
      * @param email Email.
@@ -566,21 +566,21 @@ export class UserControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateUserByUserId(uid: string, name: string, email: string, country: string, tel1?: string, address1?: string, city?: string, postcode?: string, state?: string, icno?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateUserByUserId(uid: string, name: string, email: string, country: string, tel1?: string, address1?: string, city?: string, postcode?: string, state?: string, icno?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateUserByUserId(uid: string, name: string, email: string, country: string, tel1?: string, address1?: string, city?: string, postcode?: string, state?: string, icno?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateUserByUserId(uid: string, name: string, email: string, country: string, tel1?: string, address1?: string, city?: string, postcode?: string, state?: string, icno?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateUserByUid(uid: string, name: string, email: string, country: string, tel1?: string, address1?: string, city?: string, postcode?: string, state?: string, icno?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateUserByUid(uid: string, name: string, email: string, country: string, tel1?: string, address1?: string, city?: string, postcode?: string, state?: string, icno?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateUserByUid(uid: string, name: string, email: string, country: string, tel1?: string, address1?: string, city?: string, postcode?: string, state?: string, icno?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateUserByUid(uid: string, name: string, email: string, country: string, tel1?: string, address1?: string, city?: string, postcode?: string, state?: string, icno?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling updateUserByUserId.');
+            throw new Error('Required parameter uid was null or undefined when calling updateUserByUid.');
         }
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling updateUserByUserId.');
+            throw new Error('Required parameter name was null or undefined when calling updateUserByUid.');
         }
         if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling updateUserByUserId.');
+            throw new Error('Required parameter email was null or undefined when calling updateUserByUid.');
         }
         if (country === null || country === undefined) {
-            throw new Error('Required parameter country was null or undefined when calling updateUserByUserId.');
+            throw new Error('Required parameter country was null or undefined when calling updateUserByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});

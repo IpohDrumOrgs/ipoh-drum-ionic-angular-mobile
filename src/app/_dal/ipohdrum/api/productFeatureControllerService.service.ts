@@ -102,12 +102,12 @@ export class ProductFeatureControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteProductFeatureByProductFeatureId(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteProductFeatureByProductFeatureId(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteProductFeatureByProductFeatureId(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteProductFeatureByProductFeatureId(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteProductFeatureByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteProductFeatureByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteProductFeatureByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteProductFeatureByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling deleteProductFeatureByProductFeatureId.');
+            throw new Error('Required parameter uid was null or undefined when calling deleteProductFeatureByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -253,17 +253,17 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Retrieves productfeature by productfeatureId.
+     * Retrieves productfeature by Uid.
      * @param uid ProductFeature_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getProductFeatureByProductFeatureId(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getProductFeatureByProductFeatureId(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getProductFeatureByProductFeatureId(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getProductFeatureByProductFeatureId(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getProductFeatureByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getProductFeatureByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getProductFeatureByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getProductFeatureByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getProductFeatureByProductFeatureId.');
+            throw new Error('Required parameter uid was null or undefined when calling getProductFeatureByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -338,15 +338,15 @@ export class ProductFeatureControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pluckProductFeature(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckProductFeature(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckProductFeature(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckProductFeature(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pluckProductFeatureByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckProductFeatureByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckProductFeatureByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckProductFeatureByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling pluckProductFeature.');
+            throw new Error('Required parameter uid was null or undefined when calling pluckProductFeatureByUid.');
         }
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckProductFeature.');
+            throw new Error('Required parameter cols was null or undefined when calling pluckProductFeatureByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -427,25 +427,25 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Update productfeature by productfeatureId.
+     * Update productfeature by Uid.
      * @param uid ProductFeature_ID, NOT \&#39;ID\&#39;.
      * @param name ProductFeature name
      * @param desc ProductFeature Description
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateProductFeatureByProductFeatureId(uid: string, name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateProductFeatureByProductFeatureId(uid: string, name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateProductFeatureByProductFeatureId(uid: string, name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateProductFeatureByProductFeatureId(uid: string, name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling updateProductFeatureByProductFeatureId.');
+            throw new Error('Required parameter uid was null or undefined when calling updateProductFeatureByUid.');
         }
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling updateProductFeatureByProductFeatureId.');
+            throw new Error('Required parameter name was null or undefined when calling updateProductFeatureByUid.');
         }
         if (desc === null || desc === undefined) {
-            throw new Error('Required parameter desc was null or undefined when calling updateProductFeatureByProductFeatureId.');
+            throw new Error('Required parameter desc was null or undefined when calling updateProductFeatureByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});

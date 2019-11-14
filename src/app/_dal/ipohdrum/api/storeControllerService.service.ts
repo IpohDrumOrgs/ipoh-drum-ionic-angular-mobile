@@ -25,7 +25,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class TypeControllerServiceService {
+export class StoreControllerServiceService {
 
     protected basePath = 'http://localhost:8000';
     public defaultHeaders = new HttpHeaders();
@@ -48,29 +48,65 @@ export class TypeControllerServiceService {
 
 
     /**
-     * Creates a type.
-     * @param name Type name
-     * @param desc Type Description
+     * Creates a store.
+     * @param name Storename
+     * @param companyBelongings Store belongs to Company
+     * @param companyid Company ID
+     * @param userid User ID
+     * @param contact Contact
+     * @param email Email
+     * @param address Address
+     * @param postcode Post Code
+     * @param state State
+     * @param city City
+     * @param country Country
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createType(name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createType(name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createType(name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createType(name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createStore(name: string, companyBelongings: number, companyid?: number, userid?: number, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createStore(name: string, companyBelongings: number, companyid?: number, userid?: number, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createStore(name: string, companyBelongings: number, companyid?: number, userid?: number, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createStore(name: string, companyBelongings: number, companyid?: number, userid?: number, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling createType.');
+            throw new Error('Required parameter name was null or undefined when calling createStore.');
         }
-        if (desc === null || desc === undefined) {
-            throw new Error('Required parameter desc was null or undefined when calling createType.');
+        if (companyBelongings === null || companyBelongings === undefined) {
+            throw new Error('Required parameter companyBelongings was null or undefined when calling createStore.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (desc !== undefined && desc !== null) {
-            queryParameters = queryParameters.set('desc', <any>desc);
+        if (companyid !== undefined && companyid !== null) {
+            queryParameters = queryParameters.set('companyid', <any>companyid);
+        }
+        if (userid !== undefined && userid !== null) {
+            queryParameters = queryParameters.set('userid', <any>userid);
+        }
+        if (companyBelongings !== undefined && companyBelongings !== null) {
+            queryParameters = queryParameters.set('companyBelongings', <any>companyBelongings);
+        }
+        if (contact !== undefined && contact !== null) {
+            queryParameters = queryParameters.set('contact', <any>contact);
+        }
+        if (email !== undefined && email !== null) {
+            queryParameters = queryParameters.set('email', <any>email);
+        }
+        if (address !== undefined && address !== null) {
+            queryParameters = queryParameters.set('address', <any>address);
+        }
+        if (postcode !== undefined && postcode !== null) {
+            queryParameters = queryParameters.set('postcode', <any>postcode);
+        }
+        if (state !== undefined && state !== null) {
+            queryParameters = queryParameters.set('state', <any>state);
+        }
+        if (city !== undefined && city !== null) {
+            queryParameters = queryParameters.set('city', <any>city);
+        }
+        if (country !== undefined && country !== null) {
+            queryParameters = queryParameters.set('Country', <any>country);
         }
 
         let headers = this.defaultHeaders;
@@ -84,7 +120,7 @@ export class TypeControllerServiceService {
         }
 
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/api/type`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/store`,
             null,
             {
                 params: queryParameters,
@@ -97,17 +133,17 @@ export class TypeControllerServiceService {
     }
 
     /**
-     * Set type\&#39;s \&#39;status\&#39; to 0.
-     * @param uid Type ID, NOT \&#39;ID\&#39;.
+     * Set store\&#39;s \&#39;status\&#39; to 0.
+     * @param uid Store ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteTypeByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteTypeByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteTypeByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteTypeByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteStoreByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteStoreByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteStoreByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteStoreByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling deleteTypeByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling deleteStoreByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -121,7 +157,7 @@ export class TypeControllerServiceService {
         }
 
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/type/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/store/${encodeURIComponent(String(uid))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -132,23 +168,25 @@ export class TypeControllerServiceService {
     }
 
     /**
-     * Filter list of plucked types
-     * Returns list of filtered types
+     * Filter list of plucked stores
+     * Returns list of filtered stores
      * @param cols Columns for pluck
      * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param pageSize Page size
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To string for filter
+     * @param status status for filter
+     * @param onsale onsale for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterPluckedTypeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterPluckedTypeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterPluckedTypeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterPluckedTypeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterPluckedStoreList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterPluckedStoreList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterPluckedStoreList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterPluckedStoreList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling filterPluckedTypeList.');
+            throw new Error('Required parameter cols was null or undefined when calling filterPluckedStoreList.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -170,6 +208,12 @@ export class TypeControllerServiceService {
         if (todate !== undefined && todate !== null) {
             queryParameters = queryParameters.set('todate', <any>todate);
         }
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
+        }
+        if (onsale !== undefined && onsale !== null) {
+            queryParameters = queryParameters.set('onsale', <any>onsale);
+        }
 
         let headers = this.defaultHeaders;
 
@@ -182,7 +226,7 @@ export class TypeControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/filter/type`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/filter/store`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -194,21 +238,22 @@ export class TypeControllerServiceService {
     }
 
     /**
-     * Filter list of types
-     * Returns list of filtered types
+     * Filter list of stores
+     * Returns list of filtered stores
      * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param pageSize Page size
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To string for filter
      * @param status status for filter
+     * @param onsale onsale for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterTypeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterTypeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterTypeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterTypeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterStoreList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterStoreList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterStoreList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterStoreList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -229,6 +274,9 @@ export class TypeControllerServiceService {
         if (status !== undefined && status !== null) {
             queryParameters = queryParameters.set('status', <any>status);
         }
+        if (onsale !== undefined && onsale !== null) {
+            queryParameters = queryParameters.set('onsale', <any>onsale);
+        }
 
         let headers = this.defaultHeaders;
 
@@ -241,7 +289,7 @@ export class TypeControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/type`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/store`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -253,17 +301,17 @@ export class TypeControllerServiceService {
     }
 
     /**
-     * Retrieves type by Uid.
-     * @param uid Type_ID, NOT \&#39;ID\&#39;.
+     * Retrieves store by Uid.
+     * @param uid Store_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTypeByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getTypeByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getTypeByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getTypeByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getStoreByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getStoreByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getStoreByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getStoreByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getTypeByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling getStoreByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -277,7 +325,7 @@ export class TypeControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/type/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/store/${encodeURIComponent(String(uid))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -288,17 +336,17 @@ export class TypeControllerServiceService {
     }
 
     /**
-     * Get list of types
-     * Returns list of types
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * Get list of stores
+     * Returns list of stores
+     * @param pageNumber Page number.
+     * @param pageSize Page size.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTypeList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getTypeList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getTypeList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getTypeList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getStoreList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getStoreList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getStoreList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getStoreList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -319,7 +367,7 @@ export class TypeControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/type`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/store`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -331,22 +379,22 @@ export class TypeControllerServiceService {
     }
 
     /**
-     * pluck type
-     * Returns plucked types
-     * @param uid Type_ID, NOT \&#39;ID\&#39;.
+     * pluck store
+     * Returns plucked stores
+     * @param uid Store_ID, NOT \&#39;ID\&#39;.
      * @param cols Columns for pluck
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pluckTypeByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckTypeByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckTypeByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckTypeByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pluckStoreByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckStoreByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckStoreByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckStoreByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling pluckTypeByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling pluckStoreByUid.');
         }
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckTypeByUid.');
+            throw new Error('Required parameter cols was null or undefined when calling pluckStoreByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -365,7 +413,7 @@ export class TypeControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/type/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/store/${encodeURIComponent(String(uid))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -377,20 +425,20 @@ export class TypeControllerServiceService {
     }
 
     /**
-     * pluck list of types
-     * Returns list of plucked types
+     * pluck list of stores
+     * Returns list of plucked stores
      * @param cols Columns for pluck
      * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param pageSize Page size
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pluckTypeList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckTypeList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckTypeList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckTypeList(cols: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pluckStoreList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckStoreList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckStoreList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckStoreList(cols: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckTypeList.');
+            throw new Error('Required parameter cols was null or undefined when calling pluckStoreList.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -415,7 +463,7 @@ export class TypeControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/types`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/stores`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -427,33 +475,69 @@ export class TypeControllerServiceService {
     }
 
     /**
-     * Update type by Uid.
-     * @param uid Type_ID, NOT \&#39;ID\&#39;.
-     * @param name Type name
-     * @param desc Type Description
+     * Update store by Uid.
+     * @param uid Store_ID, NOT \&#39;ID\&#39;.
+     * @param name Storename
+     * @param companyBelongings Store belongs to Company
+     * @param companyid Company ID
+     * @param userid User ID
+     * @param contact Contact
+     * @param email Email
+     * @param address Address
+     * @param postcode Post Code
+     * @param state State
+     * @param city City
+     * @param country Country
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateTypeByUid(uid: string, name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateTypeByUid(uid: string, name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateTypeByUid(uid: string, name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateTypeByUid(uid: string, name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyid?: number, userid?: number, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyid?: number, userid?: number, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyid?: number, userid?: number, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyid?: number, userid?: number, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling updateTypeByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling updateStoreByUid.');
         }
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling updateTypeByUid.');
+            throw new Error('Required parameter name was null or undefined when calling updateStoreByUid.');
         }
-        if (desc === null || desc === undefined) {
-            throw new Error('Required parameter desc was null or undefined when calling updateTypeByUid.');
+        if (companyBelongings === null || companyBelongings === undefined) {
+            throw new Error('Required parameter companyBelongings was null or undefined when calling updateStoreByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (desc !== undefined && desc !== null) {
-            queryParameters = queryParameters.set('desc', <any>desc);
+        if (companyid !== undefined && companyid !== null) {
+            queryParameters = queryParameters.set('companyid', <any>companyid);
+        }
+        if (userid !== undefined && userid !== null) {
+            queryParameters = queryParameters.set('userid', <any>userid);
+        }
+        if (companyBelongings !== undefined && companyBelongings !== null) {
+            queryParameters = queryParameters.set('companyBelongings', <any>companyBelongings);
+        }
+        if (contact !== undefined && contact !== null) {
+            queryParameters = queryParameters.set('contact', <any>contact);
+        }
+        if (email !== undefined && email !== null) {
+            queryParameters = queryParameters.set('email', <any>email);
+        }
+        if (address !== undefined && address !== null) {
+            queryParameters = queryParameters.set('address', <any>address);
+        }
+        if (postcode !== undefined && postcode !== null) {
+            queryParameters = queryParameters.set('postcode', <any>postcode);
+        }
+        if (state !== undefined && state !== null) {
+            queryParameters = queryParameters.set('state', <any>state);
+        }
+        if (city !== undefined && city !== null) {
+            queryParameters = queryParameters.set('city', <any>city);
+        }
+        if (country !== undefined && country !== null) {
+            queryParameters = queryParameters.set('Country', <any>country);
         }
 
         let headers = this.defaultHeaders;
@@ -467,7 +551,7 @@ export class TypeControllerServiceService {
         }
 
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/api/type/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.put<any>(`${this.configuration.basePath}/api/store/${encodeURIComponent(String(uid))}`,
             null,
             {
                 params: queryParameters,

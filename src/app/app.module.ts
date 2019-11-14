@@ -38,7 +38,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
         IonicStorageModule.forRoot(),
         LaravelPassportModule.forRoot(
-            {apiRoot: 'http://localhost:8000', clientId: 2, clientSecret: 'DzEWwGLU8FdYy05CaJxaqSKSODj8U6gVXhmsGRLP'}
+            {apiRoot: 'http://localhost:8000', clientId: 2, clientSecret: 'G58uhBRKIkSewTpDSliqPBrVAw8aPi8PvMW02X0Z'}
         ),
         PerfectScrollbarModule
     ],

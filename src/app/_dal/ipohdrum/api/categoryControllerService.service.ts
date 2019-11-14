@@ -102,12 +102,12 @@ export class CategoryControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteCategoryByCategoryId(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteCategoryByCategoryId(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteCategoryByCategoryId(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteCategoryByCategoryId(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteCategoryByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteCategoryByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteCategoryByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteCategoryByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling deleteCategoryByCategoryId.');
+            throw new Error('Required parameter uid was null or undefined when calling deleteCategoryByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -253,17 +253,17 @@ export class CategoryControllerServiceService {
     }
 
     /**
-     * Retrieves category by categoryId.
+     * Retrieves category by Uid.
      * @param uid Category_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCategoryByCategoryId(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getCategoryByCategoryId(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getCategoryByCategoryId(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getCategoryByCategoryId(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getCategoryByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getCategoryByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getCategoryByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getCategoryByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getCategoryByCategoryId.');
+            throw new Error('Required parameter uid was null or undefined when calling getCategoryByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -338,15 +338,15 @@ export class CategoryControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pluckCategory(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckCategory(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckCategory(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckCategory(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pluckCategoryByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckCategoryByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckCategoryByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckCategoryByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling pluckCategory.');
+            throw new Error('Required parameter uid was null or undefined when calling pluckCategoryByUid.');
         }
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckCategory.');
+            throw new Error('Required parameter cols was null or undefined when calling pluckCategoryByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -427,25 +427,25 @@ export class CategoryControllerServiceService {
     }
 
     /**
-     * Update category by categoryId.
+     * Update category by Uid.
      * @param uid Category_ID, NOT \&#39;ID\&#39;.
      * @param name Category name
      * @param desc Category Description
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateCategoryByCategoryId(uid: string, name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateCategoryByCategoryId(uid: string, name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateCategoryByCategoryId(uid: string, name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateCategoryByCategoryId(uid: string, name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateCategoryByUid(uid: string, name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateCategoryByUid(uid: string, name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateCategoryByUid(uid: string, name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateCategoryByUid(uid: string, name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling updateCategoryByCategoryId.');
+            throw new Error('Required parameter uid was null or undefined when calling updateCategoryByUid.');
         }
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling updateCategoryByCategoryId.');
+            throw new Error('Required parameter name was null or undefined when calling updateCategoryByUid.');
         }
         if (desc === null || desc === undefined) {
-            throw new Error('Required parameter desc was null or undefined when calling updateCategoryByCategoryId.');
+            throw new Error('Required parameter desc was null or undefined when calling updateCategoryByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
