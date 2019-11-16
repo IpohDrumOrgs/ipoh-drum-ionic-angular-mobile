@@ -1,12 +1,6 @@
-<ion-card style="height:100%;">
-    <ion-item>
-        <ion-input type="text" style="font-family: 'Rubik', sans-serif;" [(ngModel)]="keywordToSearchItems"
-                   [placeholder]="'Search ' + currentTab + '..'" (keydown.enter)="searchItems()"></ion-input>
-        <ion-button color="primary" size="default" (click)="searchItems()">
-            <ion-icon name="search"></ion-icon>
-        </ion-button>
-    </ion-item>
-    <ul class="nav">
+<ion-card style="height:100%;margin-bottom:10px;">
+    <ion-searchbar [placeholder]="'Search ' + currentTab + '..'"></ion-searchbar>
+    <ul class="nav" style="border-bottom:1px solid #f5f5f5;">
         <li class="nav-item">
             <a class="nav-link active" href="#" data-toggle="tab" data-target="#saleVideos" aria-expanded="true" (click)="selectedTab('videos')">
                 Videos
@@ -19,9 +13,9 @@
         </li>
     </ul>
 
-    <div class="tab-content" style="padding:15px;height:100%;overflow-y:auto;">
+    <div class="tab-content" style="height:100%;overflow-y:auto;">
         <div class="tab-pane active" id="saleVideos" role="tabpanel" aria-expanded="false"
-             style="margin-bottom:90px;">
+             style="margin-bottom:110px;">
 
             <ion-card style="margin-bottom:10px;">
                 <img src="../../assets/images/thumnail_1.jpg" alt="thumb1"/>

@@ -5,12 +5,7 @@
       <!-- Searchbar -->
       <ion-row>
         <ion-col size="12">
-          <ion-item>
-            <ion-input type="text" style="font-family: 'Rubik', sans-serif;" [(ngModel)]="keywordToSearchItems" placeholder="Search Items..." (keydown.enter)="searchItems()"></ion-input>
-            <ion-button color="primary" size="default" (click)="searchItems()">
-              <ion-icon name="search"></ion-icon>
-            </ion-button>
-          </ion-item>
+          <ion-searchbar [placeholder]="'Search..'"></ion-searchbar>
         </ion-col>
       </ion-row>
       <!-- Carousel -->
