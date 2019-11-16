@@ -8,6 +8,13 @@ import { Component } from '@angular/core';
 
 export class HomePage {
 
+  currentTab = 'videos';
+
+  searchInputPlaceholder = '';
+
   constructor() {}
 
+  selectedTab(tab: string) {
+    this.currentTab = tab;
+  }
 }
