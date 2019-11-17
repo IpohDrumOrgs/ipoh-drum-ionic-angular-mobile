@@ -51,18 +51,22 @@ export class TypeControllerServiceService {
      * Creates a type.
      * @param name Type name
      * @param desc Type Description
+     * @param icon Icon
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createType(name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createType(name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createType(name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createType(name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createType(name: string, desc: string, icon: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createType(name: string, desc: string, icon: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createType(name: string, desc: string, icon: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createType(name: string, desc: string, icon: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createType.');
         }
         if (desc === null || desc === undefined) {
             throw new Error('Required parameter desc was null or undefined when calling createType.');
+        }
+        if (icon === null || icon === undefined) {
+            throw new Error('Required parameter icon was null or undefined when calling createType.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -71,6 +75,9 @@ export class TypeControllerServiceService {
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
+        }
+        if (icon !== undefined && icon !== null) {
+            queryParameters = queryParameters.set('icon', <any>icon);
         }
 
         let headers = this.defaultHeaders;
@@ -431,13 +438,14 @@ export class TypeControllerServiceService {
      * @param uid Type_ID, NOT \&#39;ID\&#39;.
      * @param name Type name
      * @param desc Type Description
+     * @param icon Icon
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateTypeByUid(uid: string, name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateTypeByUid(uid: string, name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateTypeByUid(uid: string, name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateTypeByUid(uid: string, name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateTypeByUid(uid: string, name: string, desc: string, icon: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateTypeByUid(uid: string, name: string, desc: string, icon: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateTypeByUid(uid: string, name: string, desc: string, icon: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateTypeByUid(uid: string, name: string, desc: string, icon: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateTypeByUid.');
         }
@@ -447,6 +455,9 @@ export class TypeControllerServiceService {
         if (desc === null || desc === undefined) {
             throw new Error('Required parameter desc was null or undefined when calling updateTypeByUid.');
         }
+        if (icon === null || icon === undefined) {
+            throw new Error('Required parameter icon was null or undefined when calling updateTypeByUid.');
+        }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (name !== undefined && name !== null) {
@@ -454,6 +465,9 @@ export class TypeControllerServiceService {
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
+        }
+        if (icon !== undefined && icon !== null) {
+            queryParameters = queryParameters.set('icon', <any>icon);
         }
 
         let headers = this.defaultHeaders;

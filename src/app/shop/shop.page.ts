@@ -1,5 +1,12 @@
 import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
-import {Inventory, InventoryControllerServiceService, User} from '../_dal/ipohdrum';
+import {
+    Inventory,
+    InventoryControllerServiceService,
+    User,
+    TypeControllerServiceService,
+    Type,
+    ProductFeatureControllerServiceService, ProductFeature
+} from '../_dal/ipohdrum';
 import {NavController} from '@ionic/angular';
 import {ActivatedRoute, Router} from '@angular/router';
 
@@ -15,6 +22,8 @@ export class ShopPage implements OnInit {
 
     isLoadingSpecialDealsItemList = true;
 
+    listOfCategories: Array<Type> = [];
+    listOfProductFeatures: Array<ProductFeature> = [];
     specialDealsItemList: Array<any> = [];
     imageObject: Array<object> = [
         {
@@ -38,6 +47,8 @@ export class ShopPage implements OnInit {
     ];
 
     inventorySubscription: any;
+    typeSubscription: any;
+    productFeaturesSubscription: any;
 
     constructor(
         private inventoryControllerService: InventoryControllerServiceService,
@@ -45,30 +56,21 @@ export class ShopPage implements OnInit {
         private ref: ChangeDetectorRef,
         private navController: NavController,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private typeControllerService: TypeControllerServiceService,
+        private productFeatureControllerService: ProductFeatureControllerServiceService
     ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
-            this.isLoadingSpecialDealsItemList = true;
-            this.inventorySubscription = this.inventoryControllerService.getInventoryList(
-                1,
-                6
-            ).subscribe(resp => {
-                if (resp.code === 200) {
-                    console.log('got inventory');
-                    console.log(resp);
-                    this.specialDealsItemList = resp.data;
-                } else {
-                    console.log('cannot get inventory list');
-                    // TODO: Show error popup prompt, then upon "OK", navigate to home
-                }
-                this.isLoadingSpecialDealsItemList = false;
-            }, error => {
-                console.log('cannot get inventory list due to api error');
-                this.isLoadingSpecialDealsItemList = false;
-                // TODO: Show error popup prompt, then upon "OK", navigate to home
-            });
+            // Get list of categories
+            this.getListOfCategories();
+
+            // Get list of product features
+            this.getListOfProductFeatures();
+
+            // Get list of Inventories based on the product feature
+
         });
     }
 
@@ -76,6 +78,44 @@ export class ShopPage implements OnInit {
         if (this.inventorySubscription) {
             this.inventorySubscription.unsubscribe();
         }
+        if (this.typeSubscription) {
+            this.typeSubscription.unsubscribe();
+        }
+        if (this.productFeaturesSubscription) {
+            this.productFeaturesSubscription.unsubscribe();
+        }
+    }
+
+    getListOfCategories() {
+        this.typeSubscription = this.typeControllerService.getTypeList().subscribe(resp => {
+            if (resp.code === 200) {
+                this.listOfCategories = resp.data;
+            } else {
+                // TODO: Show 'Unable to fetch categories' message
+            }
+        }, error => {
+            console.log('api errorr on getting categories list(Type)');
+        });
+    }
+
+    // tslint:disable-next-line:ban-types
+    getListOfProductFeatures(callbackFunction?: Function) {
+        this.productFeaturesSubscription = this.productFeatureControllerService.getProductFeatureList().subscribe(resp => {
+            if (resp.code === 200) {
+                this.listOfProductFeatures = resp.data;
+                if (callbackFunction !== undefined) {
+                    callbackFunction();
+                }
+            } else {
+                // TODO: Show 'Unable to fetch Features' message
+            }
+        }, error => {
+            console.log('api error on getting product feature list(ProductFeature)');
+        });
+    }
+
+    getListOfInventoriesBasedOnProductFeatures() {
+
     }
 
     productDetail(inventoryUID: number) {
@@ -91,5 +131,9 @@ export class ShopPage implements OnInit {
 
     showMoreSpecialDeals() {
         console.log('show special deals');
+    }
+
+    selectCategory(selectedCategoryUid: string) {
+        console.log('selected ' + selectedCategoryUid);
     }
 }

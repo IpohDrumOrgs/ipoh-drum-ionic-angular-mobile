@@ -25,7 +25,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class ProductFeatureControllerServiceService {
+export class RoleControllerServiceService {
 
     protected basePath = 'http://localhost:8000';
     public defaultHeaders = new HttpHeaders();
@@ -48,21 +48,18 @@ export class ProductFeatureControllerServiceService {
 
 
     /**
-     * Creates a productfeature.
-     * @param name ProductFeature name
-     * @param desc ProductFeature Description
+     * Creates a role.
+     * @param name Role Name
+     * @param desc Role Description
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createProductFeature(name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createProductFeature(name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createProductFeature(name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createProductFeature(name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createRole(name: string, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createRole(name: string, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createRole(name: string, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createRole(name: string, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling createProductFeature.');
-        }
-        if (desc === null || desc === undefined) {
-            throw new Error('Required parameter desc was null or undefined when calling createProductFeature.');
+            throw new Error('Required parameter name was null or undefined when calling createRole.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -84,7 +81,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/api/productfeature`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/role`,
             null,
             {
                 params: queryParameters,
@@ -97,17 +94,17 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Set productfeature\&#39;s \&#39;status\&#39; to 0.
-     * @param uid ProductFeature ID, NOT \&#39;ID\&#39;.
+     * Set role\&#39;s \&#39;status\&#39; to 0.
+     * @param uid Role ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteProductFeatureByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteProductFeatureByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteProductFeatureByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteProductFeatureByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteRoleByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteRoleByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteRoleByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteRoleByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling deleteProductFeatureByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling deleteRoleByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -121,7 +118,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/productfeature/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/role/${encodeURIComponent(String(uid))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -132,23 +129,25 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Filter list of plucked productfeatures
-     * Returns list of filtered productfeatures
+     * Filter list of plucked roles
+     * Returns list of filtered roles
      * @param cols Columns for pluck
      * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param pageSize Page size
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To string for filter
+     * @param status status for filter
+     * @param onrole onrole for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterPluckedProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterPluckedProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterPluckedProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterPluckedProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterPluckedRoleList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onrole?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterPluckedRoleList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onrole?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterPluckedRoleList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onrole?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterPluckedRoleList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onrole?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling filterPluckedProductFeatureList.');
+            throw new Error('Required parameter cols was null or undefined when calling filterPluckedRoleList.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -170,6 +169,12 @@ export class ProductFeatureControllerServiceService {
         if (todate !== undefined && todate !== null) {
             queryParameters = queryParameters.set('todate', <any>todate);
         }
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
+        }
+        if (onrole !== undefined && onrole !== null) {
+            queryParameters = queryParameters.set('onrole', <any>onrole);
+        }
 
         let headers = this.defaultHeaders;
 
@@ -182,7 +187,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/filter/productfeature`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/filter/role`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -194,21 +199,22 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Filter list of productfeatures
-     * Returns list of filtered productfeatures
+     * Filter list of roles
+     * Returns list of filtered roles
      * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param pageSize Page size
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To string for filter
      * @param status status for filter
+     * @param onrole onrole for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterProductFeatureList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterProductFeatureList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterProductFeatureList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterProductFeatureList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterRoleList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onrole?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterRoleList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onrole?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterRoleList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onrole?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterRoleList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onrole?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -229,6 +235,9 @@ export class ProductFeatureControllerServiceService {
         if (status !== undefined && status !== null) {
             queryParameters = queryParameters.set('status', <any>status);
         }
+        if (onrole !== undefined && onrole !== null) {
+            queryParameters = queryParameters.set('onrole', <any>onrole);
+        }
 
         let headers = this.defaultHeaders;
 
@@ -241,7 +250,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/productfeature`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/role`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -253,21 +262,52 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Get list of featured products
-     * Returns list of featured products
-     * @param uid ProductFeature ID, NOT \&#39;ID\&#39;.
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * Retrieves role by Uid.
+     * @param uid Role_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getFeaturedProductListByUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getFeaturedProductListByUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getFeaturedProductListByUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getFeaturedProductListByUid(uid: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getRoleByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getRoleByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getRoleByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getRoleByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getFeaturedProductListByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling getRoleByUid.');
         }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/role/${encodeURIComponent(String(uid))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get list of roles
+     * Returns list of roles
+     * @param pageNumber Page number.
+     * @param pageSize Page size.
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getRoleList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getRoleList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getRoleList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getRoleList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -288,7 +328,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/productfeature/${encodeURIComponent(String(uid))}/products`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/role`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -300,100 +340,22 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Retrieves productfeature by Uid.
-     * @param uid ProductFeature_ID, NOT \&#39;ID\&#39;.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getProductFeatureByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getProductFeatureByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getProductFeatureByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getProductFeatureByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getProductFeatureByUid.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/productfeature/${encodeURIComponent(String(uid))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Get list of productfeatures
-     * Returns list of productfeatures
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getProductFeatureList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getProductFeatureList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getProductFeatureList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getProductFeatureList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
-        }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/productfeature`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * pluck productfeature
-     * Returns plucked productfeatures
-     * @param uid ProductFeature_ID, NOT \&#39;ID\&#39;.
+     * pluck role
+     * Returns plucked roles
+     * @param uid Role_ID, NOT \&#39;ID\&#39;.
      * @param cols Columns for pluck
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pluckProductFeatureByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckProductFeatureByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckProductFeatureByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckProductFeatureByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pluckRoleByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckRoleByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckRoleByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckRoleByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling pluckProductFeatureByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling pluckRoleByUid.');
         }
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckProductFeatureByUid.');
+            throw new Error('Required parameter cols was null or undefined when calling pluckRoleByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -412,7 +374,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/productfeature/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/role/${encodeURIComponent(String(uid))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -424,20 +386,20 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * pluck list of productfeatures
-     * Returns list of plucked productfeatures
+     * pluck list of roles
+     * Returns list of plucked roles
      * @param cols Columns for pluck
      * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param pageSize Page size
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pluckProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pluckRoleList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckRoleList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckRoleList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckRoleList(cols: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckProductFeatureList.');
+            throw new Error('Required parameter cols was null or undefined when calling pluckRoleList.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -462,7 +424,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/productfeatures`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/roles`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -474,25 +436,22 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Update productfeature by Uid.
-     * @param uid ProductFeature_ID, NOT \&#39;ID\&#39;.
-     * @param name ProductFeature name
-     * @param desc ProductFeature Description
+     * Update role by Uid.
+     * @param uid Role_ID, NOT \&#39;ID\&#39;.
+     * @param name Rolename
+     * @param desc Role Description
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateRoleByUid(uid: string, name: string, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateRoleByUid(uid: string, name: string, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateRoleByUid(uid: string, name: string, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateRoleByUid(uid: string, name: string, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling updateProductFeatureByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling updateRoleByUid.');
         }
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling updateProductFeatureByUid.');
-        }
-        if (desc === null || desc === undefined) {
-            throw new Error('Required parameter desc was null or undefined when calling updateProductFeatureByUid.');
+            throw new Error('Required parameter name was null or undefined when calling updateRoleByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -514,7 +473,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/api/productfeature/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.put<any>(`${this.configuration.basePath}/api/role/${encodeURIComponent(String(uid))}`,
             null,
             {
                 params: queryParameters,

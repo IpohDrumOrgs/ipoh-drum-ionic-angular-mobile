@@ -25,7 +25,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class ProductFeatureControllerServiceService {
+export class VerificationCodeControllerServiceService {
 
     protected basePath = 'http://localhost:8000';
     public defaultHeaders = new HttpHeaders();
@@ -48,29 +48,29 @@ export class ProductFeatureControllerServiceService {
 
 
     /**
-     * Creates a productfeature.
-     * @param name ProductFeature name
-     * @param desc ProductFeature Description
+     * Creates a verificationcode.
+     * @param ticketid Verification belongs to which Ticket
+     * @param code VerificationCode
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createProductFeature(name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createProductFeature(name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createProductFeature(name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createProductFeature(name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling createProductFeature.');
+    public createVerificationCode(ticketid: number, code: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createVerificationCode(ticketid: number, code: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createVerificationCode(ticketid: number, code: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createVerificationCode(ticketid: number, code: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (ticketid === null || ticketid === undefined) {
+            throw new Error('Required parameter ticketid was null or undefined when calling createVerificationCode.');
         }
-        if (desc === null || desc === undefined) {
-            throw new Error('Required parameter desc was null or undefined when calling createProductFeature.');
+        if (code === null || code === undefined) {
+            throw new Error('Required parameter code was null or undefined when calling createVerificationCode.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
+        if (ticketid !== undefined && ticketid !== null) {
+            queryParameters = queryParameters.set('ticketid', <any>ticketid);
         }
-        if (desc !== undefined && desc !== null) {
-            queryParameters = queryParameters.set('desc', <any>desc);
+        if (code !== undefined && code !== null) {
+            queryParameters = queryParameters.set('code', <any>code);
         }
 
         let headers = this.defaultHeaders;
@@ -84,7 +84,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/api/productfeature`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/verificationcode`,
             null,
             {
                 params: queryParameters,
@@ -97,17 +97,17 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Set productfeature\&#39;s \&#39;status\&#39; to 0.
-     * @param uid ProductFeature ID, NOT \&#39;ID\&#39;.
+     * Set verificationcode\&#39;s \&#39;status\&#39; to 0.
+     * @param uid VerificationCode ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteProductFeatureByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteProductFeatureByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteProductFeatureByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteProductFeatureByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteVerificationCodeByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteVerificationCodeByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteVerificationCodeByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteVerificationCodeByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling deleteProductFeatureByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling deleteVerificationCodeByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -121,7 +121,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/productfeature/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/verificationcode/${encodeURIComponent(String(uid))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -132,23 +132,25 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Filter list of plucked productfeatures
-     * Returns list of filtered productfeatures
+     * Filter list of plucked verificationcodes
+     * Returns list of filtered verificationcodes
      * @param cols Columns for pluck
      * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param pageSize Page size
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To string for filter
+     * @param status status for filter
+     * @param onverificationcode onverificationcode for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterPluckedProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterPluckedProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterPluckedProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterPluckedProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterPluckedVerificationCodeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterPluckedVerificationCodeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterPluckedVerificationCodeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterPluckedVerificationCodeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling filterPluckedProductFeatureList.');
+            throw new Error('Required parameter cols was null or undefined when calling filterPluckedVerificationCodeList.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -170,6 +172,12 @@ export class ProductFeatureControllerServiceService {
         if (todate !== undefined && todate !== null) {
             queryParameters = queryParameters.set('todate', <any>todate);
         }
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
+        }
+        if (onverificationcode !== undefined && onverificationcode !== null) {
+            queryParameters = queryParameters.set('onverificationcode', <any>onverificationcode);
+        }
 
         let headers = this.defaultHeaders;
 
@@ -182,7 +190,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/filter/productfeature`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/filter/verificationcode`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -194,21 +202,22 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Filter list of productfeatures
-     * Returns list of filtered productfeatures
+     * Filter list of verificationcodes
+     * Returns list of filtered verificationcodes
      * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param pageSize Page size
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To string for filter
      * @param status status for filter
+     * @param onverificationcode onverificationcode for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterProductFeatureList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterProductFeatureList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterProductFeatureList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterProductFeatureList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterVerificationCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterVerificationCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterVerificationCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterVerificationCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -229,6 +238,9 @@ export class ProductFeatureControllerServiceService {
         if (status !== undefined && status !== null) {
             queryParameters = queryParameters.set('status', <any>status);
         }
+        if (onverificationcode !== undefined && onverificationcode !== null) {
+            queryParameters = queryParameters.set('onverificationcode', <any>onverificationcode);
+        }
 
         let headers = this.defaultHeaders;
 
@@ -241,7 +253,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/productfeature`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/verificationcode`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -253,21 +265,52 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Get list of featured products
-     * Returns list of featured products
-     * @param uid ProductFeature ID, NOT \&#39;ID\&#39;.
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * Retrieves verificationcode by Uid.
+     * @param uid VerificationCode_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getFeaturedProductListByUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getFeaturedProductListByUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getFeaturedProductListByUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getFeaturedProductListByUid(uid: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getVerificationCodeByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getVerificationCodeByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getVerificationCodeByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getVerificationCodeByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getFeaturedProductListByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling getVerificationCodeByUid.');
         }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/verificationcode/${encodeURIComponent(String(uid))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get list of verificationcodes
+     * Returns list of verificationcodes
+     * @param pageNumber Page number.
+     * @param pageSize Page size.
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getVerificationCodeList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getVerificationCodeList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getVerificationCodeList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getVerificationCodeList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -288,7 +331,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/productfeature/${encodeURIComponent(String(uid))}/products`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/verificationcode`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -300,100 +343,22 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Retrieves productfeature by Uid.
-     * @param uid ProductFeature_ID, NOT \&#39;ID\&#39;.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getProductFeatureByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getProductFeatureByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getProductFeatureByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getProductFeatureByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getProductFeatureByUid.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/productfeature/${encodeURIComponent(String(uid))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Get list of productfeatures
-     * Returns list of productfeatures
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getProductFeatureList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getProductFeatureList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getProductFeatureList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getProductFeatureList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
-        }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/productfeature`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * pluck productfeature
-     * Returns plucked productfeatures
-     * @param uid ProductFeature_ID, NOT \&#39;ID\&#39;.
+     * pluck verificationcode
+     * Returns plucked verificationcodes
+     * @param uid VerificationCode_ID, NOT \&#39;ID\&#39;.
      * @param cols Columns for pluck
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pluckProductFeatureByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckProductFeatureByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckProductFeatureByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckProductFeatureByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pluckVerificationCodeByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckVerificationCodeByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckVerificationCodeByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckVerificationCodeByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling pluckProductFeatureByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling pluckVerificationCodeByUid.');
         }
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckProductFeatureByUid.');
+            throw new Error('Required parameter cols was null or undefined when calling pluckVerificationCodeByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -412,7 +377,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/productfeature/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/verificationcode/${encodeURIComponent(String(uid))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -424,20 +389,20 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * pluck list of productfeatures
-     * Returns list of plucked productfeatures
+     * pluck list of verificationcodes
+     * Returns list of plucked verificationcodes
      * @param cols Columns for pluck
      * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param pageSize Page size
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pluckProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pluckVerificationCodeList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckVerificationCodeList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckVerificationCodeList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckVerificationCodeList(cols: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckProductFeatureList.');
+            throw new Error('Required parameter cols was null or undefined when calling pluckVerificationCodeList.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -462,7 +427,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/productfeatures`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/verificationcodes`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -474,33 +439,33 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Update productfeature by Uid.
-     * @param uid ProductFeature_ID, NOT \&#39;ID\&#39;.
-     * @param name ProductFeature name
-     * @param desc ProductFeature Description
+     * Update verificationcode by Uid.
+     * @param uid VerificationCode_ID, NOT \&#39;ID\&#39;.
+     * @param ticketid Verification belongs to which Ticket
+     * @param code VerificationCode
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateVerificationCodeByUid(uid: string, ticketid: number, code: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateVerificationCodeByUid(uid: string, ticketid: number, code: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateVerificationCodeByUid(uid: string, ticketid: number, code: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateVerificationCodeByUid(uid: string, ticketid: number, code: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling updateProductFeatureByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling updateVerificationCodeByUid.');
         }
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling updateProductFeatureByUid.');
+        if (ticketid === null || ticketid === undefined) {
+            throw new Error('Required parameter ticketid was null or undefined when calling updateVerificationCodeByUid.');
         }
-        if (desc === null || desc === undefined) {
-            throw new Error('Required parameter desc was null or undefined when calling updateProductFeatureByUid.');
+        if (code === null || code === undefined) {
+            throw new Error('Required parameter code was null or undefined when calling updateVerificationCodeByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
+        if (ticketid !== undefined && ticketid !== null) {
+            queryParameters = queryParameters.set('ticketid', <any>ticketid);
         }
-        if (desc !== undefined && desc !== null) {
-            queryParameters = queryParameters.set('desc', <any>desc);
+        if (code !== undefined && code !== null) {
+            queryParameters = queryParameters.set('code', <any>code);
         }
 
         let headers = this.defaultHeaders;
@@ -514,7 +479,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/api/productfeature/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.put<any>(`${this.configuration.basePath}/api/verificationcode/${encodeURIComponent(String(uid))}`,
             null,
             {
                 params: queryParameters,

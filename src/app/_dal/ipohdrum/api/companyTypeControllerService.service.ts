@@ -25,7 +25,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class ProductFeatureControllerServiceService {
+export class CompanyTypeControllerServiceService {
 
     protected basePath = 'http://localhost:8000';
     public defaultHeaders = new HttpHeaders();
@@ -48,21 +48,18 @@ export class ProductFeatureControllerServiceService {
 
 
     /**
-     * Creates a productfeature.
-     * @param name ProductFeature name
-     * @param desc ProductFeature Description
+     * Creates a companytype.
+     * @param name CompanyType Name
+     * @param desc CompanyType Description
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createProductFeature(name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createProductFeature(name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createProductFeature(name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createProductFeature(name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createCompanyType(name: string, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createCompanyType(name: string, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createCompanyType(name: string, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createCompanyType(name: string, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling createProductFeature.');
-        }
-        if (desc === null || desc === undefined) {
-            throw new Error('Required parameter desc was null or undefined when calling createProductFeature.');
+            throw new Error('Required parameter name was null or undefined when calling createCompanyType.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -84,7 +81,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/api/productfeature`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/companytype`,
             null,
             {
                 params: queryParameters,
@@ -97,17 +94,17 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Set productfeature\&#39;s \&#39;status\&#39; to 0.
-     * @param uid ProductFeature ID, NOT \&#39;ID\&#39;.
+     * Set companytype\&#39;s \&#39;status\&#39; to 0.
+     * @param uid CompanyType ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteProductFeatureByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteProductFeatureByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteProductFeatureByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteProductFeatureByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteCompanyTypeByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteCompanyTypeByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteCompanyTypeByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteCompanyTypeByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling deleteProductFeatureByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling deleteCompanyTypeByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -121,7 +118,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/productfeature/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/companytype/${encodeURIComponent(String(uid))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -132,83 +129,22 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Filter list of plucked productfeatures
-     * Returns list of filtered productfeatures
-     * @param cols Columns for pluck
+     * Filter list of companytypes
+     * Returns list of filtered companytypes
      * @param pageNumber Page number
-     * @param pageSize number of pageSize
-     * @param keyword Keyword for filter
-     * @param fromdate From Date for filter
-     * @param todate To string for filter
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public filterPluckedProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterPluckedProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterPluckedProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterPluckedProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling filterPluckedProductFeatureList.');
-        }
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
-        }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
-        }
-        if (cols !== undefined && cols !== null) {
-            queryParameters = queryParameters.set('cols', <any>cols);
-        }
-        if (keyword !== undefined && keyword !== null) {
-            queryParameters = queryParameters.set('keyword', <any>keyword);
-        }
-        if (fromdate !== undefined && fromdate !== null) {
-            queryParameters = queryParameters.set('fromdate', <any>fromdate);
-        }
-        if (todate !== undefined && todate !== null) {
-            queryParameters = queryParameters.set('todate', <any>todate);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/filter/productfeature`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Filter list of productfeatures
-     * Returns list of filtered productfeatures
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param pageSize Page size
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To string for filter
      * @param status status for filter
+     * @param oncompanytype oncompanytype for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterProductFeatureList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterProductFeatureList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterProductFeatureList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterProductFeatureList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterCompanyTypeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterCompanyTypeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterCompanyTypeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterCompanyTypeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -229,6 +165,9 @@ export class ProductFeatureControllerServiceService {
         if (status !== undefined && status !== null) {
             queryParameters = queryParameters.set('status', <any>status);
         }
+        if (oncompanytype !== undefined && oncompanytype !== null) {
+            queryParameters = queryParameters.set('oncompanytype', <any>oncompanytype);
+        }
 
         let headers = this.defaultHeaders;
 
@@ -241,7 +180,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/productfeature`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/companytype`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -253,21 +192,122 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Get list of featured products
-     * Returns list of featured products
-     * @param uid ProductFeature ID, NOT \&#39;ID\&#39;.
+     * Filter list of plucked companytypes
+     * Returns list of filtered companytypes
+     * @param cols Columns for pluck
      * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param pageSize Page size
+     * @param keyword Keyword for filter
+     * @param fromdate From Date for filter
+     * @param todate To string for filter
+     * @param status status for filter
+     * @param oncompanytype oncompanytype for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getFeaturedProductListByUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getFeaturedProductListByUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getFeaturedProductListByUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getFeaturedProductListByUid(uid: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getFeaturedProductListByUid.');
+    public filterPluckedCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterPluckedCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterPluckedCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterPluckedCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (cols === null || cols === undefined) {
+            throw new Error('Required parameter cols was null or undefined when calling filterPluckedCompanyTypeList.');
         }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (pageNumber !== undefined && pageNumber !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        }
+        if (pageSize !== undefined && pageSize !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        }
+        if (cols !== undefined && cols !== null) {
+            queryParameters = queryParameters.set('cols', <any>cols);
+        }
+        if (keyword !== undefined && keyword !== null) {
+            queryParameters = queryParameters.set('keyword', <any>keyword);
+        }
+        if (fromdate !== undefined && fromdate !== null) {
+            queryParameters = queryParameters.set('fromdate', <any>fromdate);
+        }
+        if (todate !== undefined && todate !== null) {
+            queryParameters = queryParameters.set('todate', <any>todate);
+        }
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
+        }
+        if (oncompanytype !== undefined && oncompanytype !== null) {
+            queryParameters = queryParameters.set('oncompanytype', <any>oncompanytype);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/filter/companytype`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Retrieves companytype by Uid.
+     * @param uid CompanyType_ID, NOT \&#39;ID\&#39;.
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getCompanyTypeByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getCompanyTypeByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getCompanyTypeByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getCompanyTypeByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uid === null || uid === undefined) {
+            throw new Error('Required parameter uid was null or undefined when calling getCompanyTypeByUid.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/companytype/${encodeURIComponent(String(uid))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get list of companytypes
+     * Returns list of companytypes
+     * @param pageNumber Page number.
+     * @param pageSize Page size.
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getCompanyTypeList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getCompanyTypeList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getCompanyTypeList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getCompanyTypeList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -288,7 +328,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/productfeature/${encodeURIComponent(String(uid))}/products`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/companytype`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -300,100 +340,22 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Retrieves productfeature by Uid.
-     * @param uid ProductFeature_ID, NOT \&#39;ID\&#39;.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getProductFeatureByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getProductFeatureByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getProductFeatureByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getProductFeatureByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getProductFeatureByUid.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/productfeature/${encodeURIComponent(String(uid))}`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Get list of productfeatures
-     * Returns list of productfeatures
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getProductFeatureList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getProductFeatureList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getProductFeatureList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getProductFeatureList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
-        }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/productfeature`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * pluck productfeature
-     * Returns plucked productfeatures
-     * @param uid ProductFeature_ID, NOT \&#39;ID\&#39;.
+     * pluck companytype
+     * Returns plucked companytypes
+     * @param uid CompanyType_ID, NOT \&#39;ID\&#39;.
      * @param cols Columns for pluck
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pluckProductFeatureByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckProductFeatureByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckProductFeatureByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckProductFeatureByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pluckCompanyTypeByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckCompanyTypeByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckCompanyTypeByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckCompanyTypeByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling pluckProductFeatureByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling pluckCompanyTypeByUid.');
         }
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckProductFeatureByUid.');
+            throw new Error('Required parameter cols was null or undefined when calling pluckCompanyTypeByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -412,7 +374,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/productfeature/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/companytype/${encodeURIComponent(String(uid))}`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -424,20 +386,20 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * pluck list of productfeatures
-     * Returns list of plucked productfeatures
+     * pluck list of companytypes
+     * Returns list of plucked companytypes
      * @param cols Columns for pluck
      * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param pageSize Page size
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public pluckProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckProductFeatureList(cols: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public pluckCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public pluckCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public pluckCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public pluckCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckProductFeatureList.');
+            throw new Error('Required parameter cols was null or undefined when calling pluckCompanyTypeList.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -462,7 +424,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/productfeatures`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/companytypes`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -474,25 +436,22 @@ export class ProductFeatureControllerServiceService {
     }
 
     /**
-     * Update productfeature by Uid.
-     * @param uid ProductFeature_ID, NOT \&#39;ID\&#39;.
-     * @param name ProductFeature name
-     * @param desc ProductFeature Description
+     * Update companytype by Uid.
+     * @param uid CompanyType_ID, NOT \&#39;ID\&#39;.
+     * @param name CompanyTypename
+     * @param desc CompanyType Description
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateProductFeatureByUid(uid: string, name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateCompanyTypeByUid(uid: string, name: string, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateCompanyTypeByUid(uid: string, name: string, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateCompanyTypeByUid(uid: string, name: string, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateCompanyTypeByUid(uid: string, name: string, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling updateProductFeatureByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling updateCompanyTypeByUid.');
         }
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling updateProductFeatureByUid.');
-        }
-        if (desc === null || desc === undefined) {
-            throw new Error('Required parameter desc was null or undefined when calling updateProductFeatureByUid.');
+            throw new Error('Required parameter name was null or undefined when calling updateCompanyTypeByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -514,7 +473,7 @@ export class ProductFeatureControllerServiceService {
         }
 
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/api/productfeature/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.put<any>(`${this.configuration.basePath}/api/companytype/${encodeURIComponent(String(uid))}`,
             null,
             {
                 params: queryParameters,

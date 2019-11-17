@@ -51,18 +51,22 @@ export class CategoryControllerServiceService {
      * Creates a category.
      * @param name Category name
      * @param desc Category Description
+     * @param ticketids Ticket Ids
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createCategory(name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createCategory(name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createCategory(name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createCategory(name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createCategory(name: string, desc: string, ticketids: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createCategory(name: string, desc: string, ticketids: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createCategory(name: string, desc: string, ticketids: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createCategory(name: string, desc: string, ticketids: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createCategory.');
         }
         if (desc === null || desc === undefined) {
             throw new Error('Required parameter desc was null or undefined when calling createCategory.');
+        }
+        if (ticketids === null || ticketids === undefined) {
+            throw new Error('Required parameter ticketids was null or undefined when calling createCategory.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -71,6 +75,9 @@ export class CategoryControllerServiceService {
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
+        }
+        if (ticketids !== undefined && ticketids !== null) {
+            queryParameters = queryParameters.set('ticketids', <any>ticketids);
         }
 
         let headers = this.defaultHeaders;
@@ -431,13 +438,14 @@ export class CategoryControllerServiceService {
      * @param uid Category_ID, NOT \&#39;ID\&#39;.
      * @param name Category name
      * @param desc Category Description
+     * @param ticketids Ticket Ids
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateCategoryByUid(uid: string, name: string, desc: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateCategoryByUid(uid: string, name: string, desc: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateCategoryByUid(uid: string, name: string, desc: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateCategoryByUid(uid: string, name: string, desc: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateCategoryByUid(uid: string, name: string, desc: string, ticketids: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateCategoryByUid(uid: string, name: string, desc: string, ticketids: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateCategoryByUid(uid: string, name: string, desc: string, ticketids: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateCategoryByUid(uid: string, name: string, desc: string, ticketids: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateCategoryByUid.');
         }
@@ -447,6 +455,9 @@ export class CategoryControllerServiceService {
         if (desc === null || desc === undefined) {
             throw new Error('Required parameter desc was null or undefined when calling updateCategoryByUid.');
         }
+        if (ticketids === null || ticketids === undefined) {
+            throw new Error('Required parameter ticketids was null or undefined when calling updateCategoryByUid.');
+        }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (name !== undefined && name !== null) {
@@ -454,6 +465,9 @@ export class CategoryControllerServiceService {
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
+        }
+        if (ticketids !== undefined && ticketids !== null) {
+            queryParameters = queryParameters.set('ticketids', <any>ticketids);
         }
 
         let headers = this.defaultHeaders;

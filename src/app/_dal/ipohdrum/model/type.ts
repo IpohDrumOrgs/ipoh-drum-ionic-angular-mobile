@@ -11,26 +11,13 @@
  */
 
 
-export interface User { 
+export interface Type { 
     id?: number;
     uid?: string;
     name?: string;
-    email?: string;
-    icno?: string;
-    tel1?: string;
-    tel2?: string;
-    address1?: string;
-    address2?: string;
-    postcode?: string;
-    city?: string;
-    state?: string;
-    country?: string;
-    password?: string;
-    status?: string;
-    lastLogin?: string;
-    lastActive?: string;
-    lasteditBy?: string;
-    rememberToken?: string;
+    icon?: string;
+    desc?: string;
+    status?: number;
     createdAt?: string;
     updatedAt?: string;
 }
