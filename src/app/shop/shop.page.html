@@ -30,7 +30,7 @@
         </ion-col>
       </ion-row>
       <!-- Hot Deals -->
-      <ion-row *ngFor="let productFeatures of listOfProductFeatures">
+      <ion-row *ngFor="let productFeatures of listOfProductFeatures; let i = index;">
         <ion-col size="12">
           <ion-row>
             <ion-col size="8">
@@ -39,30 +39,21 @@
               </span>
             </ion-col>
             <ion-col size="4" style="text-align:right;">
-              <a (click)="showMoreSpecialDeals()">Show More</a>
+              <a (click)="showMore(productFeatures.uid)">Show More</a>
             </ion-col>
           </ion-row>
-          <!--<ng-container *ngIf="!isLoadingSpecialDealsItemList else loadingSpecialDealsItemList">
-            <ion-row>
-              <ion-col size="4" *ngFor="let item of specialDealsItemList">
-                <ion-card style="margin:0;height:80px;" (click)="productDetail(item.uid)">
-                  <ion-card-header style="background-color:#ececec;">
-                    <ion-icon name="images" style="text-align:center;"></ion-icon>
-                  </ion-card-header>
-                  <ion-card-content style="padding-left:3px;padding-right:0;">
-                    RM{{item.promoprice}}
-                  </ion-card-content>
-                </ion-card>
-              </ion-col>
-            </ion-row>
-          </ng-container>
-          <ng-template #loadingSpecialDealsItemList>
-            <ion-row>
-              <ion-col size="12" style="text-align:center;">
-                <ion-spinner name="crescent"></ion-spinner>
-              </ion-col>
-            </ion-row>
-          </ng-template>-->
+          <ion-row>
+            <ion-col size="6" *ngFor="let listOfItems of listOfProducts[i]">
+              <ion-card (click)="viewProductDetail(listOfItems.uid)">
+                <ion-card-header style="background-color:#ececec;">
+                  <ion-icon name="images" style="text-align:center;"></ion-icon>
+                </ion-card-header>
+                <ion-card-content>
+                  RM{{listOfItems.promoprice}}
+                </ion-card-content>
+              </ion-card>
+            </ion-col>
+          </ion-row>
         </ion-col>
       </ion-row>
 

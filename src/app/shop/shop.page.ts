@@ -1,11 +1,10 @@
 import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
 import {
-    Inventory,
     InventoryControllerServiceService,
     User,
     TypeControllerServiceService,
     Type,
-    ProductFeatureControllerServiceService, ProductFeature
+    ProductFeatureControllerServiceService, ProductFeature, Inventory
 } from '../_dal/ipohdrum';
 import {NavController} from '@ionic/angular';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -18,13 +17,6 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 export class ShopPage implements OnInit {
 
-    keywordToSearchItems = '';
-
-    isLoadingSpecialDealsItemList = true;
-
-    listOfCategories: Array<Type> = [];
-    listOfProductFeatures: Array<ProductFeature> = [];
-    specialDealsItemList: Array<any> = [];
     imageObject: Array<object> = [
         {
             image: 'assets/images/ekko.jpg',
@@ -46,6 +38,17 @@ export class ShopPage implements OnInit {
         }
     ];
 
+    keywordToSearchItems = '';
+
+    isLoadingSpecialDealsItemList = true;
+
+    // Sports, Musical, Clothing, Games
+    listOfCategories: Array<Type> = [];
+    // Recommended, Flash Sales, Hot Deals
+    listOfProductFeatures: Array<ProductFeature> = [];
+    // List of Inventory for each "ProductFeature"
+    listOfProducts: Array<Inventory> = [];
+
     inventorySubscription: any;
     typeSubscription: any;
     productFeaturesSubscription: any;
@@ -65,12 +68,8 @@ export class ShopPage implements OnInit {
         this.ngZone.run(() => {
             // Get list of categories
             this.getListOfCategories();
-
             // Get list of product features
             this.getListOfProductFeatures();
-
-            // Get list of Inventories based on the product feature
-
         });
     }
 
@@ -99,13 +98,13 @@ export class ShopPage implements OnInit {
     }
 
     // tslint:disable-next-line:ban-types
-    getListOfProductFeatures(callbackFunction?: Function) {
+    getListOfProductFeatures() {
         this.productFeaturesSubscription = this.productFeatureControllerService.getProductFeatureList().subscribe(resp => {
             if (resp.code === 200) {
                 this.listOfProductFeatures = resp.data;
-                if (callbackFunction !== undefined) {
-                    callbackFunction();
-                }
+                this.listOfProductFeatures.forEach((prodFeatureObj) => {
+                    this.getListOfInventoriesBasedOnProductFeatures(prodFeatureObj.uid);
+                });
             } else {
                 // TODO: Show 'Unable to fetch Features' message
             }
@@ -114,23 +113,37 @@ export class ShopPage implements OnInit {
         });
     }
 
-    getListOfInventoriesBasedOnProductFeatures() {
+    getListOfInventoriesBasedOnProductFeatures(prodFeatureUid: string) {
+        console.log(prodFeatureUid);
+        this.productFeatureControllerService.getFeaturedProductListByUid(
+            prodFeatureUid,
+            1,
+            6
+        ).subscribe(resp => {
+            console.log(resp);
+            if (resp.code === 200) {
+                this.listOfProducts.push(resp.data);
+            } else {
 
+            }
+            console.log('lsit of products');
+            console.log(this.listOfProducts);
+        }, error => {
+           console.log('cannot get inventories by productfeatureuid:' + prodFeatureUid);
+        });
     }
 
-    productDetail(inventoryUID: number) {
+
+
+    viewProductDetail(inventoryUID: number) {
         this.router.navigate(['product-detail', inventoryUID], {relativeTo: this.route}).catch(reason => {
             console.log('Routing navigateion error, reason: ' + reason);
             // TODO: Navigate to home page
         });
     }
 
-    searchItems() {
-        console.log('search item:' + this.keywordToSearchItems);
-    }
-
-    showMoreSpecialDeals() {
-        console.log('show special deals');
+    showMore(productFeatureUid: string) {
+        console.log('show more items from product feature of uid:' + productFeatureUid);
     }
 
     selectCategory(selectedCategoryUid: string) {
