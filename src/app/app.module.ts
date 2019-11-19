@@ -18,6 +18,7 @@ import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
 import {PERFECT_SCROLLBAR_CONFIG} from 'ngx-perfect-scrollbar';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {LoadingService} from './_dal/common/services/loading.service';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -29,13 +30,13 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ],
     entryComponents: [],
     imports: [
+        NgbModule,
         BrowserModule,
         IonicModule.forRoot(),
         ReactiveFormsModule,
         FormsModule,
         SharedModule,
         AppRoutingModule,
-
         IonicStorageModule.forRoot(),
         LaravelPassportModule.forRoot(
             {apiRoot: 'http://localhost:8000', clientId: 2, clientSecret: 'AgUS7WNDMPMiH2rMjnwrVDJUGqInEu9J5vy3xr2T'}

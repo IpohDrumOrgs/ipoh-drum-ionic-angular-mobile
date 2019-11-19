@@ -92,7 +92,7 @@ export class MyProfilePage implements OnInit {
   }
 
   initializeUserInfo() {
-    this.authenticationService.authenticate().then(resp => {
+/*    this.authenticationService.authenticate().then(resp => {
       if (resp.status) {
         if (resp.status === 200) {
           this.loggedInUser = resp.data;
@@ -109,7 +109,7 @@ export class MyProfilePage implements OnInit {
       this.loggedInUser = null;
       this.globalFunctionService.simpleToast('ERROR!', 'You are not authenticated, please login first!', 'danger');
       this.router.navigate(['/login']);
-    });
+    });*/
   }
 
   updateUserInfo() {
