@@ -132,19 +132,18 @@ export class CompanyTypeControllerServiceService {
      * Filter list of companytypes
      * Returns list of filtered companytypes
      * @param pageNumber Page number
-     * @param pageSize Page size
+     * @param pageSize number of pageSize
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To string for filter
      * @param status status for filter
-     * @param oncompanytype oncompanytype for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterCompanyTypeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterCompanyTypeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterCompanyTypeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterCompanyTypeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterCompanyTypes(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterCompanyTypes(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterCompanyTypes(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterCompanyTypes(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -164,9 +163,6 @@ export class CompanyTypeControllerServiceService {
         }
         if (status !== undefined && status !== null) {
             queryParameters = queryParameters.set('status', <any>status);
-        }
-        if (oncompanytype !== undefined && oncompanytype !== null) {
-            queryParameters = queryParameters.set('oncompanytype', <any>oncompanytype);
         }
 
         let headers = this.defaultHeaders;
@@ -181,76 +177,6 @@ export class CompanyTypeControllerServiceService {
 
 
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/companytype`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Filter list of plucked companytypes
-     * Returns list of filtered companytypes
-     * @param cols Columns for pluck
-     * @param pageNumber Page number
-     * @param pageSize Page size
-     * @param keyword Keyword for filter
-     * @param fromdate From Date for filter
-     * @param todate To string for filter
-     * @param status status for filter
-     * @param oncompanytype oncompanytype for filter
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public filterPluckedCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterPluckedCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterPluckedCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterPluckedCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, oncompanytype?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling filterPluckedCompanyTypeList.');
-        }
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
-        }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
-        }
-        if (cols !== undefined && cols !== null) {
-            queryParameters = queryParameters.set('cols', <any>cols);
-        }
-        if (keyword !== undefined && keyword !== null) {
-            queryParameters = queryParameters.set('keyword', <any>keyword);
-        }
-        if (fromdate !== undefined && fromdate !== null) {
-            queryParameters = queryParameters.set('fromdate', <any>fromdate);
-        }
-        if (todate !== undefined && todate !== null) {
-            queryParameters = queryParameters.set('todate', <any>todate);
-        }
-        if (status !== undefined && status !== null) {
-            queryParameters = queryParameters.set('status', <any>status);
-        }
-        if (oncompanytype !== undefined && oncompanytype !== null) {
-            queryParameters = queryParameters.set('oncompanytype', <any>oncompanytype);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/filter/companytype`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -299,15 +225,15 @@ export class CompanyTypeControllerServiceService {
     /**
      * Get list of companytypes
      * Returns list of companytypes
-     * @param pageNumber Page number.
-     * @param pageSize Page size.
+     * @param pageNumber Page number
+     * @param pageSize number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCompanyTypeList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getCompanyTypeList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getCompanyTypeList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getCompanyTypeList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getCompanyTypes(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getCompanyTypes(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getCompanyTypes(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getCompanyTypes(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -329,102 +255,6 @@ export class CompanyTypeControllerServiceService {
 
 
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/companytype`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * pluck companytype
-     * Returns plucked companytypes
-     * @param uid CompanyType_ID, NOT \&#39;ID\&#39;.
-     * @param cols Columns for pluck
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public pluckCompanyTypeByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckCompanyTypeByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckCompanyTypeByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckCompanyTypeByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling pluckCompanyTypeByUid.');
-        }
-        if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckCompanyTypeByUid.');
-        }
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (cols !== undefined && cols !== null) {
-            queryParameters = queryParameters.set('cols', <any>cols);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/companytype/${encodeURIComponent(String(uid))}`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * pluck list of companytypes
-     * Returns list of plucked companytypes
-     * @param cols Columns for pluck
-     * @param pageNumber Page number
-     * @param pageSize Page size
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public pluckCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckCompanyTypeList(cols: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckCompanyTypeList.');
-        }
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
-        }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
-        }
-        if (cols !== undefined && cols !== null) {
-            queryParameters = queryParameters.set('cols', <any>cols);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/companytypes`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

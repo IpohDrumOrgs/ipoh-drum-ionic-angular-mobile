@@ -51,31 +51,39 @@ export class InventoryControllerServiceService {
      * Creates a inventory.
      * @param name Inventoryname
      * @param storeid Store ID
+     * @param promotionid Promotion ID
+     * @param warrantyid Warranty ID
+     * @param shippingid Shipping ID
      * @param sku Sku
      * @param cost Product Cost
      * @param price Product Selling Price
-     * @param stock Stock Qty
+     * @param qty Stock Qty
      * @param onsale On Sale
      * @param code Code
      * @param desc Product Description
-     * @param disc Product Discount
-     * @param promoprice Promotion Price
-     * @param promostartdate Promotion Start Date
-     * @param promoenddate Promotion End Date
-     * @param warrantyperiod Warranty Period
+     * @param imgpath Image Path
      * @param stockthreshold Stock Threshold
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createInventory(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createInventory(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createInventory(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createInventory(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createInventory.');
         }
         if (storeid === null || storeid === undefined) {
             throw new Error('Required parameter storeid was null or undefined when calling createInventory.');
+        }
+        if (promotionid === null || promotionid === undefined) {
+            throw new Error('Required parameter promotionid was null or undefined when calling createInventory.');
+        }
+        if (warrantyid === null || warrantyid === undefined) {
+            throw new Error('Required parameter warrantyid was null or undefined when calling createInventory.');
+        }
+        if (shippingid === null || shippingid === undefined) {
+            throw new Error('Required parameter shippingid was null or undefined when calling createInventory.');
         }
         if (sku === null || sku === undefined) {
             throw new Error('Required parameter sku was null or undefined when calling createInventory.');
@@ -86,8 +94,8 @@ export class InventoryControllerServiceService {
         if (price === null || price === undefined) {
             throw new Error('Required parameter price was null or undefined when calling createInventory.');
         }
-        if (stock === null || stock === undefined) {
-            throw new Error('Required parameter stock was null or undefined when calling createInventory.');
+        if (qty === null || qty === undefined) {
+            throw new Error('Required parameter qty was null or undefined when calling createInventory.');
         }
         if (onsale === null || onsale === undefined) {
             throw new Error('Required parameter onsale was null or undefined when calling createInventory.');
@@ -100,6 +108,15 @@ export class InventoryControllerServiceService {
         if (storeid !== undefined && storeid !== null) {
             queryParameters = queryParameters.set('storeid', <any>storeid);
         }
+        if (promotionid !== undefined && promotionid !== null) {
+            queryParameters = queryParameters.set('promotionid', <any>promotionid);
+        }
+        if (warrantyid !== undefined && warrantyid !== null) {
+            queryParameters = queryParameters.set('warrantyid', <any>warrantyid);
+        }
+        if (shippingid !== undefined && shippingid !== null) {
+            queryParameters = queryParameters.set('shippingid', <any>shippingid);
+        }
         if (code !== undefined && code !== null) {
             queryParameters = queryParameters.set('code', <any>code);
         }
@@ -109,29 +126,17 @@ export class InventoryControllerServiceService {
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
         }
+        if (imgpath !== undefined && imgpath !== null) {
+            queryParameters = queryParameters.set('imgpath', <any>imgpath);
+        }
         if (cost !== undefined && cost !== null) {
             queryParameters = queryParameters.set('cost', <any>cost);
         }
         if (price !== undefined && price !== null) {
             queryParameters = queryParameters.set('price', <any>price);
         }
-        if (disc !== undefined && disc !== null) {
-            queryParameters = queryParameters.set('disc', <any>disc);
-        }
-        if (promoprice !== undefined && promoprice !== null) {
-            queryParameters = queryParameters.set('promoprice', <any>promoprice);
-        }
-        if (promostartdate !== undefined && promostartdate !== null) {
-            queryParameters = queryParameters.set('promostartdate', <any>promostartdate);
-        }
-        if (promoenddate !== undefined && promoenddate !== null) {
-            queryParameters = queryParameters.set('promoenddate', <any>promoenddate);
-        }
-        if (stock !== undefined && stock !== null) {
-            queryParameters = queryParameters.set('stock', <any>stock);
-        }
-        if (warrantyperiod !== undefined && warrantyperiod !== null) {
-            queryParameters = queryParameters.set('warrantyperiod', <any>warrantyperiod);
+        if (qty !== undefined && qty !== null) {
+            queryParameters = queryParameters.set('qty', <any>qty);
         }
         if (stockthreshold !== undefined && stockthreshold !== null) {
             queryParameters = queryParameters.set('stockthreshold', <any>stockthreshold);
@@ -202,19 +207,19 @@ export class InventoryControllerServiceService {
      * Filter list of inventories
      * Returns list of filtered inventories
      * @param pageNumber Page number
-     * @param pageSize Page size
+     * @param pageSize number of pageSize
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
-     * @param todate To string for filter
+     * @param todate To date for filter
+     * @param onsale On sale for filter
      * @param status status for filter
-     * @param onsale onsale for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterInventoryList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterInventoryList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterInventoryList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterInventoryList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterInventories(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterInventories(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterInventories(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterInventories(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -232,11 +237,11 @@ export class InventoryControllerServiceService {
         if (todate !== undefined && todate !== null) {
             queryParameters = queryParameters.set('todate', <any>todate);
         }
-        if (status !== undefined && status !== null) {
-            queryParameters = queryParameters.set('status', <any>status);
-        }
         if (onsale !== undefined && onsale !== null) {
             queryParameters = queryParameters.set('onsale', <any>onsale);
+        }
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
         }
 
         let headers = this.defaultHeaders;
@@ -262,26 +267,17 @@ export class InventoryControllerServiceService {
     }
 
     /**
-     * Filter list of plucked inventories
-     * Returns list of filtered inventories
-     * @param cols Columns for pluck
+     * Get list of inventories
+     * Returns list of inventories
      * @param pageNumber Page number
-     * @param pageSize Page size
-     * @param keyword Keyword for filter
-     * @param fromdate From Date for filter
-     * @param todate To string for filter
-     * @param status status for filter
-     * @param onsale onsale for filter
+     * @param pageSize number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterPluckedInventoryList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterPluckedInventoryList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterPluckedInventoryList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterPluckedInventoryList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling filterPluckedInventoryList.');
-        }
+    public getInventories(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getInventories(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getInventories(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getInventories(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -289,24 +285,6 @@ export class InventoryControllerServiceService {
         }
         if (pageSize !== undefined && pageSize !== null) {
             queryParameters = queryParameters.set('pageSize', <any>pageSize);
-        }
-        if (cols !== undefined && cols !== null) {
-            queryParameters = queryParameters.set('cols', <any>cols);
-        }
-        if (keyword !== undefined && keyword !== null) {
-            queryParameters = queryParameters.set('keyword', <any>keyword);
-        }
-        if (fromdate !== undefined && fromdate !== null) {
-            queryParameters = queryParameters.set('fromdate', <any>fromdate);
-        }
-        if (todate !== undefined && todate !== null) {
-            queryParameters = queryParameters.set('todate', <any>todate);
-        }
-        if (status !== undefined && status !== null) {
-            queryParameters = queryParameters.set('status', <any>status);
-        }
-        if (onsale !== undefined && onsale !== null) {
-            queryParameters = queryParameters.set('onsale', <any>onsale);
         }
 
         let headers = this.defaultHeaders;
@@ -320,7 +298,7 @@ export class InventoryControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/filter/inventory`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/inventory`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -367,49 +345,6 @@ export class InventoryControllerServiceService {
     }
 
     /**
-     * Get list of inventories
-     * Returns list of inventories
-     * @param pageNumber Page number.
-     * @param pageSize Page size.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getInventoryList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getInventoryList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getInventoryList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getInventoryList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
-        }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/inventory`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
      * Retrieves onsale inventory by Uid.
      * @param uid Inventory_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -445,126 +380,29 @@ export class InventoryControllerServiceService {
     }
 
     /**
-     * pluck inventory
-     * Returns plucked inventories
-     * @param uid Inventory_ID, NOT \&#39;ID\&#39;.
-     * @param cols Columns for pluck
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public pluckInventoryByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckInventoryByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckInventoryByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckInventoryByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling pluckInventoryByUid.');
-        }
-        if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckInventoryByUid.');
-        }
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (cols !== undefined && cols !== null) {
-            queryParameters = queryParameters.set('cols', <any>cols);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/inventory/${encodeURIComponent(String(uid))}`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * pluck list of inventories
-     * Returns list of plucked inventories
-     * @param cols Columns for pluck
-     * @param pageNumber Page number
-     * @param pageSize Page size
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public pluckInventoryList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckInventoryList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckInventoryList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckInventoryList(cols: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckInventoryList.');
-        }
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
-        }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
-        }
-        if (cols !== undefined && cols !== null) {
-            queryParameters = queryParameters.set('cols', <any>cols);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/inventories`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
      * Update inventory by Uid.
      * @param uid Inventory_ID, NOT \&#39;ID\&#39;.
      * @param name Inventoryname
      * @param storeid Store ID
+     * @param promotionid Promotion ID
+     * @param warrantyid Warranty ID
+     * @param shippingid Shipping ID
      * @param sku Sku
      * @param cost Product Cost
      * @param price Product Selling Price
-     * @param stock Stock Qty
-     * @param stockthreshold Stock Threshold
+     * @param qty Stock Qty
      * @param onsale On Sale
      * @param code Code
      * @param desc Product Description
-     * @param disc Product Discount
-     * @param promoprice Promotion Price
-     * @param promostartdate Promotion Start Date
-     * @param promoenddate Promotion End Date
-     * @param warrantyperiod Warranty Period
+     * @param imgpath Image Path
+     * @param stockthreshold Stock Threshold
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateInventoryByUid(uid: string, name: string, storeid: number, sku: string, cost: number, price: number, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateInventoryByUid(uid: string, name: string, storeid: number, sku: string, cost: number, price: number, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateInventoryByUid(uid: string, name: string, storeid: number, sku: string, cost: number, price: number, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateInventoryByUid(uid: string, name: string, storeid: number, sku: string, cost: number, price: number, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateInventoryByUid(uid: string, name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateInventoryByUid(uid: string, name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateInventoryByUid(uid: string, name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateInventoryByUid(uid: string, name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateInventoryByUid.');
         }
@@ -573,6 +411,15 @@ export class InventoryControllerServiceService {
         }
         if (storeid === null || storeid === undefined) {
             throw new Error('Required parameter storeid was null or undefined when calling updateInventoryByUid.');
+        }
+        if (promotionid === null || promotionid === undefined) {
+            throw new Error('Required parameter promotionid was null or undefined when calling updateInventoryByUid.');
+        }
+        if (warrantyid === null || warrantyid === undefined) {
+            throw new Error('Required parameter warrantyid was null or undefined when calling updateInventoryByUid.');
+        }
+        if (shippingid === null || shippingid === undefined) {
+            throw new Error('Required parameter shippingid was null or undefined when calling updateInventoryByUid.');
         }
         if (sku === null || sku === undefined) {
             throw new Error('Required parameter sku was null or undefined when calling updateInventoryByUid.');
@@ -583,11 +430,8 @@ export class InventoryControllerServiceService {
         if (price === null || price === undefined) {
             throw new Error('Required parameter price was null or undefined when calling updateInventoryByUid.');
         }
-        if (stock === null || stock === undefined) {
-            throw new Error('Required parameter stock was null or undefined when calling updateInventoryByUid.');
-        }
-        if (stockthreshold === null || stockthreshold === undefined) {
-            throw new Error('Required parameter stockthreshold was null or undefined when calling updateInventoryByUid.');
+        if (qty === null || qty === undefined) {
+            throw new Error('Required parameter qty was null or undefined when calling updateInventoryByUid.');
         }
         if (onsale === null || onsale === undefined) {
             throw new Error('Required parameter onsale was null or undefined when calling updateInventoryByUid.');
@@ -600,6 +444,15 @@ export class InventoryControllerServiceService {
         if (storeid !== undefined && storeid !== null) {
             queryParameters = queryParameters.set('storeid', <any>storeid);
         }
+        if (promotionid !== undefined && promotionid !== null) {
+            queryParameters = queryParameters.set('promotionid', <any>promotionid);
+        }
+        if (warrantyid !== undefined && warrantyid !== null) {
+            queryParameters = queryParameters.set('warrantyid', <any>warrantyid);
+        }
+        if (shippingid !== undefined && shippingid !== null) {
+            queryParameters = queryParameters.set('shippingid', <any>shippingid);
+        }
         if (code !== undefined && code !== null) {
             queryParameters = queryParameters.set('code', <any>code);
         }
@@ -609,29 +462,17 @@ export class InventoryControllerServiceService {
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
         }
+        if (imgpath !== undefined && imgpath !== null) {
+            queryParameters = queryParameters.set('imgpath', <any>imgpath);
+        }
         if (cost !== undefined && cost !== null) {
             queryParameters = queryParameters.set('cost', <any>cost);
         }
         if (price !== undefined && price !== null) {
             queryParameters = queryParameters.set('price', <any>price);
         }
-        if (disc !== undefined && disc !== null) {
-            queryParameters = queryParameters.set('disc', <any>disc);
-        }
-        if (promoprice !== undefined && promoprice !== null) {
-            queryParameters = queryParameters.set('promoprice', <any>promoprice);
-        }
-        if (promostartdate !== undefined && promostartdate !== null) {
-            queryParameters = queryParameters.set('promostartdate', <any>promostartdate);
-        }
-        if (promoenddate !== undefined && promoenddate !== null) {
-            queryParameters = queryParameters.set('promoenddate', <any>promoenddate);
-        }
-        if (stock !== undefined && stock !== null) {
-            queryParameters = queryParameters.set('stock', <any>stock);
-        }
-        if (warrantyperiod !== undefined && warrantyperiod !== null) {
-            queryParameters = queryParameters.set('warrantyperiod', <any>warrantyperiod);
+        if (qty !== undefined && qty !== null) {
+            queryParameters = queryParameters.set('qty', <any>qty);
         }
         if (stockthreshold !== undefined && stockthreshold !== null) {
             queryParameters = queryParameters.set('stockthreshold', <any>stockthreshold);

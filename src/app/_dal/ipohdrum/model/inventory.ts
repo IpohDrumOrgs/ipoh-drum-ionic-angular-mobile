@@ -34,6 +34,7 @@ export interface Inventory {
     status?: number;
     lasteditBy?: string;
     createdAt?: string;
+    qty?: number;
     updatedAt?: string;
 }
 

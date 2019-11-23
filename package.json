@@ -36,9 +36,11 @@
     "core-js": "^2.5.4",
     "laravel-passport": "0.0.6",
     "ng-image-slider": "^2.2.0",
+    "ng-starrating": "^1.0.7",
     "ngx-perfect-scrollbar": "^8.0.0",
     "ngx-show-hide-password": "^2.1.0",
     "rxjs": "~6.5.1",
+    "swiper": "^5.2.1",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },

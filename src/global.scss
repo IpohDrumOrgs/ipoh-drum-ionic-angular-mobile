@@ -49,3 +49,18 @@ input.ng-dirty.ng-invalid.ng-touched {
     -ms-transition: box-shadow 0.1s ease-in-out;
     -o-transition: box-shadow 0.1s ease-in-out;
 }
+
+.productImage {
+    width:100%;
+    height:30vw;
+    object-fit:cover;
+}
+
+.dialog-modal .modal-wrapper {
+    width:100%;
+    height:70%;
+    border-top-right-radius:5px;
+    border-top-left-radius:5px;
+    bottom:0;
+    position:fixed;
+}

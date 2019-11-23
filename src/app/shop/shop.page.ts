@@ -1,7 +1,6 @@
 import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
 import {
     InventoryControllerServiceService,
-    User,
     TypeControllerServiceService,
     Type,
     ProductFeatureControllerServiceService, ProductFeature, Inventory
@@ -86,7 +85,7 @@ export class ShopPage implements OnInit {
     }
 
     getListOfCategories() {
-        this.typeSubscription = this.typeControllerService.getTypeList().subscribe(resp => {
+        this.typeSubscription = this.typeControllerService.getTypes().subscribe(resp => {
             if (resp.code === 200) {
                 this.listOfCategories = resp.data;
             } else {
@@ -99,7 +98,7 @@ export class ShopPage implements OnInit {
 
     // tslint:disable-next-line:ban-types
     getListOfProductFeatures() {
-        this.productFeaturesSubscription = this.productFeatureControllerService.getProductFeatureList().subscribe(resp => {
+        this.productFeaturesSubscription = this.productFeatureControllerService.getProductFeatures().subscribe(resp => {
             if (resp.code === 200) {
                 this.listOfProductFeatures = resp.data;
                 this.listOfProductFeatures.forEach((prodFeatureObj) => {

@@ -19,6 +19,7 @@ import {PERFECT_SCROLLBAR_CONFIG} from 'ngx-perfect-scrollbar';
 import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {LoadingService} from './_dal/common/services/loading.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ProductVariationModalPageModule} from './shop/product-detail/product-variation-modal/product-variation-modal.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -26,7 +27,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 @NgModule({
     declarations: [
-        AppComponent
+        AppComponent,
     ],
     entryComponents: [],
     imports: [
@@ -39,9 +40,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         AppRoutingModule,
         IonicStorageModule.forRoot(),
         LaravelPassportModule.forRoot(
-            {apiRoot: 'http://localhost:8000', clientId: 2, clientSecret: 'AgUS7WNDMPMiH2rMjnwrVDJUGqInEu9J5vy3xr2T'}
+            {apiRoot: 'http://localhost:8000', clientId: 2, clientSecret: 'TcGs2t1wfhvboiKP8Kid0GorkquwgkcWgGNCokF5'}
         ),
-        PerfectScrollbarModule
+        PerfectScrollbarModule,
+        ProductVariationModalPageModule
     ],
     providers: [
         StatusBar,

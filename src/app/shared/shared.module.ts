@@ -3,10 +3,12 @@ import {CommonModule} from '@angular/common';
 import {IonicModule} from '@ionic/angular';
 import {BottomMenuComponent} from './bottom-menu/bottom-menu.component';
 import {RouterModule} from '@angular/router';
+import { MyCurrencyPipe } from './my-currency.pipe';
 
 @NgModule({
     declarations: [
-        BottomMenuComponent
+        BottomMenuComponent,
+        MyCurrencyPipe
     ],
     imports: [
         CommonModule,
@@ -14,7 +16,8 @@ import {RouterModule} from '@angular/router';
         RouterModule
     ],
     exports: [
-        BottomMenuComponent
+        BottomMenuComponent,
+        MyCurrencyPipe
     ]
 })
 

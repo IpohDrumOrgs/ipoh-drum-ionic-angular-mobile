@@ -51,30 +51,31 @@ export class TicketControllerServiceService {
      * Creates a ticket.
      * @param name Ticketname
      * @param storeid Store ID
+     * @param promotionid Promotion ID
      * @param sku Sku
      * @param price Product Selling Price
-     * @param enddate Ticket End Date
-     * @param stock Stock Qty
+     * @param qty Stock Qty
+     * @param enddate Valid end date
      * @param onsale On Sale
      * @param code Code
      * @param desc Product Description
-     * @param disc Product Discount
-     * @param promoprice Promotion Price
-     * @param promostartdate Promotion Start Date
-     * @param promoenddate Promotion End Date
+     * @param imgpath Image Path
      * @param stockthreshold Stock Threshold
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createTicket(name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createTicket(name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createTicket(name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createTicket(name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createTicket(name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createTicket(name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createTicket(name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createTicket(name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createTicket.');
         }
         if (storeid === null || storeid === undefined) {
             throw new Error('Required parameter storeid was null or undefined when calling createTicket.');
+        }
+        if (promotionid === null || promotionid === undefined) {
+            throw new Error('Required parameter promotionid was null or undefined when calling createTicket.');
         }
         if (sku === null || sku === undefined) {
             throw new Error('Required parameter sku was null or undefined when calling createTicket.');
@@ -82,11 +83,11 @@ export class TicketControllerServiceService {
         if (price === null || price === undefined) {
             throw new Error('Required parameter price was null or undefined when calling createTicket.');
         }
+        if (qty === null || qty === undefined) {
+            throw new Error('Required parameter qty was null or undefined when calling createTicket.');
+        }
         if (enddate === null || enddate === undefined) {
             throw new Error('Required parameter enddate was null or undefined when calling createTicket.');
-        }
-        if (stock === null || stock === undefined) {
-            throw new Error('Required parameter stock was null or undefined when calling createTicket.');
         }
         if (onsale === null || onsale === undefined) {
             throw new Error('Required parameter onsale was null or undefined when calling createTicket.');
@@ -99,6 +100,9 @@ export class TicketControllerServiceService {
         if (storeid !== undefined && storeid !== null) {
             queryParameters = queryParameters.set('storeid', <any>storeid);
         }
+        if (promotionid !== undefined && promotionid !== null) {
+            queryParameters = queryParameters.set('promotionid', <any>promotionid);
+        }
         if (code !== undefined && code !== null) {
             queryParameters = queryParameters.set('code', <any>code);
         }
@@ -108,29 +112,20 @@ export class TicketControllerServiceService {
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
         }
+        if (imgpath !== undefined && imgpath !== null) {
+            queryParameters = queryParameters.set('imgpath', <any>imgpath);
+        }
         if (price !== undefined && price !== null) {
             queryParameters = queryParameters.set('price', <any>price);
         }
-        if (disc !== undefined && disc !== null) {
-            queryParameters = queryParameters.set('disc', <any>disc);
-        }
-        if (promoprice !== undefined && promoprice !== null) {
-            queryParameters = queryParameters.set('promoprice', <any>promoprice);
-        }
-        if (promostartdate !== undefined && promostartdate !== null) {
-            queryParameters = queryParameters.set('promostartdate', <any>promostartdate);
-        }
-        if (promoenddate !== undefined && promoenddate !== null) {
-            queryParameters = queryParameters.set('promoenddate', <any>promoenddate);
-        }
-        if (enddate !== undefined && enddate !== null) {
-            queryParameters = queryParameters.set('enddate', <any>enddate);
-        }
-        if (stock !== undefined && stock !== null) {
-            queryParameters = queryParameters.set('stock', <any>stock);
+        if (qty !== undefined && qty !== null) {
+            queryParameters = queryParameters.set('qty', <any>qty);
         }
         if (stockthreshold !== undefined && stockthreshold !== null) {
             queryParameters = queryParameters.set('stockthreshold', <any>stockthreshold);
+        }
+        if (enddate !== undefined && enddate !== null) {
+            queryParameters = queryParameters.set('enddate', <any>enddate);
         }
         if (onsale !== undefined && onsale !== null) {
             queryParameters = queryParameters.set('onsale', <any>onsale);
@@ -195,92 +190,22 @@ export class TicketControllerServiceService {
     }
 
     /**
-     * Filter list of plucked tickets
-     * Returns list of filtered tickets
-     * @param cols Columns for pluck
-     * @param pageNumber Page number
-     * @param pageSize Page size
-     * @param keyword Keyword for filter
-     * @param fromdate From Date for filter
-     * @param todate To string for filter
-     * @param status status for filter
-     * @param onsale onsale for filter
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public filterPluckedTicketList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterPluckedTicketList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterPluckedTicketList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterPluckedTicketList(cols: string, pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling filterPluckedTicketList.');
-        }
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
-        }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
-        }
-        if (cols !== undefined && cols !== null) {
-            queryParameters = queryParameters.set('cols', <any>cols);
-        }
-        if (keyword !== undefined && keyword !== null) {
-            queryParameters = queryParameters.set('keyword', <any>keyword);
-        }
-        if (fromdate !== undefined && fromdate !== null) {
-            queryParameters = queryParameters.set('fromdate', <any>fromdate);
-        }
-        if (todate !== undefined && todate !== null) {
-            queryParameters = queryParameters.set('todate', <any>todate);
-        }
-        if (status !== undefined && status !== null) {
-            queryParameters = queryParameters.set('status', <any>status);
-        }
-        if (onsale !== undefined && onsale !== null) {
-            queryParameters = queryParameters.set('onsale', <any>onsale);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/filter/ticket`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
      * Filter list of tickets
      * Returns list of filtered tickets
      * @param pageNumber Page number
-     * @param pageSize Page size
+     * @param pageSize number of pageSize
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
-     * @param todate To string for filter
+     * @param todate To date for filter
+     * @param onsale On sale for filter
      * @param status status for filter
-     * @param onsale onsale for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterTicketList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterTicketList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterTicketList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterTicketList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterTickets(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterTickets(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterTickets(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterTickets(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -298,11 +223,11 @@ export class TicketControllerServiceService {
         if (todate !== undefined && todate !== null) {
             queryParameters = queryParameters.set('todate', <any>todate);
         }
-        if (status !== undefined && status !== null) {
-            queryParameters = queryParameters.set('status', <any>status);
-        }
         if (onsale !== undefined && onsale !== null) {
             queryParameters = queryParameters.set('onsale', <any>onsale);
+        }
+        if (status !== undefined && status !== null) {
+            queryParameters = queryParameters.set('status', <any>status);
         }
 
         let headers = this.defaultHeaders;
@@ -365,15 +290,15 @@ export class TicketControllerServiceService {
     /**
      * Get list of tickets
      * Returns list of tickets
-     * @param pageNumber Page number.
-     * @param pageSize Page size.
+     * @param pageNumber Page number
+     * @param pageSize number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getTicketList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getTicketList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getTicketList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getTicketList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getTickets(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getTickets(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getTickets(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getTickets(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -406,125 +331,27 @@ export class TicketControllerServiceService {
     }
 
     /**
-     * pluck ticket
-     * Returns plucked tickets
-     * @param uid Ticket_ID, NOT \&#39;ID\&#39;.
-     * @param cols Columns for pluck
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public pluckTicketByUid(uid: string, cols: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckTicketByUid(uid: string, cols: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckTicketByUid(uid: string, cols: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckTicketByUid(uid: string, cols: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling pluckTicketByUid.');
-        }
-        if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckTicketByUid.');
-        }
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (cols !== undefined && cols !== null) {
-            queryParameters = queryParameters.set('cols', <any>cols);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/ticket/${encodeURIComponent(String(uid))}`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * pluck list of tickets
-     * Returns list of plucked tickets
-     * @param cols Columns for pluck
-     * @param pageNumber Page number
-     * @param pageSize Page size
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public pluckTicketList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public pluckTicketList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public pluckTicketList(cols: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public pluckTicketList(cols: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (cols === null || cols === undefined) {
-            throw new Error('Required parameter cols was null or undefined when calling pluckTicketList.');
-        }
-
-        let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
-        }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
-        }
-        if (cols !== undefined && cols !== null) {
-            queryParameters = queryParameters.set('cols', <any>cols);
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/pluck/tickets`,
-            {
-                params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
      * Update ticket by Uid.
      * @param uid Ticket_ID, NOT \&#39;ID\&#39;.
      * @param name Ticketname
      * @param storeid Store ID
+     * @param promotionid Promotion ID
      * @param sku Sku
      * @param price Product Selling Price
-     * @param enddate Ticket End Date
-     * @param stock Stock Qty
-     * @param stockthreshold Stock Threshold
+     * @param qty Stock Qty
+     * @param enddate Valid end date
      * @param onsale On Sale
      * @param code Code
      * @param desc Product Description
-     * @param disc Product Discount
-     * @param promoprice Promotion Price
-     * @param promostartdate Promotion Start Date
-     * @param promoenddate Promotion End Date
+     * @param imgpath Image Path
+     * @param stockthreshold Stock Threshold
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateTicketByUid(uid: string, name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateTicketByUid(uid: string, name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateTicketByUid(uid: string, name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateTicketByUid(uid: string, name: string, storeid: number, sku: string, price: number, enddate: string, stock: number, stockthreshold: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateTicketByUid(uid: string, name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateTicketByUid(uid: string, name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateTicketByUid(uid: string, name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateTicketByUid(uid: string, name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateTicketByUid.');
         }
@@ -534,20 +361,20 @@ export class TicketControllerServiceService {
         if (storeid === null || storeid === undefined) {
             throw new Error('Required parameter storeid was null or undefined when calling updateTicketByUid.');
         }
+        if (promotionid === null || promotionid === undefined) {
+            throw new Error('Required parameter promotionid was null or undefined when calling updateTicketByUid.');
+        }
         if (sku === null || sku === undefined) {
             throw new Error('Required parameter sku was null or undefined when calling updateTicketByUid.');
         }
         if (price === null || price === undefined) {
             throw new Error('Required parameter price was null or undefined when calling updateTicketByUid.');
         }
+        if (qty === null || qty === undefined) {
+            throw new Error('Required parameter qty was null or undefined when calling updateTicketByUid.');
+        }
         if (enddate === null || enddate === undefined) {
             throw new Error('Required parameter enddate was null or undefined when calling updateTicketByUid.');
-        }
-        if (stock === null || stock === undefined) {
-            throw new Error('Required parameter stock was null or undefined when calling updateTicketByUid.');
-        }
-        if (stockthreshold === null || stockthreshold === undefined) {
-            throw new Error('Required parameter stockthreshold was null or undefined when calling updateTicketByUid.');
         }
         if (onsale === null || onsale === undefined) {
             throw new Error('Required parameter onsale was null or undefined when calling updateTicketByUid.');
@@ -560,6 +387,9 @@ export class TicketControllerServiceService {
         if (storeid !== undefined && storeid !== null) {
             queryParameters = queryParameters.set('storeid', <any>storeid);
         }
+        if (promotionid !== undefined && promotionid !== null) {
+            queryParameters = queryParameters.set('promotionid', <any>promotionid);
+        }
         if (code !== undefined && code !== null) {
             queryParameters = queryParameters.set('code', <any>code);
         }
@@ -569,29 +399,20 @@ export class TicketControllerServiceService {
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
         }
+        if (imgpath !== undefined && imgpath !== null) {
+            queryParameters = queryParameters.set('imgpath', <any>imgpath);
+        }
         if (price !== undefined && price !== null) {
             queryParameters = queryParameters.set('price', <any>price);
         }
-        if (disc !== undefined && disc !== null) {
-            queryParameters = queryParameters.set('disc', <any>disc);
-        }
-        if (promoprice !== undefined && promoprice !== null) {
-            queryParameters = queryParameters.set('promoprice', <any>promoprice);
-        }
-        if (promostartdate !== undefined && promostartdate !== null) {
-            queryParameters = queryParameters.set('promostartdate', <any>promostartdate);
-        }
-        if (promoenddate !== undefined && promoenddate !== null) {
-            queryParameters = queryParameters.set('promoenddate', <any>promoenddate);
-        }
-        if (enddate !== undefined && enddate !== null) {
-            queryParameters = queryParameters.set('enddate', <any>enddate);
-        }
-        if (stock !== undefined && stock !== null) {
-            queryParameters = queryParameters.set('stock', <any>stock);
+        if (qty !== undefined && qty !== null) {
+            queryParameters = queryParameters.set('qty', <any>qty);
         }
         if (stockthreshold !== undefined && stockthreshold !== null) {
             queryParameters = queryParameters.set('stockthreshold', <any>stockthreshold);
+        }
+        if (enddate !== undefined && enddate !== null) {
+            queryParameters = queryParameters.set('enddate', <any>enddate);
         }
         if (onsale !== undefined && onsale !== null) {
             queryParameters = queryParameters.set('onsale', <any>onsale);
