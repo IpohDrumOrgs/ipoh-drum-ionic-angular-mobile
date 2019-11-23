@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {Inventory} from '../../../_dal/ipohdrum';
+import {SharedService} from '../../../shared.service';
 
 @Component({
   selector: 'app-product-variation-modal',
@@ -9,11 +10,18 @@ import {Inventory} from '../../../_dal/ipohdrum';
 })
 export class ProductVariationModalPage implements OnInit {
 
+  constructorName = '[' + this.constructor.name + ']';
+
   selectedInventory: Inventory;
 
   selectedQuantity = 1;
 
-  constructor(private modalController: ModalController) { }
+  constructor(
+      private modalController: ModalController,
+      private sharedService: SharedService
+  ) {
+    console.log(this.constructorName + 'Initializing component');
+  }
 
   ngOnInit() {
     console.log('passed into modal inventory:');
@@ -35,5 +43,9 @@ export class ProductVariationModalPage implements OnInit {
     if (this.selectedQuantity > 1) {
       this.selectedQuantity--;
     }
+  }
+
+  addItemToCart() {
+    this.sharedService.emitSelectedInventory(this.selectedInventory);
   }
 }

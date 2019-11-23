@@ -20,7 +20,7 @@ export class ProductDetailPage implements OnInit, OnDestroy {
     isAddingProductToCart = false;
 
     currentInventory: Inventory;
-    dataReturned:any;
+    dataReturned: any;
 
     currentInventorySubscription: any;
 
