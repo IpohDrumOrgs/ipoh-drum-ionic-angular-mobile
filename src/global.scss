@@ -56,6 +56,12 @@ input.ng-dirty.ng-invalid.ng-touched {
     object-fit:cover;
 }
 
+.smallProductImage {
+    width:150px;
+    height:150px;
+    object-fit:cover;
+}
+
 .dialog-modal .modal-wrapper {
     width:100%;
     height:70%;

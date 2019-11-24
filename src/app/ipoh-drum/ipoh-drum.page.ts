@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {SharedService} from '../shared.service';
 
 @Component({
   selector: 'app-ipoh-drum',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IpohDrumPage implements OnInit {
 
-  constructor() { }
+  numberOfInventoriesInCart: number;
 
-  ngOnInit() {
+  numberOfInventoriesInCartSubscription: any;
+
+  constructor(
+      private sharedService: SharedService
+  ) {
+
   }
 
+  ngOnInit() {
+    this.numberOfInventoriesInCartSubscription = this.sharedService.emitNumberOfSelectedInventoriesInCart$.subscribe(data => {
+      this.numberOfInventoriesInCart = data;
+    });
+  }
 }

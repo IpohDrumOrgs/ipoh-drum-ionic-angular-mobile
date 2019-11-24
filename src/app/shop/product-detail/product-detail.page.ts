@@ -17,7 +17,6 @@ export class ProductDetailPage implements OnInit, OnDestroy {
     inventoryUID: number;
 
     isLoadingInventory = true;
-    isAddingProductToCart = false;
 
     currentInventory: Inventory;
     dataReturned: any;
@@ -88,13 +87,6 @@ export class ProductDetailPage implements OnInit, OnDestroy {
         });
     }
 
-    addProductToCart() {
-        console.log('add product to cart');
-        this.ngZone.run(() => {
-           this.isAddingProductToCart = true;
-        });
-    }
-
     async openModal() {
         const modal = await this.modalController.create({
             component: ProductVariationModalPage,
@@ -104,13 +96,14 @@ export class ProductDetailPage implements OnInit, OnDestroy {
             }
         });
 
-        modal.onDidDismiss().then((dataReturned) => {
-            if (dataReturned !== null) {
-                this.dataReturned = dataReturned.data;
-                console.log(this.dataReturned);
-                // alert('Modal Sent Data :'+ dataReturned);
-            }
-        });
+        // modal.onDidDismiss().then((dataReturned) => {
+        //     if (dataReturned !== null) {
+        //         this.dataReturned = dataReturned.data;
+        //         console.log('datareturned');
+        //         console.log(this.dataReturned);
+        //         // alert('Modal Sent Data :'+ dataReturned);
+        //     }
+        // });
         return await modal.present();
     }
 }

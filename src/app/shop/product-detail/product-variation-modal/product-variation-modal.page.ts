@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {Inventory} from '../../../_dal/ipohdrum';
 import {SharedService} from '../../../shared.service';
+import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 
 @Component({
   selector: 'app-product-variation-modal',
   templateUrl: './product-variation-modal.page.html',
   styleUrls: ['./product-variation-modal.page.scss'],
 })
+
 export class ProductVariationModalPage implements OnInit {
 
   constructorName = '[' + this.constructor.name + ']';
@@ -18,19 +20,17 @@ export class ProductVariationModalPage implements OnInit {
 
   constructor(
       private modalController: ModalController,
-      private sharedService: SharedService
+      private sharedService: SharedService,
+      private globalFunctionService: GlobalfunctionService
   ) {
     console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {
-    console.log('passed into modal inventory:');
-    console.log(this.selectedInventory);
   }
 
   async closeModal() {
-    const onClosedData = 'Wrapped Up!';
-    await this.modalController.dismiss(onClosedData);
+    await this.modalController.dismiss();
   }
 
   addQuantity() {
@@ -47,5 +47,7 @@ export class ProductVariationModalPage implements OnInit {
 
   addItemToCart() {
     this.sharedService.emitSelectedInventory(this.selectedInventory);
+    this.globalFunctionService.simpleToast(null, 'Item has been added to your cart!', 'success', 'bottom');
+    this.closeModal();
   }
 }

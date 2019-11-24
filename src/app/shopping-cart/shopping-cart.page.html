@@ -1,9 +1,85 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>shopping-cart</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-row class="ion-align-items-center">
+            <ion-col size="6" style="text-align:left;">
+                <span>
+                    &nbsp;&nbsp;My Item<span
+                        *ngIf="listOfInventoriesInCart?.length > 1">s</span>&nbsp;({{listOfInventoriesInCart?.length}})
+                  </span>
+            </ion-col>
+            <ion-col size="6" style="text-align:right;">
+                <ion-button fill="outline" (click)="clearShoppingCart()">Clear Cart</ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ng-container *ngIf="listOfInventoriesInCart?.length > 0 else noInventoriesInCart">
+    <section style="margin-bottom:10px;border-bottom:1px solid #f2f2f2;">
+      <ion-card *ngFor="let inventory of listOfInventoriesInCart">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12">
+            <ion-row>
+              <!-- Product Image -->
+              <ion-col size="5">
+                <img [src]="inventory?.imgpath" alt="item_img" class="smallProductImage">
+              </ion-col>
+              <!-- Product name, price etc -->
+              <ion-col size="7">
+                <div style="white-space:normal;">{{inventory?.name}}</div>
+                <div>
+                  <ng-container *ngIf="inventory.promotion else noPromoPrice">
+                    <ion-label style="text-decoration:line-through;color:#e3e3e3;">
+                      {{inventory.price | myCurrency}}
+                    </ion-label>
+                    <ion-chip color="primary" style="margin-left:5px;">
+                      -{{inventory.promotion.discpctg}}%
+                    </ion-chip>
+                    <br>
+                    <ion-label>
+                      <b>{{inventory.promoprice | myCurrency}}</b>
+                    </ion-label>
+                  </ng-container>
+                  <ng-template #noPromoPrice>
+                    <ion-label>
+                      <b>{{inventory.price | myCurrency}}</b>
+                    </ion-label>
+                  </ng-template>
+                </div>
+                <div style="margin-top:5px;">
+                  <div class="input-group" style="width:150px;">
+                    <div class="input-group-prepend">
+                      <button class="form-control"
+                              style="border-top-right-radius:0;border-bottom-right-radius:0;">-</button>
+                    </div>
+                    <input type="text" class="form-control" readonly disabled style="text-align:center;">
+                    <div class="input-group-append">
+                      <button class="form-control"
+                              style="border-top-left-radius:0;border-bottom-left-radius:0;">+</button>
+                    </div>
+                  </div>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </section>
+    <section>
+      <ion-button expand="full">Checkout</ion-button>
+    </section>
+  </ng-container>
+  <ng-template #noInventoriesInCart>
+    <ion-row class="ion-align-items-center" style="height:100%;">
+      <ion-col size="12" style="text-align:center;">
+        <h3 style="color:#e6e6e6;">
+          <ion-icon name="cart" style="font-size:8rem;"></ion-icon>
+          <br>
+          Your cart is empty! <br>Start browsing!
+          <br>
+        </h3>
+      </ion-col>
+    </ion-row>
+  </ng-template>
 </ion-content>

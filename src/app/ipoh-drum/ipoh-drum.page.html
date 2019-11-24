@@ -10,7 +10,7 @@
     </ion-tab-button>
     <ion-tab-button tab="shopping-cart" style="width:25%;">
       <ion-icon name="cart"></ion-icon>
-      <ion-badge color="secondary">3</ion-badge>
+      <ion-badge color="secondary" *ngIf="numberOfInventoriesInCart > 0">{{numberOfInventoriesInCart}}</ion-badge>
       <ion-label>Shopping Cart</ion-label>
     </ion-tab-button>
     <ion-tab-button tab="user-profile" style="width:25%;">

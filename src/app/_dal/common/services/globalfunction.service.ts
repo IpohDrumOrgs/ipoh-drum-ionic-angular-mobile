@@ -9,13 +9,13 @@ export class GlobalfunctionService {
 
   constructor(public toastController: ToastController) { }
 
-  async simpleToast(header, msg, color) {
+  async simpleToast(header, msg, color, position?) {
     const toast = await this.toastController.create({
       header,
       message: msg,
       duration: 3000,
       color,
-      position: 'top',
+      position: (position !== undefined && position !== null) ? position : 'top',
       showCloseButton: true
     });
     toast.present();

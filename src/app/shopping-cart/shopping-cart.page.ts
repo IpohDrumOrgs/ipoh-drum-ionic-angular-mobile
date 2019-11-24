@@ -20,6 +20,9 @@ export class ShoppingCartPage implements OnInit {
       private sharedService: SharedService
   ) {
     console.log(this.constructorName + 'Initializing component');
+
+    this.listOfInventoriesInCart = this.sharedService.returnSelectedInventoriesInCart();
+    console.log(this.listOfInventoriesInCart);
   }
 
   ngOnInit() {
@@ -32,5 +35,10 @@ export class ShoppingCartPage implements OnInit {
         console.log(this.listOfInventoriesInCart);
       });
     });
+  }
+
+  clearShoppingCart() {
+    console.log('clear shopping cart');
+    this.sharedService.clearShoppingCart();
   }
 }
