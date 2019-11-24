@@ -1,5 +1,6 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {SharedService} from '../shared.service';
+import {AlertController} from '@ionic/angular';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -17,28 +18,56 @@ export class ShoppingCartPage implements OnInit {
 
   constructor(
       private ngZone: NgZone,
-      private sharedService: SharedService
+      private sharedService: SharedService,
+      public alertController: AlertController
   ) {
     console.log(this.constructorName + 'Initializing component');
-
     this.listOfInventoriesInCart = this.sharedService.returnSelectedInventoriesInCart();
-    console.log(this.listOfInventoriesInCart);
   }
 
   ngOnInit() {
-    console.log(this.constructorName + 'NgOnInit');
     this.ngZone.run(() => {
-      console.log(this.constructorName + 'NgZone');
       this.inventoriesInCartSubscription = this.sharedService.emitSelectedInventoryToCart$.subscribe(data => {
         this.listOfInventoriesInCart = data;
-        console.log('inventories in cart showing in cart');
-        console.log(this.listOfInventoriesInCart);
       });
     });
   }
 
   clearShoppingCart() {
-    console.log('clear shopping cart');
     this.sharedService.clearShoppingCart();
+  }
+
+  increaseInventoryQuantity(inventoryInCart: any) {
+    if (inventoryInCart.qty > inventoryInCart.selectedQuantity) {
+      inventoryInCart.selectedQuantity++;
+    }
+  }
+
+  reduceInventoryQuantity(inventoryInCart: any) {
+    if (inventoryInCart.selectedQuantity > 1) {
+      inventoryInCart.selectedQuantity--;
+    } else {
+      this.presentAlertConfirm(inventoryInCart);
+    }
+  }
+
+  async presentAlertConfirm(inventory: any) {
+    const alert = await this.alertController.create({
+      header: 'Remove From Cart',
+      message: 'Are you sure you want to remove the item from your cart?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary'
+        }, {
+          text: 'Yes',
+          handler: () => {
+            this.sharedService.removeSpecificInventoryFromCart(inventory);
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 }

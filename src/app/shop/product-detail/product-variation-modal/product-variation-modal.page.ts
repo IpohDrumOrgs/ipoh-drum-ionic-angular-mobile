@@ -15,6 +15,7 @@ export class ProductVariationModalPage implements OnInit {
   constructorName = '[' + this.constructor.name + ']';
 
   selectedInventory: Inventory;
+  addedInventoryToCart: any;
 
   selectedQuantity = 1;
 
@@ -46,8 +47,9 @@ export class ProductVariationModalPage implements OnInit {
   }
 
   addItemToCart() {
-    this.sharedService.emitSelectedInventory(this.selectedInventory);
-    this.globalFunctionService.simpleToast(null, 'Item has been added to your cart!', 'success', 'bottom');
+    this.addedInventoryToCart = Object.assign({}, this.selectedInventory);
+    this.addedInventoryToCart.selectedQuantity = this.selectedQuantity;
+    this.sharedService.emitSelectedInventory(this.addedInventoryToCart);
     this.closeModal();
   }
 }
