@@ -30,26 +30,30 @@ export class SharedService {
     let alreadyContainInventory = false;
     if (this.selectedInventoryToCart.length > 0) {
       for (let inventory of this.selectedInventoryToCart) {
-        if (inventory.uid === selectedInventory.uid) {
+        if (inventory.uid === selectedInventory.uid
+            && inventory.selectedInventoryFamily.id === selectedInventory.selectedInventoryFamily.id
+            && inventory.selectedInventoryPattern.id === selectedInventory.selectedInventoryPattern.id
+        ) {
           alreadyContainInventory = true;
-          if (inventory.qty > inventory.selectedQuantity) {
-            inventory.selectedQuantity++;
+          if (inventory.qty >= (inventory.selectedQuantity + selectedInventory.quantitiesToAdd)) {
+            inventory.selectedQuantity += selectedInventory.quantitiesToAdd;
             this.globalFunctionService.simpleToast(null, 'Item has been added to your cart!', 'success', 'bottom');
           } else {
-            this.globalFunctionService.simpleToast(null, 'You have reached the maximum quantity for the item!', 'warning', 'bottom');
+            this.globalFunctionService.simpleToast(null, 'Not enough stock, please try again with a different quantity number!', 'warning', 'bottom');
           }
           break;
         }
       }
       if (!alreadyContainInventory) {
+        selectedInventory.selectedQuantity += selectedInventory.quantitiesToAdd;
         this.selectedInventoryToCart.push(selectedInventory);
         this.globalFunctionService.simpleToast(null, 'Item has been added to your cart!', 'success', 'bottom');
       }
     } else {
+      selectedInventory.selectedQuantity += selectedInventory.quantitiesToAdd;
       this.selectedInventoryToCart.push(selectedInventory);
       this.globalFunctionService.simpleToast(null, 'Item has been added to your cart!', 'success', 'bottom');
     }
-    console.log(this.selectedInventoryToCart);
     this.emitSelectedInventoryToCartSubject.next(this.selectedInventoryToCart);
     this.emitNumberOfSelectedInventoriesInCart();
   }

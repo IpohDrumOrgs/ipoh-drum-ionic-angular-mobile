@@ -39,7 +39,7 @@ export class ShopPage implements OnInit {
 
     keywordToSearchItems = '';
 
-    isLoadingSpecialDealsItemList = true;
+    isLoadingCategories = true;
 
     // Sports, Musical, Clothing, Games
     listOfCategories: Array<Type> = [];
@@ -85,18 +85,20 @@ export class ShopPage implements OnInit {
     }
 
     getListOfCategories() {
+        this.isLoadingCategories = true;
         this.typeSubscription = this.typeControllerService.getTypes().subscribe(resp => {
             if (resp.code === 200) {
                 this.listOfCategories = resp.data;
             } else {
                 // TODO: Show 'Unable to fetch categories' message
             }
+            this.isLoadingCategories = false;
         }, error => {
             console.log('api errorr on getting categories list(Type)');
+            this.isLoadingCategories = false;
         });
     }
 
-    // tslint:disable-next-line:ban-types
     getListOfProductFeatures() {
         this.productFeaturesSubscription = this.productFeatureControllerService.getProductFeatures().subscribe(resp => {
             if (resp.code === 200) {
@@ -132,8 +134,6 @@ export class ShopPage implements OnInit {
         });
     }
 
-
-
     viewProductDetail(inventoryUID: number) {
         this.router.navigate(['product-detail', inventoryUID], {relativeTo: this.route}).catch(reason => {
             console.log('Routing navigateion error, reason: ' + reason);
@@ -141,10 +141,12 @@ export class ShopPage implements OnInit {
         });
     }
 
+    // TODO
     showMore(productFeatureUid: string) {
         console.log('show more items from product feature of uid:' + productFeatureUid);
     }
 
+    // TODO
     selectCategory(selectedCategoryUid: string) {
         console.log('selected ' + selectedCategoryUid);
     }

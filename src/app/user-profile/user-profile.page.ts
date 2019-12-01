@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {MenuController, NavController} from '@ionic/angular';
 
 @Component({
@@ -6,15 +6,23 @@ import {MenuController, NavController} from '@ionic/angular';
   templateUrl: './user-profile.page.html',
   styleUrls: ['./user-profile.page.scss'],
 })
+
 export class UserProfilePage implements OnInit {
 
+  constructorName = '[' + this.constructor.name + ']';
+
   constructor(
+      private ngZone: NgZone,
       private menuController: MenuController,
       private navController: NavController
-  ) { }
+  ) {
+    console.log(this.constructorName + 'Initializing component');
+  }
 
   ngOnInit() {
-    this.menuController.enable(true, 'userProfileSideBar');
+    this.ngZone.run(() => {
+      this.menuController.enable(true, 'userProfileSideBar');
+    });
   }
 
   closeSideMenu(page: number) {

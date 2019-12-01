@@ -19,15 +19,13 @@ export class ProductDetailPage implements OnInit, OnDestroy {
     isLoadingInventory = true;
 
     currentInventory: Inventory;
-    dataReturned: any;
-
-    currentInventorySubscription: any;
-
     ionSliderOptions = {
         autoHeight: true,
         initialSlide: 0,
         speed: 400
     };
+
+    currentInventorySubscription: any;
 
     constructor(
         private router: Router,

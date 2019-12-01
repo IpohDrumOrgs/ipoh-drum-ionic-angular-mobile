@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './my-store.page.html',
   styleUrls: ['./my-store.page.scss'],
 })
+
 export class MyStorePage implements OnInit {
 
   constructorName = '[' + this.constructor.name + ']';
@@ -44,5 +45,4 @@ export class MyStorePage implements OnInit {
 
   ngOnInit() {
   }
-
 }

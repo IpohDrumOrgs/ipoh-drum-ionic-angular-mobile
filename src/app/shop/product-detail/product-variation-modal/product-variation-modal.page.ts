@@ -16,13 +16,16 @@ export class ProductVariationModalPage implements OnInit {
 
   selectedInventory: Inventory;
   addedInventoryToCart: any;
+  availableInventoryPatterns: any;
 
-  selectedQuantity = 1;
+  selectedQuantity = 0;
+  quantitiesToAdd = 1;
+  selectedInventoryFamily: any;
+  selectedInventoryPattern: any;
 
   constructor(
       private modalController: ModalController,
-      private sharedService: SharedService,
-      private globalFunctionService: GlobalfunctionService
+      private sharedService: SharedService
   ) {
     console.log(this.constructorName + 'Initializing component');
   }
@@ -35,20 +38,39 @@ export class ProductVariationModalPage implements OnInit {
   }
 
   addQuantity() {
-    if (this.selectedInventory.qty > this.selectedQuantity) {
-      this.selectedQuantity++;
+    if (this.selectedInventory.qty > this.quantitiesToAdd) {
+      this.quantitiesToAdd++;
     }
   }
 
   reduceQuantity() {
-    if (this.selectedQuantity > 1) {
-      this.selectedQuantity--;
+    if (this.quantitiesToAdd > 1) {
+      this.quantitiesToAdd--;
     }
+  }
+
+  selectInventoryFamily(inventoryFamily: any) {
+    this.selectedInventoryFamily = inventoryFamily;
+    if (inventoryFamily.patterns.length > 0) {
+      this.availableInventoryPatterns = inventoryFamily.patterns;
+    } else {
+      this.availableInventoryPatterns = null;
+      this.selectedInventoryPattern = null;
+    }
+  }
+
+  selectInventoryPattern(patterns: any) {
+    this.selectedInventoryPattern = patterns;
   }
 
   addItemToCart() {
     this.addedInventoryToCart = Object.assign({}, this.selectedInventory);
-    this.addedInventoryToCart.selectedQuantity = this.selectedQuantity;
+    this.addedInventoryToCart.selectedQuantity = 0;
+    this.addedInventoryToCart.quantitiesToAdd = this.quantitiesToAdd;
+    console.log('add item to cart, quantities to add:');
+    console.log(this.quantitiesToAdd);
+    this.addedInventoryToCart.selectedInventoryFamily = this.selectedInventoryFamily;
+    this.addedInventoryToCart.selectedInventoryPattern = this.selectedInventoryPattern;
     this.sharedService.emitSelectedInventory(this.addedInventoryToCart);
     this.closeModal();
   }

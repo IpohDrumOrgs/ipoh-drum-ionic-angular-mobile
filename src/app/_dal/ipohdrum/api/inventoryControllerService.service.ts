@@ -59,6 +59,7 @@ export class InventoryControllerServiceService {
      * @param price Product Selling Price
      * @param qty Stock Qty
      * @param onsale On Sale
+     * @param inventoryfamilies Inventory Families
      * @param code Code
      * @param desc Product Description
      * @param imgpath Image Path
@@ -66,10 +67,10 @@ export class InventoryControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createInventory.');
         }
@@ -116,6 +117,9 @@ export class InventoryControllerServiceService {
         }
         if (shippingid !== undefined && shippingid !== null) {
             queryParameters = queryParameters.set('shippingid', <any>shippingid);
+        }
+        if (inventoryfamilies !== undefined && inventoryfamilies !== null) {
+            queryParameters = queryParameters.set('inventoryfamilies', <any>inventoryfamilies);
         }
         if (code !== undefined && code !== null) {
             queryParameters = queryParameters.set('code', <any>code);
