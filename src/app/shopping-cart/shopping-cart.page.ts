@@ -1,6 +1,7 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {SharedService} from '../shared.service';
 import {GlobalfunctionService} from '../_dal/common/services/globalfunction.service';
+import {commonConfig} from '../_dal/common/commonConfig';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -11,6 +12,8 @@ import {GlobalfunctionService} from '../_dal/common/services/globalfunction.serv
 export class ShoppingCartPage implements OnInit {
 
   constructorName = '[' + this.constructor.name + ']';
+
+  nullSelectedInventoryPatternId = commonConfig.nullSelectedInventoryPatternId;
 
   listOfInventoriesInCart: Array<any> = [];
 
@@ -46,7 +49,8 @@ export class ShoppingCartPage implements OnInit {
     }
   }
 
-  reduceInventoryQuantity(inventoryInCart: any) {
+  reduceInventoryQuantity(inventoryInCart: any, indexInCart: number) {
+    console.log(indexInCart);
     if (inventoryInCart.selectedQuantity > 1) {
       inventoryInCart.selectedQuantity--;
     } else {
@@ -56,11 +60,11 @@ export class ShoppingCartPage implements OnInit {
           'Cancel',
           'Yes',
           undefined,
-          () => this.removeInventoryFromCart(inventoryInCart));
+          () => this.removeInventoryFromCart(inventoryInCart, indexInCart));
     }
   }
 
-  removeInventoryFromCart(inventory: any) {
-    this.sharedService.removeSpecificInventoryFromCart(inventory);
+  removeInventoryFromCart(inventory: any, indexInCart: number) {
+    this.sharedService.removeSpecificInventoryFromCart(inventory, indexInCart);
   }
 }

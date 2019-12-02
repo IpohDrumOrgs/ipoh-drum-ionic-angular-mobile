@@ -3,6 +3,7 @@ import {ModalController} from '@ionic/angular';
 import {Inventory} from '../../../_dal/ipohdrum';
 import {SharedService} from '../../../shared.service';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
+import {commonConfig} from '../../../_dal/common/commonConfig';
 
 @Component({
   selector: 'app-product-variation-modal',
@@ -14,12 +15,13 @@ export class ProductVariationModalPage implements OnInit {
 
   constructorName = '[' + this.constructor.name + ']';
 
-  selectedInventory: Inventory;
-  addedInventoryToCart: any;
-  availableInventoryPatterns: any;
-
   selectedQuantity = 0;
   quantitiesToAdd = 1;
+  nullSelectedInventoryPatternId = commonConfig.nullSelectedInventoryPatternId;
+
+  addedInventoryToCart: any;
+  availableInventoryPatterns: any;
+  selectedInventory: Inventory;
   selectedInventoryFamily: any;
   selectedInventoryPattern: any;
 
@@ -67,10 +69,15 @@ export class ProductVariationModalPage implements OnInit {
     this.addedInventoryToCart = Object.assign({}, this.selectedInventory);
     this.addedInventoryToCart.selectedQuantity = 0;
     this.addedInventoryToCart.quantitiesToAdd = this.quantitiesToAdd;
-    console.log('add item to cart, quantities to add:');
-    console.log(this.quantitiesToAdd);
     this.addedInventoryToCart.selectedInventoryFamily = this.selectedInventoryFamily;
-    this.addedInventoryToCart.selectedInventoryPattern = this.selectedInventoryPattern;
+    if (this.selectedInventoryPattern) {
+      this.addedInventoryToCart.selectedInventoryPattern = this.selectedInventoryPattern;
+    } else {
+      this.addedInventoryToCart.selectedInventoryPattern = {
+        id: this.nullSelectedInventoryPatternId
+      };
+    }
+    console.log(this.addedInventoryToCart);
     this.sharedService.emitSelectedInventory(this.addedInventoryToCart);
     this.closeModal();
   }

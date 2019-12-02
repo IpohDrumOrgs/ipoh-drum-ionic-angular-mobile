@@ -1,5 +1,7 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {MenuController, NavController} from '@ionic/angular';
+import {AuthenticationService} from '../_dal/common/services/authentication.service';
+import {GlobalfunctionService} from '../_dal/common/services/globalfunction.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -14,7 +16,9 @@ export class UserProfilePage implements OnInit {
   constructor(
       private ngZone: NgZone,
       private menuController: MenuController,
-      private navController: NavController
+      private navController: NavController,
+      private authenticationService: AuthenticationService,
+      private globalFunctionService: GlobalfunctionService
   ) {
     console.log(this.constructorName + 'Initializing component');
   }
@@ -43,6 +47,15 @@ export class UserProfilePage implements OnInit {
       case 4:
         this.navController.navigateRoot('/ipoh-drum/user-profile/my-statistics');
         break;
+      case 5:
+        this.logoutUser();
+        break;
     }
+  }
+
+  logoutUser() {
+    this.authenticationService.logoutUser();
+    this.globalFunctionService.simpleToast('SUCCESS!', 'You have been logged out.', 'primary');
+    this.navController.navigateRoot('/login');
   }
 }

@@ -12,7 +12,8 @@ import {CheckAuthenticatedService} from '../_dal/common/services/check-authentic
 const routes: Routes = [
     {
         path: 'login',
-        component: LoginRegisterComponent
+        component: LoginRegisterComponent,
+        canActivate: []
     },
     {
         path: 'ipoh-drum',

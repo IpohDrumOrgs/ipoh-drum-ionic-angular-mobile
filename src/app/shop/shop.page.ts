@@ -7,6 +7,7 @@ import {
 } from '../_dal/ipohdrum';
 import {NavController} from '@ionic/angular';
 import {ActivatedRoute, Router} from '@angular/router';
+import {GlobalfunctionService} from '../_dal/common/services/globalfunction.service';
 
 @Component({
     selector: 'app-shop',
@@ -37,9 +38,11 @@ export class ShopPage implements OnInit {
         }
     ];
 
+    constructorName = '[' + this.constructor.name + ']';
     keywordToSearchItems = '';
 
     isLoadingCategories = true;
+    isLoadingProductFeaturesAndProductInventories = true;
 
     // Sports, Musical, Clothing, Games
     listOfCategories: Array<Type> = [];
@@ -60,14 +63,15 @@ export class ShopPage implements OnInit {
         private router: Router,
         private route: ActivatedRoute,
         private typeControllerService: TypeControllerServiceService,
-        private productFeatureControllerService: ProductFeatureControllerServiceService
-    ) {}
+        private productFeatureControllerService: ProductFeatureControllerServiceService,
+        private globalFunctionService: GlobalfunctionService
+    ) {
+        console.log(this.constructorName + 'Initializing component');
+    }
 
     ngOnInit() {
         this.ngZone.run(() => {
-            // Get list of categories
             this.getListOfCategories();
-            // Get list of product features
             this.getListOfProductFeatures();
         });
     }
@@ -90,16 +94,18 @@ export class ShopPage implements OnInit {
             if (resp.code === 200) {
                 this.listOfCategories = resp.data;
             } else {
-                // TODO: Show 'Unable to fetch categories' message
+                this.showPromptAlertWarning();
             }
             this.isLoadingCategories = false;
         }, error => {
-            console.log('api errorr on getting categories list(Type)');
+            console.log('API error while retrieving list of Categories');
             this.isLoadingCategories = false;
+            this.showPromptAlertWarning();
         });
     }
 
     getListOfProductFeatures() {
+        this.isLoadingProductFeaturesAndProductInventories = true;
         this.productFeaturesSubscription = this.productFeatureControllerService.getProductFeatures().subscribe(resp => {
             if (resp.code === 200) {
                 this.listOfProductFeatures = resp.data;
@@ -107,38 +113,48 @@ export class ShopPage implements OnInit {
                     this.getListOfInventoriesBasedOnProductFeatures(prodFeatureObj.uid);
                 });
             } else {
-                // TODO: Show 'Unable to fetch Features' message
+                this.listOfProductFeatures = null;
+                this.showPromptAlertWarning();
             }
         }, error => {
-            console.log('api error on getting product feature list(ProductFeature)');
+            console.log('API error while retrieving ProductFeature list.');
+            this.showPromptAlertWarning();
         });
     }
 
     getListOfInventoriesBasedOnProductFeatures(prodFeatureUid: string) {
-        console.log(prodFeatureUid);
         this.productFeatureControllerService.getFeaturedProductListByUid(
             prodFeatureUid,
             1,
             6
         ).subscribe(resp => {
-            console.log(resp);
             if (resp.code === 200) {
                 this.listOfProducts.push(resp.data);
+                console.log(this.listOfProducts);
             } else {
-
+                this.listOfProducts.push(null);
             }
-            console.log('lsit of products');
-            console.log(this.listOfProducts);
+            this.isLoadingProductFeaturesAndProductInventories = false;
         }, error => {
-           console.log('cannot get inventories by productfeatureuid:' + prodFeatureUid);
+            console.log('API error while retrieving Inventories based on ProductFeature UID');
+            this.isLoadingProductFeaturesAndProductInventories = false;
+            this.showPromptAlertWarning();
         });
     }
 
     viewProductDetail(inventoryUID: number) {
         this.router.navigate(['product-detail', inventoryUID], {relativeTo: this.route}).catch(reason => {
-            console.log('Routing navigateion error, reason: ' + reason);
-            // TODO: Navigate to home page
+            console.log('Routing navigation failed');
+            this.globalFunctionService.simpleToast('ERROR', 'Unable to view Product\'s details, please try again later.', 'warning', 'top');
+            this.router.navigate(['/home']);
         });
+    }
+
+    showPromptAlertWarning() {
+        this.globalFunctionService.presentAlertConfirm('Error!',
+            'Oops, something went wrong, please try again later!',
+            'Cancel', 'Ok',
+            undefined, undefined);
     }
 
     // TODO

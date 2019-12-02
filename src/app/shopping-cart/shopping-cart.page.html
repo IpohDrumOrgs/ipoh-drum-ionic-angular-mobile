@@ -22,7 +22,7 @@
 <ion-content>
   <ng-container *ngIf="listOfInventoriesInCart?.length > 0 else noInventoriesInCart">
     <section style="margin-bottom:10px;border-bottom:1px solid #f2f2f2;">
-      <ion-card *ngFor="let inventory of listOfInventoriesInCart">
+      <ion-card *ngFor="let inventory of listOfInventoriesInCart;let i = index;">
         <ion-row class="ion-align-items-center">
           <ion-col size="12">
             <ion-row>
@@ -58,15 +58,17 @@
                     <ion-chip color="primary">
                       {{inventory?.selectedInventoryFamily.name}}
                     </ion-chip>
-                    <ng-container *ngIf="inventory.selectedInventoryPattern">
-                      <ion-chip color="primary">{{inventory?.selectedInventoryPattern.name}}</ion-chip>
+                    <ng-container *ngIf="inventory.selectedInventoryPattern && (inventory.selectedInventoryPattern.id !== nullSelectedInventoryPatternId)">
+                      <ion-chip color="primary">
+                        {{inventory?.selectedInventoryPattern.name}}
+                      </ion-chip>
                     </ng-container>
                   </div>
                 </ng-container>
                 <div style="margin-top:5px;">
                   <div class="input-group" style="width:150px;">
                     <div class="input-group-prepend">
-                      <button class="form-control" (click)="reduceInventoryQuantity(inventory)"
+                      <button class="form-control" (click)="reduceInventoryQuantity(inventory, i)"
                               style="border-top-right-radius:0;border-bottom-right-radius:0;">-</button>
                     </div>
                     <input type="text" class="form-control" readonly disabled style="text-align:center;" [(ngModel)]="inventory.selectedQuantity">

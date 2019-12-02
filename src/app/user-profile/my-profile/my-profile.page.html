@@ -22,7 +22,7 @@
         <!-- Another inner card -->
         <ion-row>
           <ion-col size="12">
-            <ion-card [ngClass]="{'cardShadow' : editUserInformationPanelMode, '' : !editUserInformationPanelMode}">
+            <ion-card [ngClass]="{'cardShadow' : editUserInformationPanelMode, '' : !editUserInformationPanelMode}" style="margin:0;">
               <!-- TODO: View ONLY -->
               <ng-container *ngIf="!editUserInformationPanelMode else editingMode">
                 <ion-card-header>
@@ -269,7 +269,6 @@
             </ion-card>
           </ion-col>
         </ion-row>
-        <ion-button (click)="logoutUser()">Logout</ion-button>
       </ion-col>
     </ion-row>
   </ion-card>

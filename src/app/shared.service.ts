@@ -74,8 +74,11 @@ export class SharedService {
     this.emitNumberOfSelectedInventoriesInCart();
   }
 
-  removeSpecificInventoryFromCart(inventory: any) {
-    this.selectedInventoryToCart = this.selectedInventoryToCart.filter(inventoryInCart => inventoryInCart.uid !== inventory.uid);
+  removeSpecificInventoryFromCart(inventory: any, indexInCart: number) {
+    // Filter the array by 'uid', can be used in the future
+    // this.selectedInventoryToCart = this.selectedInventoryToCart.filter(inventoryInCart => inventoryInCart.uid !== inventory.uid);
+    this.selectedInventoryToCart.splice(indexInCart, 1);
     this.emitSelectedInventoryToCartSubject.next(this.selectedInventoryToCart);
+    this.emitNumberOfSelectedInventoriesInCart();
   }
 }

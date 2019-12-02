@@ -8,5 +8,6 @@ export let commonConfig = {
     icNoRegex: '^[0-9]{6}-[0-9]{2}-[0-9]{4}',
     minLengthOfPhoneNumber: 11,
     maxLengthOfPhoneNumber: 14,
-    phoneNumberRegex: '^[6][0][1][0-9]{8,10}$'
+    phoneNumberRegex: '^[6][0][1][0-9]{8,10}$',
+    nullSelectedInventoryPatternId: 9999
 };
