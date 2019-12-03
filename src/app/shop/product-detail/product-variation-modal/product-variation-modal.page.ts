@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {Inventory} from '../../../_dal/ipohdrum';
 import {SharedService} from '../../../shared.service';
-import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {commonConfig} from '../../../_dal/common/commonConfig';
 
 @Component({
@@ -15,13 +14,11 @@ export class ProductVariationModalPage implements OnInit {
 
   constructorName = '[' + this.constructor.name + ']';
 
-  selectedQuantity = 0;
   quantitiesToAdd = 1;
   nullSelectedInventoryPatternId = commonConfig.nullSelectedInventoryPatternId;
 
-  addedInventoryToCart: any;
   availableInventoryPatterns: any;
-  selectedInventory: Inventory;
+  selectedInventory: any;
   selectedInventoryFamily: any;
   selectedInventoryPattern: any;
 
@@ -66,19 +63,19 @@ export class ProductVariationModalPage implements OnInit {
   }
 
   addItemToCart() {
-    this.addedInventoryToCart = Object.assign({}, this.selectedInventory);
-    this.addedInventoryToCart.selectedQuantity = 0;
-    this.addedInventoryToCart.quantitiesToAdd = this.quantitiesToAdd;
-    this.addedInventoryToCart.selectedInventoryFamily = this.selectedInventoryFamily;
+    this.selectedInventory.quantitiesToAdd = this.quantitiesToAdd;
+
+    this.selectedInventory.selectedInventoryFamily = this.selectedInventoryFamily;
+
     if (this.selectedInventoryPattern) {
-      this.addedInventoryToCart.selectedInventoryPattern = this.selectedInventoryPattern;
+      this.selectedInventory.selectedInventoryPattern = this.selectedInventoryPattern;
     } else {
-      this.addedInventoryToCart.selectedInventoryPattern = {
+      this.selectedInventory.selectedInventoryPattern = {
         id: this.nullSelectedInventoryPatternId
       };
     }
-    console.log(this.addedInventoryToCart);
-    this.sharedService.emitSelectedInventory(this.addedInventoryToCart);
+
+    this.sharedService.emitSelectedInventory(this.selectedInventory);
     this.closeModal();
   }
 }

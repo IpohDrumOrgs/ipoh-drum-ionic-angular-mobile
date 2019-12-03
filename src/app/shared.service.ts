@@ -28,15 +28,22 @@ export class SharedService {
 
   emitSelectedInventory(selectedInventory) {
     let alreadyContainInventory = false;
+    selectedInventory.selectedQuantity = 0;
+    let totalQuantitiesOfThisItemInCart = 0;
+    for (let h = 0 ; h < this.selectedInventoryToCart.length ; h++) {
+      if (selectedInventory.uid === this.selectedInventoryToCart[h].uid) {
+        totalQuantitiesOfThisItemInCart += this.selectedInventoryToCart[h].selectedQuantity;
+      }
+    }
     if (this.selectedInventoryToCart.length > 0) {
-      for (let inventory of this.selectedInventoryToCart) {
-        if (inventory.uid === selectedInventory.uid
-            && inventory.selectedInventoryFamily.id === selectedInventory.selectedInventoryFamily.id
-            && inventory.selectedInventoryPattern.id === selectedInventory.selectedInventoryPattern.id
+      for (let i = 0 ; i < this.selectedInventoryToCart.length ; i++) {
+        if (this.selectedInventoryToCart[i].uid === selectedInventory.uid
+            && this.selectedInventoryToCart[i].selectedInventoryFamily.id === selectedInventory.selectedInventoryFamily.id
+            && this.selectedInventoryToCart[i].selectedInventoryPattern.id === selectedInventory.selectedInventoryPattern.id
         ) {
           alreadyContainInventory = true;
-          if (inventory.qty >= (inventory.selectedQuantity + selectedInventory.quantitiesToAdd)) {
-            inventory.selectedQuantity += selectedInventory.quantitiesToAdd;
+          if (this.selectedInventoryToCart[i].qty >= (totalQuantitiesOfThisItemInCart + selectedInventory.quantitiesToAdd)) {
+            this.selectedInventoryToCart[i].selectedQuantity += selectedInventory.quantitiesToAdd;
             this.globalFunctionService.simpleToast(null, 'Item has been added to your cart!', 'success', 'bottom');
           } else {
             this.globalFunctionService.simpleToast(null, 'Not enough stock, please try again with a different quantity number!', 'warning', 'bottom');
@@ -45,9 +52,13 @@ export class SharedService {
         }
       }
       if (!alreadyContainInventory) {
-        selectedInventory.selectedQuantity += selectedInventory.quantitiesToAdd;
-        this.selectedInventoryToCart.push(selectedInventory);
-        this.globalFunctionService.simpleToast(null, 'Item has been added to your cart!', 'success', 'bottom');
+        if (selectedInventory.qty >= (totalQuantitiesOfThisItemInCart + selectedInventory.quantitiesToAdd)) {
+          selectedInventory.selectedQuantity += selectedInventory.quantitiesToAdd;
+          this.selectedInventoryToCart.push(selectedInventory);
+          this.globalFunctionService.simpleToast(null, 'Item has been added to your cart!', 'success', 'bottom');
+        } else {
+          this.globalFunctionService.simpleToast(null, 'Not enough stock, please try again with a different quantity number!', 'warning', 'bottom');
+        }
       }
     } else {
       selectedInventory.selectedQuantity += selectedInventory.quantitiesToAdd;

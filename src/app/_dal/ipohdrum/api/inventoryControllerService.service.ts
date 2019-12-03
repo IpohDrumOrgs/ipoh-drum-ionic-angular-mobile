@@ -45,49 +45,59 @@ export class InventoryControllerServiceService {
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
 
+    /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        for (const consume of consumes) {
+            if (form === consume) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     /**
      * Creates a inventory.
      * @param name Inventoryname
-     * @param storeid Store ID
-     * @param promotionid Promotion ID
-     * @param warrantyid Warranty ID
-     * @param shippingid Shipping ID
-     * @param sku Sku
+     * @param storeId Store ID
+     * @param productPromotionId Promotion ID
+     * @param warrantyId Warranty ID
+     * @param shippingId Shipping ID
      * @param cost Product Cost
      * @param price Product Selling Price
      * @param qty Stock Qty
      * @param onsale On Sale
      * @param inventoryfamilies Inventory Families
      * @param code Code
+     * @param sku Sku
      * @param desc Product Description
-     * @param imgpath Image Path
      * @param stockthreshold Stock Threshold
+     * @param img Image
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createInventory(name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createInventory.');
         }
-        if (storeid === null || storeid === undefined) {
-            throw new Error('Required parameter storeid was null or undefined when calling createInventory.');
+        if (storeId === null || storeId === undefined) {
+            throw new Error('Required parameter storeId was null or undefined when calling createInventory.');
         }
-        if (promotionid === null || promotionid === undefined) {
-            throw new Error('Required parameter promotionid was null or undefined when calling createInventory.');
+        if (productPromotionId === null || productPromotionId === undefined) {
+            throw new Error('Required parameter productPromotionId was null or undefined when calling createInventory.');
         }
-        if (warrantyid === null || warrantyid === undefined) {
-            throw new Error('Required parameter warrantyid was null or undefined when calling createInventory.');
+        if (warrantyId === null || warrantyId === undefined) {
+            throw new Error('Required parameter warrantyId was null or undefined when calling createInventory.');
         }
-        if (shippingid === null || shippingid === undefined) {
-            throw new Error('Required parameter shippingid was null or undefined when calling createInventory.');
-        }
-        if (sku === null || sku === undefined) {
-            throw new Error('Required parameter sku was null or undefined when calling createInventory.');
+        if (shippingId === null || shippingId === undefined) {
+            throw new Error('Required parameter shippingId was null or undefined when calling createInventory.');
         }
         if (cost === null || cost === undefined) {
             throw new Error('Required parameter cost was null or undefined when calling createInventory.');
@@ -106,17 +116,17 @@ export class InventoryControllerServiceService {
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (storeid !== undefined && storeid !== null) {
-            queryParameters = queryParameters.set('storeid', <any>storeid);
+        if (storeId !== undefined && storeId !== null) {
+            queryParameters = queryParameters.set('store_id', <any>storeId);
         }
-        if (promotionid !== undefined && promotionid !== null) {
-            queryParameters = queryParameters.set('promotionid', <any>promotionid);
+        if (productPromotionId !== undefined && productPromotionId !== null) {
+            queryParameters = queryParameters.set('product_promotion_id', <any>productPromotionId);
         }
-        if (warrantyid !== undefined && warrantyid !== null) {
-            queryParameters = queryParameters.set('warrantyid', <any>warrantyid);
+        if (warrantyId !== undefined && warrantyId !== null) {
+            queryParameters = queryParameters.set('warranty_id', <any>warrantyId);
         }
-        if (shippingid !== undefined && shippingid !== null) {
-            queryParameters = queryParameters.set('shippingid', <any>shippingid);
+        if (shippingId !== undefined && shippingId !== null) {
+            queryParameters = queryParameters.set('shipping_id', <any>shippingId);
         }
         if (inventoryfamilies !== undefined && inventoryfamilies !== null) {
             queryParameters = queryParameters.set('inventoryfamilies', <any>inventoryfamilies);
@@ -129,9 +139,6 @@ export class InventoryControllerServiceService {
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
-        }
-        if (imgpath !== undefined && imgpath !== null) {
-            queryParameters = queryParameters.set('imgpath', <any>imgpath);
         }
         if (cost !== undefined && cost !== null) {
             queryParameters = queryParameters.set('cost', <any>cost);
@@ -159,9 +166,37 @@ export class InventoryControllerServiceService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: this.encoder});
+        }
+
+        if (img) {
+            if (useForm) {
+                img.forEach((element) => {
+                    formParams = formParams.append('img', <any>element) as any || formParams;
+            })
+            } else {
+                formParams = formParams.append('img', img.join(COLLECTION_FORMATS['csv'])) as any || formParams;
+            }
+        }
 
         return this.httpClient.post<any>(`${this.configuration.basePath}/api/inventory`,
-            null,
+            convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -373,7 +408,7 @@ export class InventoryControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/onsale/inventory/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/inventory/${encodeURIComponent(String(uid))}/onsale`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -387,46 +422,44 @@ export class InventoryControllerServiceService {
      * Update inventory by Uid.
      * @param uid Inventory_ID, NOT \&#39;ID\&#39;.
      * @param name Inventoryname
-     * @param storeid Store ID
-     * @param promotionid Promotion ID
-     * @param warrantyid Warranty ID
-     * @param shippingid Shipping ID
-     * @param sku Sku
+     * @param storeId Store ID
+     * @param productPromotionId Promotion ID
+     * @param warrantyId Warranty ID
+     * @param shippingId Shipping ID
      * @param cost Product Cost
      * @param price Product Selling Price
      * @param qty Stock Qty
      * @param onsale On Sale
+     * @param inventoryfamilies Inventory Families
      * @param code Code
+     * @param sku Sku
      * @param desc Product Description
-     * @param imgpath Image Path
      * @param stockthreshold Stock Threshold
+     * @param img Image
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateInventoryByUid(uid: string, name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateInventoryByUid(uid: string, name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateInventoryByUid(uid: string, name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateInventoryByUid(uid: string, name: string, storeid: number, promotionid: number, warrantyid: number, shippingid: number, sku: string, cost: number, price: number, qty: number, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateInventoryByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateInventoryByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateInventoryByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateInventoryByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateInventoryByUid.');
         }
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling updateInventoryByUid.');
         }
-        if (storeid === null || storeid === undefined) {
-            throw new Error('Required parameter storeid was null or undefined when calling updateInventoryByUid.');
+        if (storeId === null || storeId === undefined) {
+            throw new Error('Required parameter storeId was null or undefined when calling updateInventoryByUid.');
         }
-        if (promotionid === null || promotionid === undefined) {
-            throw new Error('Required parameter promotionid was null or undefined when calling updateInventoryByUid.');
+        if (productPromotionId === null || productPromotionId === undefined) {
+            throw new Error('Required parameter productPromotionId was null or undefined when calling updateInventoryByUid.');
         }
-        if (warrantyid === null || warrantyid === undefined) {
-            throw new Error('Required parameter warrantyid was null or undefined when calling updateInventoryByUid.');
+        if (warrantyId === null || warrantyId === undefined) {
+            throw new Error('Required parameter warrantyId was null or undefined when calling updateInventoryByUid.');
         }
-        if (shippingid === null || shippingid === undefined) {
-            throw new Error('Required parameter shippingid was null or undefined when calling updateInventoryByUid.');
-        }
-        if (sku === null || sku === undefined) {
-            throw new Error('Required parameter sku was null or undefined when calling updateInventoryByUid.');
+        if (shippingId === null || shippingId === undefined) {
+            throw new Error('Required parameter shippingId was null or undefined when calling updateInventoryByUid.');
         }
         if (cost === null || cost === undefined) {
             throw new Error('Required parameter cost was null or undefined when calling updateInventoryByUid.');
@@ -445,17 +478,20 @@ export class InventoryControllerServiceService {
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (storeid !== undefined && storeid !== null) {
-            queryParameters = queryParameters.set('storeid', <any>storeid);
+        if (storeId !== undefined && storeId !== null) {
+            queryParameters = queryParameters.set('store_id', <any>storeId);
         }
-        if (promotionid !== undefined && promotionid !== null) {
-            queryParameters = queryParameters.set('promotionid', <any>promotionid);
+        if (productPromotionId !== undefined && productPromotionId !== null) {
+            queryParameters = queryParameters.set('product_promotion_id', <any>productPromotionId);
         }
-        if (warrantyid !== undefined && warrantyid !== null) {
-            queryParameters = queryParameters.set('warrantyid', <any>warrantyid);
+        if (warrantyId !== undefined && warrantyId !== null) {
+            queryParameters = queryParameters.set('warranty_id', <any>warrantyId);
         }
-        if (shippingid !== undefined && shippingid !== null) {
-            queryParameters = queryParameters.set('shippingid', <any>shippingid);
+        if (shippingId !== undefined && shippingId !== null) {
+            queryParameters = queryParameters.set('shipping_id', <any>shippingId);
+        }
+        if (inventoryfamilies !== undefined && inventoryfamilies !== null) {
+            queryParameters = queryParameters.set('inventoryfamilies', <any>inventoryfamilies);
         }
         if (code !== undefined && code !== null) {
             queryParameters = queryParameters.set('code', <any>code);
@@ -465,9 +501,6 @@ export class InventoryControllerServiceService {
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
-        }
-        if (imgpath !== undefined && imgpath !== null) {
-            queryParameters = queryParameters.set('imgpath', <any>imgpath);
         }
         if (cost !== undefined && cost !== null) {
             queryParameters = queryParameters.set('cost', <any>cost);
@@ -495,9 +528,37 @@ export class InventoryControllerServiceService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: this.encoder});
+        }
+
+        if (img) {
+            if (useForm) {
+                img.forEach((element) => {
+                    formParams = formParams.append('img', <any>element) as any || formParams;
+            })
+            } else {
+                formParams = formParams.append('img', img.join(COLLECTION_FORMATS['csv'])) as any || formParams;
+            }
+        }
 
         return this.httpClient.put<any>(`${this.configuration.basePath}/api/inventory/${encodeURIComponent(String(uid))}`,
-            null,
+            convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

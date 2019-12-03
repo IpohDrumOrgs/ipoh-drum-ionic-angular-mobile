@@ -26,15 +26,12 @@ export class ShoppingCartPage implements OnInit {
   ) {
     console.log(this.constructorName + 'Initializing component');
     this.listOfInventoriesInCart = this.sharedService.returnSelectedInventoriesInCart();
-    console.log(this.listOfInventoriesInCart);
   }
 
   ngOnInit() {
     this.ngZone.run(() => {
       this.inventoriesInCartSubscription = this.sharedService.emitSelectedInventoryToCart$.subscribe(data => {
         this.listOfInventoriesInCart = data;
-        console.log('in shopping cart page subscribe to shared service');
-        console.log(this.listOfInventoriesInCart);
       });
     });
   }
@@ -50,7 +47,6 @@ export class ShoppingCartPage implements OnInit {
   }
 
   reduceInventoryQuantity(inventoryInCart: any, indexInCart: number) {
-    console.log(indexInCart);
     if (inventoryInCart.selectedQuantity > 1) {
       inventoryInCart.selectedQuantity--;
     } else {

@@ -231,6 +231,76 @@ export class StoreControllerServiceService {
     }
 
     /**
+     * Retrieves store promotion plans by Uid.
+     * @param uid Store ID, NOT \&#39;ID\&#39;.
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getPromotionsByStoreUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getPromotionsByStoreUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getPromotionsByStoreUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getPromotionsByStoreUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uid === null || uid === undefined) {
+            throw new Error('Required parameter uid was null or undefined when calling getPromotionsByStoreUid.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/store/${encodeURIComponent(String(uid))}/promotions`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Retrieves store shippings by Uid.
+     * @param uid Store ID, NOT \&#39;ID\&#39;.
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getShippingsByStoreUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getShippingsByStoreUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getShippingsByStoreUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getShippingsByStoreUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uid === null || uid === undefined) {
+            throw new Error('Required parameter uid was null or undefined when calling getShippingsByStoreUid.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/store/${encodeURIComponent(String(uid))}/shippings`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Retrieves store by Uid.
      * @param uid Store_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
@@ -300,6 +370,41 @@ export class StoreControllerServiceService {
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/store`,
             {
                 params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Retrieves store warranties by Uid.
+     * @param uid Store ID, NOT \&#39;ID\&#39;.
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getWarrantiesByStoreUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getWarrantiesByStoreUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getWarrantiesByStoreUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getWarrantiesByStoreUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uid === null || uid === undefined) {
+            throw new Error('Required parameter uid was null or undefined when calling getWarrantiesByStoreUid.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/store/${encodeURIComponent(String(uid))}/warranties`,
+            {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
