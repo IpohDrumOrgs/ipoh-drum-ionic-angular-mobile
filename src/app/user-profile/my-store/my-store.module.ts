@@ -4,11 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { MyStorePage } from './my-store.page';
+import {AddInventoryPage} from './add-inventory/add-inventory.page';
 
 const routes: Routes = [
   {
     path: '',
     component: MyStorePage
+  },
+  {
+    path: 'add-inventory',
+    component: AddInventoryPage
   }
 ];
 
@@ -19,6 +24,9 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [MyStorePage]
+  declarations: [
+      MyStorePage,
+      AddInventoryPage
+  ]
 })
 export class MyStorePageModule {}

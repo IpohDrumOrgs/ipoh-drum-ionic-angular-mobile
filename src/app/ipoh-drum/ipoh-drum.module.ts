@@ -24,8 +24,8 @@ const routes: Routes = [
             {path: 'shop', loadChildren: '../shop/shop.module#ShopPageModule'},
             {path: 'shopping-cart', loadChildren: '../shopping-cart/shopping-cart.module#ShoppingCartPageModule'},
             {path: 'user-profile',
-                loadChildren: '../user-profile/user-profile.module#UserProfilePageModule',
-                canActivate: [CheckAuthenticatedService]
+                loadChildren: '../user-profile/user-profile.module#UserProfilePageModule'
+                // canActivate: [CheckAuthenticatedService]
             }
         ]
     },

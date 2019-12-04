@@ -29,6 +29,14 @@ export class UserProfilePage implements OnInit {
     });
   }
 
+  ionViewWillEnter() {
+    console.log(this.constructorName + 'IonViewWillEnter');
+  }
+
+  ionViewWillLeave() {
+    console.log(this.constructorName + 'IonViewWillLeave');
+  }
+
   closeSideMenu(page: number) {
     this.menuController.close('userProfileSideBar');
     switch (page) {

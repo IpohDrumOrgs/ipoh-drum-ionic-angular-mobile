@@ -78,7 +78,7 @@ export class MyProfilePage implements OnInit, OnDestroy {
           Validators.required
         ])
       });
-      this.initializeUserInfo();
+      // this.initializeUserInfo();
     });
   }
 
