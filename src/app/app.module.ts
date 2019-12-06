@@ -21,6 +21,8 @@ import {LoadingService} from './_dal/common/services/loading.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ProductVariationModalPageModule} from './shop/product-detail/product-variation-modal/product-variation-modal.module';
 import {SharedService} from './shared.service';
+import { NgSelect2Module } from 'ng-select2';
+import { FormWizardModule } from 'angular-wizard-form';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -44,7 +46,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
             {apiRoot: 'http://localhost:8000', clientId: 2, clientSecret: 'm6fenXUbXpUodDuz48OPKi4djKkSYn1XgmdHQ8RK'}
         ),
         PerfectScrollbarModule,
-        ProductVariationModalPageModule
+        ProductVariationModalPageModule,
+        NgSelect2Module,
+        FormWizardModule
     ],
     providers: [
         StatusBar,

@@ -13,6 +13,8 @@ import {LoadingService} from './loading.service';
 
 export class AuthenticationService {
 
+    constructorName = '[' + this.constructor.name + ']';
+
     baseLink: any;
     requestConfig: any;
 
@@ -23,17 +25,18 @@ export class AuthenticationService {
         private router: Router,
         private loadingService: LoadingService
     ) {
+        console.log(this.constructorName + 'Initializing component');
         this.baseLink = commonConfig.baseLink;
+    }
+
+    async authenticate() {
+        this.loadingService.present();
         this.requestConfig = {
             headers: {
                 Accept: 'application/json',
                 Authorization: 'Bearer ' + localStorage.getItem('access_token')
             }
         };
-    }
-
-    async authenticate() {
-        this.loadingService.present();
         try {
             return await axios.post(this.baseLink + '/authentication', null,
                 this.requestConfig

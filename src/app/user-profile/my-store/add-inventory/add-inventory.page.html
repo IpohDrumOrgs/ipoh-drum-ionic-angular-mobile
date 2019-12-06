@@ -2,8 +2,11 @@
   <ion-toolbar>
     <ion-title style="padding:0 0 0 10px;">
       <ion-row class="ion-align-items-center">
-        <ion-col size="12" style="text-align:left;padding:0;">
+        <ion-col size="3" style="text-align:left;padding:0;">
           <ion-icon name="arrow-back" style="font-size:25px;" (click)="backToMyStorePage()"></ion-icon>
+        </ion-col>
+        <ion-col size="9" style="text-align:right;padding-right:15px;">
+          <b>Add Inventory</b>
         </ion-col>
       </ion-row>
     </ion-title>
@@ -13,85 +16,141 @@
 <ion-content main>
   <ion-row>
     <ion-col size="12">
-      <h4 style="border-bottom:1px solid #f2f2f2;padding-bottom:15px;">
-        <b>Add Inventory</b>
-      </h4>
-      <ion-card style="margin-left:0;margin-right:0;margin-top:10px;padding:5px;">
+      <ion-card style="margin:10px;padding:5px;">
         <ion-row class="ion-align-items-center" style="margin-bottom:5px;">
           <ion-col size="12">
-             Inventory Name
+            <b>Inventory Name</b>
           </ion-col>
           <ion-col size="12">
-            <input type="text" class="form-control" placeholder="Hard Disk Drive">
+            <input type="text" class="form-control">
           </ion-col>
         </ion-row>
         <ion-row class="ion-align-items-center" style="margin-bottom:5px;">
           <ion-col size="12">
-            Code
+            <b>Code</b>
           </ion-col>
           <ion-col size="12">
-            <input type="text" class="form-control" placeholder="Code..">
-          </ion-col>
-        </ion-row>
-        <ion-row class="ion-align-items-center" style="margin-bottom:5px;">
-          <ion-col size="12">
-            SKU
-          </ion-col>
-          <ion-col size="12">
-            <input type="text" class="form-control" placeholder="SKU..">
+            <input type="text" class="form-control">
           </ion-col>
         </ion-row>
         <ion-row class="ion-align-items-center" style="margin-bottom:5px;">
           <ion-col size="12">
-            Description
+            <b>SKU</b>
           </ion-col>
           <ion-col size="12">
-            <textarea cols="20" rows="3" class="form-control" placeholder="Description.."></textarea>
+            <input type="text" class="form-control">
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center" style="margin-bottom:5px;">
+          <ion-col size="12">
+            <b>Description</b>
+          </ion-col>
+          <ion-col size="12">
+            <textarea cols="20" rows="3" class="form-control"></textarea>
           </ion-col>
         </ion-row>
 
         <table class="table">
           <tbody>
-            <tr>
-              <td>Cost</td>
-              <td>
-                <input type="number" class="form-control" placeholder="Cost..">
-              </td>
-            </tr>
-            <tr>
-              <td>Selling Price</td>
-              <td>
-                <input type="number" class="form-control" placeholder="Selling Price..">
-              </td>
-            </tr>
-            <tr>
-              <td>Stock's Quantity</td>
-              <td>
-                <input type="number" class="form-control">
-              </td>
-            </tr>
-            <tr>
-              <td>Stock's Threshold</td>
-              <td>
-                <input type="number" class="form-control">
-              </td>
-            </tr>
+          <tr>
+            <td>Cost</td>
+            <td>
+              <input type="number" class="form-control">
+            </td>
+          </tr>
+          <tr>
+            <td>Selling Price</td>
+            <td>
+              <input type="number" class="form-control">
+            </td>
+          </tr>
+          <tr>
+            <td>Stock's Quantity</td>
+            <td>
+              <input type="number" class="form-control">
+            </td>
+          </tr>
+          <tr>
+            <td>Stock's Threshold</td>
+            <td>
+              <input type="number" class="form-control">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              Inventory Pictures
+            </td>
+            <td>
+              <label for="file-upload" class="custom-file-upload">
+                <ion-icon name="cloud-upload"></ion-icon>&nbsp;&nbsp;Upload
+              </label>
+              <input type="file" id="file-upload" multiple="true" (change)="detectFiles($event)" accept="image/*">
+            </td>
+          </tr>
           </tbody>
         </table>
-        <ion-row class="ion-align-items-center">
-          <ion-col size="12">
-            Inventory Images:<input type="file" multiple="true" (change)="detectFiles($event)" accept="image/*">
-          </ion-col>
-        </ion-row>
-        <ion-row class="ion-align-items-center">
-          <ion-col size="12">
-            <div>
-              <img *ngFor="let url of temporaryImageUrls" [src]="url" class="rounded mb-3" width="180">
-            </div>
-          </ion-col>
-        </ion-row>
 
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12">
+            <ion-slides pager="true" [options]="ionSliderOptions">
+              <ion-slide *ngFor="let url of temporaryImageUrls">
+                <img [src]="url" alt="product_image" class="productDetailImage rounded mb-3" style="height:300px;">
+              </ion-slide>
+            </ion-slides>
+          </ion-col>
+        </ion-row>
       </ion-card>
+
+      <ion-card style="margin:10px;padding:5px;">
+        <ion-row class="ion-align-items-center" style="margin-bottom:5px;">
+          <ion-col size="12">
+            <h3>Promotion Details</h3>
+            <table class="table">
+              <tbody>
+              <tr>
+                <td style="width:20%;">
+                  Promotion Class
+                </td>
+                <td style="width:80%;">
+                  <ng-select2 [data]="flattenStorePromotionsForSelect2" style="width:100% !important;" [options]="select2Options"></ng-select2>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+
+            <!--<form-wizard>
+              <wizard-step [title]="'Step1'" (onNext)="onStep1Next($event)">
+                <h1>Step1</h1>
+                <form #emailForm="ngForm">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                  </div>
+                </form>
+              </wizard-step>
+              <wizard-step [title]="'Step2'" (onNext)="onStep2Next($event)">
+                <h1>Step2</h1>
+              </wizard-step>
+              <wizard-step [title]="'Step3'" (onNext)="onStep3Next($event)">
+                <h1>Step3</h1>
+              </wizard-step>
+              <wizard-step [title]="'Step4'" (onComplete)="onComplete($event)">
+                <div [ngSwitch]="isCompleted">
+                  <div *ngSwitchDefault>
+                    <h1>Step4</h1>
+                  </div>
+                  <div *ngSwitchCase="true">
+                    <h4>Thank you! You have completed all the steps.</h4>
+                  </div>
+                </div>
+              </wizard-step>
+            </form-wizard>-->
+
+          </ion-col>
+        </ion-row>
+      </ion-card>
+
     </ion-col>
   </ion-row>
 </ion-content>

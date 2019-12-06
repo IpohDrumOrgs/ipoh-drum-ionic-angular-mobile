@@ -6,7 +6,7 @@ import {AuthenticationService} from '../../_dal/common/services/authentication.s
 import {Router} from '@angular/router';
 import {LoadingService} from '../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
-import {AlertController, NavController} from '@ionic/angular';
+import {NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-my-profile',
@@ -50,6 +50,7 @@ export class MyProfilePage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log(this.constructorName + 'ngOnInit');
     this.ngZone.run(() => {
       this.editingUserFormGroup = new FormGroup({
         userNameFc: new FormControl(null, [
@@ -78,7 +79,7 @@ export class MyProfilePage implements OnInit, OnDestroy {
           Validators.required
         ])
       });
-      // this.initializeUserInfo();
+      this.initializeUserInfo();
     });
   }
 
@@ -86,8 +87,8 @@ export class MyProfilePage implements OnInit, OnDestroy {
     console.log(this.constructorName + 'ngOnDestroy');
   }
 
-  ionViewWillEnter() {
-    console.log(this.constructorName + 'IonViewWillEnter');
+  ionViewDidEnter() {
+    console.log(this.constructorName + 'IonViewDidEnter');
     if (this.editUserInformationPanelMode) {
       this.enableEditingUser();
     }
