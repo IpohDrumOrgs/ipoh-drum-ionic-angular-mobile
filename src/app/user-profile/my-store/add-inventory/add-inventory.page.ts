@@ -1,7 +1,6 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {StoreControllerServiceService} from '../../../_dal/ipohdrum';
-import {flatten} from '@angular/compiler';
+import {ProductPromotion, Shipping, StoreControllerServiceService, Warranty} from '../../../_dal/ipohdrum';
 
 @Component({
   selector: 'app-add-inventory',
@@ -15,26 +14,31 @@ export class AddInventoryPage implements OnInit {
   constructorName = '[' + this.constructor.name + ']';
 
   // Arrays
-  temporaryImageUrls = new Array<string>();
-  images: any[] = [];
-  storePromotions: any [] = [];
+  inventoryImagesUrl = new Array<string>();
+  listOfStorePromotions: ProductPromotion [] = [];
+  listOfStoreWarranties: Warranty[] = [];
+  listOfStoreShippings: Shipping[] = [];
 
   // Objects
   // options: any;
-  ionSliderOptions = {
+  inventoryImageSliderOptions = {
     autoHeight: true,
     initialSlide: 0,
     speed: 400
   };
-  flattenStorePromotionsForSelect2: any;
-
-  select2Options = {
-    width: '100%',
-    multiple: false
-  };
+  // select2Options = {
+  //   width: '100%',
+  //   multiple: false
+  // };
+  // flattenStorePromotionsForSelect2: any;
+  selectedPromotionPlan: ProductPromotion;
+  selectedWarrantyPlan: Warranty;
+  selectedShippingPlan: Shipping;
 
   // Subscriptions
   storePromotionsSubscription: any;
+  storeWarrantySubscription: any;
+  storeShippingSubscription: any;
 
   constructor(
       private ngZone: NgZone,
@@ -49,17 +53,36 @@ export class AddInventoryPage implements OnInit {
       this.storePromotionsSubscription = this.storeControllerService.getPromotionsByStoreUid(
           '1575382099-2'
       ).subscribe(resp => {
-        console.log(resp);
         if (resp.code === 200) {
-          const flattenStorePromotion = [];
-          this.storePromotions = resp.data;
-          this.storePromotions.forEach(sp => {
-            flattenStorePromotion.push(sp);
-          });
-          this.flattenStorePromotionsForSelect2 = flattenStorePromotion.map(f => {
-            return {id: f.id, text: f.name};
-          });
+          this.listOfStorePromotions = resp.data;
+        } else {
+            this.listOfStorePromotions = [];
         }
+      }, error => {
+          this.listOfStorePromotions = [];
+      });
+      this.storeWarrantySubscription = this.storeControllerService.getWarrantiesByStoreUid(
+          '1575382099-2'
+      ).subscribe(resp => {
+          if (resp.code === 200) {
+              this.listOfStoreWarranties = resp.data;
+              console.log(this.listOfStoreWarranties);
+          } else {
+              this.listOfStoreWarranties = [];
+          }
+      }, error => {
+          this.listOfStoreWarranties = [];
+      });
+      this.storeShippingSubscription = this.storeControllerService.getShippingsByStoreUid(
+          '1575382099-2'
+      ).subscribe(resp => {
+        if (resp.code === 200) {
+          this.listOfStoreShippings = resp.data;
+        } else {
+          this.listOfStoreShippings = [];
+        }
+      }, error => {
+        this.listOfStoreShippings = [];
       });
     });
   }
@@ -75,11 +98,26 @@ export class AddInventoryPage implements OnInit {
       for (const file of files) {
         const reader = new FileReader();
         reader.onload = (e: any) => {
-          this.temporaryImageUrls.push(e.target.result);
+          this.inventoryImagesUrl.push(e.target.result);
         };
         reader.readAsDataURL(file);
       }
     }
+  }
+
+  pickedPromotionPlan() {
+    console.log('selected promotion plan');
+    console.log(this.selectedPromotionPlan);
+  }
+
+  pickedWarrantyPlan() {
+      console.log('selected warranty plan');
+      console.log(this.selectedWarrantyPlan);
+  }
+
+  pickedShippingPlan() {
+    console.log('selected shiping plan');
+    console.log(this.selectedShippingPlan);
   }
 
   /*  pickMultipleImages() {

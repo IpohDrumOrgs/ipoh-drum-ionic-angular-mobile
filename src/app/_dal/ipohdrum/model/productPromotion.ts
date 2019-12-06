@@ -11,28 +11,19 @@
  */
 
 
-export interface Inventory { 
+export interface ProductPromotion { 
     id?: number;
-    storeId?: number;
-    productPromotionId?: number;
-    shippingId?: number;
-    warrantyId?: number;
     uid?: string;
-    code?: string;
-    sku?: string;
+    storeId?: number;
     name?: string;
-    imgpublicid?: string;
-    imgpath?: string;
     desc?: string;
-    rating?: number;
-    cost?: number;
-    price?: number;
     qty?: number;
-    promoendqty?: number;
-    salesqty?: number;
-    stockthreshold?: number;
+    disc?: number;
+    discpctg?: number;
+    discbyprice?: number;
+    promostartdate?: string;
+    promoenddate?: string;
     status?: number;
-    onsale?: number;
     createdAt?: string;
     updatedAt?: string;
 }

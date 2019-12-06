@@ -92,8 +92,8 @@
 
         <ion-row class="ion-align-items-center">
           <ion-col size="12">
-            <ion-slides pager="true" [options]="ionSliderOptions">
-              <ion-slide *ngFor="let url of temporaryImageUrls">
+            <ion-slides pager="true" [options]="inventoryImageSliderOptions">
+              <ion-slide *ngFor="let url of inventoryImagesUrl">
                 <img [src]="url" alt="product_image" class="productDetailImage rounded mb-3" style="height:300px;">
               </ion-slide>
             </ion-slides>
@@ -102,54 +102,121 @@
       </ion-card>
 
       <ion-card style="margin:10px;padding:5px;">
-        <ion-row class="ion-align-items-center" style="margin-bottom:5px;">
+        <ion-row class="ion-align-items-center">
           <ion-col size="12">
             <h3>Promotion Details</h3>
-            <table class="table">
+            <table class="table" style="margin-bottom:0;">
               <tbody>
-              <tr>
-                <td style="width:20%;">
-                  Promotion Class
-                </td>
-                <td style="width:80%;">
-                  <ng-select2 [data]="flattenStorePromotionsForSelect2" style="width:100% !important;" [options]="select2Options"></ng-select2>
-                </td>
-              </tr>
+                  <tr>
+                    <td style="padding-bottom:0;">
+                        <ion-row class="ion-align-items-center">
+                            <ion-col size="4">
+                                Promotion Plan
+                            </ion-col>
+                            <ion-col size="8">
+                                <ion-select interface="popover" placeholder="Select Promotion Plan"
+                                            [(ngModel)]="selectedPromotionPlan"
+                                            (ionChange)="pickedPromotionPlan()">
+                                    <ion-select-option *ngFor="let promotionPlan of listOfStorePromotions;let i = index;"
+                                                       [value]="promotionPlan"
+                                                       [selected]="i === 0">
+                                        {{promotionPlan.name}}
+                                    </ion-select-option>
+                                </ion-select>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row class="ion-align-items-center">
+                            <ion-col size="12">
+                                <div *ngIf="selectedPromotionPlan" class="alert alert-primary" role="alert">
+                                    {{selectedPromotionPlan.desc}}
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </td>
+                  </tr>
               </tbody>
             </table>
-
-            <!--<form-wizard>
-              <wizard-step [title]="'Step1'" (onNext)="onStep1Next($event)">
-                <h1>Step1</h1>
-                <form #emailForm="ngForm">
-                  <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" required>
-                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                  </div>
-                </form>
-              </wizard-step>
-              <wizard-step [title]="'Step2'" (onNext)="onStep2Next($event)">
-                <h1>Step2</h1>
-              </wizard-step>
-              <wizard-step [title]="'Step3'" (onNext)="onStep3Next($event)">
-                <h1>Step3</h1>
-              </wizard-step>
-              <wizard-step [title]="'Step4'" (onComplete)="onComplete($event)">
-                <div [ngSwitch]="isCompleted">
-                  <div *ngSwitchDefault>
-                    <h1>Step4</h1>
-                  </div>
-                  <div *ngSwitchCase="true">
-                    <h4>Thank you! You have completed all the steps.</h4>
-                  </div>
-                </div>
-              </wizard-step>
-            </form-wizard>-->
-
           </ion-col>
         </ion-row>
       </ion-card>
+
+    <ion-card style="margin:10px;padding:5px;">
+        <ion-row class="ion-align-items-center">
+            <ion-col size="12">
+                <h3>Warranty Details</h3>
+                <table class="table" style="margin-bottom:0;">
+                    <tbody>
+                    <tr>
+                        <td style="padding-bottom:0;">
+                            <ion-row class="ion-align-items-center">
+                                <ion-col size="4">
+                                    Warranty Plan
+                                </ion-col>
+                                <ion-col size="8">
+                                    <ion-select interface="popover" placeholder="Select Warranty Plan"
+                                                [(ngModel)]="selectedWarrantyPlan"
+                                                (ionChange)="pickedWarrantyPlan()">
+                                        <ion-select-option *ngFor="let warrantyPlan of listOfStoreWarranties;let j = index;"
+                                                           [value]="warrantyPlan"
+                                                           [selected]="j === 0">
+                                            {{warrantyPlan.name}}
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row class="ion-align-items-center">
+                                <ion-col size="12">
+                                    <div *ngIf="selectedWarrantyPlan" class="alert alert-primary" role="alert">
+                                        {{selectedWarrantyPlan.desc}}
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+
+        <ion-card style="margin:10px;padding:5px;">
+            <ion-row class="ion-align-items-center">
+                <ion-col size="12">
+                    <h3>Shipping Details</h3>
+                    <table class="table" style="margin-bottom:0;">
+                        <tbody>
+                        <tr>
+                            <td style="padding-bottom:0;">
+                                <ion-row class="ion-align-items-center">
+                                    <ion-col size="4">
+                                        Shipping Plan
+                                    </ion-col>
+                                    <ion-col size="8">
+                                        <ion-select interface="popover" placeholder="Select Shipping Plan"
+                                                    [(ngModel)]="selectedShippingPlan"
+                                                    (ionChange)="pickedShippingPlan()">
+                                            <ion-select-option *ngFor="let shippingPlan of listOfStoreShippings;let k = index;"
+                                                               [value]="shippingPlan"
+                                                               [selected]="k === 0">
+                                                {{shippingPlan.name}}
+                                            </ion-select-option>
+                                        </ion-select>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row class="ion-align-items-center">
+                                    <ion-col size="12">
+                                        <div *ngIf="selectedShippingPlan" class="alert alert-primary" role="alert">
+                                            {{selectedShippingPlan.desc}}
+                                        </div>
+                                    </ion-col>
+                                </ion-row>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </ion-col>
+            </ion-row>
+        </ion-card>
 
     </ion-col>
   </ion-row>
