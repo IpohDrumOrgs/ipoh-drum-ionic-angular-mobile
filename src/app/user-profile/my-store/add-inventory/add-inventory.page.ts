@@ -20,20 +20,16 @@ export class AddInventoryPage implements OnInit {
   listOfStoreShippings: Shipping[] = [];
 
   // Objects
-  // options: any;
   inventoryImageSliderOptions = {
     autoHeight: true,
     initialSlide: 0,
     speed: 400
   };
-  // select2Options = {
-  //   width: '100%',
-  //   multiple: false
-  // };
-  // flattenStorePromotionsForSelect2: any;
   selectedPromotionPlan: ProductPromotion;
   selectedWarrantyPlan: Warranty;
   selectedShippingPlan: Shipping;
+  selectedFamilyOnSaleToggle = true;
+  selectedPatternOnSaleToggle = true;
 
   // Subscriptions
   storePromotionsSubscription: any;
@@ -118,6 +114,18 @@ export class AddInventoryPage implements OnInit {
   pickedShippingPlan() {
     console.log('selected shiping plan');
     console.log(this.selectedShippingPlan);
+  }
+
+  toggleFamilyOnSaleCheckbox() {
+    this.selectedFamilyOnSaleToggle = !this.selectedFamilyOnSaleToggle;
+    console.log('selected family toggle on sale');
+    console.log(this.selectedFamilyOnSaleToggle);
+  }
+
+  togglePatternOnSaleCheckbox() {
+      this.selectedPatternOnSaleToggle = !this.selectedPatternOnSaleToggle;
+      console.log('seelcted pattern toggle on sale');
+      console.log(this.selectedPatternOnSaleToggle);
   }
 
   /*  pickMultipleImages() {

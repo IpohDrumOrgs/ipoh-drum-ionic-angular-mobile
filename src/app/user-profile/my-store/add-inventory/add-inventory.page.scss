@@ -1,3 +1,4 @@
+// Custom styling of type="file" button
 input[type="file"] {
   display: none;
 }
@@ -10,4 +11,9 @@ input[type="file"] {
   cursor: pointer;
   font-size: 20px;
   color: cornflowerblue;
+}
+
+// Unresizable textarea
+textarea {
+  resize: none;
 }

@@ -179,41 +179,173 @@
         </ion-row>
     </ion-card>
 
+    <ion-card style="margin:10px;padding:5px;">
+        <ion-row class="ion-align-items-center">
+            <ion-col size="12">
+                <h3>Shipping Details</h3>
+                <table class="table" style="margin-bottom:0;">
+                    <tbody>
+                    <tr>
+                        <td style="padding-bottom:0;">
+                            <ion-row class="ion-align-items-center">
+                                <ion-col size="4">
+                                    Shipping Plan
+                                </ion-col>
+                                <ion-col size="8">
+                                    <ion-select interface="popover" placeholder="Select Shipping Plan"
+                                                [(ngModel)]="selectedShippingPlan"
+                                                (ionChange)="pickedShippingPlan()">
+                                        <ion-select-option *ngFor="let shippingPlan of listOfStoreShippings;let k = index;"
+                                                           [value]="shippingPlan"
+                                                           [selected]="k === 0">
+                                            {{shippingPlan.name}}
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row class="ion-align-items-center">
+                                <ion-col size="12">
+                                    <div *ngIf="selectedShippingPlan" class="alert alert-primary" role="alert">
+                                        {{selectedShippingPlan.desc}}
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+
+    <ion-card style="margin:10px;padding:5px;">
+        <ion-row class="ion-align-items-center">
+            <ion-col size="12">
+                <h3>Define Inventory Family</h3>
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="12">
+                        <b>Family Name</b>
+                    </ion-col>
+                    <ion-col size="12">
+                        <input type="text" class="form-control">
+                    </ion-col>
+                </ion-row>
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="12">
+                        <b>Code</b>
+                    </ion-col>
+                    <ion-col size="12">
+                        <input type="text" class="form-control">
+                    </ion-col>
+                </ion-row>
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="12">
+                        <b>SKU</b>
+                    </ion-col>
+                    <ion-col size="12">
+                        <input type="text" class="form-control">
+                    </ion-col>
+                </ion-row>
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="12">
+                        <b>Description</b>
+                    </ion-col>
+                    <ion-col size="12">
+                        <textarea cols="20" rows="3" class="form-control"></textarea>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="12">
+                        <b>Cost</b>
+                    </ion-col>
+                    <ion-col size="12">
+                        <input type="number" class="form-control">
+                    </ion-col>
+                </ion-row>
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="12">
+                        <b>Selling Price</b>
+                    </ion-col>
+                    <ion-col size="12">
+                        <input type="number" class="form-control">
+                    </ion-col>
+                </ion-row>
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="12">
+                        <b>Quantity</b>
+                    </ion-col>
+                    <ion-col size="12">
+                        <input type="number" class="form-control">
+                    </ion-col>
+                </ion-row>
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="3">
+                        <b>On Sale</b>
+                    </ion-col>
+                    <ion-col size="3" style="text-align:right;">
+                        <ion-toggle color="success" [checked]="selectedFamilyOnSaleToggle"
+                                    (ionChange)="toggleFamilyOnSaleCheckbox()"></ion-toggle>
+                    </ion-col>
+                    <ion-col size="6"></ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
+    </ion-card>
+
         <ion-card style="margin:10px;padding:5px;">
             <ion-row class="ion-align-items-center">
                 <ion-col size="12">
-                    <h3>Shipping Details</h3>
-                    <table class="table" style="margin-bottom:0;">
-                        <tbody>
-                        <tr>
-                            <td style="padding-bottom:0;">
-                                <ion-row class="ion-align-items-center">
-                                    <ion-col size="4">
-                                        Shipping Plan
-                                    </ion-col>
-                                    <ion-col size="8">
-                                        <ion-select interface="popover" placeholder="Select Shipping Plan"
-                                                    [(ngModel)]="selectedShippingPlan"
-                                                    (ionChange)="pickedShippingPlan()">
-                                            <ion-select-option *ngFor="let shippingPlan of listOfStoreShippings;let k = index;"
-                                                               [value]="shippingPlan"
-                                                               [selected]="k === 0">
-                                                {{shippingPlan.name}}
-                                            </ion-select-option>
-                                        </ion-select>
-                                    </ion-col>
-                                </ion-row>
-                                <ion-row class="ion-align-items-center">
-                                    <ion-col size="12">
-                                        <div *ngIf="selectedShippingPlan" class="alert alert-primary" role="alert">
-                                            {{selectedShippingPlan.desc}}
-                                        </div>
-                                    </ion-col>
-                                </ion-row>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <h3>Define Inventory Pattern</h3>
+                    <ion-row class="ion-align-items-center">
+                        <ion-col size="12">
+                            <b>Pattern Name</b>
+                        </ion-col>
+                        <ion-col size="12">
+                            <input type="text" class="form-control">
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="ion-align-items-center">
+                        <ion-col size="12">
+                            <b>Description</b>
+                        </ion-col>
+                        <ion-col size="12">
+                            <textarea cols="20" rows="3" class="form-control"></textarea>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="ion-align-items-center">
+                        <ion-col size="12">
+                            <b>Cost</b>
+                        </ion-col>
+                        <ion-col size="12">
+                            <input type="number" class="form-control">
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="ion-align-items-center">
+                        <ion-col size="12">
+                            <b>Selling Price</b>
+                        </ion-col>
+                        <ion-col size="12">
+                            <input type="number" class="form-control">
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="ion-align-items-center">
+                        <ion-col size="12">
+                            <b>Quantity</b>
+                        </ion-col>
+                        <ion-col size="12">
+                            <input type="number" class="form-control">
+                        </ion-col>
+                    </ion-row>
+                    <ion-row class="ion-align-items-center">
+                        <ion-col size="3">
+                            <b>On Sale</b>
+                        </ion-col>
+                        <ion-col size="3" style="text-align:right;">
+                            <ion-toggle color="success" [checked]="selectedPatternOnSaleToggle"
+                                        (ionChange)="togglePatternOnSaleCheckbox()"></ion-toggle>
+                        </ion-col>
+                        <ion-col size="6"></ion-col>
+                    </ion-row>
                 </ion-col>
             </ion-row>
         </ion-card>
