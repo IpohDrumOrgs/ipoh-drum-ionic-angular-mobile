@@ -17,3 +17,17 @@ input[type="file"] {
 textarea {
   resize: none;
 }
+
+// Custom Error Messages styling for wizard-step
+.error {
+  color: #ff1749;
+  padding-left:0;
+  margin-left:15px;
+  margin-bottom:0;
+}
+
+// Custom bullet color for "ion-swipe"
+ion-slides {
+  --bullet-background: #858585;
+  --bullet-background-active: black;
+}
