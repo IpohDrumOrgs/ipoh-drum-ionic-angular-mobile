@@ -11,6 +11,7 @@ import { InventoryControllerServiceService } from './api/inventoryControllerServ
 import { ModuleControllerServiceService } from './api/moduleControllerService.service';
 import { ProductFeatureControllerServiceService } from './api/productFeatureControllerService.service';
 import { ProductPromotionControllerServiceService } from './api/productPromotionControllerService.service';
+import { ProductReviewControllerServiceService } from './api/productReviewControllerService.service';
 import { RoleControllerServiceService } from './api/roleControllerService.service';
 import { SaleControllerServiceService } from './api/saleControllerService.service';
 import { ShippingControllerServiceService } from './api/shippingControllerService.service';
@@ -34,6 +35,7 @@ import { WarrantyControllerServiceService } from './api/warrantyControllerServic
     ModuleControllerServiceService,
     ProductFeatureControllerServiceService,
     ProductPromotionControllerServiceService,
+    ProductReviewControllerServiceService,
     RoleControllerServiceService,
     SaleControllerServiceService,
     ShippingControllerServiceService,

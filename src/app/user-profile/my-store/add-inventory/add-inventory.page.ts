@@ -1,7 +1,7 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {
-    InventoryControllerServiceService,
+    InventoryControllerServiceService, InventoryFamily,
     ProductPromotion,
     Shipping,
     StoreControllerServiceService,
@@ -27,8 +27,7 @@ export class AddInventoryPage implements OnInit {
     inventorySKUModel: string;
     inventoryDescriptionModel: string;
     inventoryCostModel: number;
-    inventorySellingPriceModel: number;
-    inventoryStockQuantityModel: number;
+    inventoryBasePriceModel: number;
     inventoryStockThresholdModel: number;
     inventoryFamilyNameModel: string;
     inventoryFamilyCodeModel: string;
@@ -50,6 +49,7 @@ export class AddInventoryPage implements OnInit {
 
     // Booleans
     didUploadPhoto = false;
+    formIsCompleted = false;
 
     // Number
     inventoryNameMinLength = 5;
@@ -62,7 +62,6 @@ export class AddInventoryPage implements OnInit {
     inventoryDescMaxLength = 50;
     inventoryCostMaxLength = 10;
     inventorySellingPriceMaxLength = 10;
-    inventoryStockQuantityMaxLength = 3;
     inventoryStockThresholdMaxLength = 3;
     inventoryFamilyNameMaxLength = 50;
     inventoryFamilyCodeMinLength = 2;
@@ -96,6 +95,7 @@ export class AddInventoryPage implements OnInit {
     selectedShippingPlan: Shipping;
     selectedFamilyOnSaleToggle = true;
     selectedPatternOnSaleToggle = true;
+    inventoryFamilyToInsert: any = {};
 
     // FormGroups
     inventoryInfoFormGroup: FormGroup;
@@ -106,6 +106,7 @@ export class AddInventoryPage implements OnInit {
     storePromotionsSubscription: any;
     storeWarrantySubscription: any;
     storeShippingSubscription: any;
+    createInventorySubscription: any;
 
     constructor(
         private ngZone: NgZone,
@@ -125,8 +126,6 @@ export class AddInventoryPage implements OnInit {
                 if (resp.code === 200) {
                     this.listOfStorePromotions = resp.data;
                     this.selectedPromotionPlan = this.listOfStorePromotions[0];
-                    console.log('default promotion plan selected');
-                    console.log(this.selectedPromotionPlan);
                 } else {
                     this.listOfStorePromotions = [];
                 }
@@ -185,15 +184,10 @@ export class AddInventoryPage implements OnInit {
                     Validators.maxLength(this.inventoryCostMaxLength),
                     Validators.pattern(this.priceRegex)
                 ]),
-                inventorySellingPrice: new FormControl(null, [
+                inventoryBasePrice: new FormControl(null, [
                     Validators.required,
                     Validators.maxLength(this.inventorySellingPriceMaxLength),
                     Validators.pattern(this.priceRegex)
-                ]),
-                inventoryStockQuantity: new FormControl(null, [
-                    Validators.required,
-                    Validators.maxLength(this.inventoryStockQuantityMaxLength),
-                    Validators.pattern(this.numericOnlyRegex)
                 ]),
                 inventoryStockThreshold: new FormControl(null, [
                     Validators.required,
@@ -273,6 +267,7 @@ export class AddInventoryPage implements OnInit {
     }
 
     detectFiles(event) {
+        console.log('Upload image');
         const files = event.target.files;
         this.didUploadPhoto = false;
         if (files) {
@@ -288,6 +283,7 @@ export class AddInventoryPage implements OnInit {
             }
         }
         if (this.didUploadPhoto) {
+            // tslint:disable-next-line:max-line-length
             this.globalFunctionService.simpleToast('SUCCESS', 'Image has been uploaded! You can upload up to 7 pictures!', 'success', 'top');
         }
     }
@@ -302,32 +298,107 @@ export class AddInventoryPage implements OnInit {
         console.log(this.selectedPatternOnSaleToggle);
     }
 
-    onStep1Next(event: any) {
-        console.log('step 1');
-        console.log(this.inventoryNameModel);
-        console.log(this.inventoryCodeModel);
-        console.log(this.inventorySKUModel);
-        console.log(this.inventoryDescriptionModel);
-        console.log(this.inventoryCostModel);
-        console.log(this.inventorySellingPriceModel);
-        console.log(this.inventoryStockQuantityModel);
-        console.log(this.inventoryStockThresholdModel);
-        console.log(this.inventoryImagesUrl);
+    onComplete() {
+        console.log('complete:');
+        this.formIsCompleted = true;
+        this.formInventoryFamilyObject();
+        // Hard-coded data
+        this.inventoryNameModel = 'invenotry name ex';
+        this.inventoryCostModel = 55.20;
+        this.inventoryBasePriceModel = 60;
+        this.inventoryCodeModel = 'inventorycodeex';
+        this.inventorySKUModel = 'inventoryskuex';
+        this.inventoryDescriptionModel = 'inventory description example';
+        this.inventoryStockThresholdModel = 5;
+
+        // this.createInventorySubscription = this.inventoryControllerService.createInventory(
+        //     this.inventoryNameModel,
+        //     2,
+        //     this.selectedPromotionPlan.id,
+        //     this.selectedWarrantyPlan.id,
+        //     this.selectedShippingPlan.id,
+        //     this.inventoryCostModel,
+        //     this.inventoryBasePriceModel,
+        //     JSON.stringify(this.inventoryFamilyToInsert),
+        //     this.inventoryCodeModel,
+        //     this.inventorySKUModel,
+        //     this.inventoryDescriptionModel,
+        //     this.inventoryStockThresholdModel,
+        //     undefined // TODO, Convert images to Array of BLOB
+        // ).subscribe(resp => {
+        //     console.log(resp);
+        // }, error => {
+        //    console.log('API error while creating new inventory');
+        // });
     }
 
-    onStep2Next(event: any) {
-        console.log('step 2');
-        console.log(this.selectedPromotionPlan);
-        console.log(this.selectedWarrantyPlan);
-        console.log(this.selectedShippingPlan);
+    formInventoryFamilyObject() {
+        this.inventoryFamilyToInsert.code = this.inventoryFamilyCodeModel;
+        this.inventoryFamilyToInsert.cost = this.inventoryFamilyCostModel;
+        // created_at
+        this.inventoryFamilyToInsert.desc = this.inventoryFamilyDescriptionModel;
+        // id
+        // imgpath
+        // imgpublicid
+        // inventory_id
+        this.inventoryFamilyToInsert.name = this.inventoryFamilyNameModel;
+        this.inventoryFamilyToInsert.onsale = this.selectedFamilyOnSaleToggle;
+        // inventoryFamily.patterns.push();
+        this.inventoryFamilyToInsert.price = this.inventoryFamilySellingPriceModel;
+        this.inventoryFamilyToInsert.qty = this.inventoryFamilyStockQuantityModel;
+        // salesqty
+        this.inventoryFamilyToInsert.sku = this.inventoryFamilySKUModel;
+        // status
+        // uid
+        // updated_at
+
+        // TODO: Hard-coded data
+        this.inventoryFamilyToInsert.code = 'familycodeex';
+        this.inventoryFamilyToInsert.cost = '59.90';
+        this.inventoryFamilyToInsert.desc = 'family description';
+        this.inventoryFamilyToInsert.name = 'family name ex';
+        this.inventoryFamilyToInsert.onsale = true;
+        this.inventoryFamilyToInsert.price = '60';
+        this.inventoryFamilyToInsert.qty = '99';
+        this.inventoryFamilyToInsert.sku = 'familyskuex';
+
+
+        console.log(JSON.stringify(this.inventoryFamilyToInsert));
+        this.formInventoryPatternObject();
     }
 
-    onStep3Next(event: any) {
-        console.log('step 3');
-    }
+    formInventoryPatternObject() {
+        let inventoryPattern: any = {};
+        // inventoryPattern.cost = this.inventoryPatternCostModel;
+        // // created_at
+        // inventoryPattern.desc = this.inventoryPatternDescriptionModel;
+        // // id
+        // // imgpath
+        // // imgpublicid
+        // // inventory_family_id
+        // inventoryPattern.name = this.inventoryPatternNameModel;
+        // inventoryPattern.onsale = this.selectedPatternOnSaleToggle;
+        // inventoryPattern.price = this.inventoryPatternSellingPriceModel;
+        // inventoryPattern.qty = this.inventoryPatternStockQuantityModel;
+        // // salesqty
+        // // status
+        // // uid
+        // // updated_at
 
-    onComplete(event: any) {
-        console.log('complete:' + event);
+        this.inventoryFamilyToInsert.patterns = [];
+
+        // TODO: Hard-coded data
+        inventoryPattern.cost = '25.00';
+        inventoryPattern.desc = 'pattern description';
+        inventoryPattern.name = 'pattern name';
+        inventoryPattern.onsale = false;
+        inventoryPattern.price = '30';
+        inventoryPattern.qty = '80';
+
+        this.inventoryFamilyToInsert.patterns.push(inventoryPattern);
+        this.inventoryFamilyToInsert.patterns.push(inventoryPattern);
+
+        console.log(JSON.stringify(this.inventoryFamilyToInsert));
     }
 
     /*  pickMultipleImages() {

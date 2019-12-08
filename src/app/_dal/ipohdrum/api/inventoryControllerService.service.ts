@@ -68,9 +68,7 @@ export class InventoryControllerServiceService {
      * @param warrantyId Warranty ID
      * @param shippingId Shipping ID
      * @param cost Product Cost
-     * @param price Product Selling Price
-     * @param qty Stock Qty
-     * @param onsale On Sale
+     * @param price Product Base Price
      * @param inventoryfamilies Inventory Families
      * @param code Code
      * @param sku Sku
@@ -80,10 +78,10 @@ export class InventoryControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createInventory.');
         }
@@ -104,12 +102,6 @@ export class InventoryControllerServiceService {
         }
         if (price === null || price === undefined) {
             throw new Error('Required parameter price was null or undefined when calling createInventory.');
-        }
-        if (qty === null || qty === undefined) {
-            throw new Error('Required parameter qty was null or undefined when calling createInventory.');
-        }
-        if (onsale === null || onsale === undefined) {
-            throw new Error('Required parameter onsale was null or undefined when calling createInventory.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -146,14 +138,8 @@ export class InventoryControllerServiceService {
         if (price !== undefined && price !== null) {
             queryParameters = queryParameters.set('price', <any>price);
         }
-        if (qty !== undefined && qty !== null) {
-            queryParameters = queryParameters.set('qty', <any>qty);
-        }
         if (stockthreshold !== undefined && stockthreshold !== null) {
             queryParameters = queryParameters.set('stockthreshold', <any>stockthreshold);
-        }
-        if (onsale !== undefined && onsale !== null) {
-            queryParameters = queryParameters.set('onsale', <any>onsale);
         }
 
         let headers = this.defaultHeaders;

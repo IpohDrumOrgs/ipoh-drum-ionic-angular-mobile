@@ -49,6 +49,7 @@ export class ProductVariationModalPage implements OnInit {
   }
 
   selectInventoryFamily(inventoryFamily: any) {
+    console.log(inventoryFamily);
     this.selectedInventoryFamily = inventoryFamily;
     if (inventoryFamily.patterns.length > 0) {
       this.availableInventoryPatterns = inventoryFamily.patterns;
