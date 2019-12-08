@@ -9,6 +9,8 @@ import {
 } from '../../../_dal/ipohdrum';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ModalController} from '@ionic/angular';
+import {InvFamilyPatternModalPage} from './inv-family-pattern-modal/inv-family-pattern-modal.page';
 
 @Component({
     selector: 'app-add-inventory',
@@ -29,18 +31,6 @@ export class AddInventoryPage implements OnInit {
     inventoryCostModel: number;
     inventoryBasePriceModel: number;
     inventoryStockThresholdModel: number;
-    inventoryFamilyNameModel: string;
-    inventoryFamilyCodeModel: string;
-    inventoryFamilySKUModel: string;
-    inventoryFamilyDescriptionModel: string;
-    inventoryFamilyCostModel: number;
-    inventoryFamilySellingPriceModel: number;
-    inventoryFamilyStockQuantityModel: number;
-    inventoryPatternNameModel: string;
-    inventoryPatternDescriptionModel: string;
-    inventoryPatternCostModel: number;
-    inventoryPatternSellingPriceModel: number;
-    inventoryPatternStockQuantityModel: number;
 
     // Regex
     alphaNumericOnlyRegex = '^[a-zA-Z0-9_]+$';
@@ -62,20 +52,6 @@ export class AddInventoryPage implements OnInit {
     inventoryCostMaxLength = 10;
     inventorySellingPriceMaxLength = 10;
     inventoryStockThresholdMaxLength = 3;
-    inventoryFamilyNameMaxLength = 50;
-    inventoryFamilyCodeMinLength = 2;
-    inventoryFamilyCodeMaxLength = 30;
-    inventoryFamilyDescMinLength = 5;
-    inventoryFamilyDescMaxLength = 50;
-    inventoryFamilyCostMaxLength = 10;
-    inventoryFamilySellingPriceMaxLength = 10;
-    inventoryFamilyStockQuantityMaxLength = 3;
-    inventoryPatternNameMaxLength = 50;
-    inventoryPatternDescMinLength = 5;
-    inventoryPatternDescMaxLength = 50;
-    inventoryPatternCostMaxLength = 10;
-    inventoryPatternSellingPriceMaxLength = 10;
-    inventoryPatternStockQuantityMaxLength = 3;
 
     // Arrays
     inventoryImagesUrl = new Array<string>();
@@ -92,14 +68,10 @@ export class AddInventoryPage implements OnInit {
     selectedPromotionPlan: ProductPromotion;
     selectedWarrantyPlan: Warranty;
     selectedShippingPlan: Shipping;
-    selectedFamilyOnSaleToggle = true;
-    selectedPatternOnSaleToggle = true;
-    inventoryFamilyToInsert: any = {};
+    inventoryFamilyAndOrPatternsToInsert: any = [];
 
     // FormGroups
     inventoryInfoFormGroup: FormGroup;
-    inventoryFamilyFormGroup: FormGroup;
-    inventoryPatternFormGroup: FormGroup;
 
     // Subscriptions
     storePromotionsSubscription: any;
@@ -112,7 +84,8 @@ export class AddInventoryPage implements OnInit {
         private router: Router,
         private storeControllerService: StoreControllerServiceService,
         private globalFunctionService: GlobalfunctionService,
-        private inventoryControllerService: InventoryControllerServiceService
+        private inventoryControllerService: InventoryControllerServiceService,
+        private modalController: ModalController
     ) {
         console.log(this.constructorName + 'Initializing component');
     }
@@ -194,70 +167,6 @@ export class AddInventoryPage implements OnInit {
                     Validators.pattern(this.numericOnlyRegex)
                 ])
             });
-            this.inventoryFamilyFormGroup = new FormGroup({
-               inventoryFamilyName: new FormControl(null, [
-                   Validators.required,
-                   Validators.maxLength(this.inventoryFamilyNameMaxLength)
-               ]),
-                inventoryFamilyCode: new FormControl(null, [
-                    Validators.required,
-                    Validators.minLength(this.inventoryFamilyCodeMinLength),
-                    Validators.maxLength(this.inventoryFamilyCodeMaxLength),
-                    Validators.pattern(this.alphaNumericOnlyRegex)
-                ]),
-                inventoryFamilySKU: new FormControl(null, [
-                    Validators.required,
-                    Validators.minLength(this.inventorySKUMinLength),
-                    Validators.maxLength(this.inventorySKUMaxLength),
-                    Validators.pattern(this.alphaNumericOnlyRegex)
-                ]),
-                inventoryFamilyDescription: new FormControl(null, [
-                    Validators.required,
-                    Validators.minLength(this.inventoryFamilyDescMinLength),
-                    Validators.maxLength(this.inventoryFamilyDescMaxLength)
-                ]),
-                inventoryFamilyCost: new FormControl(null, [
-                    Validators.required,
-                    Validators.maxLength(this.inventoryFamilyCostMaxLength),
-                    Validators.pattern(this.priceRegex)
-                ]),
-                inventoryFamilySellingPrice: new FormControl(null, [
-                    Validators.required,
-                    Validators.maxLength(this.inventoryFamilySellingPriceMaxLength),
-                    Validators.pattern(this.priceRegex)
-                ]),
-                inventoryFamilyStockQuantity: new FormControl(null, [
-                    Validators.required,
-                    Validators.maxLength(this.inventoryFamilyStockQuantityMaxLength),
-                    Validators.pattern(this.numericOnlyRegex)
-                ])
-            });
-            this.inventoryPatternFormGroup = new FormGroup({
-               inventoryPatternName: new FormControl(null, [
-                   Validators.required,
-                   Validators.maxLength(this.inventoryPatternNameMaxLength)
-               ]),
-                inventoryPatternDescription: new FormControl(null, [
-                    Validators.required,
-                    Validators.minLength(this.inventoryPatternDescMinLength),
-                    Validators.maxLength(this.inventoryPatternDescMaxLength)
-                ]),
-                inventoryPatternCost: new FormControl(null, [
-                    Validators.required,
-                    Validators.maxLength(this.inventoryPatternCostMaxLength),
-                    Validators.pattern(this.priceRegex)
-                ]),
-                inventoryPatternSellingPrice: new FormControl(null, [
-                    Validators.required,
-                    Validators.maxLength(this.inventoryPatternSellingPriceMaxLength),
-                    Validators.pattern(this.priceRegex)
-                ]),
-                inventoryPatternStockQuantity: new FormControl(null, [
-                    Validators.required,
-                    Validators.maxLength(this.inventoryPatternStockQuantityMaxLength),
-                    Validators.pattern(this.numericOnlyRegex)
-                ])
-            });
         });
     }
 
@@ -288,134 +197,69 @@ export class AddInventoryPage implements OnInit {
         }
     }
 
-    toggleFamilyOnSaleCheckbox() {
-        this.selectedFamilyOnSaleToggle = !this.selectedFamilyOnSaleToggle;
-    }
-
-    togglePatternOnSaleCheckbox() {
-        this.selectedPatternOnSaleToggle = !this.selectedPatternOnSaleToggle;
-        console.log('seelcted pattern toggle on sale');
-        console.log(this.selectedPatternOnSaleToggle);
-    }
-
     onComplete() {
-        console.log('complete:');
-        this.formIsCompleted = true;
-        this.formInventoryFamilyObject();
-        // Hard-coded data
-        this.inventoryNameModel = 'invenotry name ex';
-        this.inventoryCostModel = 55.20;
-        this.inventoryBasePriceModel = 60;
-        this.inventoryCodeModel = 'inventorycodeex';
-        this.inventorySKUModel = 'inventoryskuex';
-        this.inventoryDescriptionModel = 'inventory description example';
-        this.inventoryStockThresholdModel = 5;
+        if (this.inventoryInfoFormGroup.valid) {
+            this.formIsCompleted = true;
+            this.createInventorySubscription = this.inventoryControllerService.createInventory(
+                this.inventoryNameModel,
+                2,
+                this.selectedPromotionPlan.id,
+                this.selectedWarrantyPlan.id,
+                this.selectedShippingPlan.id,
+                this.inventoryCostModel,
+                this.inventoryBasePriceModel,
+                this.inventoryFamilyAndOrPatternsToInsert,
+                this.inventoryCodeModel,
+                this.inventorySKUModel,
+                this.inventoryDescriptionModel,
+                this.inventoryStockThresholdModel,
+                undefined // TODO, Convert images to Array of BLOB
+            ).subscribe(resp => {
+                console.log(resp);
+            }, error => {
+                console.log('API error while creating new inventory');
+            });
+        }
+    }
 
-        let inventoryFamilyArray = [];
-        inventoryFamilyArray.push(this.inventoryFamilyToInsert);
-        console.log(JSON.stringify(inventoryFamilyArray));
+    removeSelectedInventoryFamilyAndOrPattern(index: number) {
+        this.globalFunctionService.presentAlertConfirm(
+            'Warning',
+            'Are you sure you want to remove the Inventory Family & Pattern?',
+            'Cancel',
+            'Confirm',
+            undefined,
+            () => this.removeInventoryFamilyAndOrPattern(index));
 
-        this.createInventorySubscription = this.inventoryControllerService.createInventory(
-            this.inventoryNameModel,
-            2,
-            this.selectedPromotionPlan.id,
-            this.selectedWarrantyPlan.id,
-            this.selectedShippingPlan.id,
-            this.inventoryCostModel,
-            this.inventoryBasePriceModel,
-            JSON.stringify(inventoryFamilyArray),
-            this.inventoryCodeModel,
-            this.inventorySKUModel,
-            this.inventoryDescriptionModel,
-            this.inventoryStockThresholdModel,
-            undefined // TODO, Convert images to Array of BLOB
-        ).subscribe(resp => {
-            console.log(resp);
-        }, error => {
-           console.log('API error while creating new inventory');
+    }
+
+    removeInventoryFamilyAndOrPattern(index: number) {
+        this.inventoryFamilyAndOrPatternsToInsert.splice(index, 1);
+    }
+
+    resetSelectedInventoryImages() {
+        this.globalFunctionService.presentAlertConfirm(
+            'Warning',
+            'Are you sure you want to reset the uploaded images?',
+            'Cancel',
+            'Confirm',
+            undefined,
+            () => this.resetInventoryImages());
+    }
+
+    resetInventoryImages() {
+        this.inventoryImagesUrl = [];
+    }
+
+    async openAddInventoryFamilyAndPatternModal() {
+        const modal = await this.modalController.create({
+            component: InvFamilyPatternModalPage
         });
+        modal.onDidDismiss().then((dataReturned) => {
+            if (dataReturned.data !== undefined && dataReturned.data !== null) {
+                this.inventoryFamilyAndOrPatternsToInsert.push(dataReturned.data);
+            }
+        });
+        return await modal.present();
     }
-
-    formInventoryFamilyObject() {
-        this.inventoryFamilyToInsert.code = this.inventoryFamilyCodeModel;
-        this.inventoryFamilyToInsert.cost = this.inventoryFamilyCostModel;
-        // created_at
-        this.inventoryFamilyToInsert.desc = this.inventoryFamilyDescriptionModel;
-        // id
-        // imgpath
-        // imgpublicid
-        // inventory_id
-        this.inventoryFamilyToInsert.name = this.inventoryFamilyNameModel;
-        this.inventoryFamilyToInsert.onsale = this.selectedFamilyOnSaleToggle;
-        // inventoryFamily.patterns.push();
-        this.inventoryFamilyToInsert.price = this.inventoryFamilySellingPriceModel;
-        this.inventoryFamilyToInsert.qty = this.inventoryFamilyStockQuantityModel;
-        // salesqty
-        this.inventoryFamilyToInsert.sku = this.inventoryFamilySKUModel;
-        // status
-        // uid
-        // updated_at
-
-        // TODO: Hard-coded data
-        this.inventoryFamilyToInsert.code = 'familycodeex';
-        this.inventoryFamilyToInsert.cost = '59.90';
-        this.inventoryFamilyToInsert.desc = 'family description';
-        this.inventoryFamilyToInsert.name = 'family name ex';
-        this.inventoryFamilyToInsert.onsale = true;
-        this.inventoryFamilyToInsert.price = '60';
-        this.inventoryFamilyToInsert.qty = '99';
-        this.inventoryFamilyToInsert.sku = 'familyskuex';
-
-
-        console.log(JSON.stringify(this.inventoryFamilyToInsert));
-        this.formInventoryPatternObject();
-    }
-
-    formInventoryPatternObject() {
-        let inventoryPattern: any = {};
-        // inventoryPattern.cost = this.inventoryPatternCostModel;
-        // // created_at
-        // inventoryPattern.desc = this.inventoryPatternDescriptionModel;
-        // // id
-        // // imgpath
-        // // imgpublicid
-        // // inventory_family_id
-        // inventoryPattern.name = this.inventoryPatternNameModel;
-        // inventoryPattern.onsale = this.selectedPatternOnSaleToggle;
-        // inventoryPattern.price = this.inventoryPatternSellingPriceModel;
-        // inventoryPattern.qty = this.inventoryPatternStockQuantityModel;
-        // // salesqty
-        // // status
-        // // uid
-        // // updated_at
-
-        this.inventoryFamilyToInsert.patterns = [];
-
-        // TODO: Hard-coded data
-        inventoryPattern.cost = '25.00';
-        inventoryPattern.desc = 'pattern description';
-        inventoryPattern.name = 'pattern name';
-        inventoryPattern.onsale = false;
-        inventoryPattern.price = '30';
-        inventoryPattern.qty = '80';
-
-        this.inventoryFamilyToInsert.patterns.push(inventoryPattern);
-        this.inventoryFamilyToInsert.patterns.push(inventoryPattern);
-
-        console.log(JSON.stringify(this.inventoryFamilyToInsert));
-    }
-
-    /*  pickMultipleImages() {
-    console.log('pick multiple images');
-    const options: ImagePickerOptions = {
-      maximumImagesCount: 3,
-      width: 100,
-      height: 100
-    };
-    this.imagePicker.getPictures(options).then((results) => {
-      for (let i = 0; i < results.length; i++) {
-        console.log('Image URI: ' + results[i]);
-      }
-    }, (err) => { });
-  }*/
 }

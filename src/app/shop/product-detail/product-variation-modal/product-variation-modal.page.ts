@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {ModalController} from '@ionic/angular';
-import {Inventory} from '../../../_dal/ipohdrum';
 import {SharedService} from '../../../shared.service';
 import {commonConfig} from '../../../_dal/common/commonConfig';
 

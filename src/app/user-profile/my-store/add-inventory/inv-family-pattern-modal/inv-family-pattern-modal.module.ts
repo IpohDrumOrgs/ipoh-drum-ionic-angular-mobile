@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
+
 import { IonicModule } from '@ionic/angular';
-import { ProductVariationModalPage } from './product-variation-modal.page';
-import {SharedModule} from '../../../shared/shared.module';
+
+import { InvFamilyPatternModalPage } from './inv-family-pattern-modal.page';
+import {SharedModule} from '../../../../shared/shared.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: ProductVariationModalPage
+    component: InvFamilyPatternModalPage
   }
 ];
 
@@ -19,8 +21,9 @@ const routes: Routes = [
         FormsModule,
         IonicModule,
         RouterModule.forChild(routes),
+        ReactiveFormsModule,
         SharedModule
     ],
-  declarations: [ProductVariationModalPage]
+  declarations: [InvFamilyPatternModalPage]
 })
-export class ProductVariationModalPageModule {}
+export class InvFamilyPatternModalPageModule {}

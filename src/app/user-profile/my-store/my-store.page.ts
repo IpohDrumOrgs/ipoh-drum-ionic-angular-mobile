@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import {ModalController} from '@ionic/angular';
-import {AddInventoryPage} from './add-inventory/add-inventory.page';
-import {ProductVariationModalPage} from '../../shop/product-detail/product-variation-modal/product-variation-modal.page';
 
 @Component({
   selector: 'app-my-store',
@@ -53,7 +50,6 @@ export class MyStorePage implements OnInit {
   }
 
   navigateToAddInventory() {
-    console.log('navigate to add inventory');
     this.router.navigate(['ipoh-drum/user-profile/my-store/add-inventory']);
   }
 }

@@ -46,6 +46,7 @@ export class ProductDetailPage implements OnInit, OnDestroy {
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.currentInventory = resp.data;
+                    console.log(this.currentInventory);
                 } else {
                     // TODO: Navigate to Shop page after showed alert prompt
                 }
@@ -91,15 +92,6 @@ export class ProductDetailPage implements OnInit, OnDestroy {
                 selectedInventory: this.currentInventory
             }
         });
-
-        // modal.onDidDismiss().then((dataReturned) => {
-        //     if (dataReturned !== null) {
-        //         this.dataReturned = dataReturned.data;
-        //         console.log('datareturned');
-        //         console.log(this.dataReturned);
-        //         // alert('Modal Sent Data :'+ dataReturned);
-        //     }
-        // });
         return await modal.present();
     }
 }

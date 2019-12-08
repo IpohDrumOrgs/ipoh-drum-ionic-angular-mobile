@@ -15,8 +15,7 @@
 
 <ion-content main>
     <form-wizard>
-        <!--        [isValid]="inventoryInfoFormGroup?.valid && inventoryImagesUrl?.length > 0"-->
-        <wizard-step [title]="'1'">
+        <wizard-step [title]="'1'" [isValid]="inventoryInfoFormGroup?.valid && inventoryImagesUrl?.length > 0">
             <ion-card style="padding:5px;background-color:#fbfbfb;" [formGroup]="inventoryInfoFormGroup">
                 <ion-row>
                     <ion-col size="12">
@@ -226,6 +225,7 @@
                                          style="height:300px;">
                                 </ion-slide>
                             </ion-slides>
+                            <ion-button color="warning" (click)="resetSelectedInventoryImages()">Reset Selections</ion-button>
                         </ng-container>
                         <ng-template #noInventoryImageUploaded>
                             <div class="error">
@@ -351,358 +351,84 @@
                 </ion-row>
             </ion-card>
         </wizard-step>
-        <wizard-step [title]="'3'">
-            <ion-card style="padding:5px;background-color:#fbfbfb;" [formGroup]="inventoryFamilyFormGroup">
-                <ion-row class="ion-align-items-center">
+        <wizard-step [title]="'3'" (onComplete)="onComplete()">
+            <ion-card style="padding:5px;background-color:#fbfbfb;">
+                <ion-row>
                     <ion-col size="12">
-                        <h3>Define Inventory Family</h3>
-                        <table class="table">
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <ion-row class="ion-align-items-center">
-                                        <ion-col size="12">
-                                            <b>Name</b>
-                                        </ion-col>
-                                        <ion-col size="12">
-                                            <input type="text" class="form-control"
-                                                   [(ngModel)]="inventoryFamilyNameModel"
-                                                   formControlName="inventoryFamilyName"
-                                                   [ngClass]="{'is-invalid': inventoryFamilyFormGroup.get('inventoryFamilyName').invalid && inventoryFamilyFormGroup.get('inventoryFamilyName').touched, 'is-valid': inventoryFamilyFormGroup.get('inventoryFamilyName').valid}">
-                                            <ul class="error"
-                                                *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyName').invalid && inventoryFamilyFormGroup.get('inventoryFamilyName').touched">
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyName').hasError('required') && inventoryFamilyFormGroup.get('inventoryFamilyName').touched">
-                                                    Family Name is required.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyName').hasError('maxlength') && inventoryFamilyFormGroup.get('inventoryFamilyName').touched">
-                                                    Family Name cannot be more than {{inventoryNameMaxLength}}
-                                                    characters.
-                                                </li>
-                                            </ul>
-                                        </ion-col>
-                                    </ion-row>
-                                    <ion-row class="ion-align-items-center">
-                                        <ion-col size="12">
-                                            <b>Code</b>
-                                        </ion-col>
-                                        <ion-col size="12">
-                                            <input type="text" class="form-control"
-                                                   [(ngModel)]="inventoryFamilyCodeModel"
-                                                   formControlName="inventoryFamilyCode"
-                                                   [ngClass]="{'is-invalid': inventoryFamilyFormGroup.get('inventoryFamilyCode').invalid && inventoryFamilyFormGroup.get('inventoryFamilyCode').touched, 'is-valid': inventoryFamilyFormGroup.get('inventoryFamilyCode').valid}">
-                                            <ul class="error"
-                                                *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyCode').invalid && inventoryFamilyFormGroup.get('inventoryFamilyCode').touched">
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyCode').hasError('required') && inventoryFamilyFormGroup.get('inventoryFamilyCode').touched">
-                                                    Family Code is required.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyCode').hasError('minlength') && inventoryFamilyFormGroup.get('inventoryFamilyCode').touched">
-                                                    Family Code must have at least {{inventoryFamilyCodeMinLength}}
-                                                    characters.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyCode').hasError('maxlength') && inventoryFamilyFormGroup.get('inventoryFamilyCode').touched">
-                                                    Family Code cannot be more than {{inventoryFamilyCodeMaxLength}}
-                                                    characters.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyCode').hasError('pattern') && inventoryFamilyFormGroup.get('inventoryFamilyCode').touched">
-                                                    Family Code must contain alphanumeric characters only.
-                                                </li>
-                                            </ul>
-                                        </ion-col>
-                                    </ion-row>
-                                    <ion-row class="ion-align-items-center">
-                                        <ion-col size="12">
-                                            <b>SKU</b>
-                                        </ion-col>
-                                        <ion-col size="12">
-                                            <input type="text" class="form-control"
-                                                   [(ngModel)]="inventoryFamilySKUModel"
-                                                   formControlName="inventoryFamilySKU"
-                                                   [ngClass]="{'is-invalid': inventoryFamilyFormGroup.get('inventoryFamilySKU').invalid && inventoryFamilyFormGroup.get('inventoryFamilySKU').touched, 'is-valid': inventoryFamilyFormGroup.get('inventoryFamilySKU').valid}">
-                                            <ul class="error"
-                                                *ngIf="inventoryFamilyFormGroup.get('inventoryFamilySKU').invalid && inventoryFamilyFormGroup.get('inventoryFamilySKU').touched">
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilySKU').hasError('required') && inventoryFamilyFormGroup.get('inventoryFamilySKU').touched">
-                                                    Family SKU is required.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilySKU').hasError('minlength') && inventoryFamilyFormGroup.get('inventoryFamilySKU').touched">
-                                                    Family SKU must have at least {{inventorySKUMinLength}} characters.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilySKU').hasError('maxlength') && inventoryFamilyFormGroup.get('inventoryFamilySKU').touched">
-                                                    Family SKU cannot be more than {{inventorySKUMaxLength}} characters.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilySKU').hasError('pattern') && inventoryFamilyFormGroup.get('inventoryFamilySKU').touched">
-                                                    Family SKU must contain alphanumeric characters only.
-                                                </li>
-                                            </ul>
-                                        </ion-col>
-                                    </ion-row>
-                                    <ion-row class="ion-align-items-center">
-                                        <ion-col size="12">
-                                            <b>Description</b>
-                                        </ion-col>
-                                        <ion-col size="12">
-                                            <textarea cols="20" rows="3" class="form-control"
-                                                      [(ngModel)]="inventoryFamilyDescriptionModel"
-                                                      formControlName="inventoryFamilyDescription"
-                                                      [ngClass]="{'is-invalid': inventoryFamilyFormGroup.get('inventoryFamilyDescription').invalid && inventoryFamilyFormGroup.get('inventoryFamilyDescription').touched, 'is-valid': inventoryFamilyFormGroup.get('inventoryFamilyDescription').valid}">
-                                            </textarea>
-                                            <ul class="error"
-                                                *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyDescription').invalid && inventoryFamilyFormGroup.get('inventoryFamilyDescription').touched">
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyDescription').hasError('required') && inventoryFamilyFormGroup.get('inventoryFamilyDescription').touched">
-                                                    Family Description is required.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyDescription').hasError('minlength') && inventoryFamilyFormGroup.get('inventoryFamilyDescription').touched">
-                                                    Family Description must have at
-                                                    least {{inventoryFamilyDescMinLength}} characters.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyDescription').hasError('maxlength') && inventoryFamilyFormGroup.get('inventoryFamilyDescription').touched">
-                                                    Family Description cannot be more
-                                                    than {{inventoryFamilyDescMaxLength}} characters.
-                                                </li>
-                                            </ul>
-                                        </ion-col>
-                                    </ion-row>
-                                    <ion-row class="ion-align-items-center">
-                                        <ion-col size="12">
-                                            <b>Cost</b>
-                                        </ion-col>
-                                        <ion-col size="12">
-                                            <input type="text" class="form-control"
-                                                   [(ngModel)]="inventoryFamilyCostModel"
-                                                   formControlName="inventoryFamilyCost"
-                                                   [ngClass]="{'is-invalid': inventoryFamilyFormGroup.get('inventoryFamilyCost').invalid && inventoryFamilyFormGroup.get('inventoryFamilyCost').touched, 'is-valid': inventoryFamilyFormGroup.get('inventoryFamilyCost').valid}">
-                                            <ul class="error"
-                                                *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyCost').invalid && inventoryFamilyFormGroup.get('inventoryFamilyCost').touched">
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyCost').hasError('required') && inventoryFamilyFormGroup.get('inventoryFamilyCost').touched">
-                                                    Family Cost is required.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyCost').hasError('maxlength') && inventoryFamilyFormGroup.get('inventoryFamilyCost').touched">
-                                                    Family Cost cannot be more than {{inventoryFamilyCostMaxLength}}
-                                                    digits.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyCost').hasError('pattern') && inventoryFamilyFormGroup.get('inventoryFamilyCost').touched">
-                                                    Family Cost format must be [123] or [123.00].
-                                                </li>
-                                            </ul>
-                                        </ion-col>
-                                    </ion-row>
-                                    <ion-row class="ion-align-items-center">
-                                        <ion-col size="12">
-                                            <b>Selling Price</b>
-                                        </ion-col>
-                                        <ion-col size="12">
-                                            <input type="text" class="form-control"
-                                                   [(ngModel)]="inventoryFamilySellingPriceModel"
-                                                   formControlName="inventoryFamilySellingPrice"
-                                                   [ngClass]="{'is-invalid': inventoryFamilyFormGroup.get('inventoryFamilySellingPrice').invalid && inventoryFamilyFormGroup.get('inventoryFamilySellingPrice').touched, 'is-valid': inventoryFamilyFormGroup.get('inventoryFamilySellingPrice').valid}">
-                                            <ul class="error"
-                                                *ngIf="inventoryFamilyFormGroup.get('inventoryFamilySellingPrice').invalid && inventoryFamilyFormGroup.get('inventoryFamilySellingPrice').touched">
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilySellingPrice').hasError('required') && inventoryFamilyFormGroup.get('inventoryFamilySellingPrice').touched">
-                                                    Family Selling Price is required.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilySellingPrice').hasError('maxlength') && inventoryFamilyFormGroup.get('inventoryFamilySellingPrice').touched">
-                                                    Family Selling Price cannot be more
-                                                    than {{inventoryFamilySellingPriceMaxLength}} digits.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilySellingPrice').hasError('pattern') && inventoryFamilyFormGroup.get('inventoryFamilySellingPrice').touched">
-                                                    Family Selling Price format must be [123] or [123.00].
-                                                </li>
-                                            </ul>
-                                        </ion-col>
-                                    </ion-row>
-                                    <ion-row class="ion-align-items-center">
-                                        <ion-col size="12">
-                                            <b>Quantity</b>
-                                        </ion-col>
-                                        <ion-col size="12">
-                                            <input type="text" class="form-control"
-                                                   [(ngModel)]="inventoryFamilyStockQuantityModel"
-                                                   formControlName="inventoryFamilyStockQuantity"
-                                                   [ngClass]="{'is-invalid': inventoryFamilyFormGroup.get('inventoryFamilyStockQuantity').invalid && inventoryFamilyFormGroup.get('inventoryFamilyStockQuantity').touched, 'is-valid': inventoryFamilyFormGroup.get('inventoryFamilyStockQuantity').valid}">
-                                            <ul class="error"
-                                                *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyStockQuantity').invalid && inventoryFamilyFormGroup.get('inventoryFamilyStockQuantity').touched">
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyStockQuantity').hasError('required') && inventoryFamilyFormGroup.get('inventoryFamilyStockQuantity').touched">
-                                                    Family Stock Quantity is required.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyStockQuantity').hasError('maxlength') && inventoryFamilyFormGroup.get('inventoryFamilyStockQuantity').touched">
-                                                    Family Stock Quantity cannot be more
-                                                    than {{inventoryFamilyStockQuantityMaxLength}} digits.
-                                                </li>
-                                                <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyStockQuantity').hasError('pattern') && inventoryFamilyFormGroup.get('inventoryFamilyStockQuantity').touched">
-                                                    Family Stock Quantity must contain digits only.
-                                                </li>
-                                            </ul>
-                                        </ion-col>
-                                    </ion-row>
-                                    <ion-row class="ion-align-items-center">
-                                        <ion-col size="3">
-                                            <b>On Sale</b>
-                                        </ion-col>
-                                        <ion-col size="3" style="text-align:right;">
-                                            <ion-toggle color="success" [checked]="selectedFamilyOnSaleToggle"
-                                                        (ionChange)="toggleFamilyOnSaleCheckbox()"></ion-toggle>
-                                        </ion-col>
-                                        <ion-col size="6"></ion-col>
-                                    </ion-row>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </ion-col>
-                </ion-row>
-            </ion-card>
-        </wizard-step>
-        <wizard-step [title]="'4'" (onComplete)="onComplete()">
-            <div [ngSwitch]="formIsCompleted">
-                <div *ngSwitchDefault>
-                    <ion-card style="padding:5px;background-color:#fbfbfb;" [formGroup]="inventoryPatternFormGroup">
-                        <ion-row class="ion-align-items-center">
-                            <ion-col size="12">
-                                <h3>Define Inventory Pattern</h3>
-                                <table class="table">
+                        <ng-container [ngSwitch]="formIsCompleted">
+                            <div *ngSwitchDefault>
+                                <h3>Inventory Families & Patterns</h3>
+                                <table class="table" style="margin-bottom:0;">
                                     <tbody>
                                     <tr>
-                                        <td>
+                                        <th>
                                             <ion-row class="ion-align-items-center">
-                                                <ion-col size="12">
-                                                    <b>Name</b>
-                                                </ion-col>
-                                                <ion-col size="12">
-                                                    <input type="text" class="form-control"
-                                                           [(ngModel)]="inventoryPatternNameModel"
-                                                           formControlName="inventoryPatternName"
-                                                           [ngClass]="{'is-invalid': inventoryPatternFormGroup.get('inventoryPatternName').invalid && inventoryPatternFormGroup.get('inventoryPatternName').touched, 'is-valid': inventoryPatternFormGroup.get('inventoryPatternName').valid}">
-                                                    <ul class="error"
-                                                        *ngIf="inventoryPatternFormGroup.get('inventoryPatternName').invalid && inventoryPatternFormGroup.get('inventoryPatternName').touched">
-                                                        <li *ngIf="inventoryPatternFormGroup.get('inventoryPatternName').hasError('required') && inventoryPatternFormGroup.get('inventoryPatternName').touched">
-                                                            Pattern Name is required.
-                                                        </li>
-                                                        <li *ngIf="inventoryPatternFormGroup.get('inventoryPatternName').hasError('maxlength') && inventoryPatternFormGroup.get('inventoryPatternName').touched">
-                                                            Pattern Name cannot be more
-                                                            than {{inventoryPatternNameMaxLength}} characters.
-                                                        </li>
-                                                    </ul>
+                                                <ion-col size="12" style="text-align:center;">
+                                                    <ion-button (click)="openAddInventoryFamilyAndPatternModal()" style="white-space:normal;word-wrap:break-word;">
+                                                        ADD FAMILIES AND PATTERNS&nbsp;<ion-icon name="add-circle"></ion-icon>
+                                                    </ion-button>
                                                 </ion-col>
                                             </ion-row>
-                                            <ion-row class="ion-align-items-center">
-                                                <ion-col size="12">
-                                                    <b>Description</b>
-                                                </ion-col>
-                                                <ion-col size="12">
-                                        <textarea cols="20" rows="3" class="form-control"
-                                                  [(ngModel)]="inventoryPatternDescriptionModel"
-                                                  formControlName="inventoryPatternDescription"
-                                                  [ngClass]="{'is-invalid': inventoryPatternFormGroup.get('inventoryPatternDescription').invalid && inventoryPatternFormGroup.get('inventoryPatternDescription').touched, 'is-valid': inventoryPatternFormGroup.get('inventoryPatternDescription').valid}">
-                                        </textarea>
-                                                    <ul class="error"
-                                                        *ngIf="inventoryPatternFormGroup.get('inventoryPatternDescription').invalid && inventoryPatternFormGroup.get('inventoryPatternDescription').touched">
-                                                        <li *ngIf="inventoryPatternFormGroup.get('inventoryPatternDescription').hasError('required') && inventoryPatternFormGroup.get('inventoryPatternDescription').touched">
-                                                            Pattern Description is required.
-                                                        </li>
-                                                        <li *ngIf="inventoryPatternFormGroup.get('inventoryPatternDescription').hasError('minlength') && inventoryPatternFormGroup.get('inventoryPatternDescription').touched">
-                                                            Pattern Description must have at
-                                                            least {{inventoryPatternDescMinLength}} characters.
-                                                        </li>
-                                                        <li *ngIf="inventoryPatternFormGroup.get('inventoryPatternDescription').hasError('maxlength') && inventoryPatternFormGroup.get('inventoryPatternDescription').touched">
-                                                            Pattern Description cannot be more
-                                                            than {{inventoryPatternDescMaxLength}} characters.
-                                                        </li>
-                                                    </ul>
-                                                </ion-col>
-                                            </ion-row>
-                                            <ion-row class="ion-align-items-center">
-                                                <ion-col size="12">
-                                                    <b>Cost</b>
-                                                </ion-col>
-                                                <ion-col size="12">
-                                                    <input type="text" class="form-control"
-                                                           [(ngModel)]="inventoryPatternCostModel"
-                                                           formControlName="inventoryPatternCost"
-                                                           [ngClass]="{'is-invalid': inventoryPatternFormGroup.get('inventoryPatternCost').invalid && inventoryPatternFormGroup.get('inventoryPatternCost').touched, 'is-valid': inventoryPatternFormGroup.get('inventoryPatternCost').valid}">
-                                                    <ul class="error"
-                                                        *ngIf="inventoryPatternFormGroup.get('inventoryPatternCost').invalid && inventoryPatternFormGroup.get('inventoryPatternCost').touched">
-                                                        <li *ngIf="inventoryPatternFormGroup.get('inventoryPatternCost').hasError('required') && inventoryPatternFormGroup.get('inventoryPatternCost').touched">
-                                                            Pattern Cost is required.
-                                                        </li>
-                                                        <li *ngIf="inventoryPatternFormGroup.get('inventoryPatternCost').hasError('maxlength') && inventoryPatternFormGroup.get('inventoryPatternCost').touched">
-                                                            Pattern Cost cannot be more
-                                                            than {{inventoryPatternCostMaxLength}} characters.
-                                                        </li>
-                                                        <li *ngIf="inventoryPatternFormGroup.get('inventoryPatternCost').hasError('pattern') && inventoryPatternFormGroup.get('inventoryPatternCost').touched">
-                                                            Pattern Cost format must be [123] or [123.00].
-                                                        </li>
-                                                    </ul>
-                                                </ion-col>
-                                            </ion-row>
-                                            <ion-row class="ion-align-items-center">
-                                                <ion-col size="12">
-                                                    <b>Selling Price</b>
-                                                </ion-col>
-                                                <ion-col size="12">
-                                                    <input type="text" class="form-control"
-                                                           [(ngModel)]="inventoryPatternSellingPriceModel"
-                                                           formControlName="inventoryPatternSellingPrice"
-                                                           [ngClass]="{'is-invalid': inventoryPatternFormGroup.get('inventoryPatternSellingPrice').invalid && inventoryPatternFormGroup.get('inventoryPatternSellingPrice').touched, 'is-valid': inventoryPatternFormGroup.get('inventoryPatternSellingPrice').valid}">
-                                                    <ul class="error"
-                                                        *ngIf="inventoryPatternFormGroup.get('inventoryPatternSellingPrice').invalid && inventoryPatternFormGroup.get('inventoryPatternSellingPrice').touched">
-                                                        <li *ngIf="inventoryPatternFormGroup.get('inventoryPatternSellingPrice').hasError('required') && inventoryPatternFormGroup.get('inventoryPatternSellingPrice').touched">
-                                                            Pattern Selling Price is required.
-                                                        </li>
-                                                        <li *ngIf="inventoryPatternFormGroup.get('inventoryPatternSellingPrice').hasError('maxlength') && inventoryPatternFormGroup.get('inventoryPatternSellingPrice').touched">
-                                                            Pattern Selling Price cannot be more
-                                                            than {{inventoryPatternSellingPriceMaxLength}} characters.
-                                                        </li>
-                                                        <li *ngIf="inventoryPatternFormGroup.get('inventoryPatternSellingPrice').hasError('pattern') && inventoryPatternFormGroup.get('inventoryPatternSellingPrice').touched">
-                                                            Pattern Selling Price format must be [123] or [123.00].
-                                                        </li>
-                                                    </ul>
-                                                </ion-col>
-                                            </ion-row>
-                                            <ion-row class="ion-align-items-center">
-                                                <ion-col size="12">
-                                                    <b>Quantity</b>
-                                                </ion-col>
-                                                <ion-col size="12">
-                                                    <input type="text" class="form-control"
-                                                           [(ngModel)]="inventoryPatternStockQuantityModel"
-                                                           formControlName="inventoryPatternStockQuantity"
-                                                           [ngClass]="{'is-invalid': inventoryPatternFormGroup.get('inventoryPatternStockQuantity').invalid && inventoryPatternFormGroup.get('inventoryPatternStockQuantity').touched, 'is-valid': inventoryPatternFormGroup.get('inventoryPatternStockQuantity').valid}">
-                                                    <ul class="error"
-                                                        *ngIf="inventoryPatternFormGroup.get('inventoryPatternStockQuantity').invalid && inventoryPatternFormGroup.get('inventoryPatternStockQuantity').touched">
-                                                        <li *ngIf="inventoryPatternFormGroup.get('inventoryPatternStockQuantity').hasError('required') && inventoryPatternFormGroup.get('inventoryPatternStockQuantity').touched">
-                                                            Pattern Stock Quantity is required.
-                                                        </li>
-                                                        <li *ngIf="inventoryPatternFormGroup.get('inventoryPatternStockQuantity').hasError('maxlength') && inventoryPatternFormGroup.get('inventoryPatternStockQuantity').touched">
-                                                            Pattern Stock Quantity cannot be more
-                                                            than {{inventoryPatternStockQuantityMaxLength}} characters.
-                                                        </li>
-                                                        <li *ngIf="inventoryPatternFormGroup.get('inventoryPatternStockQuantity').hasError('pattern') && inventoryPatternFormGroup.get('inventoryPatternStockQuantity').touched">
-                                                            Pattern Stock Quantity must contain digits only.
-                                                        </li>
-                                                    </ul>
-                                                </ion-col>
-                                            </ion-row>
-                                            <ion-row class="ion-align-items-center">
-                                                <ion-col size="3">
-                                                    <b>On Sale</b>
-                                                </ion-col>
-                                                <ion-col size="3" style="text-align:right;">
-                                                    <ion-toggle color="success" [checked]="selectedPatternOnSaleToggle"
-                                                                (ionChange)="togglePatternOnSaleCheckbox()"></ion-toggle>
-                                                </ion-col>
-                                                <ion-col size="6"></ion-col>
-                                            </ion-row>
-                                        </td>
+                                        </th>
                                     </tr>
                                     </tbody>
                                 </table>
-                            </ion-col>
-                        </ion-row>
-                    </ion-card>
-                </div>
-                <div *ngSwitchCase="true">
-                    <h4>Thank you! You have completed all the steps.</h4>
-                </div>
-            </div>
+                                <ion-row>
+                                    <ion-col size="12">
+                                        <table class="table" style="margin-bottom:0;">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th width="5%">
+                                                    #
+                                                </th>
+                                                <th width="45%">Families</th>
+                                                <th width="45%">Patterns</th>
+                                                <th width="5%">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody *ngIf="inventoryFamilyAndOrPatternsToInsert?.length === 0" style="background-color:white;border-bottom:1px solid #f2f2f2;border-left:1px solid #f2f2f2;border-right:1px solid #f2f2f2;">
+                                            <tr>
+                                                <td colspan="4" style="color:grey;">No inventory families and patterns.</td>
+                                            </tr>
+                                            </tbody>
+                                            <tbody *ngIf="inventoryFamilyAndOrPatternsToInsert?.length > 0" style="background-color:white;border-bottom:1px solid #f2f2f2;border-left:1px solid #f2f2f2;border-right:1px solid #f2f2f2;">
+                                            <tr *ngFor="let invFamilyPattern of inventoryFamilyAndOrPatternsToInsert;let i = index;">
+                                                <td>
+                                                    <b>{{i+1}}</b>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-primary">{{invFamilyPattern?.name}}</span>
+                                                </td>
+                                                <td>
+                                                    <ng-container *ngIf="invFamilyPattern?.patterns.length > 0 else noPattern">
+                                                    <span class="badge badge-info" *ngFor="let pattern of invFamilyPattern?.patterns;let j = index;">
+                                                    {{pattern?.name}}
+                                                </span>
+                                                    </ng-container>
+                                                    <ng-template #noPattern>
+                                                    <span class="badge badge-dark">
+                                                        NONE
+                                                    </span>
+                                                    </ng-template>
+                                                </td>
+                                                <td>
+                                                    <ion-button fill="clear" style="padding:0;" (click)="removeSelectedInventoryFamilyAndOrPattern(i)">
+                                                        <ion-icon name="trash" style="color:#cbcbcb;"></ion-icon>
+                                                    </ion-button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </ion-col>
+                                </ion-row>
+                            </div>
+                            <div *ngSwitchCase="true">
+                                <h4>Thank you! You have completed all the steps.</h4>
+                            </div>
+                        </ng-container>
+                    </ion-col>
+                </ion-row>
+            </ion-card>
         </wizard-step>
     </form-wizard>
 </ion-content>

@@ -23,6 +23,10 @@ import {ProductVariationModalPageModule} from './shop/product-detail/product-var
 import {SharedService} from './shared.service';
 import { NgSelect2Module } from 'ng-select2';
 import { FormWizardModule } from 'angular-wizard-form';
+// tslint:disable-next-line:max-line-length
+import {InvFamilyPatternModalPageModule} from './user-profile/my-store/add-inventory/inv-family-pattern-modal/inv-family-pattern-modal.module';
+// tslint:disable-next-line:max-line-length
+import {AddInventoryPatternModalPageModule} from './user-profile/my-store/add-inventory/inv-family-pattern-modal/add-inventory-pattern-modal/add-inventory-pattern-modal.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -48,7 +52,9 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         PerfectScrollbarModule,
         ProductVariationModalPageModule,
         NgSelect2Module,
-        FormWizardModule
+        FormWizardModule,
+        InvFamilyPatternModalPageModule,
+        AddInventoryPatternModalPageModule
     ],
     providers: [
         StatusBar,

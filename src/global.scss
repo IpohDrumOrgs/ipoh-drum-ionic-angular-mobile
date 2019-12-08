@@ -78,3 +78,10 @@ input.ng-dirty.ng-invalid.ng-touched {
     position:fixed;
 }
 
+// Custom Error Messages styling for wizard-step
+.error {
+    color: #ff1749;
+    padding-left:0;
+    margin-left:15px;
+    margin-bottom:0;
+}
