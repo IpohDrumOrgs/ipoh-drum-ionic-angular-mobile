@@ -21,7 +21,7 @@
                 <ion-row>
                     <ion-col size="12">
                         <h3>Inventory Details</h3>
-                        <table class="table">
+                        <table class="table" style="margin-bottom:0;">
                             <tbody>
                             <tr>
                                 <td>
@@ -208,33 +208,32 @@
                                         </tr>
                                         </tbody>
                                     </table>
-
-                                    <ion-row class="ion-align-items-center">
-                                        <ion-col size="12">
-                                            <ng-container
-                                                    *ngIf="inventoryImagesUrl?.length > 0 else noInventoryImageUploaded">
-                                                <ion-slides pager="true" [options]="inventoryImageSliderOptions"
-                                                            style="background-color:#f2f2f2;border-radius:5px;margin:5px;">
-                                                    <ion-slide *ngFor="let url of inventoryImagesUrl">
-                                                        <img [src]="url" alt="product_image"
-                                                             class="productDetailImage rounded mb-3"
-                                                             style="height:300px;">
-                                                    </ion-slide>
-                                                </ion-slides>
-                                            </ng-container>
-                                            <ng-template #noInventoryImageUploaded>
-                                                <div class="error">
-                                                    <ul class="error">
-                                                        <li>Please upload at least ONE photo.</li>
-                                                    </ul>
-                                                </div>
-                                            </ng-template>
-                                        </ion-col>
-                                    </ion-row>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="12">
+                        <ng-container
+                                *ngIf="inventoryImagesUrl?.length > 0 else noInventoryImageUploaded">
+                            <ion-slides pager="true" [options]="inventoryImageSliderOptions"
+                                        style="background-color:#f2f2f2;border-radius:5px;margin:5px;">
+                                <ion-slide *ngFor="let url of inventoryImagesUrl">
+                                    <img [src]="url" alt="product_image"
+                                         class="productDetailImage rounded mb-3"
+                                         style="height:300px;">
+                                </ion-slide>
+                            </ion-slides>
+                        </ng-container>
+                        <ng-template #noInventoryImageUploaded>
+                            <div class="error">
+                                <ul class="error">
+                                    <li>Please upload at least ONE photo. (Maximum 5 photos)</li>
+                                </ul>
+                            </div>
+                        </ng-template>
                     </ion-col>
                 </ion-row>
             </ion-card>

@@ -1,7 +1,7 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {
-    InventoryControllerServiceService, InventoryFamily,
+    InventoryControllerServiceService,
     ProductPromotion,
     Shipping,
     StoreControllerServiceService,
@@ -48,7 +48,6 @@ export class AddInventoryPage implements OnInit {
     numericOnlyRegex = '^[0-9]+$';
 
     // Booleans
-    didUploadPhoto = false;
     formIsCompleted = false;
 
     // Number
@@ -267,24 +266,25 @@ export class AddInventoryPage implements OnInit {
     }
 
     detectFiles(event) {
-        console.log('Upload image');
         const files = event.target.files;
-        this.didUploadPhoto = false;
-        if (files) {
-            for (const file of files) {
-                if (file.type.toString().includes('image')) {
-                    const reader = new FileReader();
-                    reader.onload = (e: any) => {
-                        this.inventoryImagesUrl.push(e.target.result);
-                        this.didUploadPhoto = true;
-                    };
-                    reader.readAsDataURL(file);
+        if (this.inventoryImagesUrl.length !== 5) {
+            if (files) {
+                for (const file of files) {
+                    if (file.type.toString().includes('image')) {
+                        const reader = new FileReader();
+                        reader.onload = (e: any) => {
+                            this.inventoryImagesUrl.push(e.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        // tslint:disable-next-line:max-line-length
+                        this.globalFunctionService.simpleToast('ERROR', 'You may have selected an invalid file! Please try again.', 'danger', 'top');
+                        break;
+                    }
                 }
             }
-        }
-        if (this.didUploadPhoto) {
-            // tslint:disable-next-line:max-line-length
-            this.globalFunctionService.simpleToast('SUCCESS', 'Image has been uploaded! You can upload up to 7 pictures!', 'success', 'top');
+        } else {
+            this.globalFunctionService.simpleToast('WARNING', 'You have reached the max number of uploaded photos!', 'warning', 'top');
         }
     }
 
@@ -311,25 +311,29 @@ export class AddInventoryPage implements OnInit {
         this.inventoryDescriptionModel = 'inventory description example';
         this.inventoryStockThresholdModel = 5;
 
-        // this.createInventorySubscription = this.inventoryControllerService.createInventory(
-        //     this.inventoryNameModel,
-        //     2,
-        //     this.selectedPromotionPlan.id,
-        //     this.selectedWarrantyPlan.id,
-        //     this.selectedShippingPlan.id,
-        //     this.inventoryCostModel,
-        //     this.inventoryBasePriceModel,
-        //     JSON.stringify(this.inventoryFamilyToInsert),
-        //     this.inventoryCodeModel,
-        //     this.inventorySKUModel,
-        //     this.inventoryDescriptionModel,
-        //     this.inventoryStockThresholdModel,
-        //     undefined // TODO, Convert images to Array of BLOB
-        // ).subscribe(resp => {
-        //     console.log(resp);
-        // }, error => {
-        //    console.log('API error while creating new inventory');
-        // });
+        let inventoryFamilyArray = [];
+        inventoryFamilyArray.push(this.inventoryFamilyToInsert);
+        console.log(JSON.stringify(inventoryFamilyArray));
+
+        this.createInventorySubscription = this.inventoryControllerService.createInventory(
+            this.inventoryNameModel,
+            2,
+            this.selectedPromotionPlan.id,
+            this.selectedWarrantyPlan.id,
+            this.selectedShippingPlan.id,
+            this.inventoryCostModel,
+            this.inventoryBasePriceModel,
+            JSON.stringify(inventoryFamilyArray),
+            this.inventoryCodeModel,
+            this.inventorySKUModel,
+            this.inventoryDescriptionModel,
+            this.inventoryStockThresholdModel,
+            undefined // TODO, Convert images to Array of BLOB
+        ).subscribe(resp => {
+            console.log(resp);
+        }, error => {
+           console.log('API error while creating new inventory');
+        });
     }
 
     formInventoryFamilyObject() {
