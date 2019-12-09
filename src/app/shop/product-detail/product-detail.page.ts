@@ -19,15 +19,13 @@ export class ProductDetailPage implements OnInit, OnDestroy {
     isLoadingInventory = true;
 
     currentInventory: Inventory;
-    dataReturned: any;
-
-    currentInventorySubscription: any;
-
     ionSliderOptions = {
         autoHeight: true,
         initialSlide: 0,
         speed: 400
     };
+
+    currentInventorySubscription: any;
 
     constructor(
         private router: Router,
@@ -47,9 +45,8 @@ export class ProductDetailPage implements OnInit, OnDestroy {
                 this.inventoryUID.toString()
             ).subscribe(resp => {
                 if (resp.code === 200) {
-                    console.log('got the item: ' + this.inventoryUID);
-                    console.log(resp);
                     this.currentInventory = resp.data;
+                    console.log(this.currentInventory);
                 } else {
                     // TODO: Navigate to Shop page after showed alert prompt
                 }
@@ -95,15 +92,6 @@ export class ProductDetailPage implements OnInit, OnDestroy {
                 selectedInventory: this.currentInventory
             }
         });
-
-        // modal.onDidDismiss().then((dataReturned) => {
-        //     if (dataReturned !== null) {
-        //         this.dataReturned = dataReturned.data;
-        //         console.log('datareturned');
-        //         console.log(this.dataReturned);
-        //         // alert('Modal Sent Data :'+ dataReturned);
-        //     }
-        // });
         return await modal.present();
     }
 }

@@ -20,7 +20,7 @@
             </ion-row>
             <ion-row>
               <ion-col size="12">
-                <input type="text" class="form-control" [(ngModel)]="userEmailLogin" (keydown.enter)="loginUser()" [ngClass]="{'is-invalid': userLoginFormGroup.get('userEmail').invalid && userLoginFormGroup.get('userEmail').touched, 'is-valid': userLoginFormGroup.get('userEmail').valid}" formControlName="userEmail">
+                <input type="text" class="form-control" [(ngModel)]="userEmailLogin" (keydown.enter)="loginUser()" [ngClass]="{'is-invalid': userLoginFormGroup.get('userEmail').invalid && userLoginFormGroup.get('userEmail').touched, 'is-valid': userLoginFormGroup.get('userEmail').valid}" formControlName="userEmail" [autofocus]="true">
                 <ul class="errorMessages" *ngIf="userLoginFormGroup.get('userEmail').invalid && userLoginFormGroup.get('userEmail').touched">
                   <li *ngIf="userLoginFormGroup.get('userEmail').hasError('required') && userLoginFormGroup.get('userEmail').touched">
                     Email is required.

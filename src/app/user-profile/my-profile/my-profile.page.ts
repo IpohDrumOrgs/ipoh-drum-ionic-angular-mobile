@@ -1,4 +1,4 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {commonConfig} from '../../_dal/common/commonConfig';
 import {User, UserControllerServiceService} from '../../_dal/ipohdrum';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -13,8 +13,10 @@ import {NavController} from '@ionic/angular';
   templateUrl: './my-profile.page.html',
   styleUrls: ['./my-profile.page.scss'],
 })
-export class MyProfilePage implements OnInit {
 
+export class MyProfilePage implements OnInit, OnDestroy {
+
+  constructorName = '[' + this.constructor.name + ']';
   userNameRegex = commonConfig.userNameRegex;
   icNoRegex = commonConfig.icNoRegex;
   phoneNumberRegex = commonConfig.phoneNumberRegex;
@@ -44,43 +46,56 @@ export class MyProfilePage implements OnInit {
       private loadingService: LoadingService,
       private navController: NavController
   ) {
+    console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {
-    this.editingUserFormGroup = new FormGroup({
-      userNameFc: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(this.minLengthOfUsername),
-        Validators.maxLength(this.maxLengthOfUsername),
-        Validators.pattern(this.userNameRegex)
-      ]),
-      userEmailFc: new FormControl(null, [
-        Validators.required,
-        Validators.email
-      ]),
-      userIcNoFc: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(this.minLengthOfIc),
-        Validators.maxLength(this.minLengthOfIc),
-        Validators.pattern(this.icNoRegex)
-      ]),
-      userTel1Fc: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(this.minLengthOfPhoneNumber),
-        Validators.maxLength(this.maxLengthOfPhoneNumber),
-        Validators.pattern(this.phoneNumberRegex)
-      ]),
-      userAddress1Fc: new FormControl(null, [
-        Validators.required
-      ])
+    console.log(this.constructorName + 'ngOnInit');
+    this.ngZone.run(() => {
+      this.editingUserFormGroup = new FormGroup({
+        userNameFc: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(this.minLengthOfUsername),
+          Validators.maxLength(this.maxLengthOfUsername),
+          Validators.pattern(this.userNameRegex)
+        ]),
+        userEmailFc: new FormControl(null, [
+          Validators.required,
+          Validators.email
+        ]),
+        userIcNoFc: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(this.minLengthOfIc),
+          Validators.maxLength(this.minLengthOfIc),
+          Validators.pattern(this.icNoRegex)
+        ]),
+        userTel1Fc: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(this.minLengthOfPhoneNumber),
+          Validators.maxLength(this.maxLengthOfPhoneNumber),
+          Validators.pattern(this.phoneNumberRegex)
+        ]),
+        userAddress1Fc: new FormControl(null, [
+          Validators.required
+        ])
+      });
+      this.initializeUserInfo();
     });
-    this.initializeUserInfo();
   }
 
-  ionViewWillEnter() {
+  ngOnDestroy() {
+    console.log(this.constructorName + 'ngOnDestroy');
+  }
+
+  ionViewDidEnter() {
+    console.log(this.constructorName + 'IonViewDidEnter');
     if (this.editUserInformationPanelMode) {
       this.enableEditingUser();
     }
+  }
+
+  ionViewWillLeave() {
+    console.log(this.constructorName + 'IonViewWillLeave');
   }
 
   enableEditingUser() {
@@ -92,7 +107,7 @@ export class MyProfilePage implements OnInit {
   }
 
   initializeUserInfo() {
-/*    this.authenticationService.authenticate().then(resp => {
+    this.authenticationService.authenticate().then(resp => {
       if (resp.status) {
         if (resp.status === 200) {
           this.loggedInUser = resp.data;
@@ -109,7 +124,7 @@ export class MyProfilePage implements OnInit {
       this.loggedInUser = null;
       this.globalFunctionService.simpleToast('ERROR!', 'You are not authenticated, please login first!', 'danger');
       this.router.navigate(['/login']);
-    });*/
+    });
   }
 
   updateUserInfo() {

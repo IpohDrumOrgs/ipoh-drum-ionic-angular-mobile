@@ -10,13 +10,17 @@ import { GroupControllerServiceService } from './api/groupControllerService.serv
 import { InventoryControllerServiceService } from './api/inventoryControllerService.service';
 import { ModuleControllerServiceService } from './api/moduleControllerService.service';
 import { ProductFeatureControllerServiceService } from './api/productFeatureControllerService.service';
+import { ProductPromotionControllerServiceService } from './api/productPromotionControllerService.service';
+import { ProductReviewControllerServiceService } from './api/productReviewControllerService.service';
 import { RoleControllerServiceService } from './api/roleControllerService.service';
 import { SaleControllerServiceService } from './api/saleControllerService.service';
+import { ShippingControllerServiceService } from './api/shippingControllerService.service';
 import { StoreControllerServiceService } from './api/storeControllerService.service';
 import { TicketControllerServiceService } from './api/ticketControllerService.service';
 import { TypeControllerServiceService } from './api/typeControllerService.service';
 import { UserControllerServiceService } from './api/userControllerService.service';
 import { VerificationCodeControllerServiceService } from './api/verificationCodeControllerService.service';
+import { WarrantyControllerServiceService } from './api/warrantyControllerService.service';
 
 @NgModule({
   imports:      [],
@@ -30,13 +34,17 @@ import { VerificationCodeControllerServiceService } from './api/verificationCode
     InventoryControllerServiceService,
     ModuleControllerServiceService,
     ProductFeatureControllerServiceService,
+    ProductPromotionControllerServiceService,
+    ProductReviewControllerServiceService,
     RoleControllerServiceService,
     SaleControllerServiceService,
+    ShippingControllerServiceService,
     StoreControllerServiceService,
     TicketControllerServiceService,
     TypeControllerServiceService,
     UserControllerServiceService,
-    VerificationCodeControllerServiceService ]
+    VerificationCodeControllerServiceService,
+    WarrantyControllerServiceService ]
 })
 export class ApiModule {
     public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders {

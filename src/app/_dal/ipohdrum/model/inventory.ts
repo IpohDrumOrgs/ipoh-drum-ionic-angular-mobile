@@ -14,27 +14,26 @@
 export interface Inventory { 
     id?: number;
     storeId?: number;
+    productPromotionId?: number;
+    shippingId?: number;
+    warrantyId?: number;
     uid?: string;
     code?: string;
     sku?: string;
     name?: string;
+    imgpublicid?: string;
+    imgpath?: string;
     desc?: string;
+    rating?: number;
     cost?: number;
     price?: number;
-    disc?: number;
-    discpctg?: number;
-    promoprice?: number;
-    promostartdate?: string;
-    promoenddate?: string;
-    stock?: number;
-    salesqty?: number;
-    warrantyperiod?: number;
-    stockthreshold?: number;
-    backorder?: number;
-    status?: number;
-    lasteditBy?: string;
-    createdAt?: string;
     qty?: number;
+    promoendqty?: number;
+    salesqty?: number;
+    stockthreshold?: number;
+    status?: number;
+    onsale?: number;
+    createdAt?: string;
     updatedAt?: string;
 }
 

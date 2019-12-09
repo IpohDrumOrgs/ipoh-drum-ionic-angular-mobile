@@ -1,80 +1,97 @@
 <ion-content>
-  <div style="padding:10px;">
-    <ion-row style="border-bottom:1px solid #f2f2f2;">
-      <ion-col size="12" style="text-align:right;">
-        <ion-icon name="close" (click)="closeModal()" style="font-size:25px;"></ion-icon>
-      </ion-col>
-    </ion-row>
-    <ion-row style="border-bottom:1px solid #f2f2f2;">
-      <ion-col size="6">
-        <img [src]="selectedInventory.imgpath" alt="product_image" class="smallProductImage">
-      </ion-col>
-      <ion-col size="6" style="padding-left:0;padding-right:0;">
-        <div style="font-size:20px;">
-          <ng-container *ngIf="selectedInventory.promotion else noPromoPrice">
-            <ion-label style="text-decoration:line-through;color:#e3e3e3;">
-              {{selectedInventory.price | myCurrency}}
-            </ion-label>
-            <ion-chip color="primary" style="margin-left:5px;">
-              -{{selectedInventory.promotion.discpctg}}%
-            </ion-chip>
-            <br>
-            <ion-label>
-              <b>{{selectedInventory.promoprice | myCurrency}}</b>
-            </ion-label>
-          </ng-container>
-          <ng-template #noPromoPrice>
-            <ion-label style="font-size:30px;">
-              <b>{{selectedInventory.price | myCurrency}}</b>
-            </ion-label>
-          </ng-template>
-          <br>
-          <span style="color:lightgrey;font-size:17px;">
+    <div style="padding:10px;">
+        <ion-row style="border-bottom:1px solid #f2f2f2;">
+            <ion-col size="12" style="text-align:right;">
+                <ion-icon name="close" (click)="closeModal()" style="font-size:25px;"></ion-icon>
+            </ion-col>
+        </ion-row>
+        <ion-row style="border-bottom:1px solid #f2f2f2;">
+            <ion-col size="6">
+                <img [src]="selectedInventory.imgpath" alt="product_image" class="smallProductImage">
+            </ion-col>
+            <ion-col size="6" style="padding-left:0;padding-right:0;">
+                <div style="font-size:20px;">
+                    <ng-container *ngIf="selectedInventory.promotion else noPromoPrice">
+                        <ion-label style="text-decoration:line-through;color:#e3e3e3;">
+                            {{selectedInventory.price | myCurrency}}
+                        </ion-label>
+                        <ion-chip color="primary" style="margin-left:5px;">
+                            -{{selectedInventory.promotion.discpctg}}%
+                        </ion-chip>
+                        <br>
+                        <ion-label>
+                            <b>{{selectedInventory.promoprice | myCurrency}}</b>
+                        </ion-label>
+                    </ng-container>
+                    <ng-template #noPromoPrice>
+                        <ion-label style="font-size:30px;">
+                            <b>{{selectedInventory.price | myCurrency}}</b>
+                        </ion-label>
+                    </ng-template>
+                    <br>
+                    <span style="color:lightgrey;font-size:17px;">
             {{selectedInventory.qty}} stock<span *ngIf="selectedInventory.qty > 1">s</span> left
           </span>
-        </div>
-      </ion-col>
-    </ion-row>
-    <ion-row style="border-bottom:1px solid #f2f2f2;">
-      <ion-col size="12">
-        <h5><b>Color</b></h5>
-        <ion-list>
-          <ion-radio-group>
-            <ion-item>
-              <ion-label>RED</ion-label>
-              <ion-radio value="RED" checked></ion-radio>
-            </ion-item>
-            <ion-item>
-              <ion-label>BLUE</ion-label>
-              <ion-radio value="BLUE"></ion-radio>
-            </ion-item>
-          </ion-radio-group>
-        </ion-list>
-      </ion-col>
-    </ion-row>
-    <ion-row style="border-bottom:1px solid #f2f2f2;">
-      <ion-col size="12">
-        <h5><b>Quantity</b></h5>
-        <div class="input-group" style="width:150px;">
-          <div class="input-group-prepend">
-            <button class="form-control" (click)="reduceQuantity()"
-                    [disabled]="this.selectedQuantity <= 1"
-                    style="border-top-right-radius:0;border-bottom-right-radius:0;">-</button>
-          </div>
-          <input type="text" class="form-control" readonly disabled [ngModel]="selectedQuantity" style="text-align:center;">
-          <div class="input-group-append">
-            <button class="form-control" (click)="addQuantity()"
-                    [disabled]="selectedInventory?.qty <= selectedQuantity"
-                    style="border-top-left-radius:0;border-bottom-left-radius:0;">+</button>
-          </div>
-        </div>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="12">
-        <ion-button expand="full" (click)="addItemToCart()">Add To Cart</ion-button>
-      </ion-col>
-    </ion-row>
-  </div>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row style="border-bottom:1px solid #f2f2f2;">
+            <ion-col size="12">
+                <h5><b>Variations</b></h5>
+                <ion-list>
+                    <div class="radio-toolbar">
+                        <span *ngFor="let variations of selectedInventory.inventoryfamilies" style="margin-right:5px;">
+                            <input type="radio" [id]="'variations_' + variations.id" name="variations" [value]="variations.id"
+                                   (click)="selectInventoryFamily(variations)">
+                            <label [for]="'variations_' + variations.id">
+                                {{variations?.name}}
+                            </label>
+                        </span>
+                    </div>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+        <ion-row style="border-bottom:1px solid #f2f2f2;" *ngIf="availableInventoryPatterns !== undefined && availableInventoryPatterns !== null">
+            <ion-col size="12">
+                <h5><b>Other Variations</b></h5>
+                <ion-list>
+                    <div class="radio-toolbar">
+                        <span *ngFor="let patterns of availableInventoryPatterns" style="margin-right:5px;">
+                            <input type="radio" [id]="'patterns_' + patterns.id" name="otherVariations" [value]="patterns.id" (click)="selectInventoryPattern(patterns)">
+                            <label [for]="'patterns_' + patterns.id">
+                                {{patterns?.name}}
+                            </label>
+                        </span>
+                    </div>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+        <ion-row style="border-bottom:1px solid #f2f2f2;">
+            <ion-col size="12">
+                <h5><b>Quantity</b></h5>
+                <div class="input-group" style="width:150px;">
+                    <div class="input-group-prepend">
+                        <button class="form-control" (click)="reduceQuantity()"
+                                [disabled]="this.quantitiesToAdd <= 1"
+                                style="border-top-right-radius:0;border-bottom-right-radius:0;">-
+                        </button>
+                    </div>
+                    <input type="text" class="form-control" readonly disabled [ngModel]="quantitiesToAdd"
+                           style="text-align:center;">
+                    <div class="input-group-append">
+                        <button class="form-control" (click)="addQuantity()"
+                                [disabled]="selectedInventory?.qty <= quantitiesToAdd"
+                                style="border-top-left-radius:0;border-bottom-left-radius:0;">+
+                        </button>
+                    </div>
+                </div>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="12">
+                <ion-button expand="full" (click)="addItemToCart()" [disabled]="!selectedInventoryFamily || (selectedInventoryFamily.patterns.length > 0 && !selectedInventoryPattern)">Add To Cart</ion-button>
+            </ion-col>
+        </ion-row>
+    </div>
 </ion-content>
 

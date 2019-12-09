@@ -10,7 +10,7 @@ export class MyCurrencyPipe implements PipeTransform {
       return value;
     }
     if (!value) {
-      return null;
+      return 'RM0.00';
     }
     let priceFormat = '';
     let formattedPrice = 'RM ';

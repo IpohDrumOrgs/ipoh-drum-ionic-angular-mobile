@@ -45,7 +45,9 @@ export class LoginRegisterComponent implements OnInit {
         private globalFunctionService: GlobalfunctionService,
         private userControllerService: UserControllerServiceService,
         private navController: NavController
-    ) {}
+    ) {
+        console.log(this.constructorName + 'Initializing component');
+    }
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -91,9 +93,8 @@ export class LoginRegisterComponent implements OnInit {
         this.userToRegister = {} as User;
         this.changeToUserLoginCard();
         if (this.authenticationService.isUserLoggedIn()) {
-            this.globalFunctionService.simpleToast('WARNING!', 'You are already logged in!', 'warning');
-            // TODO
-            // this.navController.navigateRoot('/ipoh-drum/home');
+            this.globalFunctionService.simpleToast(undefined, 'Logged in! Navigating to Home page..', 'primary');
+            this.navController.navigateRoot('/ipoh-drum/home');
         }
     }
 

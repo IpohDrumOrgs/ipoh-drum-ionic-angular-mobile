@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import {AlertController, ToastController} from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +7,10 @@ import { ToastController } from '@ionic/angular';
 
 export class GlobalfunctionService {
 
-  constructor(public toastController: ToastController) { }
+  constructor(
+      private toastController: ToastController,
+      private alertController: AlertController
+  ) { }
 
   async simpleToast(header, msg, color, position?) {
     const toast = await this.toastController.create({
@@ -21,14 +24,39 @@ export class GlobalfunctionService {
     toast.present();
   }
 
-  async optionToast(header , msg , color) {
-    const toast = await this.toastController.create({
+  async presentAlertConfirm(
       header,
-      message: msg,
-      color,
-      position: 'top',
-      showCloseButton : true
+      message,
+      cancelButtonText,
+      confirmButtonText,
+      // tslint:disable-next-line:ban-types
+      cancelCallbackFunction?: Function,
+      // tslint:disable-next-line:ban-types
+      confirmCallbackFunction?: Function
+  ) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: [
+        {
+          text: cancelButtonText,
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            if (cancelCallbackFunction !== undefined) {
+              cancelCallbackFunction();
+            }
+          }
+        }, {
+          text: confirmButtonText,
+          handler: () => {
+            if (confirmCallbackFunction !== undefined) {
+              confirmCallbackFunction();
+            }
+          }
+        }
+      ]
     });
-    toast.present();
+    await alert.present();
   }
 }

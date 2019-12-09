@@ -21,6 +21,12 @@ import {LoadingService} from './_dal/common/services/loading.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ProductVariationModalPageModule} from './shop/product-detail/product-variation-modal/product-variation-modal.module';
 import {SharedService} from './shared.service';
+import { NgSelect2Module } from 'ng-select2';
+import { FormWizardModule } from 'angular-wizard-form';
+// tslint:disable-next-line:max-line-length
+import {InvFamilyPatternModalPageModule} from './user-profile/my-store/add-inventory/inv-family-pattern-modal/inv-family-pattern-modal.module';
+// tslint:disable-next-line:max-line-length
+import {AddInventoryPatternModalPageModule} from './user-profile/my-store/add-inventory/inv-family-pattern-modal/add-inventory-pattern-modal/add-inventory-pattern-modal.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true
@@ -41,10 +47,14 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         AppRoutingModule,
         IonicStorageModule.forRoot(),
         LaravelPassportModule.forRoot(
-            {apiRoot: 'http://localhost:8000', clientId: 2, clientSecret: 'TcGs2t1wfhvboiKP8Kid0GorkquwgkcWgGNCokF5'}
+            {apiRoot: 'http://localhost:8000', clientId: 2, clientSecret: 'm6fenXUbXpUodDuz48OPKi4djKkSYn1XgmdHQ8RK'}
         ),
         PerfectScrollbarModule,
-        ProductVariationModalPageModule
+        ProductVariationModalPageModule,
+        NgSelect2Module,
+        FormWizardModule,
+        InvFamilyPatternModalPageModule,
+        AddInventoryPatternModalPageModule
     ],
     providers: [
         StatusBar,

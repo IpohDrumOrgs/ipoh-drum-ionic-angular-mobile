@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-my-store',
   templateUrl: './my-store.page.html',
   styleUrls: ['./my-store.page.scss'],
 })
+
 export class MyStorePage implements OnInit {
 
   constructorName = '[' + this.constructor.name + ']';
@@ -38,11 +40,16 @@ export class MyStorePage implements OnInit {
     }
   ];
 
-  constructor() {
+  constructor(
+      private router: Router
+  ) {
     console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {
   }
 
+  navigateToAddInventory() {
+    this.router.navigate(['ipoh-drum/user-profile/my-store/add-inventory']);
+  }
 }

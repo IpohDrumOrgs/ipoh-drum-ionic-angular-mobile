@@ -7,11 +7,13 @@ import {IpohDrumPage} from './ipoh-drum.page';
 import {ErrorPageComponent} from '../shared/error-page/error-page.component';
 import {LoginRegisterComponent} from '../login-register/login-register.component';
 import {ShowHidePasswordModule} from 'ngx-show-hide-password';
+import {CheckAuthenticatedService} from '../_dal/common/services/check-authenticated.service';
 
 const routes: Routes = [
     {
         path: 'login',
-        component: LoginRegisterComponent
+        component: LoginRegisterComponent,
+        canActivate: []
     },
     {
         path: 'ipoh-drum',
@@ -21,7 +23,10 @@ const routes: Routes = [
             {path: 'home', loadChildren: '../home/home.module#HomePageModule'},
             {path: 'shop', loadChildren: '../shop/shop.module#ShopPageModule'},
             {path: 'shopping-cart', loadChildren: '../shopping-cart/shopping-cart.module#ShoppingCartPageModule'},
-            {path: 'user-profile', loadChildren: '../user-profile/user-profile.module#UserProfilePageModule'}
+            {path: 'user-profile',
+                loadChildren: '../user-profile/user-profile.module#UserProfilePageModule',
+                canActivate: [CheckAuthenticatedService]
+            }
         ]
     },
     {

@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './my-videos.page.html',
   styleUrls: ['./my-videos.page.scss'],
 })
+
 export class MyVideosPage implements OnInit {
 
   constructorName = '[' + this.constructor.name + ']';
