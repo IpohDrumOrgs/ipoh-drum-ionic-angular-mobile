@@ -68,7 +68,7 @@ export class AddInventoryPage implements OnInit {
     selectedPromotionPlan: ProductPromotion;
     selectedWarrantyPlan: Warranty;
     selectedShippingPlan: Shipping;
-    inventoryFamilyAndOrPatternsToInsert: any = [];
+    inventoryFamilyAndOrPatternsToInsert: Array<Object> = [];
 
     // FormGroups
     inventoryInfoFormGroup: FormGroup;
@@ -93,7 +93,7 @@ export class AddInventoryPage implements OnInit {
     ngOnInit() {
         this.ngZone.run(() => {
             this.storePromotionsSubscription = this.storeControllerService.getPromotionsByStoreUid(
-                '1575382099-2'
+                '1575903140-1'
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.listOfStorePromotions = resp.data;
@@ -105,7 +105,7 @@ export class AddInventoryPage implements OnInit {
                 this.listOfStorePromotions = [];
             });
             this.storeWarrantySubscription = this.storeControllerService.getWarrantiesByStoreUid(
-                '1575382099-2'
+                '1575903140-1'
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.listOfStoreWarranties = resp.data;
@@ -117,7 +117,7 @@ export class AddInventoryPage implements OnInit {
                 this.listOfStoreWarranties = [];
             });
             this.storeShippingSubscription = this.storeControllerService.getShippingsByStoreUid(
-                '1575382099-2'
+                '1575903140-1'
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.listOfStoreShippings = resp.data;
@@ -200,6 +200,7 @@ export class AddInventoryPage implements OnInit {
     onComplete() {
         if (this.inventoryInfoFormGroup.valid) {
             this.formIsCompleted = true;
+            console.log(JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert));
             this.createInventorySubscription = this.inventoryControllerService.createInventory(
                 this.inventoryNameModel,
                 2,
@@ -208,7 +209,7 @@ export class AddInventoryPage implements OnInit {
                 this.selectedShippingPlan.id,
                 this.inventoryCostModel,
                 this.inventoryBasePriceModel,
-                this.inventoryFamilyAndOrPatternsToInsert,
+                JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert),
                 this.inventoryCodeModel,
                 this.inventorySKUModel,
                 this.inventoryDescriptionModel,
