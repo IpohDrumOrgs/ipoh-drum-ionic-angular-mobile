@@ -11,6 +11,7 @@ import {GlobalfunctionService} from '../../../_dal/common/services/globalfunctio
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ModalController} from '@ionic/angular';
 import {InvFamilyPatternModalPage} from './inv-family-pattern-modal/inv-family-pattern-modal.page';
+import {LoadingService} from '../../../_dal/common/services/loading.service';
 
 @Component({
     selector: 'app-add-inventory',
@@ -36,9 +37,6 @@ export class AddInventoryPage implements OnInit {
     alphaNumericOnlyRegex = '^[a-zA-Z0-9_]+$';
     priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
     numericOnlyRegex = '^[0-9]+$';
-
-    // Booleans
-    formIsCompleted = false;
 
     // Number
     inventoryNameMinLength = 5;
@@ -85,7 +83,8 @@ export class AddInventoryPage implements OnInit {
         private storeControllerService: StoreControllerServiceService,
         private globalFunctionService: GlobalfunctionService,
         private inventoryControllerService: InventoryControllerServiceService,
-        private modalController: ModalController
+        private modalController: ModalController,
+        private loadingService: LoadingService
     ) {
         console.log(this.constructorName + 'Initializing component');
     }
@@ -198,29 +197,33 @@ export class AddInventoryPage implements OnInit {
     }
 
     onComplete() {
-        if (this.inventoryInfoFormGroup.valid) {
-            this.formIsCompleted = true;
-            console.log(JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert));
-            this.createInventorySubscription = this.inventoryControllerService.createInventory(
-                this.inventoryNameModel,
-                2,
-                this.selectedPromotionPlan.id,
-                this.selectedWarrantyPlan.id,
-                this.selectedShippingPlan.id,
-                this.inventoryCostModel,
-                this.inventoryBasePriceModel,
-                JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert),
-                this.inventoryCodeModel,
-                this.inventorySKUModel,
-                this.inventoryDescriptionModel,
-                this.inventoryStockThresholdModel,
-                undefined // TODO, Convert images to Array of BLOB
-            ).subscribe(resp => {
-                console.log(resp);
-            }, error => {
-                console.log('API error while creating new inventory');
-            });
-        }
+        // if (this.inventoryInfoFormGroup.valid) {
+        this.loadingService.present();
+        this.createInventorySubscription = this.inventoryControllerService.createInventory(
+            this.inventoryNameModel,
+            2,
+            this.selectedPromotionPlan.id,
+            this.selectedWarrantyPlan.id,
+            this.selectedShippingPlan.id,
+            this.inventoryCostModel,
+            this.inventoryBasePriceModel,
+            JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert),
+            this.inventoryCodeModel,
+            this.inventorySKUModel,
+            this.inventoryDescriptionModel,
+            this.inventoryStockThresholdModel,
+            null // TODO, Convert images to Array of BLOB
+        ).subscribe(resp => {
+            console.log(resp);
+            this.loadingService.dismiss();
+            this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
+            this.router.navigate(['/ipoh-drum/user-profile/my-store']);
+        }, error => {
+            console.log('API error while creating new inventory');
+            this.loadingService.dismiss();
+            this.globalFunctionService.simpleToast('ERROR', 'Unable to create the inventory, please try again later!', 'warning', 'top');
+        });
+        // }
     }
 
     removeSelectedInventoryFamilyAndOrPattern(index: number) {
