@@ -1,4 +1,4 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {
     InventoryControllerServiceService,
@@ -50,9 +50,14 @@ export class AddInventoryPage implements OnInit {
     inventoryCostMaxLength = 10;
     inventorySellingPriceMaxLength = 10;
     inventoryStockThresholdMaxLength = 3;
+    maxInventoryPhotoSlider = 5;
+
+    // ViewChild
+    @ViewChild('inventoryThumbnailContainer', {static: false}) inventoryThumbnailContainer: ElementRef;
+    @ViewChild('inventorySlidersContainer', {static: false}) inventorySlidersContainer: ElementRef;
 
     // Arrays
-    inventoryImagesUrl = new Array<string>();
+    inventorySliderImagesURL: Array<Blob> = [];
     listOfStorePromotions: ProductPromotion [] = [];
     listOfStoreWarranties: Warranty[] = [];
     listOfStoreShippings: Shipping[] = [];
@@ -63,10 +68,12 @@ export class AddInventoryPage implements OnInit {
         initialSlide: 0,
         speed: 400
     };
-    selectedPromotionPlan: ProductPromotion;
-    selectedWarrantyPlan: Warranty;
-    selectedShippingPlan: Shipping;
-    inventoryFamilyAndOrPatternsToInsert: Array<Object> = [];
+    selectedPromotionPlan: ProductPromotion = null;
+    selectedWarrantyPlan: Warranty = null;
+    selectedShippingPlan: Shipping = null;
+    inventoryFamilyAndOrPatternsToInsert: Array<object> = [];
+    temporaryInventoryThumbnail: Blob;
+    inventoryThumbnailAsArray: Array<Blob> = [];
 
     // FormGroups
     inventoryInfoFormGroup: FormGroup;
@@ -89,14 +96,45 @@ export class AddInventoryPage implements OnInit {
         console.log(this.constructorName + 'Initializing component');
     }
 
+    onComplete() {
+        // if (this.inventoryInfoFormGroup.valid) {
+        this.loadingService.present();
+        this.inventoryThumbnailAsArray[0] = this.temporaryInventoryThumbnail;
+        this.createInventorySubscription = this.inventoryControllerService.createInventory(
+            this.inventoryNameModel,
+            2,
+            this.selectedPromotionPlan.id,
+            this.selectedWarrantyPlan.id,
+            this.selectedShippingPlan.id,
+            JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert),
+            this.inventoryCostModel,
+            this.inventoryBasePriceModel,
+            this.inventoryCodeModel,
+            this.inventorySKUModel,
+            this.inventoryDescriptionModel,
+            this.inventoryStockThresholdModel,
+            this.inventoryThumbnailAsArray,
+            null
+        ).subscribe(resp => {
+            console.log(resp);
+            this.loadingService.dismiss();
+            this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
+            this.router.navigate(['/ipoh-drum/user-profile/my-store']);
+        }, error => {
+            console.log('API error while creating new inventory');
+            this.loadingService.dismiss();
+            this.globalFunctionService.simpleToast('ERROR', 'Unable to create the inventory, please try again later!', 'warning', 'top');
+        });
+        // }
+    }
+
     ngOnInit() {
         this.ngZone.run(() => {
             this.storePromotionsSubscription = this.storeControllerService.getPromotionsByStoreUid(
-                '1575903140-1'
+                '1575382099-2'
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.listOfStorePromotions = resp.data;
-                    this.selectedPromotionPlan = this.listOfStorePromotions[0];
                 } else {
                     this.listOfStorePromotions = [];
                 }
@@ -104,11 +142,10 @@ export class AddInventoryPage implements OnInit {
                 this.listOfStorePromotions = [];
             });
             this.storeWarrantySubscription = this.storeControllerService.getWarrantiesByStoreUid(
-                '1575903140-1'
+                '1575382099-2'
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.listOfStoreWarranties = resp.data;
-                    this.selectedWarrantyPlan = this.listOfStoreWarranties[0];
                 } else {
                     this.listOfStoreWarranties = [];
                 }
@@ -116,11 +153,10 @@ export class AddInventoryPage implements OnInit {
                 this.listOfStoreWarranties = [];
             });
             this.storeShippingSubscription = this.storeControllerService.getShippingsByStoreUid(
-                '1575903140-1'
+                '1575382099-2'
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.listOfStoreShippings = resp.data;
-                    this.selectedShippingPlan = this.listOfStoreShippings[0];
                 } else {
                     this.listOfStoreShippings = [];
                 }
@@ -173,15 +209,19 @@ export class AddInventoryPage implements OnInit {
         this.router.navigate(['ipoh-drum/user-profile/my-store']);
     }
 
-    detectFiles(event) {
+    openSlidersFilePicker() {
+        this.inventorySlidersContainer.nativeElement.click();
+    }
+
+    uploadInventorySliders(event) {
         const files = event.target.files;
-        if (this.inventoryImagesUrl.length !== 5) {
+        if (this.inventorySliderImagesURL.length < 5 && (files.length + this.inventorySliderImagesURL.length <= 5)) {
             if (files) {
                 for (const file of files) {
                     if (file.type.toString().includes('image')) {
                         const reader = new FileReader();
                         reader.onload = (e: any) => {
-                            this.inventoryImagesUrl.push(e.target.result);
+                            this.inventorySliderImagesURL.push(e.target.result);
                         };
                         reader.readAsDataURL(file);
                     } else {
@@ -196,34 +236,21 @@ export class AddInventoryPage implements OnInit {
         }
     }
 
-    onComplete() {
-        // if (this.inventoryInfoFormGroup.valid) {
-        this.loadingService.present();
-        this.createInventorySubscription = this.inventoryControllerService.createInventory(
-            this.inventoryNameModel,
-            2,
-            this.selectedPromotionPlan.id,
-            this.selectedWarrantyPlan.id,
-            this.selectedShippingPlan.id,
-            this.inventoryCostModel,
-            this.inventoryBasePriceModel,
-            JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert),
-            this.inventoryCodeModel,
-            this.inventorySKUModel,
-            this.inventoryDescriptionModel,
-            this.inventoryStockThresholdModel,
-            null // TODO, Convert images to Array of BLOB
-        ).subscribe(resp => {
-            console.log(resp);
-            this.loadingService.dismiss();
-            this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
-            this.router.navigate(['/ipoh-drum/user-profile/my-store']);
-        }, error => {
-            console.log('API error while creating new inventory');
-            this.loadingService.dismiss();
-            this.globalFunctionService.simpleToast('ERROR', 'Unable to create the inventory, please try again later!', 'warning', 'top');
-        });
-        // }
+    openThumbnailFilePicker() {
+        this.inventoryThumbnailContainer.nativeElement.click();
+    }
+
+    uploadInventoryThumbnail(event) {
+        const files = event.target.files;
+        if (files) {
+            if (files[0].type.toString().includes('image')) {
+                const reader = new FileReader();
+                reader.onload = (e: any) => {
+                    this.temporaryInventoryThumbnail = e.target.result;
+                };
+                reader.readAsDataURL(files[0]);
+            }
+        }
     }
 
     removeSelectedInventoryFamilyAndOrPattern(index: number) {
@@ -244,7 +271,7 @@ export class AddInventoryPage implements OnInit {
     resetSelectedInventoryImages() {
         this.globalFunctionService.presentAlertConfirm(
             'Warning',
-            'Are you sure you want to reset the uploaded images?',
+            'Are you sure you want to reset the uploaded Inventory Images?',
             'Cancel',
             'Confirm',
             undefined,
@@ -252,7 +279,7 @@ export class AddInventoryPage implements OnInit {
     }
 
     resetInventoryImages() {
-        this.inventoryImagesUrl = [];
+        this.inventorySliderImagesURL = [];
     }
 
     async openAddInventoryFamilyAndPatternModal() {

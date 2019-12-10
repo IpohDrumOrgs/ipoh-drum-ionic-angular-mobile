@@ -7,6 +7,7 @@ import { MyStorePage } from './my-store.page';
 import {AddInventoryPage} from './add-inventory/add-inventory.page';
 import {NgSelect2Module} from 'ng-select2';
 import {FormWizardModule} from 'angular-wizard-form/dist';
+import {NgImageSliderModule} from 'ng-image-slider';
 
 const routes: Routes = [
   {
@@ -27,7 +28,8 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         NgSelect2Module,
         FormWizardModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgImageSliderModule
     ],
   declarations: [
       MyStorePage,

@@ -15,9 +15,95 @@
 
 <ion-content main>
     <form-wizard>
-<!--    TODO    [isValid]="inventoryInfoFormGroup?.valid && inventoryImagesUrl?.length > 0"-->
-        <wizard-step [title]="'1'">
-            <ion-card style="padding:5px;background-color:#fbfbfb;" [formGroup]="inventoryInfoFormGroup">
+<!--        [isValid]="inventoryInfoFormGroup?.valid-->
+<!--        && inventorySliderImagesURL?.length > 0-->
+<!--        && temporaryInventoryThumbnail !== undefined-->
+<!--        && temporaryInventoryThumbnail !== null"-->
+        <wizard-step [title]="'1'" >
+            <ion-card style="padding:5px;">
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="12">
+                        <ng-container *ngIf="temporaryInventoryThumbnail else noThumbnailSelected">
+                            <ion-row class="ion-align-items-center">
+                                <ion-col size="12" style="text-align:center !important;padding-bottom:0;">
+                                    <img [src]="temporaryInventoryThumbnail" class="rounded mb-3"
+                                         style="height:250px;margin-bottom:0;">
+                                </ion-col>
+                            </ion-row>
+                            <ion-row class="ion-align-items-center">
+                                <ion-col size="12" style="text-align:center !important;padding-top:0;">
+                                    <label for="thumbnailUpload" class="custom-file-upload"
+                                           style="width:100% !important;font-size:15px !important;">
+                                        <ion-icon name="image"></ion-icon>&nbsp;&nbsp;Replace Thumbnail
+                                    </label>
+                                    <input type="file" id="thumbnailUpload" multiple="false" accept=".jpg, .jpeg, .png"
+                                           (change)="uploadInventoryThumbnail($event)">
+                                </ion-col>
+                            </ion-row>
+                        </ng-container>
+                        <ng-template #noThumbnailSelected>
+                            <div style="border:1px dashed #b1b1b1;text-align:center;color:#e6e6e6;"
+                                 (click)="openThumbnailFilePicker()">
+                                <ion-icon name="image" style="font-size:8rem;"></ion-icon>
+                                <h3>Click here to upload Inventory's Thumbnail</h3>
+                                <input type="file" multiple="false" style="display:none;" #inventoryThumbnailContainer
+                                       accept=".jpg, .jpeg, .png"
+                                       (change)="uploadInventoryThumbnail($event)">
+                            </div>
+                        </ng-template>
+                    </ion-col>
+                </ion-row>
+            </ion-card>
+
+            <ion-card style="padding:5px">
+                <ion-row>
+                    <ion-col size="12">
+                        <ion-row>
+                            <ion-col size="12">
+                                <h3 style="border-bottom:1px solid #e6e6e6;margin-top:0;">Inventory Pictures</h3>
+                            </ion-col>
+                        </ion-row>
+                        <ng-container *ngIf="inventorySliderImagesURL?.length > 0 else noSlidersSelected">
+                            <ion-row class="ion-align-items-center">
+                                <ion-col size="12">
+                                    <ion-slides pager="true" [options]="inventoryImageSliderOptions" style="margin:1px;">
+                                        <ion-slide *ngFor="let url of inventorySliderImagesURL">
+                                            <img [src]="url" alt="product_image"
+                                                 class="rounded mb-3"
+                                                 style="height:300px;">
+                                        </ion-slide>
+                                    </ion-slides>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row class="ion-align-items-center">
+                                <ion-col size="6" style="text-align:center;">
+                                    <ion-button color="warning" expand="full" (click)="resetSelectedInventoryImages()">
+                                        Reset
+                                    </ion-button>
+                                </ion-col>
+                                <ion-col size="6" style="text-align:center;">
+                                    <ion-button color="primary" expand="full" (click)="openSlidersFilePicker()">
+                                        Add More
+                                    </ion-button>
+                                    <input type="file" multiple="true" style="display:none;" #inventorySlidersContainer
+                                           accept=".jpg, .jpeg, .png" (change)="uploadInventorySliders($event)">
+                                </ion-col>
+                            </ion-row>
+                        </ng-container>
+                        <ng-template #noSlidersSelected>
+                            <div style="border:1px dashed #b1b1b1;text-align:center;color:#e6e6e6;"
+                                 (click)="openSlidersFilePicker()">
+                                <ion-icon name="images" style="font-size:8rem;"></ion-icon>
+                                <h5>Click here to upload Inventory's Sliders Images. (Max {{maxInventoryPhotoSlider}} images)</h5>
+                                <input type="file" multiple="true" style="display:none;" #inventorySlidersContainer
+                                       accept=".jpg, .jpeg, .png" (change)="uploadInventorySliders($event)">
+                            </div>
+                        </ng-template>
+                    </ion-col>
+                </ion-row>
+            </ion-card>
+
+            <ion-card style="padding:5px;" [formGroup]="inventoryInfoFormGroup">
                 <ion-row>
                     <ion-col size="12">
                         <h3>Inventory Details</h3>
@@ -33,7 +119,6 @@
                                             <input type="text" class="form-control"
                                                    [(ngModel)]="inventoryNameModel"
                                                    formControlName="inventoryName"
-                                                   [autofocus]="true"
                                                    [ngClass]="{'is-invalid': inventoryInfoFormGroup.get('inventoryName').invalid && inventoryInfoFormGroup.get('inventoryName').touched, 'is-valid': inventoryInfoFormGroup.get('inventoryName').valid}">
                                             <ul class="error"
                                                 *ngIf="inventoryInfoFormGroup.get('inventoryName').invalid && inventoryInfoFormGroup.get('inventoryName').touched">
@@ -127,7 +212,7 @@
                                         </ion-col>
                                     </ion-row>
 
-                                    <table class="table">
+                                    <table class="table" style="margin-bottom:0;">
                                         <tbody>
                                         <tr>
                                             <th>Cost</th>
@@ -194,18 +279,6 @@
                                                 </ul>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <th style="padding-bottom:0;">
-                                                Inventory Pictures
-                                            </th>
-                                            <td style="padding-bottom:0;">
-                                                <label for="file-upload" class="custom-file-upload">
-                                                    <ion-icon name="cloud-upload"></ion-icon>&nbsp;&nbsp;Upload
-                                                </label>
-                                                <input type="file" id="file-upload" multiple="true"
-                                                       (change)="detectFiles($event)" accept="image/*">
-                                            </td>
-                                        </tr>
                                         </tbody>
                                     </table>
                                 </td>
@@ -214,36 +287,13 @@
                         </table>
                     </ion-col>
                 </ion-row>
-                <ion-row class="ion-align-items-center">
-                    <ion-col size="12">
-                        <ng-container
-                                *ngIf="inventoryImagesUrl?.length > 0 else noInventoryImageUploaded">
-                            <ion-slides pager="true" [options]="inventoryImageSliderOptions"
-                                        style="background-color:#f2f2f2;border-radius:5px;margin:5px;">
-                                <ion-slide *ngFor="let url of inventoryImagesUrl">
-                                    <img [src]="url" alt="product_image"
-                                         class="productDetailImage rounded mb-3"
-                                         style="height:300px;">
-                                </ion-slide>
-                            </ion-slides>
-                            <ion-button color="warning" (click)="resetSelectedInventoryImages()">Reset Selections</ion-button>
-                        </ng-container>
-                        <ng-template #noInventoryImageUploaded>
-                            <div class="error">
-                                <ul class="error">
-                                    <li>Please upload at least ONE photo. (Maximum 5 photos)</li>
-                                </ul>
-                            </div>
-                        </ng-template>
-                    </ion-col>
-                </ion-row>
             </ion-card>
         </wizard-step>
         <wizard-step [title]="'2'">
-            <ion-card style="padding:5px;background-color:#fbfbfb;">
+            <ion-card>
                 <ion-row class="ion-align-items-center">
                     <ion-col size="12">
-                        <h3>Promotion Details</h3>
+                        <h3 style="margin-top:0;">Promotion Details</h3>
                         <table class="table" style="margin-bottom:0;">
                             <tbody>
                             <tr>
@@ -278,9 +328,11 @@
                         </table>
                     </ion-col>
                 </ion-row>
+            </ion-card>
+            <ion-card>
                 <ion-row class="ion-align-items-center">
                     <ion-col size="12">
-                        <h3>Warranty Details</h3>
+                        <h3 style="margin-top:0;">Warranty Details</h3>
                         <table class="table" style="margin-bottom:0;">
                             <tbody>
                             <tr>
@@ -314,9 +366,11 @@
                         </table>
                     </ion-col>
                 </ion-row>
+            </ion-card>
+            <ion-card>
                 <ion-row class="ion-align-items-center">
                     <ion-col size="12">
-                        <h3>Shipping Details</h3>
+                        <h3 style="margin-top:0;">Shipping Details</h3>
                         <table class="table" style="margin-bottom:0;">
                             <tbody>
                             <tr>
@@ -353,7 +407,7 @@
             </ion-card>
         </wizard-step>
         <wizard-step [title]="'3'" (onComplete)="onComplete()">
-            <ion-card style="padding:5px;background-color:#fbfbfb;">
+            <ion-card style="padding:5px;">
                 <ion-row>
                     <ion-col size="12">
                         <div>
@@ -364,8 +418,10 @@
                                     <th>
                                         <ion-row class="ion-align-items-center">
                                             <ion-col size="12" style="text-align:center;">
-                                                <ion-button (click)="openAddInventoryFamilyAndPatternModal()" style="white-space:normal;word-wrap:break-word;">
-                                                    ADD FAMILIES AND PATTERNS&nbsp;<ion-icon name="add-circle"></ion-icon>
+                                                <ion-button (click)="openAddInventoryFamilyAndPatternModal()"
+                                                            style="white-space:normal;word-wrap:break-word;">
+                                                    ADD FAMILIES AND PATTERNS&nbsp;<ion-icon
+                                                        name="add-circle"></ion-icon>
                                                 </ion-button>
                                             </ion-col>
                                         </ion-row>
@@ -386,22 +442,26 @@
                                             <th width="5%">Action</th>
                                         </tr>
                                         </thead>
-                                        <tbody *ngIf="inventoryFamilyAndOrPatternsToInsert?.length === 0" style="background-color:white;border-bottom:1px solid #f2f2f2;border-left:1px solid #f2f2f2;border-right:1px solid #f2f2f2;">
+                                        <tbody *ngIf="inventoryFamilyAndOrPatternsToInsert?.length === 0"
+                                               style="background-color:white;border-bottom:1px solid #f2f2f2;border-left:1px solid #f2f2f2;border-right:1px solid #f2f2f2;">
                                         <tr>
                                             <td colspan="4" style="color:grey;">No inventory families and patterns.</td>
                                         </tr>
                                         </tbody>
-                                        <tbody *ngIf="inventoryFamilyAndOrPatternsToInsert?.length > 0" style="background-color:white;border-bottom:1px solid #f2f2f2;border-left:1px solid #f2f2f2;border-right:1px solid #f2f2f2;">
+                                        <tbody *ngIf="inventoryFamilyAndOrPatternsToInsert?.length > 0"
+                                               style="background-color:white;border-bottom:1px solid #f2f2f2;border-left:1px solid #f2f2f2;border-right:1px solid #f2f2f2;">
                                         <tr *ngFor="let invFamilyPattern of inventoryFamilyAndOrPatternsToInsert;let i = index;">
                                             <td>
-                                                <b>{{i+1}}</b>
+                                                <b>{{i + 1}}</b>
                                             </td>
                                             <td>
                                                 <span class="badge badge-primary">{{invFamilyPattern?.name}}</span>
                                             </td>
                                             <td>
-                                                <ng-container *ngIf="invFamilyPattern?.patterns.length > 0 else noPattern">
-                                                <span class="badge badge-info" *ngFor="let pattern of invFamilyPattern?.patterns;let j = index;">
+                                                <ng-container
+                                                        *ngIf="invFamilyPattern?.patterns.length > 0 else noPattern">
+                                                <span class="badge badge-info"
+                                                      *ngFor="let pattern of invFamilyPattern?.patterns;let j = index;">
                                                 {{pattern?.name}}
                                             </span>
                                                 </ng-container>
@@ -412,7 +472,8 @@
                                                 </ng-template>
                                             </td>
                                             <td>
-                                                <ion-button fill="clear" style="padding:0;" (click)="removeSelectedInventoryFamilyAndOrPattern(i)">
+                                                <ion-button fill="clear" style="padding:0;"
+                                                            (click)="removeSelectedInventoryFamilyAndOrPattern(i)">
                                                     <ion-icon name="trash" style="color:#cbcbcb;"></ion-icon>
                                                 </ion-button>
                                             </td>
