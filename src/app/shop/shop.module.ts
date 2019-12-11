@@ -35,4 +35,5 @@ const routes: Routes = [
       ProductDetailPage
   ]
 })
+
 export class ShopPageModule {}

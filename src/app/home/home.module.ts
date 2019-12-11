@@ -27,4 +27,5 @@ const routes: Routes = [
       SaleArticlesComponent
   ]
 })
+
 export class HomePageModule {}

@@ -8,6 +8,18 @@ import {ErrorPageComponent} from '../shared/error-page/error-page.component';
 import {LoginRegisterComponent} from '../login-register/login-register.component';
 import {ShowHidePasswordModule} from 'ngx-show-hide-password';
 import {CheckAuthenticatedService} from '../_dal/common/services/check-authenticated.service';
+import {ProductVariationModalPageModule} from '../shop/product-detail/product-variation-modal/product-variation-modal.module';
+import {AddInventoryPageModule} from '../user-profile/my-store/add-inventory/add-inventory.module';
+import {ProductVariationModalPage} from '../shop/product-detail/product-variation-modal/product-variation-modal.page';
+import {AddInventoryPage} from '../user-profile/my-store/add-inventory/add-inventory.page';
+import {SharedModule} from '../shared/shared.module';
+import {FormWizardModule} from 'angular-wizard-form/dist';
+import {InvFamilyPatternModalPageModule} from '../user-profile/my-store/add-inventory/inv-family-pattern-modal/inv-family-pattern-modal.module';
+import {InvFamilyPatternModalPage} from '../user-profile/my-store/add-inventory/inv-family-pattern-modal/inv-family-pattern-modal.page';
+import {AddInventoryPatternModalPageModule} from '../user-profile/my-store/add-inventory/inv-family-pattern-modal/add-inventory-pattern-modal/add-inventory-pattern-modal.module';
+import {AddInventoryPatternModalPage} from '../user-profile/my-store/add-inventory/inv-family-pattern-modal/add-inventory-pattern-modal/add-inventory-pattern-modal.page';
+import {StoreInventoryManagementModalPageModule} from '../user-profile/my-store/store-inventory-management-modal/store-inventory-management-modal.module';
+import {StoreInventoryManagementModalPage} from '../user-profile/my-store/store-inventory-management-modal/store-inventory-management-modal.page';
 
 const routes: Routes = [
     {
@@ -44,14 +56,27 @@ const routes: Routes = [
         FormsModule,
         IonicModule,
         ReactiveFormsModule,
+        SharedModule,
         ShowHidePasswordModule,
-        RouterModule.forChild(routes)
+        FormWizardModule,
+        RouterModule.forChild(routes),
+        ProductVariationModalPageModule,
+        AddInventoryPageModule,
+        InvFamilyPatternModalPageModule,
+        AddInventoryPatternModalPageModule,
+        StoreInventoryManagementModalPageModule
     ],
     declarations: [
         IpohDrumPage,
         ErrorPageComponent,
-        LoginRegisterComponent
+        LoginRegisterComponent,
+        ProductVariationModalPage,
+        AddInventoryPage,
+        InvFamilyPatternModalPage,
+        AddInventoryPatternModalPage,
+        StoreInventoryManagementModalPage
     ]
 })
+
 export class IpohDrumPageModule {
 }

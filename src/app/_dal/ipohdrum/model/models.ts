@@ -8,6 +8,7 @@ export * from './productFeature';
 export * from './productPromotion';
 export * from './sale';
 export * from './shipping';
+export * from './store';
 export * from './type';
 export * from './user';
 export * from './warranty';

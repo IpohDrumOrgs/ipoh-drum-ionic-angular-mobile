@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {ProductVariationModalPage} from '../../shop/product-detail/product-variation-modal/product-variation-modal.page';
 import {ModalController} from '@ionic/angular';
 import {AddInventoryPage} from './add-inventory/add-inventory.page';
+import {Store, StoreControllerServiceService} from '../../_dal/ipohdrum';
+import {StoreInventoryManagementModalPage} from './store-inventory-management-modal/store-inventory-management-modal.page';
+import {LoadingService} from '../../_dal/common/services/loading.service';
 
 @Component({
   selector: 'app-my-store',
@@ -12,54 +14,97 @@ import {AddInventoryPage} from './add-inventory/add-inventory.page';
 
 export class MyStorePage implements OnInit {
 
+  // Strings
   constructorName = '[' + this.constructor.name + ']';
 
-  noInventoriesUploaded = true;
+  // Numbers
+  currentPageNumber = 1;
+  currentPageSize = 10;
 
-  listOfCountries: any[] = [
-    {
-      name: 'Russia',
-      flag: 'f/f3/Flag_of_Russia.svg',
-      area: 17075200,
-      population: 146989754
-    },
-    {
-      name: 'Canada',
-      flag: 'c/cf/Flag_of_Canada.svg',
-      area: 9976140,
-      population: 36624199
-    },
-    {
-      name: 'United States',
-      flag: 'a/a4/Flag_of_the_United_States.svg',
-      area: 9629091,
-      population: 324459463
-    },
-    {
-      name: 'China',
-      flag: 'f/fa/Flag_of_the_People%27s_Republic_of_China.svg',
-      area: 9596960,
-      population: 1409517397
-    }
-  ];
+  // Booleans
+  noInventoriesUploaded = true;
+  noStoresCreated = true;
+
+  // Arrays
+  listOfCurrentUsersStores: Array<Store> = [];
+
+  // Subscriptions
+  getUsersListOfStoresSubscription: any;
+  appendUsersListOfStoresSubscription: any;
 
   constructor(
+      private ngZone: NgZone,
       private router: Router,
-      private modalController: ModalController
+      private modalController: ModalController,
+      private storeControllerService: StoreControllerServiceService,
+      private loadingService: LoadingService
   ) {
+    this.loadingService.present();
     console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {
+    this.ngZone.run(() => {
+      this.getUsersListOfStoresSubscription = this.storeControllerService.getStores(
+          this.currentPageNumber,
+          this.currentPageSize
+      ).subscribe(resp => {
+        console.log(resp);
+        if (resp.code === 200) {
+          this.listOfCurrentUsersStores = resp.data;
+        } else {
+          console.log('Unable to retrieve list of Stores');
+        }
+        this.loadingService.dismiss();
+      }, error => {
+        console.log('API Error while retrieving list of stores of current User');
+      });
+    });
   }
 
-  // navigateToAddInventory() {
-  //   this.router.navigate(['ipoh-drum/user-profile/my-store/add-inventory']);
-  // }
   async openCreateInventoryModal() {
     const modal = await this.modalController.create({
       component: AddInventoryPage
     });
     return await modal.present();
+  }
+
+  async openStoreInventoryManagementModal() {
+      const modal = await this.modalController.create({
+          component: StoreInventoryManagementModalPage
+      });
+      return await modal.present();
+  }
+
+  loadData(event) {
+    setTimeout(() => {
+      // console.log('Done');
+      // this.currentPageNumber++;
+      // this.appendUsersListOfStoresSubscription = this.storeControllerService.getStores(
+      //     this.currentPageNumber,
+      //     this.currentPageSize
+      // ).subscribe(resp => {
+      //   console.log(resp);
+      //   if (resp.code === 200) {
+      //     for (const tempStores of resp.data) {
+      //       this.listOfCurrentUsersStores.push(tempStores);
+      //     }
+      //     console.log('final list store');
+      //     console.log(this.listOfCurrentUsersStores);
+      //   } else {
+      //     console.log('Unable to retrieve list of Stores');
+      //   }
+      //   event.target.complete();
+      // }, error => {
+      //   console.log('API Error while retrieving list of stores of current User');
+      //   event.target.complete();
+      // });
+
+      // // App logic to determine if all data is loaded
+      // // and disable the infinite scroll
+      // if (this.dataList.length == 1000) {
+      //   event.target.disabled = true;
+      // }
+    }, 500);
   }
 }

@@ -1,62 +1,61 @@
 <ion-content main>
-  <ion-card style="height:100%;">
-    <ion-buttons slot="start" style="padding:5px;">
-      <ion-menu-button style="border:1px solid #ebebeb;border-radius:5px;color:black;"></ion-menu-button>
-    </ion-buttons>
-    <ng-container *ngIf="noInventoriesUploaded else gotInventoriesUploaded">
+  <ng-container *ngIf="listOfCurrentUsersStores?.length > 0 else noStoresCreated">
+    <ion-card>
+      <ion-buttons slot="start" style="padding:5px;">
+        <ion-menu-button style="border:1px solid #ebebeb;border-radius:5px;color:black;"></ion-menu-button>
+        <h3 style="width:100%;margin-left:10px;">
+          <b>My Store</b>
+        </h3>
+      </ion-buttons>
+      <ion-row>
+        <ion-col size="12">
+          <ion-row class="ion-align-items-center">
+            <ion-col size="12">
+              <div style="border:1px dashed #4285F4;text-align:center;color:rgba(66,133,244,0.4);" (click)="openCreateInventoryModal()">
+                <ion-icon name="home" style="font-size:5rem;"></ion-icon>
+                <h3 style="margin-top:0;">Click here to create a new Store</h3>
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-card *ngFor="let store of listOfCurrentUsersStores" (click)="openStoreInventoryManagementModal()">
+                <ion-card-header>
+                  {{store?.id}}
+                </ion-card-header>
+                <ion-card-content>
+                  {{store?.name}}
+                </ion-card-content>
+              </ion-card>
+              <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+                <ion-infinite-scroll-content
+                        loadingSpinner="crescent">
+                </ion-infinite-scroll-content>
+              </ion-infinite-scroll>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </ng-container>
+  <ng-template #noStoresCreated>
+    <ion-card style="height:100%">
+      <ion-buttons slot="start" style="padding:5px;">
+        <ion-menu-button style="border:1px solid #ebebeb;border-radius:5px;color:black;"></ion-menu-button>
+      </ion-buttons>
       <ion-row>
         <ion-col size="12" style="text-align:center;">
           <h3 style="color:#e6e6e6;">
-            <ion-icon name="archive" style="font-size:8rem;"></ion-icon>
+            <ion-icon name="home" style="font-size:8rem;"></ion-icon>
             <br>
-            No inventories yet! <br>Start adding!
+            No Stores yet! <br>Start opening Stores now!
             <br>
-            <ion-button fill="outline" style="margin-top:10px;" (click)="openCreateInventoryModal()">
-              Add Inventory&nbsp;&nbsp;<ion-icon name="add"></ion-icon>
+            <ion-button fill="outline" style="margin-top:10px;">
+              Add Store&nbsp;&nbsp;<ion-icon name="add"></ion-icon>
             </ion-button>
           </h3>
         </ion-col>
       </ion-row>
-    </ng-container>
-
-
-    <ng-template #gotInventoriesUploaded>
-      <ion-row>
-        <ion-col size="12" style="text-align:center;">
-          <ion-button fill="outline" style="margin-top:10px;">
-            Add Inventory&nbsp;&nbsp;<ion-icon name="add"></ion-icon>
-          </ion-button>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="12">
-          <div style="overflow-y:auto;width:100%;white-space:nowrap;">
-            <table class="table table-striped">
-              <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Country</th>
-                <th scope="col">Area</th>
-                <th scope="col">Population</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr *ngFor="let country of listOfCountries; index as i">
-                <th scope="row">{{ i + 1 }}</th>
-                <td>
-                  <img [src]="'https://upload.wikimedia.org/wikipedia/commons/' + country.flag" class="mr-2" style="width: 20px">
-                  {{ country.name }}
-                </td>
-                <td>{{ country.area | number }}</td>
-                <td>{{ country.population | number }}</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ng-template>
-
-
-  </ion-card>
+    </ion-card>
+  </ng-template>
 </ion-content>

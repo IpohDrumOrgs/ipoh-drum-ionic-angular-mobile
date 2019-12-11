@@ -3,13 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
-import { ShoppingCartPage } from './shopping-cart.page';
-import {SharedModule} from '../shared/shared.module';
+import { StoreInventoryManagementModalPage } from './store-inventory-management-modal.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: ShoppingCartPage
+    component: StoreInventoryManagementModalPage
   }
 ];
 
@@ -18,12 +17,9 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    SharedModule
+    RouterModule.forChild(routes)
   ],
-  declarations: [
-      ShoppingCartPage
-  ]
+  declarations: []
 })
 
-export class ShoppingCartPageModule {}
+export class StoreInventoryManagementModalPageModule {}
