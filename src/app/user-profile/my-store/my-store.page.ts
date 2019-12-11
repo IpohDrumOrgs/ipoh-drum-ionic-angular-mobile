@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
+import {ProductVariationModalPage} from '../../shop/product-detail/product-variation-modal/product-variation-modal.page';
+import {ModalController} from '@ionic/angular';
+import {AddInventoryPage} from './add-inventory/add-inventory.page';
 
 @Component({
   selector: 'app-my-store',
@@ -41,7 +44,8 @@ export class MyStorePage implements OnInit {
   ];
 
   constructor(
-      private router: Router
+      private router: Router,
+      private modalController: ModalController
   ) {
     console.log(this.constructorName + 'Initializing component');
   }
@@ -49,7 +53,13 @@ export class MyStorePage implements OnInit {
   ngOnInit() {
   }
 
-  navigateToAddInventory() {
-    this.router.navigate(['ipoh-drum/user-profile/my-store/add-inventory']);
+  // navigateToAddInventory() {
+  //   this.router.navigate(['ipoh-drum/user-profile/my-store/add-inventory']);
+  // }
+  async openCreateInventoryModal() {
+    const modal = await this.modalController.create({
+      component: AddInventoryPage
+    });
+    return await modal.present();
   }
 }

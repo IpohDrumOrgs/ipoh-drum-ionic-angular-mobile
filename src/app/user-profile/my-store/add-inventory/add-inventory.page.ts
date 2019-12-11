@@ -96,38 +96,6 @@ export class AddInventoryPage implements OnInit {
         console.log(this.constructorName + 'Initializing component');
     }
 
-    onComplete() {
-        // if (this.inventoryInfoFormGroup.valid) {
-        this.loadingService.present();
-        this.inventoryThumbnailAsArray[0] = this.temporaryInventoryThumbnail;
-        this.createInventorySubscription = this.inventoryControllerService.createInventory(
-            this.inventoryNameModel,
-            2,
-            this.selectedPromotionPlan.id,
-            this.selectedWarrantyPlan.id,
-            this.selectedShippingPlan.id,
-            JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert),
-            this.inventoryCostModel,
-            this.inventoryBasePriceModel,
-            this.inventoryCodeModel,
-            this.inventorySKUModel,
-            this.inventoryDescriptionModel,
-            this.inventoryStockThresholdModel,
-            this.inventoryThumbnailAsArray,
-            null
-        ).subscribe(resp => {
-            console.log(resp);
-            this.loadingService.dismiss();
-            this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
-            this.router.navigate(['/ipoh-drum/user-profile/my-store']);
-        }, error => {
-            console.log('API error while creating new inventory');
-            this.loadingService.dismiss();
-            this.globalFunctionService.simpleToast('ERROR', 'Unable to create the inventory, please try again later!', 'warning', 'top');
-        });
-        // }
-    }
-
     ngOnInit() {
         this.ngZone.run(() => {
             this.storePromotionsSubscription = this.storeControllerService.getPromotionsByStoreUid(
@@ -205,8 +173,36 @@ export class AddInventoryPage implements OnInit {
         });
     }
 
-    backToMyStorePage() {
-        this.router.navigate(['ipoh-drum/user-profile/my-store']);
+    onComplete() {
+        // if (this.inventoryInfoFormGroup.valid) {
+        this.loadingService.present();
+        this.inventoryThumbnailAsArray[0] = this.temporaryInventoryThumbnail;
+        this.createInventorySubscription = this.inventoryControllerService.createInventory(
+            this.inventoryNameModel,
+            2,
+            this.selectedPromotionPlan.id,
+            this.selectedWarrantyPlan.id,
+            this.selectedShippingPlan.id,
+            JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert),
+            this.inventoryCostModel,
+            this.inventoryBasePriceModel,
+            this.inventoryCodeModel,
+            this.inventorySKUModel,
+            this.inventoryDescriptionModel,
+            this.inventoryStockThresholdModel,
+            this.inventoryThumbnailAsArray,
+            null
+        ).subscribe(resp => {
+            console.log(resp);
+            this.loadingService.dismiss();
+            this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
+            this.router.navigate(['/ipoh-drum/user-profile/my-store']);
+        }, error => {
+            console.log('API error while creating new inventory');
+            this.loadingService.dismiss();
+            this.globalFunctionService.simpleToast('ERROR', 'Unable to create the inventory, please try again later!', 'warning', 'top');
+        });
+        // }
     }
 
     openSlidersFilePicker() {
@@ -292,5 +288,9 @@ export class AddInventoryPage implements OnInit {
             }
         });
         return await modal.present();
+    }
+
+    async closeCreateInventoryModal() {
+        await this.modalController.dismiss();
     }
 }
