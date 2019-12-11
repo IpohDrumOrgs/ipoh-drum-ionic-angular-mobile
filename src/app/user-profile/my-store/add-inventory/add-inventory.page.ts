@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {
     InventoryControllerServiceService,
     ProductPromotion,
-    Shipping,
+    Shipping, Store,
     StoreControllerServiceService,
     Warranty
 } from '../../../_dal/ipohdrum';
@@ -63,6 +63,7 @@ export class AddInventoryPage implements OnInit {
     listOfStoreShippings: Shipping[] = [];
 
     // Objects
+    selectedStore: Store;
     inventoryImageSliderOptions = {
         autoHeight: true,
         initialSlide: 0,
@@ -99,7 +100,7 @@ export class AddInventoryPage implements OnInit {
     ngOnInit() {
         this.ngZone.run(() => {
             this.storePromotionsSubscription = this.storeControllerService.getPromotionsByStoreUid(
-                '1575382099-2'
+                this.selectedStore.uid
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.listOfStorePromotions = resp.data;
@@ -110,7 +111,7 @@ export class AddInventoryPage implements OnInit {
                 this.listOfStorePromotions = [];
             });
             this.storeWarrantySubscription = this.storeControllerService.getWarrantiesByStoreUid(
-                '1575382099-2'
+                this.selectedStore.uid
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.listOfStoreWarranties = resp.data;
@@ -121,7 +122,7 @@ export class AddInventoryPage implements OnInit {
                 this.listOfStoreWarranties = [];
             });
             this.storeShippingSubscription = this.storeControllerService.getShippingsByStoreUid(
-                '1575382099-2'
+                this.selectedStore.uid
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.listOfStoreShippings = resp.data;

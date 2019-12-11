@@ -1,9 +1,40 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>store-inventory-management-modal</ion-title>
+    <ion-title style="padding:0 0 0 10px;">
+      <ion-row class="ion-align-items-center">
+        <ion-col size="12" style="text-align:right;margin-right:5px;padding:0;padding-right:10px;">
+          <ion-icon name="close" style="font-size:25px;" (click)="closeStoreInventoryManagementModal()"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  <ion-row>
+    <ion-col size="12" style="text-align:center;">
+      <ion-row class="ion-align-items-center">
+        <ion-col size="12">
+          <ion-button style="width:80%;" fill="clear" (click)="openInventoryManagementModal()">
+            Inventory Management
+          </ion-button>
+        </ion-col>
+        <ion-col size="12">
+          <ion-button style="width:80%;" fill="clear">
+            Promotion Plans
+          </ion-button>
+        </ion-col>
+        <ion-col size="12">
+          <ion-button style="width:80%;" fill="clear">
+            Warranty Plans
+          </ion-button>
+        </ion-col>
+        <ion-col size="12">
+          <ion-button style="width:80%;" fill="clear">
+            Shipping Plans
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
 </ion-content>

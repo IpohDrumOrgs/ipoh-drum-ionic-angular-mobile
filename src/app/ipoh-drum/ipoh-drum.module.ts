@@ -14,12 +14,19 @@ import {ProductVariationModalPage} from '../shop/product-detail/product-variatio
 import {AddInventoryPage} from '../user-profile/my-store/add-inventory/add-inventory.page';
 import {SharedModule} from '../shared/shared.module';
 import {FormWizardModule} from 'angular-wizard-form/dist';
+// tslint:disable-next-line:max-line-length
 import {InvFamilyPatternModalPageModule} from '../user-profile/my-store/add-inventory/inv-family-pattern-modal/inv-family-pattern-modal.module';
 import {InvFamilyPatternModalPage} from '../user-profile/my-store/add-inventory/inv-family-pattern-modal/inv-family-pattern-modal.page';
+// tslint:disable-next-line:max-line-length
 import {AddInventoryPatternModalPageModule} from '../user-profile/my-store/add-inventory/inv-family-pattern-modal/add-inventory-pattern-modal/add-inventory-pattern-modal.module';
+// tslint:disable-next-line:max-line-length
 import {AddInventoryPatternModalPage} from '../user-profile/my-store/add-inventory/inv-family-pattern-modal/add-inventory-pattern-modal/add-inventory-pattern-modal.page';
+// tslint:disable-next-line:max-line-length
 import {StoreInventoryManagementModalPageModule} from '../user-profile/my-store/store-inventory-management-modal/store-inventory-management-modal.module';
+// tslint:disable-next-line:max-line-length
 import {StoreInventoryManagementModalPage} from '../user-profile/my-store/store-inventory-management-modal/store-inventory-management-modal.page';
+import {InventoryManagementModalPageModule} from '../user-profile/my-store/inventory-management-modal/inventory-management-modal.module';
+import {InventoryManagementModalPage} from '../user-profile/my-store/inventory-management-modal/inventory-management-modal.page';
 
 const routes: Routes = [
     {
@@ -64,7 +71,8 @@ const routes: Routes = [
         AddInventoryPageModule,
         InvFamilyPatternModalPageModule,
         AddInventoryPatternModalPageModule,
-        StoreInventoryManagementModalPageModule
+        StoreInventoryManagementModalPageModule,
+        InventoryManagementModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -74,7 +82,8 @@ const routes: Routes = [
         AddInventoryPage,
         InvFamilyPatternModalPage,
         AddInventoryPatternModalPage,
-        StoreInventoryManagementModalPage
+        StoreInventoryManagementModalPage,
+        InventoryManagementModalPage
     ]
 })
 
