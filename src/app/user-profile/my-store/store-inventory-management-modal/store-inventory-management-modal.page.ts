@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {Store} from '../../../_dal/ipohdrum';
-import {AddInventoryPage} from '../add-inventory/add-inventory.page';
 import {InventoryManagementModalPage} from '../inventory-management-modal/inventory-management-modal.page';
 
 @Component({

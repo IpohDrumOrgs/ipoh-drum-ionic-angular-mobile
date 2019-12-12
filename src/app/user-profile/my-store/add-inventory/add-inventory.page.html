@@ -63,11 +63,11 @@
                                 <h3 style="border-bottom:1px solid #e6e6e6;margin-top:0;">Inventory Pictures</h3>
                             </ion-col>
                         </ion-row>
-                        <ng-container *ngIf="inventorySliderImagesURL?.length > 0 else noSlidersSelected">
+                        <ng-container *ngIf="temporaryInventorySliders?.length > 0 else noSlidersSelected">
                             <ion-row class="ion-align-items-center">
                                 <ion-col size="12">
                                     <ion-slides pager="true" [options]="inventoryImageSliderOptions" style="margin:1px;">
-                                        <ion-slide *ngFor="let url of inventorySliderImagesURL">
+                                        <ion-slide *ngFor="let url of temporaryInventorySliders">
                                             <img [src]="url" alt="product_image"
                                                  class="rounded mb-3"
                                                  style="height:300px;">
@@ -303,22 +303,22 @@
                                             <b>Promotion Plan</b>
                                         </ion-col>
                                         <ion-col size="8">
-                                            <ion-select interface="popover"
-                                                        placeholder="Select Promotion Plan"
+                                            <ion-select interface="popover" [placeholder]="defaultNoPlanSelectedStr"
                                                         [(ngModel)]="selectedPromotionPlan">
-                                                <ion-select-option
-                                                        *ngFor="let promotionPlan of listOfStorePromotions;let i = index;"
-                                                        [value]="promotionPlan"
-                                                        [selected]="i === 0">
-                                                    {{promotionPlan.name}}
+                                                <ion-select-option selected [value]="null">
+                                                    {{defaultNoPlanSelectedStr}}
+                                                </ion-select-option>
+                                                <ion-select-option *ngFor="let promotionPlan of listOfStorePromotions"
+                                                        [value]="promotionPlan">
+                                                    {{promotionPlan?.name}}
                                                 </ion-select-option>
                                             </ion-select>
                                         </ion-col>
                                     </ion-row>
-                                    <ion-row class="ion-align-items-center">
+                                    <ion-row class="ion-align-items-center" *ngIf="selectedPromotionPlan">
                                         <ion-col size="12">
-                                            <div *ngIf="selectedPromotionPlan" class="alert alert-primary" role="alert">
-                                                {{selectedPromotionPlan.desc}}
+                                            <div class="alert alert-primary" role="alert">
+                                                {{selectedPromotionPlan?.desc}}
                                             </div>
                                         </ion-col>
                                     </ion-row>
@@ -342,21 +342,22 @@
                                             <b>Warranty Plan</b>
                                         </ion-col>
                                         <ion-col size="8">
-                                            <ion-select interface="popover" placeholder="Select Warranty Plan"
+                                            <ion-select interface="popover" [placeholder]="defaultNoPlanSelectedStr"
                                                         [(ngModel)]="selectedWarrantyPlan">
-                                                <ion-select-option
-                                                        *ngFor="let warrantyPlan of listOfStoreWarranties;let j = index;"
-                                                        [value]="warrantyPlan"
-                                                        [selected]="j === 0">
-                                                    {{warrantyPlan.name}}
+                                                <ion-select-option selected [value]="null">
+                                                    {{defaultNoPlanSelectedStr}}
+                                                </ion-select-option>
+                                                <ion-select-option *ngFor="let warrantyPlan of listOfStoreWarranties;"
+                                                        [value]="warrantyPlan">
+                                                    {{warrantyPlan?.name}}
                                                 </ion-select-option>
                                             </ion-select>
                                         </ion-col>
                                     </ion-row>
-                                    <ion-row class="ion-align-items-center">
+                                    <ion-row class="ion-align-items-center" *ngIf="selectedWarrantyPlan">
                                         <ion-col size="12">
-                                            <div *ngIf="selectedWarrantyPlan" class="alert alert-success" role="alert">
-                                                {{selectedWarrantyPlan.desc}}
+                                            <div class="alert alert-success" role="alert">
+                                                {{selectedWarrantyPlan?.desc}}
                                             </div>
                                         </ion-col>
                                     </ion-row>
@@ -380,13 +381,14 @@
                                             <b>Shipping Plan</b>
                                         </ion-col>
                                         <ion-col size="8">
-                                            <ion-select interface="popover" placeholder="Select Shipping Plan"
+                                            <ion-select interface="popover" [placeholder]="defaultNoPlanSelectedStr"
                                                         [(ngModel)]="selectedShippingPlan">
-                                                <ion-select-option
-                                                        *ngFor="let shippingPlan of listOfStoreShippings;let k = index;"
-                                                        [value]="shippingPlan"
-                                                        [selected]="k === 0">
-                                                    {{shippingPlan.name}}
+                                                <ion-select-option selected [value]="null">
+                                                    {{defaultNoPlanSelectedStr}}
+                                                </ion-select-option>
+                                                <ion-select-option *ngFor="let shippingPlan of listOfStoreShippings"
+                                                        [value]="shippingPlan">
+                                                    {{shippingPlan?.name}}
                                                 </ion-select-option>
                                             </ion-select>
                                         </ion-col>
@@ -394,7 +396,7 @@
                                     <ion-row class="ion-align-items-center">
                                         <ion-col size="12">
                                             <div *ngIf="selectedShippingPlan" class="alert alert-info" role="alert">
-                                                {{selectedShippingPlan.desc}}
+                                                {{selectedShippingPlan?.desc}}
                                             </div>
                                         </ion-col>
                                     </ion-row>

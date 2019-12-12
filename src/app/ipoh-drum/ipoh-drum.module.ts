@@ -27,6 +27,8 @@ import {StoreInventoryManagementModalPageModule} from '../user-profile/my-store/
 import {StoreInventoryManagementModalPage} from '../user-profile/my-store/store-inventory-management-modal/store-inventory-management-modal.page';
 import {InventoryManagementModalPageModule} from '../user-profile/my-store/inventory-management-modal/inventory-management-modal.module';
 import {InventoryManagementModalPage} from '../user-profile/my-store/inventory-management-modal/inventory-management-modal.page';
+import {InventoryDetailsModalPageModule} from '../user-profile/my-store/inventory-details-modal/inventory-details-modal.module';
+import {InventoryDetailsModalPage} from '../user-profile/my-store/inventory-details-modal/inventory-details-modal.page';
 
 const routes: Routes = [
     {
@@ -72,7 +74,8 @@ const routes: Routes = [
         InvFamilyPatternModalPageModule,
         AddInventoryPatternModalPageModule,
         StoreInventoryManagementModalPageModule,
-        InventoryManagementModalPageModule
+        InventoryManagementModalPageModule,
+        InventoryDetailsModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -83,7 +86,8 @@ const routes: Routes = [
         InvFamilyPatternModalPage,
         AddInventoryPatternModalPage,
         StoreInventoryManagementModalPage,
-        InventoryManagementModalPage
+        InventoryManagementModalPage,
+        InventoryDetailsModalPage
     ]
 })
 

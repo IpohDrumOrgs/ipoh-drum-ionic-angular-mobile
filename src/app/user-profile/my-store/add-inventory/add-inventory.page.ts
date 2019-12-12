@@ -23,6 +23,7 @@ export class AddInventoryPage implements OnInit {
 
     // Strings
     constructorName = '[' + this.constructor.name + ']';
+    defaultNoPlanSelectedStr = 'Default (None)';
 
     // NgModels
     inventoryNameModel: string;
@@ -57,10 +58,13 @@ export class AddInventoryPage implements OnInit {
     @ViewChild('inventorySlidersContainer', {static: false}) inventorySlidersContainer: ElementRef;
 
     // Arrays
-    inventorySliderImagesURL: Array<Blob> = [];
+    inventoryFamilyAndOrPatternsToInsert: Array<object> = [];
     listOfStorePromotions: ProductPromotion [] = [];
     listOfStoreWarranties: Warranty[] = [];
     listOfStoreShippings: Shipping[] = [];
+    inventoryThumbnailAsArray: Array<Blob> = [];
+    temporaryInventorySliders: Array<Blob> = [];
+    inventorySlidersAsArray: Array<Blob> = [];
 
     // Objects
     selectedStore: Store;
@@ -72,9 +76,8 @@ export class AddInventoryPage implements OnInit {
     selectedPromotionPlan: ProductPromotion = null;
     selectedWarrantyPlan: Warranty = null;
     selectedShippingPlan: Shipping = null;
-    inventoryFamilyAndOrPatternsToInsert: Array<object> = [];
     temporaryInventoryThumbnail: Blob;
-    inventoryThumbnailAsArray: Array<Blob> = [];
+
 
     // FormGroups
     inventoryInfoFormGroup: FormGroup;
@@ -179,10 +182,10 @@ export class AddInventoryPage implements OnInit {
         this.loadingService.present();
         this.createInventorySubscription = this.inventoryControllerService.createInventory(
             this.inventoryNameModel,
-            2,
-            this.selectedPromotionPlan.id,
-            this.selectedWarrantyPlan.id,
-            this.selectedShippingPlan.id,
+            this.selectedStore.id,
+            this.selectedPromotionPlan ? this.selectedPromotionPlan.id : null,
+            this.selectedWarrantyPlan ? this.selectedWarrantyPlan.id : null,
+            this.selectedShippingPlan ? this.selectedShippingPlan.id : null,
             JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert),
             this.inventoryCostModel,
             this.inventoryBasePriceModel,
@@ -191,16 +194,21 @@ export class AddInventoryPage implements OnInit {
             this.inventoryDescriptionModel,
             this.inventoryStockThresholdModel,
             this.inventoryThumbnailAsArray,
-            null
+            this.inventorySlidersAsArray
         ).subscribe(resp => {
             console.log(resp);
+            if (resp.code === 200) {
+                this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
+                this.router.navigate(['/ipoh-drum/user-profile/my-store']);
+                this.closeCreateInventoryModal();
+            } else {
+                this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Inventory, please try again later!', 'warning', 'top');
+            }
             this.loadingService.dismiss();
-            this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
-            this.router.navigate(['/ipoh-drum/user-profile/my-store']);
         }, error => {
             console.log('API error while creating new inventory');
             this.loadingService.dismiss();
-            this.globalFunctionService.simpleToast('ERROR', 'Unable to create the inventory, please try again later!', 'warning', 'top');
+            this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Inventory, please try again later!', 'warning', 'top');
         });
         // }
     }
@@ -210,15 +218,18 @@ export class AddInventoryPage implements OnInit {
     }
 
     uploadInventorySliders(event) {
+        console.log('upload sliders');
         const files = event.target.files;
-        if (this.inventorySliderImagesURL.length < 5 && (files.length + this.inventorySliderImagesURL.length <= 5)) {
+        if (this.temporaryInventorySliders.length < 5 && (files.length + this.temporaryInventorySliders.length <= 5)) {
             if (files) {
                 for (const file of files) {
                     if (file.type.toString().includes('image')) {
+                        this.inventorySlidersAsArray.push(file);
                         const reader = new FileReader();
                         reader.onload = (e: any) => {
-                            this.inventorySliderImagesURL.push(e.target.result);
+                            this.temporaryInventorySliders.push(e.target.result);
                         };
+                        console.log(this.temporaryInventorySliders);
                         reader.readAsDataURL(file);
                     } else {
                         // tslint:disable-next-line:max-line-length
@@ -278,7 +289,8 @@ export class AddInventoryPage implements OnInit {
     }
 
     resetInventoryImages() {
-        this.inventorySliderImagesURL = [];
+        this.temporaryInventorySliders = [];
+        this.inventorySlidersAsArray = [];
     }
 
     async openAddInventoryFamilyAndPatternModal() {

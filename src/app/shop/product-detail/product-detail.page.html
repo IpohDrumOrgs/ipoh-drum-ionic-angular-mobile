@@ -37,17 +37,17 @@
             <ng-container *ngIf="!isLoadingInventory">
                 <ion-slides pager="true" [options]="ionSliderOptions">
                     <ion-slide>
-                        <img [src]="currentInventory?.imgpath" alt="product_image" class="productDetailImage">
+                        <img [src]="currentInventory?.imgpath" alt="product_image">
                     </ion-slide>
                     <ion-slide>
-                        <img src="../../../assets/images/test.jpg" alt="product_image" class="productDetailImage">
+                        <img src="../../../assets/images/test.jpg" alt="product_image">
                     </ion-slide>
                 </ion-slides>
             </ng-container>
             <ng-container *ngIf="isLoadingInventory">
                 <ion-slides pager="true" [options]="ionSliderOptions">
                     <ion-slide>
-                        <img src="../../../assets/images/default_product.png" alt="product_image" class="productDetailImage">
+                        <img src="../../../assets/images/default_product.png" alt="product_image">
                     </ion-slide>
                 </ion-slides>
             </ng-container>

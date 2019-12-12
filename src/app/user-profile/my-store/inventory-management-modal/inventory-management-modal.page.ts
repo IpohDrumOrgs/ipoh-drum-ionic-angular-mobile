@@ -3,6 +3,7 @@ import {Inventory, Store, StoreControllerServiceService} from '../../../_dal/ipo
 import {ModalController} from '@ionic/angular';
 import {AddInventoryPage} from '../add-inventory/add-inventory.page';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
+import {InventoryDetailsModalPage} from '../inventory-details-modal/inventory-details-modal.page';
 
 @Component({
   selector: 'app-inventory-management-modal',
@@ -122,5 +123,15 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
         event.target.disabled = true;
       }
     }, 500);
+  }
+
+  async openInventoryDetailsModal(selectedInventoryUid) {
+    const modal = await this.modalController.create({
+      component: InventoryDetailsModalPage,
+      componentProps: {
+        selectedInventoryUid
+      }
+    });
+    return await modal.present();
   }
 }
