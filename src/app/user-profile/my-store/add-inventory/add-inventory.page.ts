@@ -177,7 +177,6 @@ export class AddInventoryPage implements OnInit {
     onComplete() {
         // if (this.inventoryInfoFormGroup.valid) {
         this.loadingService.present();
-        this.inventoryThumbnailAsArray[0] = this.temporaryInventoryThumbnail;
         this.createInventorySubscription = this.inventoryControllerService.createInventory(
             this.inventoryNameModel,
             2,
@@ -241,8 +240,11 @@ export class AddInventoryPage implements OnInit {
         const files = event.target.files;
         if (files) {
             if (files[0].type.toString().includes('image')) {
+                // Actual Blob File
+                this.inventoryThumbnailAsArray[0] = event.target.files[0];
                 const reader = new FileReader();
                 reader.onload = (e: any) => {
+                    // Some URL for displaying purpose only
                     this.temporaryInventoryThumbnail = e.target.result;
                 };
                 reader.readAsDataURL(files[0]);

@@ -571,4 +571,75 @@ export class InventoryControllerServiceService {
         );
     }
 
+    /**
+     * Upload inventory thumbnail.
+     * @param uid InventoryUID
+     * @param img Image
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public uploadInventoryThumbnail(uid: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public uploadInventoryThumbnail(uid: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public uploadInventoryThumbnail(uid: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public uploadInventoryThumbnail(uid: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uid === null || uid === undefined) {
+            throw new Error('Required parameter uid was null or undefined when calling uploadInventoryThumbnail.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (uid !== undefined && uid !== null) {
+            queryParameters = queryParameters.set('uid', <any>uid);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: this.encoder});
+        }
+
+        if (img) {
+            if (useForm) {
+                img.forEach((element) => {
+                    formParams = formParams.append('img', <any>element) as any || formParams;
+            })
+            } else {
+                formParams = formParams.append('img', img.join(COLLECTION_FORMATS['csv'])) as any || formParams;
+            }
+        }
+
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/thumbnail`,
+            convertFormParamsToString ? formParams.toString() : formParams,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
 }
