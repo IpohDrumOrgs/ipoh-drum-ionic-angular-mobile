@@ -8,7 +8,7 @@ import {SharedModule} from '../../../../shared/shared.module';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'inv-family-pattern-modal',
     component: InvFamilyPatternModalPage
   }
 ];

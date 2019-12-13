@@ -213,75 +213,32 @@
             <table class="table table-bordered">
               <thead class="thead-light">
               <tr>
-                <th width="10%">
-                  #
-                </th>
-                <th width="80%">
+                <th width="85%">
                   Pattern<span *ngIf="listOfInventoryPatterns && listOfInventoryPatterns?.length > 0">s</span>
                 </th>
-                <th width="10%">
+                <th width="5%">
                   Action
                 </th>
               </tr>
               </thead>
               <tbody *ngIf="listOfInventoryPatterns?.length === 0">
               <tr>
-                <td colspan="3" style="color:grey;">No inventory patterns defined.</td>
+                <td colspan="2" style="color:grey;">No inventory patterns defined.</td>
               </tr>
               </tbody>
               <tbody *ngIf="listOfInventoryPatterns?.length > 0" style="background-color:white;border-bottom:1px solid #f2f2f2;border-left:1px solid #f2f2f2;border-right:1px solid #f2f2f2;">
                 <tr *ngFor="let pattern of listOfInventoryPatterns;let i = index;">
-                  <td>
-                    <b>{{i+1}}</b>
-                  </td>
                   <td style="padding:3px;">
-                    <span class="badge badge-info">
-                      {{pattern?.name}}
-                    </span>
-                    <div style="border:1px solid #dddddd;border-radius:5px;padding:5px;">
-                      <ion-row>
-                        <ion-col size="5" style="font-weight:bold;color:#0ed0ff;">
-                          Desc
-                        </ion-col>
-                        <ion-col size="7">
-                          {{pattern?.desc}}
-                        </ion-col>
-                      </ion-row>
-                      <ion-row>
-                        <ion-col size="5" style="font-weight:bold;color:#0ed0ff;">
-                          Cost
-                        </ion-col>
-                        <ion-col size="7">
-                          {{pattern?.cost | myCurrency}}
-                        </ion-col>
-                      </ion-row>
-                      <ion-row>
-                        <ion-col size="5" style="font-weight:bold;color:#0ed0ff;">
-                          Selling Price
-                        </ion-col>
-                        <ion-col size="7">
-                          {{pattern?.price | myCurrency}}
-                        </ion-col>
-                      </ion-row>
-                      <ion-row>
-                        <ion-col size="5" style="font-weight:bold;color:#0ed0ff;">
-                          Quantity
-                        </ion-col>
-                        <ion-col size="7">
-                          {{pattern?.qty}}
-                        </ion-col>
-                      </ion-row>
-                      <ion-row>
-                        <ion-col size="5" style="font-weight:bold;color:#0ed0ff;">
-                          On Sale
-                        </ion-col>
-                        <ion-col size="7">
-                          {{pattern?.onsale}}
-                        </ion-col>
-                      </ion-row>
-                    </div>
+                    <ion-card style="padding:0;margin:5px;">
+                      <ion-chip color="success" outline="true" style="white-space:normal;word-wrap:break-word;">
+                        {{pattern?.name}}
+                      </ion-chip>
+                      <div style="white-space:normal;word-wrap:break-word;padding-left:15px;">
+                        {{pattern?.desc}}
+                      </div>
+                    </ion-card>
                   </td>
-                  <td>
+                  <td style="padding:3px;text-align:center;">
                     <ion-button fill="clear" style="padding:0;" (click)="removeSelectedInventoryPattern(i)">
                       <ion-icon name="trash" style="color:#cbcbcb;"></ion-icon>
                     </ion-button>

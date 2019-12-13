@@ -39,31 +39,38 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
       private loadingService: LoadingService
   ) {
     console.log(this.constructorName + 'Initializing component');
-    this.loadingService.present();
   }
 
   ngOnInit() {
       this.ngZone.run(() => {
-          this.getListOfInventoriesByStoreUidSubscription = this.storeControllerService.getInventoriesByStoreUid(
-              this.selectedStore.uid,
-              this.currentPageNumber,
-              this.currentPageSize
-          ).subscribe(resp => {
-            console.log(resp);
-            if (resp.code === 200) {
-              this.listOfInventoriesFromSelectedStore = resp.data;
-              this.maximumPages = resp.maximumPages;
-              this.totalResult = resp.totalResult;
-            } else {
-              this.listOfInventoriesFromSelectedStore = [];
-            }
-            console.log(this.listOfInventoriesFromSelectedStore);
-            this.loadingService.dismiss();
-          }, error => {
-            this.listOfInventoriesFromSelectedStore = [];
-            this.loadingService.dismiss();
-          });
+          this.retrieveListOfInventoriesByStoreUid();
       });
+  }
+
+  retrieveListOfInventoriesByStoreUid() {
+    this.loadingService.present();
+    if (this.getListOfInventoriesByStoreUidSubscription) {
+      this.getListOfInventoriesByStoreUidSubscription.unsubscribe();
+    }
+    this.getListOfInventoriesByStoreUidSubscription = this.storeControllerService.getInventoriesByStoreUid(
+        this.selectedStore.uid,
+        this.currentPageNumber,
+        this.currentPageSize
+    ).subscribe(resp => {
+      console.log(resp);
+      if (resp.code === 200) {
+        this.listOfInventoriesFromSelectedStore = resp.data;
+        this.maximumPages = resp.maximumPages;
+        this.totalResult = resp.totalResult;
+      } else {
+        this.listOfInventoriesFromSelectedStore = [];
+      }
+      console.log(this.listOfInventoriesFromSelectedStore);
+      this.loadingService.dismiss();
+    }, error => {
+      this.listOfInventoriesFromSelectedStore = [];
+      this.loadingService.dismiss();
+    });
   }
 
   ngOnDestroy() {
@@ -95,6 +102,9 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
       componentProps: {
         selectedStore: this.selectedStore
       }
+    });
+    modal.onDidDismiss().then((dataReturned) => {
+      this.retrieveListOfInventoriesByStoreUid();
     });
     return await modal.present();
   }

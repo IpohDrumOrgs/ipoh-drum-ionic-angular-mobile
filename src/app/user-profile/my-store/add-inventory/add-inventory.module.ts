@@ -8,7 +8,7 @@ import {SharedModule} from '../../../shared/shared.module';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'add-inventory-modal',
     component: AddInventoryPage
   }
 ];

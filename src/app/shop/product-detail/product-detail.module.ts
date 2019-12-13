@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { ProductDetailPage } from './product-detail.page';
+import {ProductVariationModalPageModule} from './product-variation-modal/product-variation-modal.module';
 
 const routes: Routes = [
   {
@@ -17,8 +18,10 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    ProductVariationModalPageModule,
+    RouterModule.forChild(routes),
   ],
   declarations: []
 })
+
 export class ProductDetailPageModule {}

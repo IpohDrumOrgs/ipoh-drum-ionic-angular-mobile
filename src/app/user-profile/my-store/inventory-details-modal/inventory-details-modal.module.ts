@@ -7,7 +7,7 @@ import { InventoryDetailsModalPage } from './inventory-details-modal.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'inventory-details-modal',
     component: InventoryDetailsModalPage
   }
 ];

@@ -19,9 +19,8 @@ import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {LoadingService} from './_dal/common/services/loading.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SharedService} from './shared.service';
-import { NgSelect2Module } from 'ng-select2';
-import { FormWizardModule } from 'angular-wizard-form';
 import {IpohDrumPageModule} from './ipoh-drum/ipoh-drum.module';
+import {ProductVariationModalPageModule} from './shop/product-detail/product-variation-modal/product-variation-modal.module';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     suppressScrollX: true

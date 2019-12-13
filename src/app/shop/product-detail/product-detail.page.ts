@@ -46,7 +46,6 @@ export class ProductDetailPage implements OnInit, OnDestroy {
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.currentInventory = resp.data;
-                    console.log(this.currentInventory);
                 } else {
                     // TODO: Navigate to Shop page after showed alert prompt
                 }

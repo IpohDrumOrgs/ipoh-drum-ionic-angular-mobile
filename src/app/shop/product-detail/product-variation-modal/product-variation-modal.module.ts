@@ -8,7 +8,7 @@ import {SharedModule} from '../../../shared/shared.module';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'product-variation-modal',
     component: ProductVariationModalPage
   }
 ];

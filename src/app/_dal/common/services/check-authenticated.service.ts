@@ -16,7 +16,6 @@ export class CheckAuthenticatedService implements CanActivate {
   ) { }
 
   public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-    console.log('Checking if route can be activated');
     if (!this.authenticationService.isUserLoggedIn()) {
       this.globalFunctionService.presentAlertConfirm(
           'WARNING',

@@ -7,7 +7,7 @@ import { AddInventoryPatternModalPage } from './add-inventory-pattern-modal.page
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'add-inventory-pattern-modal',
     component: AddInventoryPatternModalPage
   }
 ];

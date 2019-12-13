@@ -178,39 +178,48 @@ export class AddInventoryPage implements OnInit {
     }
 
     onComplete() {
-        // if (this.inventoryInfoFormGroup.valid) {
-        this.loadingService.present();
-        this.createInventorySubscription = this.inventoryControllerService.createInventory(
-            this.inventoryNameModel,
-            this.selectedStore.id,
-            this.selectedPromotionPlan ? this.selectedPromotionPlan.id : null,
-            this.selectedWarrantyPlan ? this.selectedWarrantyPlan.id : null,
-            this.selectedShippingPlan ? this.selectedShippingPlan.id : null,
-            JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert),
-            this.inventoryCostModel,
-            this.inventoryBasePriceModel,
-            this.inventoryCodeModel,
-            this.inventorySKUModel,
-            this.inventoryDescriptionModel,
-            this.inventoryStockThresholdModel,
-            this.inventoryThumbnailAsArray,
-            this.inventorySlidersAsArray
-        ).subscribe(resp => {
-            console.log(resp);
-            if (resp.code === 200) {
-                this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
-                this.router.navigate(['/ipoh-drum/user-profile/my-store']);
-                this.closeCreateInventoryModal();
-            } else {
-                this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Inventory, please try again later!', 'warning', 'top');
-            }
-            this.loadingService.dismiss();
-        }, error => {
-            console.log('API error while creating new inventory');
-            this.loadingService.dismiss();
-            this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Inventory, please try again later!', 'warning', 'top');
-        });
+        // if (this.inventoryInfoFormGroup.valid
+        //     && this.temporaryInventorySliders.length > 0
+        //     && this.temporaryInventoryThumbnail !== undefined
+        //     && this.temporaryInventoryThumbnail !== null
+        // ) {
+        //     this.createInventorySubscription = this.inventoryControllerService.createInventory(
+        //         this.inventoryNameModel,
+        //         this.selectedStore.id,
+        //         this.selectedPromotionPlan ? this.selectedPromotionPlan.id : null,
+        //         this.selectedWarrantyPlan ? this.selectedWarrantyPlan.id : null,
+        //         this.selectedShippingPlan ? this.selectedShippingPlan.id : null,
+        //         JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert),
+        //         this.inventoryCostModel,
+        //         this.inventoryBasePriceModel,
+        //         this.inventoryCodeModel,
+        //         this.inventorySKUModel,
+        //         this.inventoryDescriptionModel,
+        //         this.inventoryStockThresholdModel,
+        //         this.inventoryThumbnailAsArray,
+        //         this.inventorySlidersAsArray
+        //     ).subscribe(resp => {
+        //         console.log(resp);
+        //         if (resp.code === 200) {
+        //             this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
+        //             this.router.navigate(['/ipoh-drum/user-profile/my-store']);
+        //             this.closeCreateInventoryModal();
+        //         } else {
+        //             this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Inventory, please try again later!', 'warning', 'top');
+        //         }
+        //         this.loadingService.dismiss();
+        //     }, error => {
+        //         console.log('API error while creating new inventory');
+        //         this.loadingService.dismiss();
+        //         this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Inventory, please try again later!', 'warning', 'top');
+        //     });
         // }
+        this.loadingService.present();
+        setTimeout(() => {
+            this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
+            this.loadingService.dismiss();
+            this.closeCreateInventoryModal();
+        }, 1000);
     }
 
     openSlidersFilePicker() {

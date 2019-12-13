@@ -32,8 +32,14 @@ import {InventoryDetailsModalPage} from '../user-profile/my-store/inventory-deta
 
 const routes: Routes = [
     {
+        path: '',
+        redirectTo: '/ipoh-drum/home',
+        pathMatch: 'full'
+    },
+    {
         path: 'login',
         component: LoginRegisterComponent,
+        // TODO: If user is logged in, don't let them activate this path
         canActivate: []
     },
     {
@@ -49,11 +55,6 @@ const routes: Routes = [
                 canActivate: [CheckAuthenticatedService]
             }
         ]
-    },
-    {
-        path: '',
-        redirectTo: '/ipoh-drum/home',
-        pathMatch: 'full'
     },
     {path: '**', redirectTo: 'error-page', pathMatch: 'full'},
     {path: 'error-page', component: ErrorPageComponent}
