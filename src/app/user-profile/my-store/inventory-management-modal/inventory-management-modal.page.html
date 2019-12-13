@@ -17,6 +17,25 @@
   <ng-container *ngIf="listOfInventoriesFromSelectedStore?.length > 0 else noInventoriesCreated">
     <ion-row>
       <ion-col size="12">
+        <ion-card>
+          <ion-row class="ion-align-items-center" style="color:#b7b7b7;">
+            <ion-col size="9" style="padding-left:10px;">
+              <h5>
+                <b>{{selectedStore.name}}</b>
+              </h5>
+            </ion-col>
+            <ion-col size="3" style="text-align:center !important;" class="ion-align-self-center">
+                <ng-container *ngIf="selectedStore.imgpath else noStoreImg">
+                  <ion-avatar>
+                    <img [src]="selectedStore.imgpath">
+                  </ion-avatar>
+                </ng-container>
+                <ng-template #noStoreImg>
+                  <ion-icon name="home"style="font-size:2rem;"></ion-icon>
+                </ng-template>
+            </ion-col>
+          </ion-row>
+        </ion-card>
         <ion-row class="ion-align-items-center">
           <ion-col size="12">
             <div style="border:1px dashed #4285F4;text-align:center;color:rgba(66,133,244,0.4);" (click)="openCreateInventoryModal()">

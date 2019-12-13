@@ -218,7 +218,7 @@ export class AddInventoryPage implements OnInit {
         setTimeout(() => {
             this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
             this.loadingService.dismiss();
-            this.closeCreateInventoryModal();
+            this.closeCreateInventoryModal(true);
         }, 1000);
     }
 
@@ -314,7 +314,7 @@ export class AddInventoryPage implements OnInit {
         return await modal.present();
     }
 
-    async closeCreateInventoryModal() {
-        await this.modalController.dismiss();
+    async closeCreateInventoryModal(returnFromCreatingInventory: boolean) {
+        await this.modalController.dismiss(returnFromCreatingInventory);
     }
 }

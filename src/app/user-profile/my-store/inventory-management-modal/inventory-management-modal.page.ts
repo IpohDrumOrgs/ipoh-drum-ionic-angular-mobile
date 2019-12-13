@@ -103,8 +103,10 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
         selectedStore: this.selectedStore
       }
     });
-    modal.onDidDismiss().then((dataReturned) => {
-      this.retrieveListOfInventoriesByStoreUid();
+    modal.onDidDismiss().then((returnedFromCreatingInventory) => {
+      if (returnedFromCreatingInventory.data) {
+        this.retrieveListOfInventoriesByStoreUid();
+      }
     });
     return await modal.present();
   }

@@ -3,7 +3,7 @@
         <ion-title style="padding:0 0 0 10px;">
             <ion-row class="ion-align-items-center">
                 <ion-col size="3" style="text-align:left;padding:0;">
-                    <ion-icon name="arrow-back" style="font-size:25px;" (click)="closeCreateInventoryModal()"></ion-icon>
+                    <ion-icon name="arrow-back" style="font-size:25px;" (click)="closeCreateInventoryModal(false)"></ion-icon>
                 </ion-col>
                 <ion-col size="9" style="text-align:right;padding-right:15px;">
                     <b>Add Inventory</b>
@@ -114,7 +114,10 @@
                                 <td>
                                     <ion-row class="ion-align-items-center" style="margin-bottom:5px;">
                                         <ion-col size="12">
-                                            <b>Inventory Name</b>
+                                            <b>
+                                                Inventory Name
+                                                <span *ngIf="inventoryInfoFormGroup.get('inventoryName').invalid" class="required">&nbsp;*</span>
+                                            </b>
                                         </ion-col>
                                         <ion-col size="12">
                                             <input type="text" class="form-control"
@@ -137,7 +140,9 @@
                                     </ion-row>
                                     <ion-row class="ion-align-items-center" style="margin-bottom:5px;">
                                         <ion-col size="12">
-                                            <b>Code</b>
+                                            <b>Code
+                                                <span *ngIf="inventoryInfoFormGroup.get('inventoryCode').invalid" class="required">&nbsp;*</span>
+                                            </b>
                                         </ion-col>
                                         <ion-col size="12">
                                             <input type="text" class="form-control"
@@ -163,7 +168,9 @@
                                     </ion-row>
                                     <ion-row class="ion-align-items-center" style="margin-bottom:5px;">
                                         <ion-col size="12">
-                                            <b>SKU</b>
+                                            <b>SKU
+                                                <span *ngIf="inventoryInfoFormGroup.get('inventorySKU').invalid" class="required">&nbsp;*</span>
+                                            </b>
                                         </ion-col>
                                         <ion-col size="12">
                                             <input type="text" class="form-control"
@@ -189,7 +196,9 @@
                                     </ion-row>
                                     <ion-row class="ion-align-items-center" style="margin-bottom:5px;">
                                         <ion-col size="12">
-                                            <b>Description</b>
+                                            <b>Description
+                                                <span *ngIf="inventoryInfoFormGroup.get('inventoryDescription').invalid" class="required">&nbsp;*</span>
+                                            </b>
                                         </ion-col>
                                         <ion-col size="12">
                         <textarea cols="20" rows="3" class="form-control"
@@ -216,7 +225,9 @@
                                     <table class="table" style="margin-bottom:0;">
                                         <tbody>
                                         <tr>
-                                            <th>Cost</th>
+                                            <th>Cost
+                                                <span *ngIf="inventoryInfoFormGroup.get('inventoryCost').invalid" class="required">&nbsp;*</span>
+                                            </th>
                                             <td>
                                                 <input type="text" class="form-control"
                                                        [(ngModel)]="inventoryCostModel"
@@ -237,7 +248,8 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>Base Price</th>
+                                            <th>Base Price<span *ngIf="inventoryInfoFormGroup.get('inventoryBasePrice').invalid" class="required">&nbsp;*</span>
+                                            </th>
                                             <td>
                                                 <input type="text" class="form-control"
                                                        [(ngModel)]="inventoryBasePriceModel"
@@ -259,7 +271,8 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>Stock's Threshold</th>
+                                            <th>Stock's Threshold<span *ngIf="inventoryInfoFormGroup.get('inventoryStockThreshold').invalid" class="required">&nbsp;*</span>
+                                            </th>
                                             <td>
                                                 <input type="text" class="form-control"
                                                        [(ngModel)]="inventoryStockThresholdModel"
@@ -416,7 +429,9 @@
                 <ion-row>
                     <ion-col size="12">
                         <div>
-                            <h3>Inventory Families & Patterns</h3>
+                            <h3>Inventory Families & Patterns
+                                <span *ngIf="inventoryFamilyAndOrPatternsToInsert.length <= 0" class="required">&nbsp;*</span>
+                            </h3>
                             <table class="table" style="margin-bottom:0;">
                                 <tbody>
                                 <tr>
