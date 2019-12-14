@@ -52,6 +52,9 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
     if (this.getListOfInventoriesByStoreUidSubscription) {
       this.getListOfInventoriesByStoreUidSubscription.unsubscribe();
     }
+    this.currentPageNumber = 1;
+    console.log('retrieve list of inventores');
+    console.log(this.selectedStore);
     this.getListOfInventoriesByStoreUidSubscription = this.storeControllerService.getInventoriesByStoreUid(
         this.selectedStore.uid,
         this.currentPageNumber,
@@ -63,11 +66,13 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
         this.maximumPages = resp.maximumPages;
         this.totalResult = resp.totalResult;
       } else {
+        console.log('Unable to retrieve list of inventories by store uid.');
         this.listOfInventoriesFromSelectedStore = [];
       }
       console.log(this.listOfInventoriesFromSelectedStore);
       this.loadingService.dismiss();
     }, error => {
+      console.log('API Error while retrieving list of inventories by store uid.');
       this.listOfInventoriesFromSelectedStore = [];
       this.loadingService.dismiss();
     });

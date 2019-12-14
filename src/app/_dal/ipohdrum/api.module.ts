@@ -16,6 +16,7 @@ import { RoleControllerServiceService } from './api/roleControllerService.servic
 import { SaleControllerServiceService } from './api/saleControllerService.service';
 import { ShippingControllerServiceService } from './api/shippingControllerService.service';
 import { StoreControllerServiceService } from './api/storeControllerService.service';
+import { StoreReviewControllerServiceService } from './api/storeReviewControllerService.service';
 import { TicketControllerServiceService } from './api/ticketControllerService.service';
 import { TypeControllerServiceService } from './api/typeControllerService.service';
 import { UserControllerServiceService } from './api/userControllerService.service';
@@ -40,6 +41,7 @@ import { WarrantyControllerServiceService } from './api/warrantyControllerServic
     SaleControllerServiceService,
     ShippingControllerServiceService,
     StoreControllerServiceService,
+    StoreReviewControllerServiceService,
     TicketControllerServiceService,
     TypeControllerServiceService,
     UserControllerServiceService,

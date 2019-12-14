@@ -4,6 +4,7 @@ import {ModalController} from '@ionic/angular';
 import {Store, StoreControllerServiceService} from '../../_dal/ipohdrum';
 import {StoreInventoryManagementModalPage} from './store-inventory-management-modal/store-inventory-management-modal.page';
 import {LoadingService} from '../../_dal/common/services/loading.service';
+import {AddStoreModalPage} from './add-store-modal/add-store-modal.page';
 
 @Component({
     selector: 'app-my-store',
@@ -36,31 +37,39 @@ export class MyStorePage implements OnInit, OnDestroy {
         private storeControllerService: StoreControllerServiceService,
         private loadingService: LoadingService
     ) {
-        this.loadingService.present();
         console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
         this.ngZone.run(() => {
-            this.getUsersListOfStoresSubscription = this.storeControllerService.getStores(
-                this.currentPageNumber,
-                this.currentPageSize
-            ).subscribe(resp => {
-                console.log(resp);
-                if (resp.code === 200) {
-                    this.listOfCurrentUsersStores = resp.data;
-                    this.maximumPages = resp.maximumPages;
-                    this.totalResult = resp.totalResult;
-                } else {
-                    this.listOfCurrentUsersStores = [];
-                    console.log('Unable to retrieve list of Stores');
-                }
-                this.loadingService.dismiss();
-            }, error => {
+            this.retrieveListOfStoresOfCurrentUser();
+        });
+    }
+
+    retrieveListOfStoresOfCurrentUser() {
+        this.loadingService.present();
+        if (this.getUsersListOfStoresSubscription) {
+            this.getUsersListOfStoresSubscription.unsubscribe();
+        }
+        this.currentPageNumber = 1;
+        this.getUsersListOfStoresSubscription = this.storeControllerService.getStores(
+            this.currentPageNumber,
+            this.currentPageSize
+        ).subscribe(resp => {
+            console.log(resp);
+            if (resp.code === 200) {
+                this.listOfCurrentUsersStores = resp.data;
+                this.maximumPages = resp.maximumPages;
+                this.totalResult = resp.totalResult;
+            } else {
                 this.listOfCurrentUsersStores = [];
-                this.loadingService.dismiss();
-                console.log('API Error while retrieving list of stores of current User');
-            });
+                console.log('Unable to retrieve list of Stores');
+            }
+            this.loadingService.dismiss();
+        }, error => {
+            this.listOfCurrentUsersStores = [];
+            this.loadingService.dismiss();
+            console.log('API Error while retrieving list of stores of current User');
         });
     }
 
@@ -117,5 +126,17 @@ export class MyStorePage implements OnInit, OnDestroy {
                 event.target.disabled = true;
             }
         }, 500);
+    }
+
+    async openCreateStoreModal() {
+        const modal = await this.modalController.create({
+            component: AddStoreModalPage
+        });
+        modal.onDidDismiss().then((returnFromCreatingStore) => {
+            if (returnFromCreatingStore.data) {
+                this.retrieveListOfStoresOfCurrentUser();
+            }
+        });
+        return await modal.present();
     }
 }

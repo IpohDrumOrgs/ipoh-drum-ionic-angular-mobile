@@ -202,8 +202,7 @@ export class AddInventoryPage implements OnInit {
         //         console.log(resp);
         //         if (resp.code === 200) {
         //             this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
-        //             this.router.navigate(['/ipoh-drum/user-profile/my-store']);
-        //             this.closeCreateInventoryModal();
+        //             this.closeCreateInventoryModal(true);
         //         } else {
         //             this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Inventory, please try again later!', 'warning', 'top');
         //         }
@@ -227,7 +226,6 @@ export class AddInventoryPage implements OnInit {
     }
 
     uploadInventorySliders(event) {
-        console.log('upload sliders');
         const files = event.target.files;
         if (this.temporaryInventorySliders.length < 5 && (files.length + this.temporaryInventorySliders.length <= 5)) {
             if (files) {
@@ -258,7 +256,7 @@ export class AddInventoryPage implements OnInit {
 
     uploadInventoryThumbnail(event) {
         const files = event.target.files;
-        if (files) {
+        if (files.length > 0) {
             if (files[0].type.toString().includes('image')) {
                 // Actual Blob File
                 this.inventoryThumbnailAsArray[0] = event.target.files[0];

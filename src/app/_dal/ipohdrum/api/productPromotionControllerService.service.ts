@@ -49,8 +49,8 @@ export class ProductPromotionControllerServiceService {
 
     /**
      * Creates a productpromotion.
-     * @param name ProductPromotionname
      * @param storeId Store ID
+     * @param name ProductPromotionname
      * @param discbyprice Promotion discount by price
      * @param desc Promotion description
      * @param qty Limited Qty
@@ -61,26 +61,26 @@ export class ProductPromotionControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createProductPromotion(name: string, storeId: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createProductPromotion(name: string, storeId: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createProductPromotion(name: string, storeId: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createProductPromotion(name: string, storeId: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling createProductPromotion.');
-        }
+    public createProductPromotion(storeId: number, name: string, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createProductPromotion(storeId: number, name: string, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createProductPromotion(storeId: number, name: string, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createProductPromotion(storeId: number, name: string, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (storeId === null || storeId === undefined) {
             throw new Error('Required parameter storeId was null or undefined when calling createProductPromotion.');
+        }
+        if (name === null || name === undefined) {
+            throw new Error('Required parameter name was null or undefined when calling createProductPromotion.');
         }
         if (discbyprice === null || discbyprice === undefined) {
             throw new Error('Required parameter discbyprice was null or undefined when calling createProductPromotion.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
-        }
         if (storeId !== undefined && storeId !== null) {
             queryParameters = queryParameters.set('store_id', <any>storeId);
+        }
+        if (name !== undefined && name !== null) {
+            queryParameters = queryParameters.set('name', <any>name);
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);

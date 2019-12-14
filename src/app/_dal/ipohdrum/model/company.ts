@@ -11,25 +11,26 @@
  */
 
 
-export interface User { 
+export interface Company { 
     id?: number;
+    companyTypeId?: number;
     uid?: string;
     name?: string;
-    email?: string;
-    icno?: string;
+    img?: string;
+    regno?: string;
     tel1?: string;
     tel2?: string;
+    fax1?: string;
+    fax2?: string;
+    email1?: string;
+    email2?: string;
     address1?: string;
     address2?: string;
     postcode?: string;
     city?: string;
     state?: string;
     country?: string;
-    password?: string;
-    status?: string;
-    lastLogin?: string;
-    lastActive?: string;
-    rememberToken?: string;
+    status?: number;
     createdAt?: string;
     updatedAt?: string;
 }

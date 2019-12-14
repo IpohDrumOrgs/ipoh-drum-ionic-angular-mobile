@@ -45,14 +45,27 @@ export class StoreControllerServiceService {
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
 
+    /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        for (const consume of consumes) {
+            if (form === consume) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     /**
      * Creates a store.
      * @param name Storename
      * @param companyBelongings Store belongs to Company
-     * @param companyid Company ID
-     * @param userid User ID
+     * @param companyId Company ID
+     * @param userId User ID
      * @param contact Contact
      * @param desc Description
      * @param email Email
@@ -61,13 +74,14 @@ export class StoreControllerServiceService {
      * @param state State
      * @param city City
      * @param country Country
+     * @param img Image
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createStore(name: string, companyBelongings: number, companyid?: number, userid?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createStore(name: string, companyBelongings: number, companyid?: number, userid?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createStore(name: string, companyBelongings: number, companyid?: number, userid?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createStore(name: string, companyBelongings: number, companyid?: number, userid?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createStore(name: string, companyBelongings: number, companyId?: number, userId?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createStore(name: string, companyBelongings: number, companyId?: number, userId?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createStore(name: string, companyBelongings: number, companyId?: number, userId?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createStore(name: string, companyBelongings: number, companyId?: number, userId?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createStore.');
         }
@@ -79,11 +93,11 @@ export class StoreControllerServiceService {
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (companyid !== undefined && companyid !== null) {
-            queryParameters = queryParameters.set('companyid', <any>companyid);
+        if (companyId !== undefined && companyId !== null) {
+            queryParameters = queryParameters.set('company_id', <any>companyId);
         }
-        if (userid !== undefined && userid !== null) {
-            queryParameters = queryParameters.set('userid', <any>userid);
+        if (userId !== undefined && userId !== null) {
+            queryParameters = queryParameters.set('user_id', <any>userId);
         }
         if (companyBelongings !== undefined && companyBelongings !== null) {
             queryParameters = queryParameters.set('companyBelongings', <any>companyBelongings);
@@ -123,9 +137,37 @@ export class StoreControllerServiceService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: this.encoder});
+        }
+
+        if (img) {
+            if (useForm) {
+                img.forEach((element) => {
+                    formParams = formParams.append('img', <any>element) as any || formParams;
+            })
+            } else {
+                formParams = formParams.append('img', img.join(COLLECTION_FORMATS['csv'])) as any || formParams;
+            }
+        }
 
         return this.httpClient.post<any>(`${this.configuration.basePath}/api/store`,
-            null,
+            convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -497,8 +539,8 @@ export class StoreControllerServiceService {
      * @param uid Store_ID, NOT \&#39;ID\&#39;.
      * @param name Storename
      * @param companyBelongings Store belongs to Company
-     * @param companyid Company ID
-     * @param userid User ID
+     * @param companyId Company ID
+     * @param userId User ID
      * @param desc Description
      * @param contact Contact
      * @param email Email
@@ -507,13 +549,14 @@ export class StoreControllerServiceService {
      * @param state State
      * @param city City
      * @param country Country
+     * @param img Image
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyid?: number, userid?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyid?: number, userid?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyid?: number, userid?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyid?: number, userid?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateStoreByUid.');
         }
@@ -528,11 +571,11 @@ export class StoreControllerServiceService {
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (companyid !== undefined && companyid !== null) {
-            queryParameters = queryParameters.set('companyid', <any>companyid);
+        if (companyId !== undefined && companyId !== null) {
+            queryParameters = queryParameters.set('company_id', <any>companyId);
         }
-        if (userid !== undefined && userid !== null) {
-            queryParameters = queryParameters.set('userid', <any>userid);
+        if (userId !== undefined && userId !== null) {
+            queryParameters = queryParameters.set('user_id', <any>userId);
         }
         if (companyBelongings !== undefined && companyBelongings !== null) {
             queryParameters = queryParameters.set('companyBelongings', <any>companyBelongings);
@@ -572,9 +615,37 @@ export class StoreControllerServiceService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: this.encoder});
+        }
+
+        if (img) {
+            if (useForm) {
+                img.forEach((element) => {
+                    formParams = formParams.append('img', <any>element) as any || formParams;
+            })
+            } else {
+                formParams = formParams.append('img', img.join(COLLECTION_FORMATS['csv'])) as any || formParams;
+            }
+        }
 
         return this.httpClient.put<any>(`${this.configuration.basePath}/api/store/${encodeURIComponent(String(uid))}`,
-            null,
+            convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

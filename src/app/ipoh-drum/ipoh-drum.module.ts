@@ -29,6 +29,9 @@ import {InventoryManagementModalPageModule} from '../user-profile/my-store/inven
 import {InventoryManagementModalPage} from '../user-profile/my-store/inventory-management-modal/inventory-management-modal.page';
 import {InventoryDetailsModalPageModule} from '../user-profile/my-store/inventory-details-modal/inventory-details-modal.module';
 import {InventoryDetailsModalPage} from '../user-profile/my-store/inventory-details-modal/inventory-details-modal.page';
+import {AddStoreModalPage} from '../user-profile/my-store/add-store-modal/add-store-modal.page';
+import {AddStoreModalPageModule} from '../user-profile/my-store/add-store-modal/add-store-modal.module';
+import { IonicSelectableModule } from 'ionic-selectable';
 
 const routes: Routes = [
     {
@@ -69,6 +72,7 @@ const routes: Routes = [
         SharedModule,
         ShowHidePasswordModule,
         FormWizardModule,
+        IonicSelectableModule,
         RouterModule.forChild(routes),
         ProductVariationModalPageModule,
         AddInventoryPageModule,
@@ -76,7 +80,8 @@ const routes: Routes = [
         AddInventoryPatternModalPageModule,
         StoreInventoryManagementModalPageModule,
         InventoryManagementModalPageModule,
-        InventoryDetailsModalPageModule
+        InventoryDetailsModalPageModule,
+        AddStoreModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -88,7 +93,8 @@ const routes: Routes = [
         AddInventoryPatternModalPage,
         StoreInventoryManagementModalPage,
         InventoryManagementModalPage,
-        InventoryDetailsModalPage
+        InventoryDetailsModalPage,
+        AddStoreModalPage
     ]
 })
 

@@ -49,26 +49,26 @@ export class GroupControllerServiceService {
 
     /**
      * Creates a group.
-     * @param companyid Group belongs to which company
+     * @param companyId Group belongs to which company
      * @param name Group Name
      * @param desc Group Description
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createGroup(companyid: number, name: string, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createGroup(companyid: number, name: string, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createGroup(companyid: number, name: string, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createGroup(companyid: number, name: string, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (companyid === null || companyid === undefined) {
-            throw new Error('Required parameter companyid was null or undefined when calling createGroup.');
+    public createGroup(companyId: number, name: string, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createGroup(companyId: number, name: string, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createGroup(companyId: number, name: string, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createGroup(companyId: number, name: string, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (companyId === null || companyId === undefined) {
+            throw new Error('Required parameter companyId was null or undefined when calling createGroup.');
         }
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createGroup.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (companyid !== undefined && companyid !== null) {
-            queryParameters = queryParameters.set('companyid', <any>companyid);
+        if (companyId !== undefined && companyId !== null) {
+            queryParameters = queryParameters.set('company_id', <any>companyId);
         }
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
@@ -275,29 +275,29 @@ export class GroupControllerServiceService {
     /**
      * Update group by Uid.
      * @param uid Group_ID, NOT \&#39;ID\&#39;.
-     * @param companyid Group belongs to which company
+     * @param companyId Group belongs to which company
      * @param name Groupname
      * @param desc Group Description
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateGroupByUid(uid: string, companyid: number, name: string, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateGroupByUid(uid: string, companyid: number, name: string, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateGroupByUid(uid: string, companyid: number, name: string, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateGroupByUid(uid: string, companyid: number, name: string, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateGroupByUid(uid: string, companyId: number, name: string, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateGroupByUid(uid: string, companyId: number, name: string, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateGroupByUid(uid: string, companyId: number, name: string, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateGroupByUid(uid: string, companyId: number, name: string, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateGroupByUid.');
         }
-        if (companyid === null || companyid === undefined) {
-            throw new Error('Required parameter companyid was null or undefined when calling updateGroupByUid.');
+        if (companyId === null || companyId === undefined) {
+            throw new Error('Required parameter companyId was null or undefined when calling updateGroupByUid.');
         }
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling updateGroupByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (companyid !== undefined && companyid !== null) {
-            queryParameters = queryParameters.set('companyid', <any>companyid);
+        if (companyId !== undefined && companyId !== null) {
+            queryParameters = queryParameters.set('company_id', <any>companyId);
         }
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
