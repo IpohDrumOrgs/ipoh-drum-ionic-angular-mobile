@@ -19,19 +19,17 @@
       <ion-col size="12">
         <ion-card>
           <ion-row class="ion-align-items-center" style="color:#b7b7b7;">
-            <ion-col size="9" style="padding-left:10px;">
-              <h5>
-                <b>{{selectedStore.name}}</b>
+            <ion-col size="8" style="padding-left:10px;">
+              <h5 style="white-space:normal;word-wrap:break-word;">
+                <b>{{selectedStore?.name}}</b>
               </h5>
             </ion-col>
-            <ion-col size="3" style="text-align:center !important;" class="ion-align-self-center">
-                <ng-container *ngIf="selectedStore.imgpath else noStoreImg">
-                  <ion-avatar>
-                    <img [src]="selectedStore.imgpath">
-                  </ion-avatar>
+            <ion-col size="4" style="text-align:center !important;" class="ion-align-self-center">
+                <ng-container *ngIf="selectedStore?.imgpath else noStoreImg">
+                  <img [src]="selectedStore?.imgpath" style="border-radius:50%;height:100px;width:100px;object-fit:cover;">
                 </ng-container>
                 <ng-template #noStoreImg>
-                  <ion-icon name="home"style="font-size:2rem;"></ion-icon>
+                  <img src="../../../../assets/images/default_product.png" style="border-radius:50%;height:100px;width:100px;object-fit:cover;">
                 </ng-template>
             </ion-col>
           </ion-row>
@@ -49,7 +47,7 @@
             <ion-card style="margin:0;" (click)="openInventoryDetailsModal(inventory.uid)">
               <ion-card-header style="background-color:#ececec;padding:0;">
                 <ng-container *ngIf="inventory.imgpath else noImageForInventory">
-                  <img [src]="inventory.imgpath" alt="inventory_img" class="productImage">
+                  <img [src]="inventory?.imgpath" alt="inventory_img" class="productImage">
                 </ng-container>
                 <ng-template #noImageForInventory>
                   <img src="../../../../assets/images/default_product.png" alt="inventory_img" class="productImage">
@@ -77,19 +75,19 @@
         <ion-col size="12">
           <ion-card>
             <ion-row class="ion-align-items-center" style="color:#b7b7b7;">
-              <ion-col size="9" style="padding-left:10px;">
+              <ion-col size="8" style="padding-left:10px;">
                 <h5>
-                  <b>{{selectedStore.name}}</b>
+                  <b>{{selectedStore?.name}}</b>
                 </h5>
               </ion-col>
-              <ion-col size="3" style="text-align:center !important;" class="ion-align-self-center">
-                <ng-container *ngIf="selectedStore.imgpath else noStoreImg">
+              <ion-col size="4" style="text-align:center !important;" class="ion-align-self-center">
+                <ng-container *ngIf="selectedStore?.imgpath else noStoreImg">
                   <ion-avatar>
-                    <img [src]="selectedStore.imgpath">
+                    <img [src]="selectedStore?.imgpath" style="border-radius:50%;height:100px;width:100px;object-fit:cover;">
                   </ion-avatar>
                 </ng-container>
                 <ng-template #noStoreImg>
-                  <ion-icon name="home"style="font-size:2rem;"></ion-icon>
+                  <img src="../../../../assets/images/default_product.png" style="border-radius:50%;height:100px;width:100px;object-fit:cover;">
                 </ng-template>
               </ion-col>
             </ion-row>

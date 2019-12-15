@@ -549,14 +549,15 @@ export class StoreControllerServiceService {
      * @param state State
      * @param city City
      * @param country Country
+     * @param method For spoofing purposes.
      * @param img Image
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, method?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, method?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, method?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, method?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateStoreByUid.');
         }
@@ -604,6 +605,9 @@ export class StoreControllerServiceService {
         if (country !== undefined && country !== null) {
             queryParameters = queryParameters.set('country', <any>country);
         }
+        if (method !== undefined && method !== null) {
+            queryParameters = queryParameters.set('_method', <any>method);
+        }
 
         let headers = this.defaultHeaders;
 
@@ -644,7 +648,7 @@ export class StoreControllerServiceService {
             }
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/api/store/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/store/${encodeURIComponent(String(uid))}`,
             convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,

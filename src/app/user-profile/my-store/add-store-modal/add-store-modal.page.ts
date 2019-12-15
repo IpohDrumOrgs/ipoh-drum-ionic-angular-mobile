@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {CompanyControllerServiceService, StoreControllerServiceService} from '../../../_dal/ipohdrum';
 import {Company} from '../../../_dal/ipohdrum';
@@ -14,7 +14,7 @@ import {GlobalfunctionService} from '../../../_dal/common/services/globalfunctio
   styleUrls: ['./add-store-modal.page.scss'],
 })
 
-export class AddStoreModalPage implements OnInit {
+export class AddStoreModalPage implements OnInit, OnDestroy {
 
   // Strings
   constructorName = '[' + this.constructor.name + ']';
@@ -134,6 +134,28 @@ export class AddStoreModalPage implements OnInit {
             Validators.maxLength(this.storeCityMaxLength)
         ])
       });
+    });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribeSubscriptions();
+  }
+
+  ionViewDidLeave() {
+    this.unsubscribeSubscriptions();
+  }
+
+  unsubscribeSubscriptions() {
+    this.ngZone.run(() => {
+      if (this.appendListOfCompaniesSubscription) {
+        this.appendListOfCompaniesSubscription.unsubscribe();
+      }
+      if (this.searchListOfCompaniesSubscription) {
+        this.searchListOfCompaniesSubscription.unsubscribe();
+      }
+      if (this.createStoreSubscription) {
+        this.createStoreSubscription.unsubscribe();
+      }
     });
   }
 

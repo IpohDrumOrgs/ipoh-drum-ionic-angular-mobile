@@ -59,18 +59,16 @@ export class ProductDetailPage implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.ngZone.run(() => {
-            if (this.currentInventorySubscription) {
-                console.log(this.constructorName + 'Unsubscribed currentInventorySubscription');
-                this.currentInventorySubscription.unsubscribe();
-            }
-        });
+        this.unsubscribeSubscriptions();
     }
 
-    ionViewWillLeave() {
+    ionViewDidLeave() {
+        this.unsubscribeSubscriptions();
+    }
+
+    unsubscribeSubscriptions() {
         this.ngZone.run(() => {
             if (this.currentInventorySubscription) {
-                console.log(this.constructorName + 'Unsubscribed currentInventorySubscription');
                 this.currentInventorySubscription.unsubscribe();
             }
         });

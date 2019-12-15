@@ -34,6 +34,11 @@ import {AddStoreModalPageModule} from '../user-profile/my-store/add-store-modal/
 import { IonicSelectableModule } from 'ionic-selectable';
 import {EditStoreModalPageModule} from '../user-profile/my-store/edit-store-modal/edit-store-modal.module';
 import {EditStoreModalPage} from '../user-profile/my-store/edit-store-modal/edit-store-modal.page';
+import {PromotionManagementModalPageModule} from '../user-profile/my-store/promotion-management-modal/promotion-management-modal.module';
+import {PromotionManagementModalPage} from '../user-profile/my-store/promotion-management-modal/promotion-management-modal.page';
+// tslint:disable-next-line:max-line-length
+import {AddPromotionModalPageModule} from '../user-profile/my-store/promotion-management-modal/add-promotion-modal/add-promotion-modal.module';
+import {AddPromotionModalPage} from '../user-profile/my-store/promotion-management-modal/add-promotion-modal/add-promotion-modal.page';
 
 const routes: Routes = [
     {
@@ -84,7 +89,9 @@ const routes: Routes = [
         InventoryManagementModalPageModule,
         InventoryDetailsModalPageModule,
         AddStoreModalPageModule,
-        EditStoreModalPageModule
+        EditStoreModalPageModule,
+        PromotionManagementModalPageModule,
+        AddPromotionModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -98,7 +105,9 @@ const routes: Routes = [
         InventoryManagementModalPage,
         InventoryDetailsModalPage,
         AddStoreModalPage,
-        EditStoreModalPage
+        EditStoreModalPage,
+        PromotionManagementModalPage,
+        AddPromotionModalPage
     ]
 })
 

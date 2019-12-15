@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Company, CompanyControllerServiceService, Store, StoreControllerServiceService} from '../../../_dal/ipohdrum';
 import {ModalController} from '@ionic/angular';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
@@ -13,7 +13,7 @@ import {GlobalfunctionService} from '../../../_dal/common/services/globalfunctio
   styleUrls: ['./edit-store-modal.page.scss'],
 })
 
-export class EditStoreModalPage implements OnInit {
+export class EditStoreModalPage implements OnInit, OnDestroy {
 
   // Strings
   constructorName = '[' + this.constructor.name + ']';
@@ -39,6 +39,7 @@ export class EditStoreModalPage implements OnInit {
 
   // Booleans
   isLoadingStoreInfo = true;
+  companyBelongingsFlag = false;
 
   // Arrays
   storeImageAsBlobArray: Array<Blob> = [];
@@ -53,7 +54,6 @@ export class EditStoreModalPage implements OnInit {
 
   // FormGroups
   storeInfoFormGroup: FormGroup;
-  storeAddressFormGroup: FormGroup;
 
   // Subscriptions
   getStoreByUidSubscription: any;
@@ -96,9 +96,7 @@ export class EditStoreModalPage implements OnInit {
           Validators.required,
           Validators.minLength(this.storeDescriptionMinLength),
           Validators.maxLength(this.storeDescriptionMaxLength)
-        ])
-      });
-      this.storeAddressFormGroup = new FormGroup({
+        ]),
         noStreetName: new FormControl(null, [
           Validators.required,
           Validators.maxLength(this.storeNoStreetNameMaxLength)
@@ -119,15 +117,16 @@ export class EditStoreModalPage implements OnInit {
         storeCity: new FormControl(null, [
           Validators.required,
           Validators.maxLength(this.storeCityMaxLength)
-        ])
+        ]),
+        storeCompanyBelongings: new FormControl(),
+        storeSelectedStore: new FormControl()
       });
       this.getStoreByUidSubscription = this.storeControllerService.getStoreByUid(
           this.selectedStoreUid
       ).subscribe(resp => {
-        console.log('retrieved store:');
-        console.log(resp);
         if (resp.code === 200) {
           this.selectedStore = resp.data;
+          this.companyBelongingsFlag = resp.data.companyBelongings === 1;
         } else {
           this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store\'s info, please try again later!', 'warning', 'top');
           this.closeEditStoreModal();
@@ -142,6 +141,31 @@ export class EditStoreModalPage implements OnInit {
         this.loadingService.dismiss();
         this.closeEditStoreModal();
       });
+    });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribeSubscriptions();
+  }
+
+  ionViewDidLeave() {
+    this.unsubscribeSubscriptions();
+  }
+
+  unsubscribeSubscriptions() {
+    this.ngZone.run(() => {
+      if (this.getStoreByUidSubscription) {
+        this.getStoreByUidSubscription.unsubscribe();
+      }
+      if (this.updateStoreSubscription) {
+        this.updateStoreSubscription.unsubscribe();
+      }
+      if (this.searchListOfCompaniesSubscription) {
+        this.searchListOfCompaniesSubscription.unsubscribe();
+      }
+      if (this.appendListOfCompaniesSubscription) {
+        this.appendListOfCompaniesSubscription.unsubscribe();
+      }
     });
   }
 
@@ -170,13 +194,12 @@ export class EditStoreModalPage implements OnInit {
   }
 
   updateStore() {
-    console.log(this.storeImageAsBlobArray);
     this.loadingService.present();
     this.updateStoreSubscription = this.storeControllerService.updateStoreByUid(
         this.selectedStore.uid,
         this.selectedStore.name,
-        this.selectedStore.companyBelongings,
-        this.selectedStore.companyBelongings === 1 ? this.selectedStore.company.id : null,
+        this.companyBelongingsFlag ? 1 : 0,
+        this.companyBelongingsFlag ? this.selectedStore.company.id : null,
         null,
         this.selectedStore.desc,
         this.selectedStore.contact,
@@ -186,6 +209,7 @@ export class EditStoreModalPage implements OnInit {
         this.selectedStore.state,
         this.selectedStore.city,
         this.selectedStore.country,
+        'PUT',
         this.storeImageAsBlobArray[0] !== undefined || this.storeImageAsBlobArray[0] !== null ? this.storeImageAsBlobArray : null
     ).subscribe(resp => {
       this.loadingService.dismiss();

@@ -33,8 +33,8 @@ export class UserProfilePage implements OnInit {
     console.log(this.constructorName + 'IonViewWillEnter');
   }
 
-  ionViewWillLeave() {
-    console.log(this.constructorName + 'IonViewWillLeave');
+  ionViewDidLeave() {
+    console.log(this.constructorName + 'IonViewDidLeave');
   }
 
   closeSideMenu(page: number) {

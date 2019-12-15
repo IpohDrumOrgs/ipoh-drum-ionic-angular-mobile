@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {InventoryManagementModalPage} from '../inventory-management-modal/inventory-management-modal.page';
 import {EditStoreModalPage} from '../edit-store-modal/edit-store-modal.page';
+import {PromotionManagementModalPage} from '../promotion-management-modal/promotion-management-modal.page';
 
 @Component({
   selector: 'app-store-inventory-management-modal',
@@ -14,6 +15,9 @@ export class StoreInventoryManagementModalPage implements OnInit {
   // Strings
   constructorName = '[' + this.constructor.name + ']';
   selectedStoreUid: string;
+
+  // Numbers
+  selectedStoreId: number;
 
   constructor(
       private modalController: ModalController
@@ -42,7 +46,19 @@ export class StoreInventoryManagementModalPage implements OnInit {
     const modal = await this.modalController.create({
       component: InventoryManagementModalPage,
       componentProps: {
-        selectedStoreUid: this.selectedStoreUid
+        selectedStoreUid: this.selectedStoreUid,
+        selectedStoreId: this.selectedStoreId
+      }
+    });
+    return await modal.present();
+  }
+
+  async openPromotionManagementModal() {
+    const modal = await this.modalController.create({
+      component: PromotionManagementModalPage,
+      componentProps: {
+        selectedStoreUid: this.selectedStoreUid,
+        selectedStoreId: this.selectedStoreId
       }
     });
     return await modal.present();

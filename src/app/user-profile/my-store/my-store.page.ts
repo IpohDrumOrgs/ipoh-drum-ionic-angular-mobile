@@ -52,7 +52,7 @@ export class MyStorePage implements OnInit, OnDestroy {
         this.unsubscribeSubscriptions();
     }
 
-    ionViewWillLeave() {
+    ionViewDidLeave() {
         this.unsubscribeSubscriptions();
     }
 
@@ -109,12 +109,13 @@ export class MyStorePage implements OnInit, OnDestroy {
         return await modal.present();
     }
 
-    async openStoreInventoryManagementModal(selectedStoreUid: string) {
+    async openStoreInventoryManagementModal(selectedStoreUid: string, selectedStoreId: number) {
         const modal = await this.modalController.create({
             component: StoreInventoryManagementModalPage,
             cssClass: 'store-management-modal',
             componentProps: {
-                selectedStoreUid
+                selectedStoreUid,
+                selectedStoreId
             }
         });
         return await modal.present();

@@ -1,9 +1,9 @@
-import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {
     InventoryControllerServiceService,
     ProductPromotion,
-    Shipping, Store,
+    Shipping,
     StoreControllerServiceService,
     Warranty
 } from '../../../_dal/ipohdrum';
@@ -19,12 +19,15 @@ import {LoadingService} from '../../../_dal/common/services/loading.service';
     styleUrls: ['./add-inventory.page.scss'],
 })
 
-export class AddInventoryPage implements OnInit {
+export class AddInventoryPage implements OnInit, OnDestroy {
 
     // Strings
     constructorName = '[' + this.constructor.name + ']';
     defaultNoPlanSelectedStr = 'Default (None)';
     selectedStoreUid: string;
+
+    // Numbers
+    selectedStoreId: number;
 
     // NgModels
     inventoryNameModel: string;
@@ -77,7 +80,6 @@ export class AddInventoryPage implements OnInit {
     selectedWarrantyPlan: Warranty = null;
     selectedShippingPlan: Shipping = null;
     temporaryInventoryThumbnail: Blob;
-
 
     // FormGroups
     inventoryInfoFormGroup: FormGroup;
@@ -177,48 +179,70 @@ export class AddInventoryPage implements OnInit {
         });
     }
 
+    ngOnDestroy() {
+        this.unsubscribeSubscriptions();
+    }
+
+    ionViewDidLeave() {
+        this.unsubscribeSubscriptions();
+    }
+
+    unsubscribeSubscriptions() {
+        this.ngZone.run(() => {
+            if (this.storePromotionsSubscription) {
+                this.storePromotionsSubscription.unsubscribe();
+            }
+            if (this.storeWarrantySubscription) {
+                this.storeWarrantySubscription.unsubscribe();
+            }
+            if (this.storeShippingSubscription) {
+                this.storeShippingSubscription.unsubscribe();
+            }
+            if (this.createInventorySubscription) {
+                this.createInventorySubscription.unsubscribe();
+            }
+        });
+    }
+
     onComplete() {
-        // if (this.inventoryInfoFormGroup.valid
-        //     && this.temporaryInventorySliders.length > 0
-        //     && this.temporaryInventoryThumbnail !== undefined
-        //     && this.temporaryInventoryThumbnail !== null
-        // ) {
-        //     this.createInventorySubscription = this.inventoryControllerService.createInventory(
-        //         this.inventoryNameModel,
-        //         this.selectedStore.id,
-        //         this.selectedPromotionPlan ? this.selectedPromotionPlan.id : null,
-        //         this.selectedWarrantyPlan ? this.selectedWarrantyPlan.id : null,
-        //         this.selectedShippingPlan ? this.selectedShippingPlan.id : null,
-        //         JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert),
-        //         this.inventoryCostModel,
-        //         this.inventoryBasePriceModel,
-        //         this.inventoryCodeModel,
-        //         this.inventorySKUModel,
-        //         this.inventoryDescriptionModel,
-        //         this.inventoryStockThresholdModel,
-        //         this.inventoryThumbnailAsArray,
-        //         this.inventorySlidersAsArray
-        //     ).subscribe(resp => {
-        //         console.log(resp);
-        //         if (resp.code === 200) {
-        //             this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
-        //             this.closeCreateInventoryModal(true);
-        //         } else {
-        //             this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Inventory, please try again later!', 'warning', 'top');
-        //         }
-        //         this.loadingService.dismiss();
-        //     }, error => {
-        //         console.log('API error while creating new inventory');
-        //         this.loadingService.dismiss();
-        //         this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Inventory, please try again later!', 'warning', 'top');
-        //     });
-        // }
-        this.loadingService.present();
-        setTimeout(() => {
-            this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
-            this.loadingService.dismiss();
-            this.closeCreateInventoryModal(true);
-        }, 1000);
+        if (this.inventoryInfoFormGroup.valid
+            && this.temporaryInventorySliders.length > 0
+            && this.temporaryInventoryThumbnail !== undefined
+            && this.temporaryInventoryThumbnail !== null
+        ) {
+            this.loadingService.present();
+            this.createInventorySubscription = this.inventoryControllerService.createInventory(
+                this.inventoryNameModel,
+                this.selectedStoreId,
+                this.selectedPromotionPlan ? this.selectedPromotionPlan.id : null,
+                this.selectedWarrantyPlan ? this.selectedWarrantyPlan.id : null,
+                this.selectedShippingPlan ? this.selectedShippingPlan.id : null,
+                JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert),
+                this.inventoryCostModel,
+                this.inventoryBasePriceModel,
+                this.inventoryCodeModel,
+                this.inventorySKUModel,
+                this.inventoryDescriptionModel,
+                this.inventoryStockThresholdModel,
+                this.inventoryThumbnailAsArray,
+                this.inventorySlidersAsArray
+            ).subscribe(resp => {
+                console.log(resp);
+                if (resp.code === 200) {
+                    this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
+                    this.closeCreateInventoryModal(true);
+                } else {
+                    // tslint:disable-next-line:max-line-length
+                    this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Inventory, please try again later!', 'warning', 'top');
+                }
+                this.loadingService.dismiss();
+            }, error => {
+                console.log('API error while creating new inventory');
+                this.loadingService.dismiss();
+                // tslint:disable-next-line:max-line-length
+                this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Inventory, please try again later!', 'warning', 'top');
+            });
+        }
     }
 
     openSlidersFilePicker() {

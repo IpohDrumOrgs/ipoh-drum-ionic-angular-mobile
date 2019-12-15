@@ -4,6 +4,7 @@ import {ModalController} from '@ionic/angular';
 import {AddInventoryPage} from '../add-inventory/add-inventory.page';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {InventoryDetailsModalPage} from '../inventory-details-modal/inventory-details-modal.page';
+import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 
 @Component({
   selector: 'app-inventory-management-modal',
@@ -15,8 +16,10 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
 
     // Strings
   constructorName = '[' + this.constructor.name + ']';
+  selectedStoreUid: string;
 
   // Numbers
+  selectedStoreId: number;
   currentPageNumber = 1;
   currentPageSize = 10;
   maximumPages: number;
@@ -26,63 +29,43 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
   listOfInventoriesFromSelectedStore: Array<Inventory> = [];
 
   // Objects
-  selectedStoreUid: string;
+  selectedStore: Store;
 
   // Subscriptions
   getListOfInventoriesByStoreUidSubscription: any;
+  getSelectedStoreByUidSubscription: any;
   appendListOfInventoriesByStoreUidSubscription: any;
 
   constructor(
       private ngZone: NgZone,
       private modalController: ModalController,
       private storeControllerService: StoreControllerServiceService,
-      private loadingService: LoadingService
+      private loadingService: LoadingService,
+      private globalFunctionService: GlobalfunctionService
   ) {
     console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {
       this.ngZone.run(() => {
-          this.retrieveListOfInventoriesByStoreUid();
+        this.getSelectedStoreByUidSubscription = this.storeControllerService.getStoreByUid(
+            this.selectedStoreUid
+        ).subscribe(resp => {
+          if (resp.code === 200) {
+            this.selectedStore = resp.data;
+          }
+        }, error => {
+          console.log('API Error while retrieving store by uid');
+        });
+        this.retrieveListOfInventoriesByStoreUid();
       });
-  }
-
-  retrieveListOfInventoriesByStoreUid() {
-    this.loadingService.present();
-    if (this.getListOfInventoriesByStoreUidSubscription) {
-      this.getListOfInventoriesByStoreUidSubscription.unsubscribe();
-    }
-    this.currentPageNumber = 1;
-    console.log('retrieve list of inventores with store uid');
-    console.log(this.selectedStoreUid);
-    this.getListOfInventoriesByStoreUidSubscription = this.storeControllerService.getInventoriesByStoreUid(
-        this.selectedStoreUid,
-        this.currentPageNumber,
-        this.currentPageSize
-    ).subscribe(resp => {
-      console.log(resp);
-      if (resp.code === 200) {
-        this.listOfInventoriesFromSelectedStore = resp.data;
-        this.maximumPages = resp.maximumPages;
-        this.totalResult = resp.totalResult;
-      } else {
-        console.log('Unable to retrieve list of inventories by store uid.');
-        this.listOfInventoriesFromSelectedStore = [];
-      }
-      console.log(this.listOfInventoriesFromSelectedStore);
-      this.loadingService.dismiss();
-    }, error => {
-      console.log('API Error while retrieving list of inventories by store uid.');
-      this.listOfInventoriesFromSelectedStore = [];
-      this.loadingService.dismiss();
-    });
   }
 
   ngOnDestroy() {
     this.unsubscribeSubscriptions();
   }
 
-  ionViewWillLeave() {
+  ionViewDidLeave() {
     this.unsubscribeSubscriptions();
   }
 
@@ -97,6 +80,36 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
     });
   }
 
+  retrieveListOfInventoriesByStoreUid() {
+    this.loadingService.present();
+    if (this.getListOfInventoriesByStoreUidSubscription) {
+      this.getListOfInventoriesByStoreUidSubscription.unsubscribe();
+    }
+    this.currentPageNumber = 1;
+    this.getListOfInventoriesByStoreUidSubscription = this.storeControllerService.getInventoriesByStoreUid(
+        this.selectedStoreUid,
+        this.currentPageNumber,
+        this.currentPageSize
+    ).subscribe(resp => {
+      if (resp.code === 200) {
+        this.listOfInventoriesFromSelectedStore = resp.data;
+        this.maximumPages = resp.maximumPages;
+        this.totalResult = resp.totalResult;
+      } else {
+        // tslint:disable-next-line:max-line-length
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Inventories, please try again later!', 'warning', 'top');
+        this.closeInventoryManagementModal();
+      }
+      this.loadingService.dismiss();
+    }, error => {
+      console.log('API Error while retrieving list of inventories by store uid.');
+      // tslint:disable-next-line:max-line-length
+      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Inventories, please try again later!', 'warning', 'top');
+      this.closeInventoryManagementModal();
+      this.loadingService.dismiss();
+    });
+  }
+
   closeInventoryManagementModal() {
     this.modalController.dismiss();
   }
@@ -105,7 +118,8 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
     const modal = await this.modalController.create({
       component: AddInventoryPage,
       componentProps: {
-        selectedStoreUid: this.selectedStoreUid
+        selectedStoreUid: this.selectedStoreUid,
+        selectedStoreId: this.selectedStoreId
       }
     });
     modal.onDidDismiss().then((returnedFromCreatingInventory) => {

@@ -9,7 +9,7 @@
           <b>Modify Store</b>
         </ion-col>
         <ion-col size="3" style="text-align:right;">
-        <ion-button fill="clear" (click)="updateStore()" [disabled]="storeInfoFormGroup?.invalid || storeAddressFormGroup?.invalid">
+        <ion-button fill="clear" (click)="updateStore()" [disabled]="storeInfoFormGroup?.invalid || (companyBelongingsFlag && (selectedStore?.company === undefined || selectedStore?.company === null))">
             <ion-icon name="checkmark" style="font-size:25px;"></ion-icon>
         </ion-button>
         </ion-col>
@@ -78,6 +78,8 @@
         </ion-row>
     </ng-container>
     <ng-template #finishedLoadingStoreInfo>
+        <div [formGroup]="storeInfoFormGroup">
+<!--            <input type="hidden" name="_method" value="put">-->
         <ion-row>
             <ion-col size="12" style="margin-top:10px;text-align:center;">
                 <ng-container *ngIf="temporaryStoreImageURL else showOriginalStoreImage">
@@ -98,7 +100,7 @@
         <ion-row>
             <ion-col size="12">
                 <ion-card style="padding:5px;">
-                    <ion-row [formGroup]="storeInfoFormGroup">
+                    <ion-row>
                         <ion-col size="12">
                             <ion-list style="padding-top:0;padding-bottom:0;">
                                 <ion-item>
@@ -166,10 +168,13 @@
                             Belongs to A Company?
                         </ion-col>
                         <ion-col size="3">
-                            <ion-toggle color="success" [checked]="selectedStore.companyBelongings" [(ngModel)]="selectedStore.companyBelongings"></ion-toggle>
+                            <ion-toggle color="success"
+                                        [checked]="companyBelongingsFlag" formControlName="storeCompanyBelongings"
+                                        [(ngModel)]="companyBelongingsFlag">
+                            </ion-toggle>
                         </ion-col>
                     </ion-row>
-                    <ng-container *ngIf="selectedStore?.companyBelongings">
+                    <ng-container *ngIf="companyBelongingsFlag">
                         <ion-row class="ion-align-items-center" style="border-top:1px solid #f2f2f2;">
                             <ion-col size="12">
                                 <ion-row class="ion-align-items-center">
@@ -178,19 +183,20 @@
                                     </ion-col>
                                     <ion-col size="7">
                                         <ionic-selectable
-                                        [placeholder]="'Select a Company'"
-                                        [(ngModel)]="selectedStore.company"
-                                        [items]="listOfCompanies"
-                                        [hasInfiniteScroll]="true"
-                                        (onInfiniteScroll)="retrieveMoreCompanies($event)"
-                                        (onSearch)="searchForCompanies($event)"
-                                        [canSearch]="true"
-                                        itemValueField="id"
-                                        itemTextField="name">
+                                                formControlName="storeSelectedStore"
+                                                [placeholder]="'Select a Company'"
+                                                [(ngModel)]="selectedStore.company"
+                                                [items]="listOfCompanies"
+                                                [hasInfiniteScroll]="true"
+                                                (onInfiniteScroll)="retrieveMoreCompanies($event)"
+                                                (onSearch)="searchForCompanies($event)"
+                                                [canSearch]="true"
+                                                itemValueField="id"
+                                                itemTextField="name">
                                         </ionic-selectable>
                                     </ion-col>
                                 </ion-row>
-                                <ion-row class="ion-align-items-center">
+                                <ion-row class="ion-align-items-center" *ngIf="selectedStore?.company">
                                     <ion-col size="12">
                                         <div class="alert alert-primary" role="alert" style="margin-bottom:0;padding:5px;">
                                     <span style="white-space:normal;word-wrap:break-word;">
@@ -216,7 +222,7 @@
                     </ng-container>
                 </ion-card>
                 <ion-card style="padding:5px;">
-                    <ion-row [formGroup]="storeAddressFormGroup">
+                    <ion-row [formGroup]="storeInfoFormGroup">
                         <ion-col size="12">
                             <ion-list style="padding-top:0;padding-bottom:0;">
                                 <ion-item>
@@ -224,11 +230,11 @@
                                     <ion-textarea [(ngModel)]="selectedStore.address" formControlName="noStreetName"></ion-textarea>
                                 </ion-item>
                                 <ul class="error"
-                                    *ngIf="storeAddressFormGroup.get('noStreetName').invalid && storeAddressFormGroup.get('noStreetName').touched">
-                                    <li *ngIf="storeAddressFormGroup.get('noStreetName').hasError('required') && storeAddressFormGroup.get('noStreetName').touched">
+                                    *ngIf="storeInfoFormGroup.get('noStreetName').invalid && storeInfoFormGroup.get('noStreetName').touched">
+                                    <li *ngIf="storeInfoFormGroup.get('noStreetName').hasError('required') && storeInfoFormGroup.get('noStreetName').touched">
                                         Building No. and Street Name is required.
                                     </li>
-                                    <li *ngIf="storeAddressFormGroup.get('noStreetName').hasError('maxlength') && storeAddressFormGroup.get('noStreetName').touched">
+                                    <li *ngIf="storeInfoFormGroup.get('noStreetName').hasError('maxlength') && storeInfoFormGroup.get('noStreetName').touched">
                                         Building No. and Street Name cannot be more than {{storeNoStreetNameMaxLength}} characters.
                                     </li>
                                 </ul>
@@ -237,11 +243,11 @@
                                     <ion-input [(ngModel)]="selectedStore.postcode" formControlName="storePostCode"></ion-input>
                                 </ion-item>
                                 <ul class="error"
-                                    *ngIf="storeAddressFormGroup.get('storePostCode').invalid && storeAddressFormGroup.get('storePostCode').touched">
-                                    <li *ngIf="storeAddressFormGroup.get('storePostCode').hasError('required') && storeAddressFormGroup.get('storePostCode').touched">
+                                    *ngIf="storeInfoFormGroup.get('storePostCode').invalid && storeInfoFormGroup.get('storePostCode').touched">
+                                    <li *ngIf="storeInfoFormGroup.get('storePostCode').hasError('required') && storeInfoFormGroup.get('storePostCode').touched">
                                         Post Code is required.
                                     </li>
-                                    <li *ngIf="(storeAddressFormGroup.get('storePostCode').hasError('minlength') || storeAddressFormGroup.get('storePostCode').hasError('maxlength')) && storeAddressFormGroup.get('storePostCode').touched">
+                                    <li *ngIf="(storeInfoFormGroup.get('storePostCode').hasError('minlength') || storeInfoFormGroup.get('storePostCode').hasError('maxlength')) && storeInfoFormGroup.get('storePostCode').touched">
                                         Post Code must be {{storePostCodeMinLength}} digits.
                                     </li>
                                 </ul>
@@ -250,11 +256,11 @@
                                     <ion-input [(ngModel)]="selectedStore.country" formControlName="storeCountry"></ion-input>
                                 </ion-item>
                                 <ul class="error"
-                                    *ngIf="storeAddressFormGroup.get('storeCountry').invalid && storeAddressFormGroup.get('storeCountry').touched">
-                                    <li *ngIf="storeAddressFormGroup.get('storeCountry').hasError('required') && storeAddressFormGroup.get('storeCountry').touched">
+                                    *ngIf="storeInfoFormGroup.get('storeCountry').invalid && storeInfoFormGroup.get('storeCountry').touched">
+                                    <li *ngIf="storeInfoFormGroup.get('storeCountry').hasError('required') && storeInfoFormGroup.get('storeCountry').touched">
                                         Country is required.
                                     </li>
-                                    <li *ngIf="storeAddressFormGroup.get('storeCountry').hasError('maxlength') && storeAddressFormGroup.get('storeCountry').touched">
+                                    <li *ngIf="storeInfoFormGroup.get('storeCountry').hasError('maxlength') && storeInfoFormGroup.get('storeCountry').touched">
                                         Country cannot be more than {{storeCountryMaxLength}} characters.
                                     </li>
                                 </ul>
@@ -263,11 +269,11 @@
                                     <ion-input [(ngModel)]="selectedStore.state" formControlName="storeState"></ion-input>
                                 </ion-item>
                                 <ul class="error"
-                                    *ngIf="storeAddressFormGroup.get('storeState').invalid && storeAddressFormGroup.get('storeState').touched">
-                                    <li *ngIf="storeAddressFormGroup.get('storeState').hasError('required') && storeAddressFormGroup.get('storeState').touched">
+                                    *ngIf="storeInfoFormGroup.get('storeState').invalid && storeInfoFormGroup.get('storeState').touched">
+                                    <li *ngIf="storeInfoFormGroup.get('storeState').hasError('required') && storeInfoFormGroup.get('storeState').touched">
                                         State is required.
                                     </li>
-                                    <li *ngIf="storeAddressFormGroup.get('storeState').hasError('maxlength') && storeAddressFormGroup.get('storeState').touched">
+                                    <li *ngIf="storeInfoFormGroup.get('storeState').hasError('maxlength') && storeInfoFormGroup.get('storeState').touched">
                                         State cannot be more than {{storeStateMaxLength}} characters.
                                     </li>
                                 </ul>
@@ -276,11 +282,11 @@
                                     <ion-input [(ngModel)]="selectedStore.city" formControlName="storeCity"></ion-input>
                                 </ion-item>
                                 <ul class="error"
-                                    *ngIf="storeAddressFormGroup.get('storeCity').invalid && storeAddressFormGroup.get('storeCity').touched">
-                                    <li *ngIf="storeAddressFormGroup.get('storeCity').hasError('required') && storeAddressFormGroup.get('storeCity').touched">
+                                    *ngIf="storeInfoFormGroup.get('storeCity').invalid && storeInfoFormGroup.get('storeCity').touched">
+                                    <li *ngIf="storeInfoFormGroup.get('storeCity').hasError('required') && storeInfoFormGroup.get('storeCity').touched">
                                         City is required.
                                     </li>
-                                    <li *ngIf="storeAddressFormGroup.get('storeCity').hasError('maxlength') && storeAddressFormGroup.get('storeCity').touched">
+                                    <li *ngIf="storeInfoFormGroup.get('storeCity').hasError('maxlength') && storeInfoFormGroup.get('storeCity').touched">
                                         City cannot be more than {{storeCityMaxLength}} characters.
                                     </li>
                                 </ul>
@@ -290,5 +296,6 @@
                 </ion-card>
             </ion-col>
         </ion-row>
+        </div>
     </ng-template>
 </ion-content>
