@@ -26,7 +26,7 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
   listOfInventoriesFromSelectedStore: Array<Inventory> = [];
 
   // Objects
-  selectedStore: Store;
+  selectedStoreUid: string;
 
   // Subscriptions
   getListOfInventoriesByStoreUidSubscription: any;
@@ -53,10 +53,10 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
       this.getListOfInventoriesByStoreUidSubscription.unsubscribe();
     }
     this.currentPageNumber = 1;
-    console.log('retrieve list of inventores');
-    console.log(this.selectedStore);
+    console.log('retrieve list of inventores with store uid');
+    console.log(this.selectedStoreUid);
     this.getListOfInventoriesByStoreUidSubscription = this.storeControllerService.getInventoriesByStoreUid(
-        this.selectedStore.uid,
+        this.selectedStoreUid,
         this.currentPageNumber,
         this.currentPageSize
     ).subscribe(resp => {
@@ -105,7 +105,7 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
     const modal = await this.modalController.create({
       component: AddInventoryPage,
       componentProps: {
-        selectedStore: this.selectedStore
+        selectedStoreUid: this.selectedStoreUid
       }
     });
     modal.onDidDismiss().then((returnedFromCreatingInventory) => {
@@ -121,7 +121,7 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
       if (this.maximumPages > this.currentPageNumber) {
         this.currentPageNumber++;
         this.appendListOfInventoriesByStoreUidSubscription = this.storeControllerService.getInventoriesByStoreUid(
-            this.selectedStore.uid,
+            this.selectedStoreUid,
             this.currentPageNumber,
             this.currentPageSize
         ).subscribe(resp => {

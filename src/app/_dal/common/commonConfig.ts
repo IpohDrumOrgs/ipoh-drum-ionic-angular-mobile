@@ -9,5 +9,17 @@ export let commonConfig = {
     minLengthOfPhoneNumber: 11,
     maxLengthOfPhoneNumber: 14,
     phoneNumberRegex: '^[6][0][1][0-9]{8,10}$',
-    nullSelectedInventoryPatternId: 9999
+    nullSelectedInventoryPatternId: 9999,
+    storeNameMinLength: 2,
+    storeNameMaxLength: 40,
+    storeContactNumMinLength: 11,
+    storeContactNumMaxLength: 14,
+    storeDescriptionMinLength: 10,
+    storeDescriptionMaxLength: 100,
+    storeNoStreetNameMaxLength: 200,
+    storePostCodeMinLength: 5,
+    storePostCodeMaxLength: 5,
+    storeCountryMaxLength: 30,
+    storeStateMaxLength: 30,
+    storeCityMaxLength: 30
 };

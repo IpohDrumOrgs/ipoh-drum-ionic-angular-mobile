@@ -32,6 +32,8 @@ import {InventoryDetailsModalPage} from '../user-profile/my-store/inventory-deta
 import {AddStoreModalPage} from '../user-profile/my-store/add-store-modal/add-store-modal.page';
 import {AddStoreModalPageModule} from '../user-profile/my-store/add-store-modal/add-store-modal.module';
 import { IonicSelectableModule } from 'ionic-selectable';
+import {EditStoreModalPageModule} from '../user-profile/my-store/edit-store-modal/edit-store-modal.module';
+import {EditStoreModalPage} from '../user-profile/my-store/edit-store-modal/edit-store-modal.page';
 
 const routes: Routes = [
     {
@@ -81,7 +83,8 @@ const routes: Routes = [
         StoreInventoryManagementModalPageModule,
         InventoryManagementModalPageModule,
         InventoryDetailsModalPageModule,
-        AddStoreModalPageModule
+        AddStoreModalPageModule,
+        EditStoreModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -94,7 +97,8 @@ const routes: Routes = [
         StoreInventoryManagementModalPage,
         InventoryManagementModalPage,
         InventoryDetailsModalPage,
-        AddStoreModalPage
+        AddStoreModalPage,
+        EditStoreModalPage
     ]
 })
 

@@ -24,6 +24,7 @@ export class AddInventoryPage implements OnInit {
     // Strings
     constructorName = '[' + this.constructor.name + ']';
     defaultNoPlanSelectedStr = 'Default (None)';
+    selectedStoreUid: string;
 
     // NgModels
     inventoryNameModel: string;
@@ -67,7 +68,6 @@ export class AddInventoryPage implements OnInit {
     inventorySlidersAsArray: Array<Blob> = [];
 
     // Objects
-    selectedStore: Store;
     inventoryImageSliderOptions = {
         autoHeight: true,
         initialSlide: 0,
@@ -103,7 +103,7 @@ export class AddInventoryPage implements OnInit {
     ngOnInit() {
         this.ngZone.run(() => {
             this.storePromotionsSubscription = this.storeControllerService.getPromotionsByStoreUid(
-                this.selectedStore.uid
+                this.selectedStoreUid
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.listOfStorePromotions = resp.data;
@@ -114,7 +114,7 @@ export class AddInventoryPage implements OnInit {
                 this.listOfStorePromotions = [];
             });
             this.storeWarrantySubscription = this.storeControllerService.getWarrantiesByStoreUid(
-                this.selectedStore.uid
+                this.selectedStoreUid
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.listOfStoreWarranties = resp.data;
@@ -125,7 +125,7 @@ export class AddInventoryPage implements OnInit {
                 this.listOfStoreWarranties = [];
             });
             this.storeShippingSubscription = this.storeControllerService.getShippingsByStoreUid(
-                this.selectedStore.uid
+                this.selectedStoreUid
             ).subscribe(resp => {
                 if (resp.code === 200) {
                     this.listOfStoreShippings = resp.data;

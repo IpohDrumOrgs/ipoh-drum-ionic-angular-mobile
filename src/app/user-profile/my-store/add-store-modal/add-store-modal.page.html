@@ -65,11 +65,8 @@
                 <li *ngIf="storeInfoFormGroup.get('storeName').hasError('required') && storeInfoFormGroup.get('storeName').touched">
                   Name is required.
                 </li>
-                <li *ngIf="storeInfoFormGroup.get('storeName').hasError('minlength') && storeInfoFormGroup.get('storeName').touched">
-                  Name must have at least {{storeNameMinLength}} characters.
-                </li>
-                <li *ngIf="storeInfoFormGroup.get('storeName').hasError('maxlength') && storeInfoFormGroup.get('storeName').touched">
-                  Name cannot be more than {{storeNameMaxLength}} characters.
+                <li *ngIf="(storeInfoFormGroup.get('storeName').hasError('minlength') || storeInfoFormGroup.get('storeName').hasError('maxlength'))&& storeInfoFormGroup.get('storeName').touched">
+                  Name must be between {{storeNameMinLength}} to {{storeNameMaxLength}} characters.
                 </li>
               </ul>
             </ion-col>
@@ -88,11 +85,8 @@
                 <li *ngIf="storeInfoFormGroup.get('storeContactNum').hasError('required') && storeInfoFormGroup.get('storeContactNum').touched">
                   Contact Num is required.
                 </li>
-                <li *ngIf="storeInfoFormGroup.get('storeContactNum').hasError('minlength') && storeInfoFormGroup.get('storeContactNum').touched">
-                  Contact Num must have at least {{storeContactNumMinLength}} digits.
-                </li>
-                <li *ngIf="storeInfoFormGroup.get('storeContactNum').hasError('maxlength') && storeInfoFormGroup.get('storeContactNum').touched">
-                  Contact Num cannot be more than {{storeContactNumMaxLength}} digits.
+                <li *ngIf="(storeInfoFormGroup.get('storeContactNum').hasError('minlength') || storeInfoFormGroup.get('storeContactNum').hasError('maxlength')) && storeInfoFormGroup.get('storeContactNum').touched">
+                  Contact Num must be between {{storeContactNumMinLength}} to {{storeContactNumMaxLength}} digits.
                 </li>
                 <li *ngIf="storeInfoFormGroup.get('storeContactNum').hasError('pattern') && storeInfoFormGroup.get('storeContactNum').touched">
                   Invalid Contact Num format. Should be (60123456789).
@@ -134,11 +128,8 @@
                 <li *ngIf="storeInfoFormGroup.get('storeDescription').hasError('required') && storeInfoFormGroup.get('storeDescription').touched">
                   Description is required.
                 </li>
-                <li *ngIf="storeInfoFormGroup.get('storeDescription').hasError('minlength') && storeInfoFormGroup.get('storeDescription').touched">
-                  Description should have at least {{storeDescriptionMinLength}} characters.
-                </li>
-                <li *ngIf="storeInfoFormGroup.get('storeDescription').hasError('maxlength') && storeInfoFormGroup.get('storeDescription').touched">
-                  Description cannot be more than {{storeDescriptionMaxLength}} characters.
+                <li *ngIf="(storeInfoFormGroup.get('storeDescription').hasError('minlength') || storeInfoFormGroup.get('storeDescription').hasError('maxlength')) && storeInfoFormGroup.get('storeDescription').touched">
+                  Description must be between {{storeDescriptionMinLength}} to {{storeDescriptionMaxLength}} characters.
                 </li>
               </ul>
             </ion-col>
@@ -208,8 +199,8 @@
           <ul class="error"
               *ngIf="storeAddressFormGroup.get('noStreetName').invalid && storeAddressFormGroup.get('noStreetName').touched">
             <li *ngIf="storeAddressFormGroup.get('noStreetName').hasError('required') && storeAddressFormGroup.get('noStreetName').touched">
-              Building No. and Street Name is required.
-            </li>
+            Building No. and Street Name is required.
+          </li>
             <li *ngIf="storeAddressFormGroup.get('noStreetName').hasError('maxlength') && storeAddressFormGroup.get('noStreetName').touched">
               Building No. and Street Name cannot be more than {{storeNoStreetNameMaxLength}} characters.
             </li>

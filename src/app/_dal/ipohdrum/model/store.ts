@@ -9,20 +9,23 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Company } from './company';
 
 
 export interface Store { 
     id?: number;
     companyId?: number;
+    company?: Company;
     userId?: number;
     uid?: string;
     name?: string;
     contact?: string;
     desc?: string;
     imgpath?: string;
+    imgpublicid?: string;
     email?: string;
     rating?: number;
-    fsminpurchase?: number;
+    freeshippingminpurchase?: number;
     address?: string;
     state?: string;
     postcode?: string;

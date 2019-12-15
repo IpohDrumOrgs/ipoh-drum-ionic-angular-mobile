@@ -124,7 +124,7 @@ export class StoreControllerServiceService {
             queryParameters = queryParameters.set('city', <any>city);
         }
         if (country !== undefined && country !== null) {
-            queryParameters = queryParameters.set('Country', <any>country);
+            queryParameters = queryParameters.set('country', <any>country);
         }
 
         let headers = this.defaultHeaders;
@@ -602,7 +602,7 @@ export class StoreControllerServiceService {
             queryParameters = queryParameters.set('city', <any>city);
         }
         if (country !== undefined && country !== null) {
-            queryParameters = queryParameters.set('Country', <any>country);
+            queryParameters = queryParameters.set('country', <any>country);
         }
 
         let headers = this.defaultHeaders;

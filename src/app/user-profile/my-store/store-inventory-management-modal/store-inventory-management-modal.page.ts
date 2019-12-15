@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ModalController} from '@ionic/angular';
-import {Store} from '../../../_dal/ipohdrum';
 import {InventoryManagementModalPage} from '../inventory-management-modal/inventory-management-modal.page';
+import {EditStoreModalPage} from '../edit-store-modal/edit-store-modal.page';
 
 @Component({
   selector: 'app-store-inventory-management-modal',
@@ -13,9 +13,7 @@ export class StoreInventoryManagementModalPage implements OnInit {
 
   // Strings
   constructorName = '[' + this.constructor.name + ']';
-
-  // Objects
-  selectedStore: Store;
+  selectedStoreUid: string;
 
   constructor(
       private modalController: ModalController
@@ -26,15 +24,25 @@ export class StoreInventoryManagementModalPage implements OnInit {
   ngOnInit() {
   }
 
-  closeStoreInventoryManagementModal() {
-    this.modalController.dismiss();
+  async closeStoreInventoryManagementModal() {
+    await this.modalController.dismiss();
+  }
+
+  async openEditStoreModal() {
+    const modal = await this.modalController.create({
+      component: EditStoreModalPage,
+      componentProps: {
+        selectedStoreUid: this.selectedStoreUid
+      }
+    });
+    return await modal.present();
   }
 
   async openInventoryManagementModal() {
     const modal = await this.modalController.create({
       component: InventoryManagementModalPage,
       componentProps: {
-        selectedStore: this.selectedStore
+        selectedStoreUid: this.selectedStoreUid
       }
     });
     return await modal.present();

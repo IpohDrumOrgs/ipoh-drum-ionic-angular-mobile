@@ -1,43 +1,29 @@
 import {ChangeDetectorRef, Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
+import {Company, CompanyControllerServiceService, Store, StoreControllerServiceService} from '../../../_dal/ipohdrum';
 import {ModalController} from '@ionic/angular';
-import {CompanyControllerServiceService, StoreControllerServiceService} from '../../../_dal/ipohdrum';
-import {Company} from '../../../_dal/ipohdrum';
+import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {IonicSelectableComponent} from 'ionic-selectable';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {commonConfig} from '../../../_dal/common/commonConfig';
-import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 
 @Component({
-  selector: 'app-add-store-modal',
-  templateUrl: './add-store-modal.page.html',
-  styleUrls: ['./add-store-modal.page.scss'],
+  selector: 'app-edit-store-modal',
+  templateUrl: './edit-store-modal.page.html',
+  styleUrls: ['./edit-store-modal.page.scss'],
 })
 
-export class AddStoreModalPage implements OnInit {
+export class EditStoreModalPage implements OnInit {
 
   // Strings
   constructorName = '[' + this.constructor.name + ']';
-  temporaryStoreImageURL: string;
+  selectedStoreUid: string;
   phoneNumberRegex = commonConfig.phoneNumberRegex;
 
-  // NgModels
-  selectedStoreBelongsToCompanyFlag = false;
-  selectedCompany: Company;
-  storeNameModel: string;
-  storeContactNumModel: string;
-  storeEmailModel: string;
-  storeDescriptionModel: string;
-  storeNoStreetNameModel: string;
-  storePostCodeModel: string;
-  storeCountryModel: string;
-  storeStateModel: string;
-  storeCityModel: string;
-
   // Numbers
-  currentCompanyPageNumber = 1;
-  currentCompanyPageSize = 10;
-  companyMaximumPages: number;
+  currentPageNumber = 1;
+  currentPageSize = 20;
+  maximumPages: number;
   storeNameMinLength = commonConfig.storeNameMinLength;
   storeNameMaxLength = commonConfig.storeNameMaxLength;
   storeContactNumMinLength = commonConfig.storeContactNumMinLength;
@@ -51,59 +37,60 @@ export class AddStoreModalPage implements OnInit {
   storeStateMaxLength = commonConfig.storeStateMaxLength;
   storeCityMaxLength = commonConfig.storeCityMaxLength;
 
+  // Booleans
+  isLoadingStoreInfo = true;
+
   // Arrays
+  storeImageAsBlobArray: Array<Blob> = [];
   listOfCompanies: Array<Company> = [];
 
   // ViewChilds
   @ViewChild('storeImageContainer', {static: false}) storeImageContainer: ElementRef;
 
   // Objects
-  storeImageAsBlobArray: Array<Blob> = [];
-  inventoryImageSliderOptions = {
-    autoHeight: true,
-    initialSlide: 0,
-    speed: 400,
-    noSwipingClass: 'no-swipe'
-  };
+  selectedStore: Store;
+  temporaryStoreImageURL: Blob;
 
-  // FormGroup
+  // FormGroups
   storeInfoFormGroup: FormGroup;
   storeAddressFormGroup: FormGroup;
 
   // Subscriptions
-  appendListOfCompaniesSubscription: any;
+  getStoreByUidSubscription: any;
+  updateStoreSubscription: any;
   searchListOfCompaniesSubscription: any;
-  createStoreSubscription: any;
+  appendListOfCompaniesSubscription: any;
 
   constructor(
       private ngZone: NgZone,
+      private loadingService: LoadingService,
       private modalController: ModalController,
       private companyControllerService: CompanyControllerServiceService,
       private storeControllerService: StoreControllerServiceService,
-      private loadingService: LoadingService,
       private globalFunctionService: GlobalfunctionService,
       private ref: ChangeDetectorRef
   ) {
     console.log(this.constructorName + 'Initializing component');
+    this.loadingService.present();
   }
 
   ngOnInit() {
     this.ngZone.run(() => {
       this.storeInfoFormGroup = new FormGroup({
         storeName: new FormControl(null, [
-            Validators.required,
-            Validators.minLength(this.storeNameMinLength),
-            Validators.maxLength(this.storeNameMaxLength)
+          Validators.required,
+          Validators.minLength(this.storeNameMinLength),
+          Validators.maxLength(this.storeNameMaxLength)
         ]),
         storeContactNum: new FormControl(null, [
-            Validators.required,
-            Validators.minLength(this.storeContactNumMinLength),
-            Validators.maxLength(this.storeContactNumMaxLength),
+          Validators.required,
+          Validators.minLength(this.storeContactNumMinLength),
+          Validators.maxLength(this.storeContactNumMaxLength),
           Validators.pattern(this.phoneNumberRegex)
         ]),
         storeEmail: new FormControl(null, [
-            Validators.required,
-            Validators.email
+          Validators.required,
+          Validators.email
         ]),
         storeDescription: new FormControl(null, [
           Validators.required,
@@ -113,39 +100,53 @@ export class AddStoreModalPage implements OnInit {
       });
       this.storeAddressFormGroup = new FormGroup({
         noStreetName: new FormControl(null, [
-            Validators.required,
-            Validators.maxLength(this.storeNoStreetNameMaxLength)
+          Validators.required,
+          Validators.maxLength(this.storeNoStreetNameMaxLength)
         ]),
         storePostCode: new FormControl(null, [
-            Validators.required,
-            Validators.minLength(this.storePostCodeMinLength),
-            Validators.maxLength(this.storePostCodeMaxLength)
+          Validators.required,
+          Validators.minLength(this.storePostCodeMinLength),
+          Validators.maxLength(this.storePostCodeMaxLength)
         ]),
         storeCountry: new FormControl(null, [
-            Validators.required,
-            Validators.maxLength(this.storeCountryMaxLength)
+          Validators.required,
+          Validators.maxLength(this.storeCountryMaxLength)
         ]),
         storeState: new FormControl(null, [
-            Validators.required,
-            Validators.maxLength(this.storeStateMaxLength)
+          Validators.required,
+          Validators.maxLength(this.storeStateMaxLength)
         ]),
         storeCity: new FormControl(null, [
-            Validators.required,
-            Validators.maxLength(this.storeCityMaxLength)
+          Validators.required,
+          Validators.maxLength(this.storeCityMaxLength)
         ])
+      });
+      this.getStoreByUidSubscription = this.storeControllerService.getStoreByUid(
+          this.selectedStoreUid
+      ).subscribe(resp => {
+        console.log('retrieved store:');
+        console.log(resp);
+        if (resp.code === 200) {
+          this.selectedStore = resp.data;
+        } else {
+          this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store\'s info, please try again later!', 'warning', 'top');
+          this.closeEditStoreModal();
+        }
+        this.isLoadingStoreInfo = false;
+        this.loadingService.dismiss();
+        this.ref.detectChanges();
+      }, error => {
+        console.log('API Error while retrieving store by uid.');
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store\'s info, please try again later!', 'warning', 'top');
+        this.isLoadingStoreInfo = false;
+        this.loadingService.dismiss();
+        this.closeEditStoreModal();
       });
     });
   }
 
-  closeCreateStoreModal(returnFromCreatingStore: boolean) {
-    this.modalController.dismiss(returnFromCreatingStore);
-  }
-
-  toggleBelongsToCompanyFlag() {
-    this.selectedStoreBelongsToCompanyFlag = !this.selectedStoreBelongsToCompanyFlag;
-    if (!this.selectedStoreBelongsToCompanyFlag) {
-      this.selectedCompany = null;
-    }
+  async closeEditStoreModal() {
+    await this.modalController.dismiss();
   }
 
   openStoreImageFilePicker() {
@@ -168,37 +169,36 @@ export class AddStoreModalPage implements OnInit {
     }
   }
 
-  createStore() {
+  updateStore() {
+    console.log(this.storeImageAsBlobArray);
     this.loadingService.present();
-    this.createStoreSubscription = this.storeControllerService.createStore(
-        this.storeNameModel,
-        this.selectedStoreBelongsToCompanyFlag === true ? 1 : 0,
-        this.selectedCompany ? this.selectedCompany.id : null,
+    this.updateStoreSubscription = this.storeControllerService.updateStoreByUid(
+        this.selectedStore.uid,
+        this.selectedStore.name,
+        this.selectedStore.companyBelongings,
+        this.selectedStore.companyBelongings === 1 ? this.selectedStore.company.id : null,
         null,
-        this.storeContactNumModel,
-        this.storeDescriptionModel,
-        this.storeEmailModel,
-        this.storeNoStreetNameModel,
-        this.storePostCodeModel,
-        this.storeStateModel,
-        this.storeCityModel,
-        this.storeCountryModel,
-        this.storeImageAsBlobArray
+        this.selectedStore.desc,
+        this.selectedStore.contact,
+        this.selectedStore.email,
+        this.selectedStore.address,
+        this.selectedStore.postcode,
+        this.selectedStore.state,
+        this.selectedStore.city,
+        this.selectedStore.country,
+        this.storeImageAsBlobArray[0] !== undefined || this.storeImageAsBlobArray[0] !== null ? this.storeImageAsBlobArray : null
     ).subscribe(resp => {
-      console.log(resp);
+      this.loadingService.dismiss();
       if (resp.code === 200) {
-        this.globalFunctionService.simpleToast('SUCCESS', 'Store has been successfully created!', 'success', 'top');
-        this.closeCreateStoreModal(true);
+        this.globalFunctionService.simpleToast('SUCCESS', 'Store has been updated.', 'success', 'top');
+        this.closeEditStoreModal();
       } else {
-        // tslint:disable-next-line:max-line-length
-        this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Store, please try again later!', 'warning', 'top');
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Store, please try again later!', 'danger', 'top');
       }
-      this.loadingService.dismiss();
     }, error => {
-      console.log('API Error while creating a new store.');
-      // tslint:disable-next-line:max-line-length
-      this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Store, please try again later!', 'warning', 'top');
+      console.log('API Error while updating store');
       this.loadingService.dismiss();
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Store, please try again later!', 'danger', 'top');
     });
   }
 
@@ -217,22 +217,22 @@ export class AddStoreModalPage implements OnInit {
     if (this.searchListOfCompaniesSubscription) {
       this.searchListOfCompaniesSubscription.unsubscribe();
     }
-    this.currentCompanyPageNumber = 1;
+    this.currentPageNumber = 1;
     if (!text) {
       if (this.searchListOfCompaniesSubscription) {
         this.searchListOfCompaniesSubscription.unsubscribe();
       }
       this.searchListOfCompaniesSubscription = this.companyControllerService.getCompanies(
-          this.currentCompanyPageNumber,
-          this.currentCompanyPageSize
+          this.currentPageNumber,
+          this.currentPageSize
       ).subscribe(resp => {
         if (resp.code === 200) {
           this.listOfCompanies = resp.data;
-          this.companyMaximumPages = resp.maximumPages;
+          this.maximumPages = resp.maximumPages;
           event.component.items = this.listOfCompanies;
         } else {
           this.listOfCompanies = [];
-          this.companyMaximumPages = 0;
+          this.maximumPages = 0;
         }
         event.component.endSearch();
         event.component.enableInfiniteScroll();
@@ -244,8 +244,8 @@ export class AddStoreModalPage implements OnInit {
       return;
     }
     this.searchListOfCompaniesSubscription = this.companyControllerService.filterCompanies(
-        this.currentCompanyPageNumber,
-        this.currentCompanyPageSize,
+        this.currentPageNumber,
+        this.currentPageSize,
         text
     ).subscribe(resp => {
       if (this.searchListOfCompaniesSubscription.closed) {
@@ -268,16 +268,16 @@ export class AddStoreModalPage implements OnInit {
     text: string
   }) {
     const text = (event.text || '').trim().toLowerCase();
-    if (this.currentCompanyPageNumber > this.companyMaximumPages) {
+    if (this.currentPageNumber > this.maximumPages) {
       // event.component.disableInfiniteScroll();
       event.component.endInfiniteScroll();
       return;
     } else {
-      this.currentCompanyPageNumber++;
+      this.currentPageNumber++;
       if (text) {
         this.appendListOfCompaniesSubscription = this.companyControllerService.filterCompanies(
-            this.currentCompanyPageNumber,
-            this.currentCompanyPageSize,
+            this.currentPageNumber,
+            this.currentPageSize,
             text
         ).subscribe(resp => {
           if (resp.code === 200) {
@@ -293,8 +293,8 @@ export class AddStoreModalPage implements OnInit {
         });
       } else {
         this.appendListOfCompaniesSubscription = this.companyControllerService.getCompanies(
-            this.currentCompanyPageNumber,
-            this.currentCompanyPageSize
+            this.currentPageNumber,
+            this.currentPageSize
         ).subscribe(resp => {
           if (resp.code === 200) {
             for (const company of resp.data) {
