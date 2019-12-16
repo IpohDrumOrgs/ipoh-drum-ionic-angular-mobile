@@ -29,7 +29,6 @@ export interface User {
     status?: string;
     lastLogin?: string;
     lastActive?: string;
-    lasteditBy?: string;
     rememberToken?: string;
     createdAt?: string;
     updatedAt?: string;

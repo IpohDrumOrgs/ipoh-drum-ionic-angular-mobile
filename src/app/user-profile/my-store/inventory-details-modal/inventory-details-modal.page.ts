@@ -1,7 +1,8 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {Inventory, InventoryControllerServiceService} from '../../../_dal/ipohdrum';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {ModalController} from '@ionic/angular';
+import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 
 @Component({
   selector: 'app-inventory-details-modal',
@@ -9,7 +10,7 @@ import {ModalController} from '@ionic/angular';
   styleUrls: ['./inventory-details-modal.page.scss'],
 })
 
-export class InventoryDetailsModalPage implements OnInit {
+export class InventoryDetailsModalPage implements OnInit, OnDestroy {
 
   // Strings
   constructorName = '[' + this.constructor.name + ']';
@@ -33,23 +34,25 @@ export class InventoryDetailsModalPage implements OnInit {
       private ngZone: NgZone,
       private loadingService: LoadingService,
       private modalController: ModalController,
+      private globalFunctionService: GlobalfunctionService,
       private inventoryControllerService: InventoryControllerServiceService
   ) {
     console.log(this.constructorName + 'Initializing component');
-    this.loadingService.present();
   }
 
   ngOnInit() {
     this.ngZone.run(() => {
+      this.loadingService.present();
       this.isLoadingInventoryDetails = true;
       this.getInventoryDetailsSubscription = this.inventoryControllerService.getInventoryByUid(
           this.selectedInventoryUid
       ).subscribe(resp => {
-        console.log(resp);
         if (resp.code === 200) {
           this.currentInventoryDetails = resp.data;
         } else {
-          // TODO: Show error message, redirect to My Store page
+          // tslint:disable-next-line:max-line-length
+          this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Inventory details, please try again later!', 'warning', 'top');
+          this.closeInventoryDetailsModal();
         }
         this.loadingService.dismiss();
         this.isLoadingInventoryDetails = false;
@@ -59,6 +62,21 @@ export class InventoryDetailsModalPage implements OnInit {
         this.loadingService.dismiss();
         this.isLoadingInventoryDetails = false;
       });
+    });
+  }
+  ngOnDestroy() {
+    this.unsubscribeSubscriptions();
+  }
+
+  ionViewDidLeave() {
+    this.unsubscribeSubscriptions();
+  }
+
+  unsubscribeSubscriptions() {
+    this.ngZone.run(() => {
+      if (this.getInventoryDetailsSubscription) {
+        this.getInventoryDetailsSubscription.unsubscribe();
+      }
     });
   }
 

@@ -29,6 +29,16 @@ import {InventoryManagementModalPageModule} from '../user-profile/my-store/inven
 import {InventoryManagementModalPage} from '../user-profile/my-store/inventory-management-modal/inventory-management-modal.page';
 import {InventoryDetailsModalPageModule} from '../user-profile/my-store/inventory-details-modal/inventory-details-modal.module';
 import {InventoryDetailsModalPage} from '../user-profile/my-store/inventory-details-modal/inventory-details-modal.page';
+import {AddStoreModalPage} from '../user-profile/my-store/add-store-modal/add-store-modal.page';
+import {AddStoreModalPageModule} from '../user-profile/my-store/add-store-modal/add-store-modal.module';
+import { IonicSelectableModule } from 'ionic-selectable';
+import {EditStoreModalPageModule} from '../user-profile/my-store/edit-store-modal/edit-store-modal.module';
+import {EditStoreModalPage} from '../user-profile/my-store/edit-store-modal/edit-store-modal.page';
+import {PromotionManagementModalPageModule} from '../user-profile/my-store/promotion-management-modal/promotion-management-modal.module';
+import {PromotionManagementModalPage} from '../user-profile/my-store/promotion-management-modal/promotion-management-modal.page';
+// tslint:disable-next-line:max-line-length
+import {AddPromotionModalPageModule} from '../user-profile/my-store/promotion-management-modal/add-promotion-modal/add-promotion-modal.module';
+import {AddPromotionModalPage} from '../user-profile/my-store/promotion-management-modal/add-promotion-modal/add-promotion-modal.page';
 
 const routes: Routes = [
     {
@@ -69,6 +79,7 @@ const routes: Routes = [
         SharedModule,
         ShowHidePasswordModule,
         FormWizardModule,
+        IonicSelectableModule,
         RouterModule.forChild(routes),
         ProductVariationModalPageModule,
         AddInventoryPageModule,
@@ -76,7 +87,11 @@ const routes: Routes = [
         AddInventoryPatternModalPageModule,
         StoreInventoryManagementModalPageModule,
         InventoryManagementModalPageModule,
-        InventoryDetailsModalPageModule
+        InventoryDetailsModalPageModule,
+        AddStoreModalPageModule,
+        EditStoreModalPageModule,
+        PromotionManagementModalPageModule,
+        AddPromotionModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -88,7 +103,11 @@ const routes: Routes = [
         AddInventoryPatternModalPage,
         StoreInventoryManagementModalPage,
         InventoryManagementModalPage,
-        InventoryDetailsModalPage
+        InventoryDetailsModalPage,
+        AddStoreModalPage,
+        EditStoreModalPage,
+        PromotionManagementModalPage,
+        AddPromotionModalPage
     ]
 })
 

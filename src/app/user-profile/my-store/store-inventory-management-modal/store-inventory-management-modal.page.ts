@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ModalController} from '@ionic/angular';
-import {Store} from '../../../_dal/ipohdrum';
 import {InventoryManagementModalPage} from '../inventory-management-modal/inventory-management-modal.page';
+import {EditStoreModalPage} from '../edit-store-modal/edit-store-modal.page';
+import {PromotionManagementModalPage} from '../promotion-management-modal/promotion-management-modal.page';
 
 @Component({
   selector: 'app-store-inventory-management-modal',
@@ -13,9 +14,10 @@ export class StoreInventoryManagementModalPage implements OnInit {
 
   // Strings
   constructorName = '[' + this.constructor.name + ']';
+  selectedStoreUid: string;
 
-  // Objects
-  selectedStore: Store;
+  // Numbers
+  selectedStoreId: number;
 
   constructor(
       private modalController: ModalController
@@ -26,15 +28,37 @@ export class StoreInventoryManagementModalPage implements OnInit {
   ngOnInit() {
   }
 
-  closeStoreInventoryManagementModal() {
-    this.modalController.dismiss();
+  async closeStoreInventoryManagementModal() {
+    await this.modalController.dismiss();
+  }
+
+  async openEditStoreModal() {
+    const modal = await this.modalController.create({
+      component: EditStoreModalPage,
+      componentProps: {
+        selectedStoreUid: this.selectedStoreUid
+      }
+    });
+    return await modal.present();
   }
 
   async openInventoryManagementModal() {
     const modal = await this.modalController.create({
       component: InventoryManagementModalPage,
       componentProps: {
-        selectedStore: this.selectedStore
+        selectedStoreUid: this.selectedStoreUid,
+        selectedStoreId: this.selectedStoreId
+      }
+    });
+    return await modal.present();
+  }
+
+  async openPromotionManagementModal() {
+    const modal = await this.modalController.create({
+      component: PromotionManagementModalPage,
+      componentProps: {
+        selectedStoreUid: this.selectedStoreUid,
+        selectedStoreId: this.selectedStoreId
       }
     });
     return await modal.present();

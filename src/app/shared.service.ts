@@ -44,9 +44,9 @@ export class SharedService {
           alreadyContainInventory = true;
           if (this.selectedInventoryToCart[i].qty >= (totalQuantitiesOfThisItemInCart + selectedInventory.quantitiesToAdd)) {
             this.selectedInventoryToCart[i].selectedQuantity += selectedInventory.quantitiesToAdd;
-            this.globalFunctionService.simpleToast(null, 'Item has been added to your cart!', 'success', 'bottom');
+            this.globalFunctionService.simpleToast(null, 'Item has been added to your cart!', 'success');
           } else {
-            this.globalFunctionService.simpleToast(null, 'Not enough stock, please try again with a different quantity number!', 'warning', 'bottom');
+            this.globalFunctionService.simpleToast(null, 'Not enough stock, please try again with a different quantity number!', 'warning');
           }
           break;
         }
@@ -55,15 +55,15 @@ export class SharedService {
         if (selectedInventory.qty >= (totalQuantitiesOfThisItemInCart + selectedInventory.quantitiesToAdd)) {
           selectedInventory.selectedQuantity += selectedInventory.quantitiesToAdd;
           this.selectedInventoryToCart.push(selectedInventory);
-          this.globalFunctionService.simpleToast(null, 'Item has been added to your cart!', 'success', 'bottom');
+          this.globalFunctionService.simpleToast(null, 'Item has been added to your cart!', 'success', 'top');
         } else {
-          this.globalFunctionService.simpleToast(null, 'Not enough stock, please try again with a different quantity number!', 'warning', 'bottom');
+          this.globalFunctionService.simpleToast(null, 'Not enough stock, please try again with a different quantity number!', 'warning');
         }
       }
     } else {
       selectedInventory.selectedQuantity += selectedInventory.quantitiesToAdd;
       this.selectedInventoryToCart.push(selectedInventory);
-      this.globalFunctionService.simpleToast(null, 'Item has been added to your cart!', 'success', 'bottom');
+      this.globalFunctionService.simpleToast(null, 'Item has been added to your cart!', 'success');
     }
     this.emitSelectedInventoryToCartSubject.next(this.selectedInventoryToCart);
     this.emitNumberOfSelectedInventoriesInCart();

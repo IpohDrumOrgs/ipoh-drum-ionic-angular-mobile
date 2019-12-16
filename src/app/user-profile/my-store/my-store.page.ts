@@ -4,6 +4,8 @@ import {ModalController} from '@ionic/angular';
 import {Store, StoreControllerServiceService} from '../../_dal/ipohdrum';
 import {StoreInventoryManagementModalPage} from './store-inventory-management-modal/store-inventory-management-modal.page';
 import {LoadingService} from '../../_dal/common/services/loading.service';
+import {AddStoreModalPage} from './add-store-modal/add-store-modal.page';
+import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
 
 @Component({
     selector: 'app-my-store',
@@ -34,33 +36,15 @@ export class MyStorePage implements OnInit, OnDestroy {
         private router: Router,
         private modalController: ModalController,
         private storeControllerService: StoreControllerServiceService,
-        private loadingService: LoadingService
+        private loadingService: LoadingService,
+        private globalFunctionService: GlobalfunctionService
     ) {
-        this.loadingService.present();
         console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
         this.ngZone.run(() => {
-            this.getUsersListOfStoresSubscription = this.storeControllerService.getStores(
-                this.currentPageNumber,
-                this.currentPageSize
-            ).subscribe(resp => {
-                console.log(resp);
-                if (resp.code === 200) {
-                    this.listOfCurrentUsersStores = resp.data;
-                    this.maximumPages = resp.maximumPages;
-                    this.totalResult = resp.totalResult;
-                } else {
-                    this.listOfCurrentUsersStores = [];
-                    console.log('Unable to retrieve list of Stores');
-                }
-                this.loadingService.dismiss();
-            }, error => {
-                this.listOfCurrentUsersStores = [];
-                this.loadingService.dismiss();
-                console.log('API Error while retrieving list of stores of current User');
-            });
+            this.retrieveListOfStoresOfCurrentUser();
         });
     }
 
@@ -68,7 +52,7 @@ export class MyStorePage implements OnInit, OnDestroy {
         this.unsubscribeSubscriptions();
     }
 
-    ionViewWillLeave() {
+    ionViewDidLeave() {
         this.unsubscribeSubscriptions();
     }
 
@@ -83,12 +67,55 @@ export class MyStorePage implements OnInit, OnDestroy {
         });
     }
 
-    async openStoreInventoryManagementModal(selectedStore: Store) {
+    retrieveListOfStoresOfCurrentUser() {
+        this.loadingService.present();
+        if (this.getUsersListOfStoresSubscription) {
+            this.getUsersListOfStoresSubscription.unsubscribe();
+        }
+        this.currentPageNumber = 1;
+        this.getUsersListOfStoresSubscription = this.storeControllerService.getStores(
+            this.currentPageNumber,
+            this.currentPageSize
+        ).subscribe(resp => {
+            if (resp.code === 200) {
+                this.listOfCurrentUsersStores = resp.data;
+                this.maximumPages = resp.maximumPages;
+                this.totalResult = resp.totalResult;
+            } else {
+                this.listOfCurrentUsersStores = [];
+                // tslint:disable-next-line:max-line-length
+                this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store list info, please try again later!', 'warning', 'top');
+                console.log('Unable to retrieve list of Stores');
+            }
+            this.loadingService.dismiss();
+        }, error => {
+            // tslint:disable-next-line:max-line-length
+            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store list info, please try again later!', 'warning', 'top');
+            this.listOfCurrentUsersStores = [];
+            this.loadingService.dismiss();
+            console.log('API Error while retrieving list of stores of current User');
+        });
+    }
+
+    async openCreateStoreModal() {
+        const modal = await this.modalController.create({
+            component: AddStoreModalPage
+        });
+        modal.onDidDismiss().then((returnFromCreatingStore) => {
+            if (returnFromCreatingStore.data) {
+                this.retrieveListOfStoresOfCurrentUser();
+            }
+        });
+        return await modal.present();
+    }
+
+    async openStoreInventoryManagementModal(selectedStoreUid: string, selectedStoreId: number) {
         const modal = await this.modalController.create({
             component: StoreInventoryManagementModalPage,
             cssClass: 'store-management-modal',
             componentProps: {
-                selectedStore
+                selectedStoreUid,
+                selectedStoreId
             }
         });
         return await modal.present();

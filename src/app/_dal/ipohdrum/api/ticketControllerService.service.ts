@@ -50,8 +50,8 @@ export class TicketControllerServiceService {
     /**
      * Creates a ticket.
      * @param name Ticketname
-     * @param storeid Store ID
-     * @param promotionid Promotion ID
+     * @param storeId Store ID
+     * @param productPromotionId Promotion ID
      * @param sku Sku
      * @param price Product Selling Price
      * @param qty Stock Qty
@@ -64,18 +64,18 @@ export class TicketControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createTicket(name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createTicket(name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createTicket(name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createTicket(name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createTicket(name: string, storeId: number, productPromotionId: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createTicket(name: string, storeId: number, productPromotionId: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createTicket(name: string, storeId: number, productPromotionId: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createTicket(name: string, storeId: number, productPromotionId: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createTicket.');
         }
-        if (storeid === null || storeid === undefined) {
-            throw new Error('Required parameter storeid was null or undefined when calling createTicket.');
+        if (storeId === null || storeId === undefined) {
+            throw new Error('Required parameter storeId was null or undefined when calling createTicket.');
         }
-        if (promotionid === null || promotionid === undefined) {
-            throw new Error('Required parameter promotionid was null or undefined when calling createTicket.');
+        if (productPromotionId === null || productPromotionId === undefined) {
+            throw new Error('Required parameter productPromotionId was null or undefined when calling createTicket.');
         }
         if (sku === null || sku === undefined) {
             throw new Error('Required parameter sku was null or undefined when calling createTicket.');
@@ -97,11 +97,11 @@ export class TicketControllerServiceService {
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (storeid !== undefined && storeid !== null) {
-            queryParameters = queryParameters.set('storeid', <any>storeid);
+        if (storeId !== undefined && storeId !== null) {
+            queryParameters = queryParameters.set('store_id', <any>storeId);
         }
-        if (promotionid !== undefined && promotionid !== null) {
-            queryParameters = queryParameters.set('promotionid', <any>promotionid);
+        if (productPromotionId !== undefined && productPromotionId !== null) {
+            queryParameters = queryParameters.set('product_promotion_id', <any>productPromotionId);
         }
         if (code !== undefined && code !== null) {
             queryParameters = queryParameters.set('code', <any>code);
@@ -334,8 +334,8 @@ export class TicketControllerServiceService {
      * Update ticket by Uid.
      * @param uid Ticket_ID, NOT \&#39;ID\&#39;.
      * @param name Ticketname
-     * @param storeid Store ID
-     * @param promotionid Promotion ID
+     * @param storeId Store ID
+     * @param productPromotionId Promotion ID
      * @param sku Sku
      * @param price Product Selling Price
      * @param qty Stock Qty
@@ -348,21 +348,21 @@ export class TicketControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateTicketByUid(uid: string, name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateTicketByUid(uid: string, name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateTicketByUid(uid: string, name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateTicketByUid(uid: string, name: string, storeid: number, promotionid: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateTicketByUid(uid: string, name: string, storeId: number, productPromotionId: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateTicketByUid(uid: string, name: string, storeId: number, productPromotionId: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateTicketByUid(uid: string, name: string, storeId: number, productPromotionId: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateTicketByUid(uid: string, name: string, storeId: number, productPromotionId: number, sku: string, price: number, qty: number, enddate: string, onsale: number, code?: string, desc?: string, imgpath?: string, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateTicketByUid.');
         }
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling updateTicketByUid.');
         }
-        if (storeid === null || storeid === undefined) {
-            throw new Error('Required parameter storeid was null or undefined when calling updateTicketByUid.');
+        if (storeId === null || storeId === undefined) {
+            throw new Error('Required parameter storeId was null or undefined when calling updateTicketByUid.');
         }
-        if (promotionid === null || promotionid === undefined) {
-            throw new Error('Required parameter promotionid was null or undefined when calling updateTicketByUid.');
+        if (productPromotionId === null || productPromotionId === undefined) {
+            throw new Error('Required parameter productPromotionId was null or undefined when calling updateTicketByUid.');
         }
         if (sku === null || sku === undefined) {
             throw new Error('Required parameter sku was null or undefined when calling updateTicketByUid.');
@@ -384,11 +384,11 @@ export class TicketControllerServiceService {
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (storeid !== undefined && storeid !== null) {
-            queryParameters = queryParameters.set('storeid', <any>storeid);
+        if (storeId !== undefined && storeId !== null) {
+            queryParameters = queryParameters.set('store_id', <any>storeId);
         }
-        if (promotionid !== undefined && promotionid !== null) {
-            queryParameters = queryParameters.set('promotionid', <any>promotionid);
+        if (productPromotionId !== undefined && productPromotionId !== null) {
+            queryParameters = queryParameters.set('product_promotion_id', <any>productPromotionId);
         }
         if (code !== undefined && code !== null) {
             queryParameters = queryParameters.set('code', <any>code);

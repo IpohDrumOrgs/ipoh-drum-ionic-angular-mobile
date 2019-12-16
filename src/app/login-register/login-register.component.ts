@@ -98,7 +98,7 @@ export class LoginRegisterComponent implements OnInit {
         }
     }
 
-    ionViewWillLeave() {
+    ionViewDidLeave() {
         if (this.userRegisterSubscription) {
             this.userRegisterSubscription.unsubscribe();
         }

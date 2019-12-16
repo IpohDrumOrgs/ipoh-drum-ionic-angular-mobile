@@ -94,8 +94,8 @@ export class MyProfilePage implements OnInit, OnDestroy {
     }
   }
 
-  ionViewWillLeave() {
-    console.log(this.constructorName + 'IonViewWillLeave');
+  ionViewDidLeave() {
+    console.log(this.constructorName + 'IonViewDidLeave');
   }
 
   enableEditingUser() {

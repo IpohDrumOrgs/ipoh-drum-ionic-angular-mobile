@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {
     InventoryControllerServiceService,
     TypeControllerServiceService,
@@ -15,7 +15,7 @@ import {GlobalfunctionService} from '../_dal/common/services/globalfunction.serv
     styleUrls: ['./shop.page.scss'],
 })
 
-export class ShopPage implements OnInit {
+export class ShopPage implements OnInit, OnDestroy {
 
     imageObject: Array<object> = [
         {
@@ -76,16 +76,26 @@ export class ShopPage implements OnInit {
         });
     }
 
-    ionViewWillLeave() {
-        if (this.inventorySubscription) {
-            this.inventorySubscription.unsubscribe();
-        }
-        if (this.typeSubscription) {
-            this.typeSubscription.unsubscribe();
-        }
-        if (this.productFeaturesSubscription) {
-            this.productFeaturesSubscription.unsubscribe();
-        }
+    ngOnDestroy() {
+        this.unsubscribeSubscriptions();
+    }
+
+    ionViewDidLeave() {
+        this.unsubscribeSubscriptions()
+    }
+
+    unsubscribeSubscriptions() {
+        this.ngZone.run(() => {
+            if (this.inventorySubscription) {
+                this.inventorySubscription.unsubscribe();
+            }
+            if (this.typeSubscription) {
+                this.typeSubscription.unsubscribe();
+            }
+            if (this.productFeaturesSubscription) {
+                this.productFeaturesSubscription.unsubscribe();
+            }
+        });
     }
 
     getListOfCategories() {
