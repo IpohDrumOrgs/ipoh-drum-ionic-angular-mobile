@@ -12,6 +12,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ModalController} from '@ionic/angular';
 import {InvFamilyPatternModalPage} from './inv-family-pattern-modal/inv-family-pattern-modal.page';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
+import {commonConfig} from '../../../_dal/common/commonConfig';
 
 @Component({
     selector: 'app-add-inventory',
@@ -41,7 +42,7 @@ export class AddInventoryPage implements OnInit, OnDestroy {
     // Regex
     alphaNumericOnlyRegex = '^[a-zA-Z0-9_]+$';
     priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
-    numericOnlyRegex = '^[0-9]+$';
+    numericOnlyRegex = commonConfig.numericOnlyRegex;
 
     // Number
     inventoryNameMinLength = 5;
@@ -214,12 +215,12 @@ export class AddInventoryPage implements OnInit, OnDestroy {
             this.createInventorySubscription = this.inventoryControllerService.createInventory(
                 this.inventoryNameModel,
                 this.selectedStoreId,
-                this.selectedPromotionPlan ? this.selectedPromotionPlan.id : null,
-                this.selectedWarrantyPlan ? this.selectedWarrantyPlan.id : null,
-                this.selectedShippingPlan ? this.selectedShippingPlan.id : null,
                 JSON.stringify(this.inventoryFamilyAndOrPatternsToInsert),
                 this.inventoryCostModel,
                 this.inventoryBasePriceModel,
+                this.selectedPromotionPlan ? this.selectedPromotionPlan.id : null,
+                this.selectedWarrantyPlan ? this.selectedWarrantyPlan.id : null,
+                this.selectedShippingPlan ? this.selectedShippingPlan.id : null,
                 this.inventoryCodeModel,
                 this.inventorySKUModel,
                 this.inventoryDescriptionModel,

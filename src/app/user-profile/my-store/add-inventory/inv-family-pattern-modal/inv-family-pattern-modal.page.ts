@@ -4,6 +4,7 @@ import {ModalController} from '@ionic/angular';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {AddInventoryPatternModalPage} from './add-inventory-pattern-modal/add-inventory-pattern-modal.page';
 import {GlobalfunctionService} from '../../../../_dal/common/services/globalfunction.service';
+import {commonConfig} from '../../../../_dal/common/commonConfig';
 
 @Component({
   selector: 'app-inv-family-pattern-modal',
@@ -18,7 +19,7 @@ export class InvFamilyPatternModalPage implements OnInit {
   // Regex
   alphaNumericOnlyRegex = '^[a-zA-Z0-9_]+$';
   priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
-  numericOnlyRegex = '^[0-9]+$';
+  numericOnlyRegex = commonConfig.numericOnlyRegex;
 
   // NgModels
   inventoryFamilyNameModel: string;

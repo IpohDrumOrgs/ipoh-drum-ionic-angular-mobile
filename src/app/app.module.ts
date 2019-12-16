@@ -40,7 +40,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         AppRoutingModule,
         IonicStorageModule.forRoot(),
         LaravelPassportModule.forRoot(
-            {apiRoot: 'http://localhost:8000', clientId: 2, clientSecret: 'iTkjVHqP0xuY47Rp2UyqGYpRNAxc9oCmi9YgxWt1'}
+            {apiRoot: 'http://localhost:8000', clientId: 2, clientSecret: 'hbWXwc0pEdwoPRvqsA9J45enb8P6tRtnviVTWtmo'}
         ),
         PerfectScrollbarModule,
         IpohDrumPageModule

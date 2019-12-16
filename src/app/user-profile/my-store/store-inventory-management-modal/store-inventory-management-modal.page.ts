@@ -3,6 +3,7 @@ import {ModalController} from '@ionic/angular';
 import {InventoryManagementModalPage} from '../inventory-management-modal/inventory-management-modal.page';
 import {EditStoreModalPage} from '../edit-store-modal/edit-store-modal.page';
 import {PromotionManagementModalPage} from '../promotion-management-modal/promotion-management-modal.page';
+import {WarrantyManagementModalPage} from '../warranty-management-modal/warranty-management-modal.page';
 
 @Component({
   selector: 'app-store-inventory-management-modal',
@@ -56,6 +57,17 @@ export class StoreInventoryManagementModalPage implements OnInit {
   async openPromotionManagementModal() {
     const modal = await this.modalController.create({
       component: PromotionManagementModalPage,
+      componentProps: {
+        selectedStoreUid: this.selectedStoreUid,
+        selectedStoreId: this.selectedStoreId
+      }
+    });
+    return await modal.present();
+  }
+
+  async openWarrantyManagementModal() {
+    const modal = await this.modalController.create({
+      component: WarrantyManagementModalPage,
       componentProps: {
         selectedStoreUid: this.selectedStoreUid,
         selectedStoreId: this.selectedStoreId

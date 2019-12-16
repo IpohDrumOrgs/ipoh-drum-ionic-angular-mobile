@@ -19,7 +19,7 @@
       <ion-card style="margin:5px;">
         <ion-card-header style="padding-top:0;border-bottom:1px solid #e6e6e6;">
           <h4 style="margin-bottom:0;">
-            <b>Promotion Plan Details</b>
+            <b>Promotion Plan Details&nbsp;<ion-icon name="flame"></ion-icon></b>
           </h4>
         </ion-card-header>
         <ion-card-content style="padding:5px;" [formGroup]="promotionPlanFormGroup">
@@ -36,10 +36,10 @@
                          [ngClass]="{'is-invalid': promotionPlanFormGroup.get('promotionPlanName').invalid && promotionPlanFormGroup.get('promotionPlanName').touched, 'is-valid': promotionPlanFormGroup.get('promotionPlanName').valid}">
                   <ul class="error"
                       *ngIf="promotionPlanFormGroup.get('promotionPlanName').invalid && promotionPlanFormGroup.get('promotionPlanName').touched">
-                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanName').hasError('required') && promotionPlanFormGroup.get('promotionPlanName').touched">
+                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanName').hasError('required')">
                       Name is required.
                     </li>
-                    <li *ngIf="(promotionPlanFormGroup.get('promotionPlanName').hasError('minlength') || promotionPlanFormGroup.get('promotionPlanName').hasError('maxlength'))&& promotionPlanFormGroup.get('promotionPlanName').touched">
+                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanName').hasError('minlength') || promotionPlanFormGroup.get('promotionPlanName').hasError('maxlength')">
                       Name must be between {{promotionPlanNameMinLength}} to {{promotionPlanNameMaxLength}} characters.
                     </li>
                   </ul>
@@ -56,10 +56,10 @@
                             [ngClass]="{'is-invalid': promotionPlanFormGroup.get('promotionPlanDescription').invalid && promotionPlanFormGroup.get('promotionPlanDescription').touched, 'is-valid': promotionPlanFormGroup.get('promotionPlanDescription').valid}"></textarea>
                   <ul class="error"
                       *ngIf="promotionPlanFormGroup.get('promotionPlanDescription').invalid && promotionPlanFormGroup.get('promotionPlanDescription').touched">
-                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanDescription').hasError('required') && promotionPlanFormGroup.get('promotionPlanDescription').touched">
+                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanDescription').hasError('required')">
                       Description is required.
                     </li>
-                    <li *ngIf="(promotionPlanFormGroup.get('promotionPlanDescription').hasError('minlength') || promotionPlanFormGroup.get('promotionPlanDescription').hasError('maxlength'))&& promotionPlanFormGroup.get('promotionPlanName').touched">
+                    <li *ngIf="(promotionPlanFormGroup.get('promotionPlanDescription').hasError('minlength') || promotionPlanFormGroup.get('promotionPlanDescription').hasError('maxlength'))">
                       Description must be between {{promotionPlanDescriptionMinLength}} to {{promotionPlanDescriptionMaxLength}} characters.
                     </li>
                   </ul>
@@ -76,13 +76,13 @@
                          [ngClass]="{'is-invalid': promotionPlanFormGroup.get('promotionPlanLimitedQuantity').invalid && promotionPlanFormGroup.get('promotionPlanLimitedQuantity').touched, 'is-valid': promotionPlanFormGroup.get('promotionPlanLimitedQuantity').valid}">
                   <ul class="error"
                       *ngIf="promotionPlanFormGroup.get('promotionPlanLimitedQuantity').invalid && promotionPlanFormGroup.get('promotionPlanLimitedQuantity').touched">
-                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanLimitedQuantity').hasError('required') && promotionPlanFormGroup.get('promotionPlanLimitedQuantity').touched">
+                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanLimitedQuantity').hasError('required')">
                       Limited Quantity is required.
                     </li>
-                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanLimitedQuantity').hasError('maxlength')&& promotionPlanFormGroup.get('promotionPlanLimitedQuantity').touched">
+                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanLimitedQuantity').hasError('maxlength')">
                       Limited Quantity cannot be more than {{promotionPlanLimitedQuantityMaxLength}} digits.
                     </li>
-                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanLimitedQuantity').hasError('pattern')&& promotionPlanFormGroup.get('promotionPlanLimitedQuantity').touched">
+                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanLimitedQuantity').hasError('pattern')">
                       Limited Quantity should only contain numbers.
                     </li>
                   </ul>
@@ -94,8 +94,10 @@
                 </ion-col>
                 <ion-col size="8">
                   <ion-toggle color="success"
+                              (ionChange)="toggleDiscountByPriceFlag()"
                               [checked]="promotionPlanDiscountByPriceFlagModel"
-                              [(ngModel)]="promotionPlanDiscountByPriceFlagModel" formControlName="promotionPlanDiscountByPriceFlag"></ion-toggle>
+                              [(ngModel)]="promotionPlanDiscountByPriceFlagModel"
+                              formControlName="promotionPlanDiscountByPriceFlag"></ion-toggle>
                 </ion-col>
               </ion-row>
               <ion-row class="ion-align-items-center">
@@ -108,20 +110,44 @@
                   </span>
                 </ion-col>
                 <ion-col size="8">
-                  <input type="text" class="form-control" [disabled]="!promotionPlanDiscountByPriceFlagModel">
+                  <input type="text" class="form-control"
+                         [(ngModel)]="promotionPlanDiscountedPriceModel"
+                         formControlName="promotionPlanDiscountedPrice"
+                         [ngClass]="{'is-invalid': promotionPlanFormGroup?.get('promotionPlanDiscountedPrice')?.invalid && promotionPlanFormGroup?.get('promotionPlanDiscountedPrice')?.touched, 'is-valid': promotionPlanFormGroup?.get('promotionPlanDiscountedPrice')?.valid && promotionPlanFormGroup?.get('promotionPlanDiscountedPrice')?.touched}">
+                  <ul class="error"
+                      *ngIf="promotionPlanFormGroup?.get('promotionPlanDiscountedPrice')?.invalid && promotionPlanFormGroup?.get('promotionPlanDiscountedPrice')?.touched">
+                    <li *ngIf="promotionPlanFormGroup?.get('promotionPlanDiscountedPrice')?.hasError('required')">
+                      Discounted Price is required.
+                    </li>
+                    <li *ngIf="promotionPlanFormGroup?.get('promotionPlanDiscountedPrice')?.hasError('pattern')">
+                      Invalid format for Discounted Price. Should be (123.00) or (123).
+                    </li>
+                  </ul>
                 </ion-col>
               </ion-row>
               <ion-row class="ion-align-items-center">
                 <ion-col size="4">
-                  <span *ngIf="promotionPlanDiscountByPriceFlagModel" style="text-decoration:line-through;">
+                  <span *ngIf="!promotionPlanDiscountByPriceFlagModel">
                     Discounted Percentage
                   </span>
-                  <span *ngIf="!promotionPlanDiscountByPriceFlagModel">
+                  <span *ngIf="promotionPlanDiscountByPriceFlagModel" style="text-decoration:line-through;">
                     Discounted Percentage
                   </span>
                 </ion-col>
                 <ion-col size="8">
-                  <input type="text" class="form-control" [disabled]="promotionPlanDiscountByPriceFlagModel">
+                  <input type="text" class="form-control"
+                         [(ngModel)]="promotionPlanDiscountedPercentageModel"
+                         formControlName="promotionPlanDiscountedPercentage"
+                         [ngClass]="{'is-invalid': promotionPlanFormGroup?.get('promotionPlanDiscountedPercentage')?.invalid && promotionPlanFormGroup?.get('promotionPlanDiscountedPercentage')?.touched, 'is-valid': promotionPlanFormGroup?.get('promotionPlanDiscountedPercentage')?.valid && promotionPlanFormGroup?.get('promotionPlanDiscountedPercentage')?.touched}">
+                  <ul class="error"
+                      *ngIf="promotionPlanFormGroup?.get('promotionPlanDiscountedPercentage')?.invalid && promotionPlanFormGroup?.get('promotionPlanDiscountedPercentage')?.touched">
+                    <li *ngIf="promotionPlanFormGroup?.get('promotionPlanDiscountedPercentage')?.hasError('required')">
+                      Discounted Percentage is required.
+                    </li>
+                    <li *ngIf="promotionPlanFormGroup?.get('promotionPlanDiscountedPercentage')?.hasError('pattern')">
+                      Invalid format for Discounted Percentage. Should be (55.00) or (55).
+                    </li>
+                  </ul>
                 </ion-col>
               </ion-row>
               <ion-row class="ion-align-items-center">
@@ -142,14 +168,20 @@
                 </ion-col>
                 <ion-col size="8">
                   <ion-item>
-                    <ion-datetime placeholder="Select End Date" (ionChange)="selectedEndDate($event)" formControlName="promotionPlanEndDate"
+                    <ion-datetime placeholder="Select End Date" [min]="promotionPlanStartDateModel" (ionChange)="selectedEndDate($event)" formControlName="promotionPlanEndDate"
                                   [(ngModel)]="promotionPlanEndDateModel"></ion-datetime>
                   </ion-item>
+                  <ul class="error"
+                      *ngIf="promotionPlanFormGroup.get('promotionPlanStartDate').invalid || promotionPlanFormGroup.get('promotionPlanEndDate').invalid">
+                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanStartDate').hasError('invalidDate') || promotionPlanFormGroup.get('promotionPlanEndDate').hasError('invalidDate')">
+                      End Date cannot be earlier than Start Date.
+                    </li>
+                  </ul>
                 </ion-col>
               </ion-row>
               <ion-row class="ion-align-items-center">
                 <ion-col size="12">
-                  <ion-button expand="block" (click)="createPromotionPlan()">
+                  <ion-button expand="block" (click)="createPromotionPlan()" [disabled]="promotionPlanFormGroup.invalid">
                     Create Promotion Plan
                   </ion-button>
                 </ion-col>
