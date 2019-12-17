@@ -113,13 +113,13 @@ export class AddWarrantyModalPage implements OnInit, OnDestroy {
                     this.closeCreateWarrantyModal(true);
                 } else {
                   // tslint:disable-next-line:max-line-length
-                    this.globalFunctionService.simpleToast('WARNING', 'Unable to create the Warranty Plan, please try again later!', 'warning');
+                    this.globalFunctionService.simpleToast('ERROR', 'Unable to create the Warranty Plan, please try again later!', 'danger');
                     this.closeCreateWarrantyModal(false);
                 }
                 this.loadingService.dismiss();
             }, error => {
                 console.log('API Error while creating a new warranty plan.');
-                this.globalFunctionService.simpleToast('WARNING', 'Unable to create the Warranty Plan, please try again later!', 'warning');
+                this.globalFunctionService.simpleToast('ERROR', 'Unable to create the Warranty Plan, please try again later!', 'danger');
                 this.loadingService.dismiss();
                 this.closeCreateWarrantyModal(false);
             });

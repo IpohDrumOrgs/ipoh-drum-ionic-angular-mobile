@@ -43,6 +43,10 @@ import {WarrantyManagementModalPageModule} from '../user-profile/my-store/warran
 import {WarrantyManagementModalPage} from '../user-profile/my-store/warranty-management-modal/warranty-management-modal.page';
 import {AddWarrantyModalPageModule} from '../user-profile/my-store/warranty-management-modal/add-warranty-modal/add-warranty-modal.module';
 import {AddWarrantyModalPage} from '../user-profile/my-store/warranty-management-modal/add-warranty-modal/add-warranty-modal.page';
+import {ShippingManagementModalPageModule} from '../user-profile/my-store/shipping-management-modal/shipping-management-modal.module';
+import {ShippingManagementModalPage} from '../user-profile/my-store/shipping-management-modal/shipping-management-modal.page';
+import {AddShippingModalPageModule} from '../user-profile/my-store/shipping-management-modal/add-shipping-modal/add-shipping-modal.module';
+import {AddShippingModalPage} from '../user-profile/my-store/shipping-management-modal/add-shipping-modal/add-shipping-modal.page';
 
 const routes: Routes = [
     {
@@ -85,7 +89,6 @@ const routes: Routes = [
         FormWizardModule,
         IonicSelectableModule,
         RouterModule.forChild(routes),
-
         ProductVariationModalPageModule,
         AddInventoryPageModule,
         InvFamilyPatternModalPageModule,
@@ -98,7 +101,9 @@ const routes: Routes = [
         PromotionManagementModalPageModule,
         AddPromotionModalPageModule,
         WarrantyManagementModalPageModule,
-        AddWarrantyModalPageModule
+        AddWarrantyModalPageModule,
+        ShippingManagementModalPageModule,
+        AddShippingModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -116,7 +121,9 @@ const routes: Routes = [
         PromotionManagementModalPage,
         AddPromotionModalPage,
         WarrantyManagementModalPage,
-        AddWarrantyModalPage
+        AddWarrantyModalPage,
+        ShippingManagementModalPage,
+        AddShippingModalPage
     ]
 })
 
