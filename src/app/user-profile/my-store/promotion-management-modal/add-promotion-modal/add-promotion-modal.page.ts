@@ -1,9 +1,10 @@
-import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {LoadingService} from '../../../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../../../_dal/common/services/globalfunction.service';
-import {ProductPromotionControllerServiceService} from '../../../../_dal/ipohdrum';
+import {ProductPromotionControllerServiceService, Store, StoreControllerServiceService} from '../../../../_dal/ipohdrum';
 import {ModalController} from '@ionic/angular';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
+import {commonConfig} from '../../../../_dal/common/commonConfig';
 
 @Component({
   selector: 'app-add-promotion-modal',
@@ -15,15 +16,22 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
 
   // Strings
   constructorName = '[' + this.constructor.name + ']';
+  selectedStoreUid: string;
+
+  // Numbers
+  selectedStoreId: number;
 
   // Regex
-  numericOnlyRegex = '^[0-9]+$';
+  priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
+  numericOnlyRegex = commonConfig.numericOnlyRegex;
 
   // NgModels
   promotionPlanNameModel: string;
   promotionPlanDescriptionModel: string;
   promotionPlanLimitedQuantityModel: number;
   promotionPlanDiscountByPriceFlagModel = true;
+  promotionPlanDiscountedPriceModel: number; // float
+  promotionPlanDiscountedPercentageModel: number; // integer
   promotionPlanStartDateModel = new Date().toISOString();
   promotionPlanEndDateModel = new Date().toISOString();
 
@@ -34,17 +42,26 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
   promotionPlanDescriptionMaxLength = 100;
   promotionPlanLimitedQuantityMaxLength = 5;
 
+  // Objects
+  selectedStore: Store;
+
   // FormGroups
   promotionPlanFormGroup: FormGroup;
 
+  // Subscriptions
+  createProductPromotionSubscription: any;
+
   constructor(
+      private ref: ChangeDetectorRef,
       private ngZone: NgZone,
       private loadingService: LoadingService,
       private globalFunctionService: GlobalfunctionService,
       private productPromotionController: ProductPromotionControllerServiceService,
-      private modalController: ModalController
+      private modalController: ModalController,
+      private productPromotionControllerService: ProductPromotionControllerServiceService
   ) {
     console.log(this.constructorName + 'Initializing component');
+    this.loadingService.present();
   }
 
   ngOnInit() {
@@ -66,9 +83,16 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
             Validators.pattern(this.numericOnlyRegex)
         ]),
         promotionPlanDiscountByPriceFlag: new FormControl(),
-        promotionPlanStartDate: new FormControl(),
-        promotionPlanEndDate: new FormControl()
+        promotionPlanDiscountedPrice: new FormControl(),
+        promotionPlanDiscountedPercentage: new FormControl(),
+        promotionPlanStartDate: new FormControl(null, [
+            this.validateSelectedDates
+        ]),
+        promotionPlanEndDate: new FormControl(null, [
+          this.validateSelectedDates
+        ])
       });
+      this.enableDisableDiscountedPriceAndPercentage();
     });
   }
 
@@ -82,7 +106,9 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
 
   unsubscribeSubscription() {
     this.ngZone.run(() => {
-
+        if (this.createProductPromotionSubscription) {
+          this.createProductPromotionSubscription.unsubscribe();
+        }
     });
   }
 
@@ -98,13 +124,73 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
     this.promotionPlanEndDateModel = event.detail.value;
   }
 
-  validateSelectedDates() {
+  validateSelectedDates = (c: AbstractControl): any => {
+    if (!c.parent || !c) {
+      return;
+    }
+    const startDate = c.parent.get('promotionPlanStartDate');
+    const endDate = c.parent.get('promotionPlanEndDate');
+    if (!startDate || !endDate) {
+      return;
+    }
+    if (startDate.value > endDate.value) {
+      this.promotionPlanFormGroup.get('promotionPlanStartDate').setErrors({
+        invalidDate: true
+      });
+      this.promotionPlanFormGroup.get('promotionPlanEndDate').setErrors({
+        invalidDate: true
+      });
+    }
+  };
 
+  toggleDiscountByPriceFlag() {
+    this.enableDisableDiscountedPriceAndPercentage();
+  }
+
+  enableDisableDiscountedPriceAndPercentage() {
+    if (this.promotionPlanDiscountByPriceFlagModel) {
+      this.promotionPlanFormGroup.controls.promotionPlanDiscountedPrice.setValidators([
+          Validators.required, Validators.pattern(this.priceRegex)
+      ]);
+      this.promotionPlanFormGroup.get('promotionPlanDiscountedPrice').enable();
+      this.promotionPlanFormGroup.get('promotionPlanDiscountedPercentage').disable();
+      this.promotionPlanFormGroup.get('promotionPlanDiscountedPercentage').reset();
+      this.promotionPlanFormGroup.get('promotionPlanDiscountedPrice').reset();
+    } else {
+      this.promotionPlanFormGroup.controls.promotionPlanDiscountedPercentage.setValidators([
+          Validators.required, Validators.pattern(this.priceRegex)
+      ]);
+      this.promotionPlanFormGroup.get('promotionPlanDiscountedPrice').disable();
+      this.promotionPlanFormGroup.get('promotionPlanDiscountedPercentage').enable();
+      this.promotionPlanFormGroup.get('promotionPlanDiscountedPercentage').reset();
+      this.promotionPlanFormGroup.get('promotionPlanDiscountedPrice').reset();
+    }
   }
 
   createPromotionPlan() {
     console.log('create promotion plan');
     console.log(this.promotionPlanStartDateModel);
     console.log(this.promotionPlanEndDateModel);
+    console.log(this.promotionPlanEndDateModel > this.promotionPlanStartDateModel);
+    console.log(this.promotionPlanEndDateModel < this.promotionPlanStartDateModel);
+//     if (this.promotionPlanFormGroup.valid) {
+//       this.loadingService.present();
+//       this.createProductPromotionSubscription = this.productPromotionControllerService.createProductPromotion(
+//         this.selectedStoreId,
+//          this.promotionPlanNameModel,
+//           this.promotionPlanDiscountByPriceFlagModel,
+//           this.promotionPlanDescriptionModel,
+//           this.promotionPlanLimitedQuantityModel,
+//
+//       ).subscribe(resp => {
+//         if (resp.code === 200) {
+//
+//         } else {
+//
+//         }
+//       }, error => {
+//         console.log('API Error while creating a new Product Promotion');
+//       });
+//     }
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {commonConfig} from '../../../../../_dal/common/commonConfig';
 
 @Component({
   selector: 'app-add-inventory-pattern-modal',
@@ -15,7 +16,7 @@ export class AddInventoryPatternModalPage implements OnInit {
 
   // Regex
   priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
-  numericOnlyRegex = '^[0-9]+$';
+  numericOnlyRegex = commonConfig.numericOnlyRegex;
 
   // NgModels
   inventoryPatternNameModel: string;

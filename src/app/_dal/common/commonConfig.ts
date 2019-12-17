@@ -21,5 +21,6 @@ export let commonConfig = {
     storePostCodeMaxLength: 5,
     storeCountryMaxLength: 30,
     storeStateMaxLength: 30,
-    storeCityMaxLength: 30
+    storeCityMaxLength: 30,
+    numericOnlyRegex: '^[0-9]+$'
 };

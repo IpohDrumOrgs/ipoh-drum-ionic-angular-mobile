@@ -64,12 +64,12 @@ export class InventoryControllerServiceService {
      * Creates a inventory.
      * @param name Inventoryname
      * @param storeId Store ID
-     * @param productPromotionId Promotion ID
-     * @param warrantyId Warranty ID
-     * @param shippingId Shipping ID
      * @param inventoryfamilies Inventory Families
      * @param cost Product Cost
      * @param price Product Base Price
+     * @param productPromotionId Promotion ID
+     * @param warrantyId Warranty ID
+     * @param shippingId Shipping ID
      * @param code Code
      * @param sku Sku
      * @param desc Product Description
@@ -79,24 +79,15 @@ export class InventoryControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, inventoryfamilies: string, cost: number, price: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, inventoryfamilies: string, cost: number, price: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, inventoryfamilies: string, cost: number, price: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createInventory(name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, inventoryfamilies: string, cost: number, price: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createInventory(name: string, storeId: number, inventoryfamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createInventory(name: string, storeId: number, inventoryfamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createInventory(name: string, storeId: number, inventoryfamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createInventory(name: string, storeId: number, inventoryfamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createInventory.');
         }
         if (storeId === null || storeId === undefined) {
             throw new Error('Required parameter storeId was null or undefined when calling createInventory.');
-        }
-        if (productPromotionId === null || productPromotionId === undefined) {
-            throw new Error('Required parameter productPromotionId was null or undefined when calling createInventory.');
-        }
-        if (warrantyId === null || warrantyId === undefined) {
-            throw new Error('Required parameter warrantyId was null or undefined when calling createInventory.');
-        }
-        if (shippingId === null || shippingId === undefined) {
-            throw new Error('Required parameter shippingId was null or undefined when calling createInventory.');
         }
         if (inventoryfamilies === null || inventoryfamilies === undefined) {
             throw new Error('Required parameter inventoryfamilies was null or undefined when calling createInventory.');

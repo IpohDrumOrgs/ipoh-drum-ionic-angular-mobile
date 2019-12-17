@@ -40,7 +40,7 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
   ngOnInit() {
     this.ngZone.run(() => {
       this.loadingService.present();
-      this.getListOfProductPromotionsByStoreId = this.productPromotionControllerService.getProductPromotionByUid(
+      this.getListOfProductPromotionsByStoreId = this.productPromotionControllerService.getProductPromotionByStoreUid(
         this.selectedStoreUid
       ).subscribe(resp => {
         console.log(resp);
@@ -48,6 +48,7 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
           this.listOfProductPromotions = resp.data;
         } else {
           this.loadingService.dismiss();
+          // tslint:disable-next-line:max-line-length
           this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Promotion Plans, please try again later!', 'warning');
           // this.closePromotionManagementModal();
         }
