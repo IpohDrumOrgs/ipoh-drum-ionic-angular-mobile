@@ -26,12 +26,20 @@
       </ion-row>
       <ion-row>
         <ion-col size="12">
-          <ion-row class="ion-align-items-center">
-            <ion-col size="6">
-              <ion-card>
-
-              </ion-card>
+          <h4 style="border-bottom:1px solid #f2f2f2;">
+            <b>Product Promotion Plans</b>
+          </h4>
+          <ion-row class="ion-align-items-center ion-justify-content-center">
+            <ion-col size="6" *ngFor="let promo of listOfProductPromotions" style="text-align:center;">
+              <ion-button fill="outline" style="width:100%;white-space:normal;word-wrap:break-word;" [color]="promo.store_id ? 'primary' : 'warning'">
+                {{promo?.name}}
+              </ion-button>
             </ion-col>
+            <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreProductPromotions($event)">
+              <ion-infinite-scroll-content
+                      loadingSpinner="crescent">
+              </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
           </ion-row>
         </ion-col>
       </ion-row>
