@@ -53,6 +53,8 @@ import {EditPromotionModalPage} from '../user-profile/my-store/promotion-managem
 import {EditWarrantyModalPage} from '../user-profile/my-store/warranty-management-modal/edit-warranty-modal/edit-warranty-modal.page';
 // tslint:disable-next-line:max-line-length
 import {EditWarrantyModalPageModule} from '../user-profile/my-store/warranty-management-modal/edit-warranty-modal/edit-warranty-modal.module';
+import {EditShippingModalPageModule} from '../user-profile/my-store/shipping-management-modal/edit-shipping-modal/edit-shipping-modal.module';
+import {EditShippingModalPage} from '../user-profile/my-store/shipping-management-modal/edit-shipping-modal/edit-shipping-modal.page';
 
 const routes: Routes = [
     {
@@ -111,7 +113,8 @@ const routes: Routes = [
         AddWarrantyModalPageModule,
         EditWarrantyModalPageModule,
         ShippingManagementModalPageModule,
-        AddShippingModalPageModule
+        AddShippingModalPageModule,
+        EditShippingModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -133,7 +136,8 @@ const routes: Routes = [
         AddWarrantyModalPage,
         EditWarrantyModalPage,
         ShippingManagementModalPage,
-        AddShippingModalPage
+        AddShippingModalPage,
+        EditShippingModalPage
     ]
 })
 

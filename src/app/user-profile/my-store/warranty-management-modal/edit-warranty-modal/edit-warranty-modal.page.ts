@@ -58,6 +58,7 @@ export class EditWarrantyModalPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.ngZone.run(() => {
+        this.loadingService.present();
       this.warrantyPlanFormGroup = new FormGroup({
         warrantyName: new FormControl(null, [
           Validators.required,
@@ -80,7 +81,6 @@ export class EditWarrantyModalPage implements OnInit, OnDestroy {
         ])
       });
 
-      this.loadingService.present();
       this.getWarrantyByUidSubscription = this.warrantyControllerService.getWarrantyByUid(
           this.warrantyUid
       ).subscribe(resp => {

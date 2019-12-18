@@ -215,7 +215,7 @@ export class EditPromotionModalPage implements OnInit, OnDestroy {
   confirmDeleteProductPromotion() {
     this.loadingService.present();
     this.deleteProductPromotionSubscription = this.productPromotionControllerService.deleteProductPromotionByUid(
-        this.selectedProductPromotion.uid
+        this.promoUid
     ).subscribe(resp => {
       if (resp.code === 200) {
         this.globalFunctionService.simpleToast('SUCCESS', 'The Promotion Plan has been deleted!', 'success');

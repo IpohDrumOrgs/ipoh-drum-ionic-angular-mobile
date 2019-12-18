@@ -4,6 +4,7 @@ import {StoreControllerServiceService} from '../../../_dal/ipohdrum';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {AddShippingModalPage} from './add-shipping-modal/add-shipping-modal.page';
+import {EditShippingModalPage} from './edit-shipping-modal/edit-shipping-modal.page';
 
 @Component({
   selector: 'app-shipping-management-modal',
@@ -99,6 +100,22 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
     });
     modal.onDidDismiss().then((returnedFromCreatingShipping) => {
       if (returnedFromCreatingShipping.data) {
+        this.retrieveListOfShippingsByStoreUid();
+      }
+    });
+    return await modal.present();
+  }
+
+  async openEditShippingModal(shippingUid: string, allowToModify: boolean) {
+    const modal = await this.modalController.create({
+      component: EditShippingModalPage,
+      componentProps: {
+        shippingUid,
+        allowToModify
+      }
+    });
+    modal.onDidDismiss().then((returnedFromEditingShipping) => {
+      if (returnedFromEditingShipping.data) {
         this.retrieveListOfShippingsByStoreUid();
       }
     });

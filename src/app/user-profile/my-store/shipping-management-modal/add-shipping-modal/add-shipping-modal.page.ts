@@ -1,4 +1,4 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {LoadingService} from '../../../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../../../_dal/common/services/globalfunction.service';
 import {ModalController} from '@ionic/angular';
@@ -11,11 +11,14 @@ import {ShippingControllerServiceService} from '../../../../_dal/ipohdrum';
     styleUrls: ['./add-shipping-modal.page.scss'],
 })
 
-export class AddShippingModalPage implements OnInit {
+export class AddShippingModalPage implements OnInit, OnDestroy {
 
     // Strings
     constructorName = '[' + this.constructor.name + ']';
     selectedStoreUid: string;
+
+    // Regex
+    weightRegex = new RegExp(/^\d+(\.\d+)?$/);
 
     // NgModels
     shippingPlanNameModel: string;
@@ -32,9 +35,6 @@ export class AddShippingModalPage implements OnInit {
     shippingPlanPriceMaxLength = 5;
     shippingPlanMaxWeightageMaxLength = 10;
     shippingPlanMaxDimensionMaxLength = 20;
-
-    // Regex
-    weightRegex = new RegExp(/^\d+(\.\d+)?$/);
 
     // FormGroups
     shippingPlanFormGroup: FormGroup;
