@@ -47,6 +47,8 @@ import {ShippingManagementModalPageModule} from '../user-profile/my-store/shippi
 import {ShippingManagementModalPage} from '../user-profile/my-store/shipping-management-modal/shipping-management-modal.page';
 import {AddShippingModalPageModule} from '../user-profile/my-store/shipping-management-modal/add-shipping-modal/add-shipping-modal.module';
 import {AddShippingModalPage} from '../user-profile/my-store/shipping-management-modal/add-shipping-modal/add-shipping-modal.page';
+import {EditPromotionModalPageModule} from '../user-profile/my-store/promotion-management-modal/edit-promotion-modal/edit-promotion-modal.module';
+import {EditPromotionModalPage} from '../user-profile/my-store/promotion-management-modal/edit-promotion-modal/edit-promotion-modal.page';
 
 const routes: Routes = [
     {
@@ -100,6 +102,7 @@ const routes: Routes = [
         EditStoreModalPageModule,
         PromotionManagementModalPageModule,
         AddPromotionModalPageModule,
+        EditPromotionModalPageModule,
         WarrantyManagementModalPageModule,
         AddWarrantyModalPageModule,
         ShippingManagementModalPageModule,
@@ -120,6 +123,7 @@ const routes: Routes = [
         EditStoreModalPage,
         PromotionManagementModalPage,
         AddPromotionModalPage,
+        EditPromotionModalPage,
         WarrantyManagementModalPage,
         AddWarrantyModalPage,
         ShippingManagementModalPage,

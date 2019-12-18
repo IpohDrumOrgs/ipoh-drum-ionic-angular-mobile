@@ -4,6 +4,7 @@ import {ProductPromotion, ProductPromotionControllerServiceService, StoreControl
 import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {AddPromotionModalPage} from './add-promotion-modal/add-promotion-modal.page';
+import {EditPromotionModalPage} from './edit-promotion-modal/edit-promotion-modal.page';
 
 @Component({
   selector: 'app-promotion-management-modal',
@@ -134,5 +135,21 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
         event.target.disabled = true;
       }
     }, 500);
+  }
+
+  async openEditPromotionPlanModal(promoUid: string, allowToModify: boolean) {
+    const modal = await this.modalController.create({
+      component: EditPromotionModalPage,
+      componentProps: {
+          promoUid,
+          allowToModify
+      }
+    });
+    modal.onDidDismiss().then((returnedFromEditingPromo) => {
+      if (returnedFromEditingPromo.data) {
+        this.retrieveListOfProductPromotionsByStoreUid();
+      }
+    });
+    return await modal.present();
   }
 }

@@ -21,6 +21,7 @@ import { TicketControllerServiceService } from './api/ticketControllerService.se
 import { TypeControllerServiceService } from './api/typeControllerService.service';
 import { UserControllerServiceService } from './api/userControllerService.service';
 import { VerificationCodeControllerServiceService } from './api/verificationCodeControllerService.service';
+import { VoucherControllerServiceService } from './api/voucherControllerService.service';
 import { WarrantyControllerServiceService } from './api/warrantyControllerService.service';
 
 @NgModule({
@@ -46,6 +47,7 @@ import { WarrantyControllerServiceService } from './api/warrantyControllerServic
     TypeControllerServiceService,
     UserControllerServiceService,
     VerificationCodeControllerServiceService,
+    VoucherControllerServiceService,
     WarrantyControllerServiceService ]
 })
 export class ApiModule {
