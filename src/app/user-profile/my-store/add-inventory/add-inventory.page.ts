@@ -206,11 +206,12 @@ export class AddInventoryPage implements OnInit, OnDestroy {
     }
 
     onComplete() {
-        if (this.inventoryInfoFormGroup.valid
-            && this.temporaryInventorySliders.length > 0
-            && this.temporaryInventoryThumbnail !== undefined
-            && this.temporaryInventoryThumbnail !== null
-        ) {
+        console.log(this.inventorySlidersAsArray);
+        // if (this.inventoryInfoFormGroup.valid
+        //     && this.temporaryInventorySliders.length > 0
+        //     && this.temporaryInventoryThumbnail !== undefined
+        //     && this.temporaryInventoryThumbnail !== null
+        // ) {
             this.loadingService.present();
             this.createInventorySubscription = this.inventoryControllerService.createInventory(
                 this.inventoryNameModel,
@@ -228,7 +229,6 @@ export class AddInventoryPage implements OnInit, OnDestroy {
                 this.inventoryThumbnailAsArray,
                 this.inventorySlidersAsArray
             ).subscribe(resp => {
-                console.log(resp);
                 if (resp.code === 200) {
                     this.globalFunctionService.simpleToast('SUCCESS', 'Inventory has been successfully created!', 'success', 'top');
                     this.closeCreateInventoryModal(true);
@@ -243,7 +243,7 @@ export class AddInventoryPage implements OnInit, OnDestroy {
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Inventory, please try again later!', 'warning', 'top');
             });
-        }
+        // }
     }
 
     openSlidersFilePicker() {
@@ -339,5 +339,16 @@ export class AddInventoryPage implements OnInit, OnDestroy {
 
     async closeCreateInventoryModal(returnFromCreatingInventory: boolean) {
         await this.modalController.dismiss(returnFromCreatingInventory);
+    }
+
+    uploadPhotos() {
+        this.inventoryControllerService.uploadInventoryThumbnail(
+            '123',
+            this.inventorySlidersAsArray
+        ).subscribe(resp => {
+            console.log(resp);
+        }, error => {
+            console.log('api canot upload multiple photo');
+        });
     }
 }

@@ -185,14 +185,12 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
                   this.closeCreatePromotionModal(true);
                 } else {
                   this.globalFunctionService.simpleToast('ERROR', 'Unable to create the Promotion Plan, please try again later!', 'danger');
-                  this.closeCreatePromotionModal(false);
                 }
                 this.loadingService.dismiss();
             }, error => {
                 console.log('API Error while creating a new Product Promotion');
                 this.loadingService.dismiss();
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to create the Promotion Plan, please try again later!', 'danger');
-                this.closeCreatePromotionModal(false);
             });
         }
     }

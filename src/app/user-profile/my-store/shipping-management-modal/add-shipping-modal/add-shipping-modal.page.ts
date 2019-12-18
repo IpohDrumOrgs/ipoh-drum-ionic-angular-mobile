@@ -119,13 +119,11 @@ export class AddShippingModalPage implements OnInit, OnDestroy {
             this.closeCreateShippingModal(true);
           } else {
             this.globalFunctionService.simpleToast('ERROR', 'Unable to create the Shipping plan, please try again later!', 'danger');
-            this.closeCreateShippingModal(false);
           }
           this.loadingService.dismiss();
         }, error => {
           console.log('API Error while creating a new Shipping.');
           this.globalFunctionService.simpleToast('ERROR', 'Unable to create the Shipping plan, please try again later!', 'danger');
-          this.closeCreateShippingModal(false);
           this.loadingService.dismiss();
         });
       }

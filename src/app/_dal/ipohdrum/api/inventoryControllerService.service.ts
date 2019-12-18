@@ -170,18 +170,26 @@ export class InventoryControllerServiceService {
         }
 
         if (img) {
+            console.log('got img');
             if (useForm) {
+                console.log('use form');
                 img.forEach((element) => {
+                    console.log(element);
                     formParams = formParams.append('img', <any>element) as any || formParams;
+                    console.log(formParams);
             })
             } else {
                 formParams = formParams.append('img', img.join(COLLECTION_FORMATS['csv'])) as any || formParams;
             }
         }
         if (sliders) {
+            console.log('got sliders');
             if (useForm) {
+                console.log('use form');
                 sliders.forEach((element) => {
+                    console.log(element);
                     formParams = formParams.append('sliders', <any>element) as any || formParams;
+                    console.log(formParams);
             })
             } else {
                 formParams = formParams.append('sliders', sliders.join(COLLECTION_FORMATS['csv'])) as any || formParams;
@@ -611,15 +619,25 @@ export class InventoryControllerServiceService {
             formParams = new HttpParams({encoder: this.encoder});
         }
 
+        console.log('img');
         if (img) {
+            console.log(img);
             if (useForm) {
+                console.log('use form');
                 img.forEach((element) => {
+                    console.log(element);
                     formParams = formParams.append('img', <any>element) as any || formParams;
+                    console.log(formParams);
             })
             } else {
                 formParams = formParams.append('img', img.join(COLLECTION_FORMATS['csv'])) as any || formParams;
             }
         }
+
+        console.log('form params');
+        console.log(formParams);
+
+
 
         return this.httpClient.post<any>(`${this.configuration.basePath}/api/thumbnail`,
             convertFormParamsToString ? formParams.toString() : formParams,

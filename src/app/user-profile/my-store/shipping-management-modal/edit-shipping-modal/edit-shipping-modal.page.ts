@@ -151,13 +151,11 @@ export class EditShippingModalPage implements OnInit, OnDestroy {
           this.closeEditShippingModal(true);
         } else {
           this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Shipping Plan, please try again later!', 'danger');
-          this.closeEditShippingModal(false);
         }
         this.loadingService.dismiss();
       }, error => {
         console.log('API Error while updating Shipping plan.');
         this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Shpping Plan, please try again later!', 'danger');
-        this.closeEditShippingModal(false);
         this.loadingService.dismiss();
       });
     }
@@ -180,14 +178,12 @@ export class EditShippingModalPage implements OnInit, OnDestroy {
         this.closeEditShippingModal(true);
       } else {
         this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Shipping Plan, please try again later!', 'danger');
-        this.closeEditShippingModal(false);
       }
       this.loadingService.dismiss();
     }, error => {
       console.log('API Error while deleting the Shipping Plan, please try again later!');
       this.loadingService.dismiss();
       this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Shipping Plan, please try again later!', 'danger');
-      this.closeEditShippingModal(false);
     });
   }
 }

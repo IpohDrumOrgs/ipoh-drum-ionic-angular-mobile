@@ -193,13 +193,11 @@ export class EditPromotionModalPage implements OnInit, OnDestroy {
           this.closeEditProductPromotionModal(true);
         } else {
           this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Promotion Plan, please try again later!', 'danger');
-          this.closeEditProductPromotionModal(false);
         }
         this.loadingService.dismiss();
       }, error => {
         console.log('API Error while updating ProductPromotion plan.');
         this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Promotion Plan, please try again later!', 'danger');
-        this.closeEditProductPromotionModal(false);
         this.loadingService.dismiss();
       });
     }
@@ -222,14 +220,12 @@ export class EditPromotionModalPage implements OnInit, OnDestroy {
         this.closeEditProductPromotionModal(true);
       } else {
         this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Promotion Plan, please try again later!', 'danger');
-        this.closeEditProductPromotionModal(false);
       }
       this.loadingService.dismiss();
     }, error => {
       console.log('API Error while deleting the Promotion Plan, please try again later!');
       this.loadingService.dismiss();
       this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Promotion Plan, please try again later!', 'danger');
-      this.closeEditProductPromotionModal(false);
     });
   }
 }
