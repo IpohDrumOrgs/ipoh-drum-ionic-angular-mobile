@@ -41,6 +41,12 @@ import {AddPromotionModalPageModule} from '../user-profile/my-store/promotion-ma
 import {AddPromotionModalPage} from '../user-profile/my-store/promotion-management-modal/add-promotion-modal/add-promotion-modal.page';
 import {WarrantyManagementModalPageModule} from '../user-profile/my-store/warranty-management-modal/warranty-management-modal.module';
 import {WarrantyManagementModalPage} from '../user-profile/my-store/warranty-management-modal/warranty-management-modal.page';
+import {AddWarrantyModalPageModule} from '../user-profile/my-store/warranty-management-modal/add-warranty-modal/add-warranty-modal.module';
+import {AddWarrantyModalPage} from '../user-profile/my-store/warranty-management-modal/add-warranty-modal/add-warranty-modal.page';
+import {ShippingManagementModalPageModule} from '../user-profile/my-store/shipping-management-modal/shipping-management-modal.module';
+import {ShippingManagementModalPage} from '../user-profile/my-store/shipping-management-modal/shipping-management-modal.page';
+import {AddShippingModalPageModule} from '../user-profile/my-store/shipping-management-modal/add-shipping-modal/add-shipping-modal.module';
+import {AddShippingModalPage} from '../user-profile/my-store/shipping-management-modal/add-shipping-modal/add-shipping-modal.page';
 
 const routes: Routes = [
     {
@@ -94,7 +100,10 @@ const routes: Routes = [
         EditStoreModalPageModule,
         PromotionManagementModalPageModule,
         AddPromotionModalPageModule,
-        WarrantyManagementModalPageModule
+        WarrantyManagementModalPageModule,
+        AddWarrantyModalPageModule,
+        ShippingManagementModalPageModule,
+        AddShippingModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -111,7 +120,10 @@ const routes: Routes = [
         EditStoreModalPage,
         PromotionManagementModalPage,
         AddPromotionModalPage,
-        WarrantyManagementModalPage
+        WarrantyManagementModalPage,
+        AddWarrantyModalPage,
+        ShippingManagementModalPage,
+        AddShippingModalPage
     ]
 })
 
