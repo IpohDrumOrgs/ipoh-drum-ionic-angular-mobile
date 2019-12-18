@@ -31,7 +31,9 @@
           </h4>
           <ion-row class="ion-align-items-center ion-justify-content-center">
             <ion-col size="6" *ngFor="let warranty of listOfWarrantiesByStoreUid" style="text-align:center;">
-              <ion-button fill="outline" style="width:100%;white-space:normal;word-wrap:break-word;" [color]="warranty.store_id ? 'primary' : 'warning'">
+              <ion-button fill="outline" (click)="openEditWarrantyModal(warranty.uid, !!warranty.store_id)"
+                          style="width:100%;white-space:normal;word-wrap:break-word;"
+                          [color]="warranty.store_id ? 'primary' : 'warning'">
                 {{warranty?.name}}
               </ion-button>
             </ion-col>

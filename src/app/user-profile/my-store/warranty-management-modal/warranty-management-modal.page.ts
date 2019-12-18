@@ -4,6 +4,7 @@ import {AddWarrantyModalPage} from './add-warranty-modal/add-warranty-modal.page
 import {StoreControllerServiceService, WarrantyControllerServiceService} from '../../../_dal/ipohdrum';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
+import {EditWarrantyModalPage} from './edit-warranty-modal/edit-warranty-modal.page';
 
 @Component({
     selector: 'app-warranty-management-modal',
@@ -107,6 +108,22 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
         });
         modal.onDidDismiss().then((returnedFromCreatingWarranty) => {
             if (returnedFromCreatingWarranty.data) {
+                this.retrieveListOfWarrantiesByStoreUid();
+            }
+        });
+        return await modal.present();
+    }
+
+    async openEditWarrantyModal(warrantyUid: string, allowToModify: boolean) {
+        const modal = await this.modalController.create({
+            component: EditWarrantyModalPage,
+            componentProps: {
+                warrantyUid,
+                allowToModify
+            }
+        });
+        modal.onDidDismiss().then((returnedFromEditingWarranty) => {
+            if (returnedFromEditingWarranty.data) {
                 this.retrieveListOfWarrantiesByStoreUid();
             }
         });

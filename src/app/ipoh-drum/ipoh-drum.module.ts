@@ -47,8 +47,12 @@ import {ShippingManagementModalPageModule} from '../user-profile/my-store/shippi
 import {ShippingManagementModalPage} from '../user-profile/my-store/shipping-management-modal/shipping-management-modal.page';
 import {AddShippingModalPageModule} from '../user-profile/my-store/shipping-management-modal/add-shipping-modal/add-shipping-modal.module';
 import {AddShippingModalPage} from '../user-profile/my-store/shipping-management-modal/add-shipping-modal/add-shipping-modal.page';
+// tslint:disable-next-line:max-line-length
 import {EditPromotionModalPageModule} from '../user-profile/my-store/promotion-management-modal/edit-promotion-modal/edit-promotion-modal.module';
 import {EditPromotionModalPage} from '../user-profile/my-store/promotion-management-modal/edit-promotion-modal/edit-promotion-modal.page';
+import {EditWarrantyModalPage} from '../user-profile/my-store/warranty-management-modal/edit-warranty-modal/edit-warranty-modal.page';
+// tslint:disable-next-line:max-line-length
+import {EditWarrantyModalPageModule} from '../user-profile/my-store/warranty-management-modal/edit-warranty-modal/edit-warranty-modal.module';
 
 const routes: Routes = [
     {
@@ -105,6 +109,7 @@ const routes: Routes = [
         EditPromotionModalPageModule,
         WarrantyManagementModalPageModule,
         AddWarrantyModalPageModule,
+        EditWarrantyModalPageModule,
         ShippingManagementModalPageModule,
         AddShippingModalPageModule
     ],
@@ -126,6 +131,7 @@ const routes: Routes = [
         EditPromotionModalPage,
         WarrantyManagementModalPage,
         AddWarrantyModalPage,
+        EditWarrantyModalPage,
         ShippingManagementModalPage,
         AddShippingModalPage
     ]

@@ -174,8 +174,6 @@ export class EditPromotionModalPage implements OnInit, OnDestroy {
   }
 
   updateProductPromotionPlan() {
-    console.log('update product promotion plan');
-    console.log(this.selectedProductPromotion);
     if (this.promotionPlanFormGroup.valid) {
       this.loadingService.present();
       this.updateProductPromotionSubscription = this.productPromotionControllerService.updateProductPromotionByUid(
