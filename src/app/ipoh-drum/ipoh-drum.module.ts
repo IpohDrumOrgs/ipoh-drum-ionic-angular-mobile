@@ -53,8 +53,12 @@ import {EditPromotionModalPage} from '../user-profile/my-store/promotion-managem
 import {EditWarrantyModalPage} from '../user-profile/my-store/warranty-management-modal/edit-warranty-modal/edit-warranty-modal.page';
 // tslint:disable-next-line:max-line-length
 import {EditWarrantyModalPageModule} from '../user-profile/my-store/warranty-management-modal/edit-warranty-modal/edit-warranty-modal.module';
+// tslint:disable-next-line:max-line-length
 import {EditShippingModalPageModule} from '../user-profile/my-store/shipping-management-modal/edit-shipping-modal/edit-shipping-modal.module';
 import {EditShippingModalPage} from '../user-profile/my-store/shipping-management-modal/edit-shipping-modal/edit-shipping-modal.page';
+import {CheckUnauthenticatedService} from '../_dal/common/services/check-unauthenticated.service';
+import {AddVoucherModalPageModule} from '../user-profile/my-store/add-voucher-modal/add-voucher-modal.module';
+import {AddVoucherModalPage} from '../user-profile/my-store/add-voucher-modal/add-voucher-modal.page';
 
 const routes: Routes = [
     {
@@ -65,8 +69,7 @@ const routes: Routes = [
     {
         path: 'login',
         component: LoginRegisterComponent,
-        // TODO: If user is logged in, don't let them activate this path
-        canActivate: []
+        canActivate: [CheckUnauthenticatedService]
     },
     {
         path: 'ipoh-drum',
@@ -114,7 +117,8 @@ const routes: Routes = [
         EditWarrantyModalPageModule,
         ShippingManagementModalPageModule,
         AddShippingModalPageModule,
-        EditShippingModalPageModule
+        EditShippingModalPageModule,
+        AddVoucherModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -137,7 +141,8 @@ const routes: Routes = [
         EditWarrantyModalPage,
         ShippingManagementModalPage,
         AddShippingModalPage,
-        EditShippingModalPage
+        EditShippingModalPage,
+        AddVoucherModalPage
     ]
 })
 

@@ -11,6 +11,9 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 export class AppComponent implements OnInit {
 
+  // Strings
+  constructorName = '[' + this.constructor.name + ']';
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -18,6 +21,7 @@ export class AppComponent implements OnInit {
     private ngZone: NgZone
   ) {
     this.initializeApp();
+    console.log(this.constructorName + 'Initializing component');
   }
 
   initializeApp() {

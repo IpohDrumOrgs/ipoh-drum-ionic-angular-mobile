@@ -1,6 +1,6 @@
 import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
-import {ProductPromotion, ProductPromotionControllerServiceService, StoreControllerServiceService} from '../../../_dal/ipohdrum';
+import {ProductPromotionControllerServiceService, StoreControllerServiceService} from '../../../_dal/ipohdrum';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {AddPromotionModalPage} from './add-promotion-modal/add-promotion-modal.page';
@@ -29,8 +29,8 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
   listOfProductPromotions: Array<any> = [];
 
   // Subscriptions
-  getListOfProductPromotionsByStoreId: any;
-  appendListOfProductPromotionsByStoreId: any;
+  getListOfProductPromotionsByStoreUidSubscription: any;
+  appendListOfProductPromotionByStoreUidSubscription: any;
 
   constructor(
       private ngZone: NgZone,
@@ -59,18 +59,21 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
 
   unsubscribeSubscriptions() {
     this.ngZone.run(() => {
-      if (this.getListOfProductPromotionsByStoreId) {
-        this.getListOfProductPromotionsByStoreId.unsubscribe();
+      if (this.getListOfProductPromotionsByStoreUidSubscription) {
+        this.getListOfProductPromotionsByStoreUidSubscription.unsubscribe();
       }
-      if (this.appendListOfProductPromotionsByStoreId) {
-        this.appendListOfProductPromotionsByStoreId.unsubscribe();
+      if (this.appendListOfProductPromotionByStoreUidSubscription) {
+        this.appendListOfProductPromotionByStoreUidSubscription.unsubscribe();
       }
     });
   }
 
   retrieveListOfProductPromotionsByStoreUid() {
     this.loadingService.present();
-    this.getListOfProductPromotionsByStoreId = this.storeControllerService.getPromotionsByStoreUid(
+    if (this.getListOfProductPromotionsByStoreUidSubscription) {
+      this.getListOfProductPromotionsByStoreUidSubscription.unsubscribe();
+    }
+    this.getListOfProductPromotionsByStoreUidSubscription = this.storeControllerService.getPromotionsByStoreUid(
         this.selectedStoreUid
     ).subscribe(resp => {
       console.log(resp);
@@ -115,7 +118,7 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
     setTimeout(() => {
       if (this.maximumPages > this.currentPageNumber) {
         this.currentPageNumber++;
-        this.appendListOfProductPromotionsByStoreId = this.storeControllerService.getPromotionsByStoreUid(
+        this.appendListOfProductPromotionByStoreUidSubscription = this.storeControllerService.getPromotionsByStoreUid(
             this.selectedStoreUid,
             this.currentPageNumber,
             this.currentPageSize
@@ -151,5 +154,26 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
       }
     });
     return await modal.present();
+  }
+
+  ionRefresh(event) {
+    if (this.getListOfProductPromotionsByStoreUidSubscription) {
+      this.getListOfProductPromotionsByStoreUidSubscription.unsubscribe();
+    }
+    this.getListOfProductPromotionsByStoreUidSubscription = this.storeControllerService.getPromotionsByStoreUid(
+        this.selectedStoreUid
+    ).subscribe(resp => {
+      if (resp.code === 200) {
+        this.listOfProductPromotions = resp.data;
+      } else {
+        // tslint:disable-next-line:max-line-length
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Promotion Plans, please try again later!', 'warning');
+      }
+      event.target.complete();
+    }, error => {
+      console.log('API Error while retrieving list of productpromotion by store uid.');
+      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Promotion Plans, please try again later!', 'warning');
+      event.target.complete();
+    });
   }
 }

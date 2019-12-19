@@ -70,6 +70,9 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
 
     retrieveListOfWarrantiesByStoreUid() {
         this.loadingService.present();
+        if (this.getListOfWarrantiesByStoreUidSubscription) {
+            this.getListOfWarrantiesByStoreUidSubscription.unsubscribe();
+        }
         this.getListOfWarrantiesByStoreUidSubscription = this.storeControllerService.getWarrantiesByStoreUid(
             this.selectedStoreUid,
             this.currentPageNumber,
@@ -155,4 +158,29 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
       }
     }, 500);
   }
+
+    ionRefresh(event) {
+        if (this.getListOfWarrantiesByStoreUidSubscription) {
+            this.getListOfWarrantiesByStoreUidSubscription.unsubscribe();
+        }
+        this.getListOfWarrantiesByStoreUidSubscription = this.storeControllerService.getWarrantiesByStoreUid(
+            this.selectedStoreUid,
+            this.currentPageNumber,
+            this.currentPageSize
+        ).subscribe(resp => {
+            if (resp.code === 200) {
+                this.listOfWarrantiesByStoreUid = resp.data;
+                this.maximumPages = resp.maximumPages;
+                this.totalResult = resp.totalResult;
+            } else {
+                // tslint:disable-next-line:max-line-length
+                this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Warranty list, please try again later!', 'warning');
+            }
+            event.target.complete();
+        }, error => {
+            console.log('API Error while retrieving list of warranties by store uid.');
+            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Warranty list, please try again later!', 'warning');
+            event.target.complete();
+        });
+    }
 }

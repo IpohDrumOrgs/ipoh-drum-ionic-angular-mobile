@@ -70,6 +70,9 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
 
   retrieveListOfShippingsByStoreUid() {
     this.loadingService.present();
+    if (this.getListOfShippingsByStoreUidSubscription) {
+      this.getListOfShippingsByStoreUidSubscription.unsubscribe();
+    }
     this.getListOfShippingsByStoreUidSubscription = this.storeControllerService.getShippingsByStoreUid(
         this.selectedStoreUid,
         this.currentPageNumber,
@@ -146,5 +149,27 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
         event.target.disabled = true;
       }
     }, 500);
+  }
+
+  ionRefresh(event) {
+    if (this.getListOfShippingsByStoreUidSubscription) {
+      this.getListOfShippingsByStoreUidSubscription.unsubscribe();
+    }
+    this.getListOfShippingsByStoreUidSubscription = this.storeControllerService.getShippingsByStoreUid(
+        this.selectedStoreUid,
+        this.currentPageNumber,
+        this.currentPageSize
+    ).subscribe(resp => {
+      if (resp.code === 200) {
+        this.listOfShippingsByStoreUid = resp.data;
+      } else {
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Shippings, please try again later!', 'warning');
+      }
+      event.target.complete();
+    }, error => {
+      console.log('API Error while retrieving list of shippings by storeuid.');
+      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Shippings, please try again later!', 'warning');
+      event.target.complete();
+    });
   }
 }

@@ -165,4 +165,33 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
     });
     return await modal.present();
   }
+
+  ionRefresh(event) {
+    if (this.getListOfInventoriesByStoreUidSubscription) {
+      this.getListOfInventoriesByStoreUidSubscription.unsubscribe();
+    }
+    this.currentPageNumber = 1;
+    this.getListOfInventoriesByStoreUidSubscription = this.storeControllerService.getInventoriesByStoreUid(
+        this.selectedStoreUid,
+        this.currentPageNumber,
+        this.currentPageSize
+    ).subscribe(resp => {
+      if (resp.code === 200) {
+        this.listOfInventoriesFromSelectedStore = resp.data;
+        this.maximumPages = resp.maximumPages;
+        this.totalResult = resp.totalResult;
+      } else {
+        // tslint:disable-next-line:max-line-length
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Inventories, please try again later!', 'warning', 'top');
+        this.closeInventoryManagementModal();
+      }
+      event.target.complete();
+    }, error => {
+      console.log('API Error while retrieving list of inventories by store uid.');
+      // tslint:disable-next-line:max-line-length
+      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Inventories, please try again later!', 'warning', 'top');
+      this.closeInventoryManagementModal();
+      event.target.complete();
+    });
+  }
 }

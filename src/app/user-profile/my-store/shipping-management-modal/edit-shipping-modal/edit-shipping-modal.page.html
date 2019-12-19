@@ -5,15 +5,15 @@
         <ion-col size="2" style="text-align:left;padding:0;">
           <ion-icon name="arrow-back" style="font-size:25px;" (click)="closeEditShippingModal(false)"></ion-icon>
         </ion-col>
-        <ion-col size="7" style="text-align:left;">
+        <ion-col size="8" style="text-align:left;">
           <b>Modify Shipping Plan</b>
         </ion-col>
-        <ion-col size="3" style="text-align:right;" *ngIf="allowToModify">
+        <ion-col size="2" style="text-align:right;" *ngIf="allowToModify">
           <ion-button fill="clear" (click)="updateShippingPlan()" [disabled]="shippingPlanFormGroup.invalid">
             <ion-icon name="checkmark" style="font-size:25px;"></ion-icon>
           </ion-button>
         </ion-col>
-        <ion-col size="3" style="text-align:right;" *ngIf="!allowToModify">
+        <ion-col size="2" style="text-align:right;" *ngIf="!allowToModify">
           <ion-button fill="clear">
             <ion-icon name="lock"></ion-icon>
           </ion-button>

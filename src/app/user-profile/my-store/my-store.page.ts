@@ -145,4 +145,34 @@ export class MyStorePage implements OnInit, OnDestroy {
             }
         }, 500);
     }
+
+    ionRefresh(event) {
+        if (this.getUsersListOfStoresSubscription) {
+            this.getUsersListOfStoresSubscription.unsubscribe();
+        }
+        this.currentPageNumber = 1;
+        this.getUsersListOfStoresSubscription = this.storeControllerService.getStores(
+            this.currentPageNumber,
+            this.currentPageSize
+        ).subscribe(resp => {
+            console.log(resp);
+            if (resp.code === 200) {
+                this.listOfCurrentUsersStores = resp.data;
+                this.maximumPages = resp.maximumPages;
+                this.totalResult = resp.totalResult;
+            } else {
+                this.listOfCurrentUsersStores = [];
+                // tslint:disable-next-line:max-line-length
+                this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store list info, please try again later!', 'warning', 'top');
+                console.log('Unable to retrieve list of Stores');
+            }
+            event.target.complete();
+        }, error => {
+            // tslint:disable-next-line:max-line-length
+            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store list info, please try again later!', 'warning', 'top');
+            this.listOfCurrentUsersStores = [];
+            console.log('API Error while retrieving list of stores of current User');
+            event.target.complete();
+        });
+    }
 }

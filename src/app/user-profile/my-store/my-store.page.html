@@ -1,4 +1,10 @@
 <ion-content main>
+  <ion-refresher slot="fixed" (ionRefresh)="ionRefresh($event)">
+    <ion-refresher-content
+            pullingText="Pull to Refresh"
+            refreshingSpinner="crescent">
+    </ion-refresher-content>
+  </ion-refresher>
   <ng-container *ngIf="listOfCurrentUsersStores?.length > 0 else noStoresCreated">
     <ion-card>
       <ion-buttons slot="start" style="padding:5px;">

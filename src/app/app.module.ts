@@ -13,18 +13,10 @@ import {AuthzInterceptor} from './_dal/common/services/authz-interceptor';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AuthenticationService} from './_dal/common/services/authentication.service';
 import {IonicStorageModule} from '@ionic/storage';
-import {PerfectScrollbarModule} from 'ngx-perfect-scrollbar';
-import {PERFECT_SCROLLBAR_CONFIG} from 'ngx-perfect-scrollbar';
-import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 import {LoadingService} from './_dal/common/services/loading.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SharedService} from './shared.service';
 import {IpohDrumPageModule} from './ipoh-drum/ipoh-drum.module';
-import {ProductVariationModalPageModule} from './shop/product-detail/product-variation-modal/product-variation-modal.module';
-
-const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
-    suppressScrollX: true
-};
 
 @NgModule({
     declarations: [
@@ -42,7 +34,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
         LaravelPassportModule.forRoot(
             {apiRoot: 'http://localhost:8000', clientId: 2, clientSecret: 'Y5bDmotvoLS64hwE9IEoJlG4o0yGEcRBCbWHmboP'}
         ),
-        PerfectScrollbarModule,
         IpohDrumPageModule
     ],
     providers: [
@@ -57,10 +48,6 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthzInterceptor,
             multi: true
-        },
-        {
-            provide: PERFECT_SCROLLBAR_CONFIG,
-            useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
         }
     ],
     bootstrap: [AppComponent]
