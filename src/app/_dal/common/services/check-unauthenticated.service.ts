@@ -16,7 +16,7 @@ export class CheckUnauthenticatedService implements CanActivate {
     ) { }
 
     public canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
-        return this.authenticationService.isUserLoggedIn();
+        return !this.authenticationService.isUserLoggedIn();
     }
 
     redirectToLoginPage() {

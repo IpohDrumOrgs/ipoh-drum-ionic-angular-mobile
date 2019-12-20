@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
+import {ModalController} from '@ionic/angular';
 
 @Component({
   selector: 'app-add-voucher-modal',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddVoucherModalPage implements OnInit {
 
-  constructor() { }
+  constructor(
+      private modalController: ModalController,
+      private ngZone: NgZone
+  ) { }
 
   ngOnInit() {
   }
 
+  async closeAddVoucherModal(returnFromCreatingVoucher: boolean) {
+    await this.modalController.dismiss(returnFromCreatingVoucher);
+  }
 }

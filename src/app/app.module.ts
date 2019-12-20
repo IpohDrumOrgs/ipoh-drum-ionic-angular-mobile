@@ -32,7 +32,7 @@ import {IpohDrumPageModule} from './ipoh-drum/ipoh-drum.module';
         AppRoutingModule,
         IonicStorageModule.forRoot(),
         LaravelPassportModule.forRoot(
-            {apiRoot: 'http://localhost:8000', clientId: 2, clientSecret: 'Y5bDmotvoLS64hwE9IEoJlG4o0yGEcRBCbWHmboP'}
+            {apiRoot: 'http://localhost:8000', clientId: 2, clientSecret: 'hbWXwc0pEdwoPRvqsA9J45enb8P6tRtnviVTWtmo'}
         ),
         IpohDrumPageModule
     ],
