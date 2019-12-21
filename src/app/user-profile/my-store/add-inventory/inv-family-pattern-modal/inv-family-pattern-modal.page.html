@@ -1,8 +1,17 @@
 <ion-header>
-  <ion-toolbar style="margin-left:10px;">
-      <span>
-        <ion-icon name="arrow-back" style="font-size:25px;" (click)="closeModal()"></ion-icon>
-      </span>
+  <ion-toolbar>
+    <ion-title style="padding:0 0 0 10px;">
+      <ion-row class="ion-align-items-center">
+        <ion-col size="2" style="text-align:left;padding:0;">
+          <ion-icon name="arrow-back" style="font-size:25px;" (click)="closeModal()"></ion-icon>
+        </ion-col>
+        <ion-col size="10" style="text-align:left;white-space:normal;word-wrap:break-word;">
+          <b>
+            Define Inventory Family
+          </b>
+        </ion-col>
+      </ion-row>
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -12,7 +21,6 @@
       <ion-card style="padding:5px;background-color:white !important;" [formGroup]="inventoryFamilyFormGroup">
         <ion-row>
           <ion-col size="12">
-            <h3>Define Inventory Family</h3>
             <table class="table" style="margin-bottom:0;">
               <tbody>
               <tr>

@@ -77,42 +77,42 @@ export class AddInventoryPatternModalPage implements OnInit {
   }
 
   addPattern() {
-    // const inventoryPatternToInsert = {
-    //   cost: this.inventoryPatternCostModel,
-    //   // created_at
-    //   desc: this.inventoryPatternDescriptionModel,
-    //   // id
-    //   // imgpath
-    //   // imgpublicid
-    //   // inventory_family_id
-    //   name: this.inventoryPatternNameModel,
-    //   onsale: this.selectedPatternOnSaleToggle,
-    //   price: this.inventoryPatternSellingPriceModel,
-    //   qty: this.inventoryPatternStockQuantityModel
-    //   // salesqty
-    //   // status
-    //   // uid
-    //   // updated_at
-    // };
-
-    // Hardcoded-Data
     const inventoryPatternToInsert = {
-      cost: '59.60',
+      cost: this.inventoryPatternCostModel,
       // created_at
-      desc: 'pattern desccccf sdfsdfs dfsdfsdfwerwerwer',
+      desc: this.inventoryPatternDescriptionModel,
       // id
       // imgpath
       // imgpublicid
       // inventory_family_id
-      name: 'pattern name',
-      onsale: false,
-      price: '60',
-      qty: '99'
+      name: this.inventoryPatternNameModel,
+      onsale: this.selectedPatternOnSaleToggle,
+      price: this.inventoryPatternSellingPriceModel,
+      qty: this.inventoryPatternStockQuantityModel
       // salesqty
       // status
       // uid
       // updated_at
     };
+
+    // TODO Hardcoded-Data
+    // const inventoryPatternToInsert = {
+    //   cost: '59.60',
+    //   // created_at
+    //   desc: 'pattern desccccf sdfsdfs dfsdfsdfwerwerwer',
+    //   // id
+    //   // imgpath
+    //   // imgpublicid
+    //   // inventory_family_id
+    //   name: 'pattern name',
+    //   onsale: false,
+    //   price: '60',
+    //   qty: '99'
+    //   // salesqty
+    //   // status
+    //   // uid
+    //   // updated_at
+    // };
     console.log(inventoryPatternToInsert);
     this.modalController.dismiss(inventoryPatternToInsert);
   }

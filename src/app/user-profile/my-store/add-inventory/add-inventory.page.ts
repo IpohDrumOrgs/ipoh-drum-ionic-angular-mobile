@@ -70,6 +70,11 @@ export class AddInventoryPage implements OnInit, OnDestroy {
     inventoryThumbnailAsArray: Array<Blob> = [];
     temporaryInventorySliders: Array<Blob> = [];
     inventorySlidersAsArray: Array<Blob> = [];
+    ionSliderOptions = {
+        autoHeight: true,
+        initialSlide: 0,
+        speed: 400
+    };
 
     // Objects
     inventoryImageSliderOptions = {
@@ -147,14 +152,14 @@ export class AddInventoryPage implements OnInit, OnDestroy {
                 inventoryCode: new FormControl(null, [
                     Validators.required,
                     Validators.minLength(this.inventoryCodeMinLength),
-                    Validators.maxLength(this.inventoryCodeMaxLength),
-                    Validators.pattern(this.alphaNumericOnlyRegex)
+                    Validators.maxLength(this.inventoryCodeMaxLength)
+                    // Validators.pattern(this.alphaNumericOnlyRegex)
                 ]),
                 inventorySKU: new FormControl(null, [
                     Validators.required,
                     Validators.minLength(this.inventorySKUMinLength),
-                    Validators.maxLength(this.inventorySKUMaxLength),
-                    Validators.pattern(this.alphaNumericOnlyRegex)
+                    Validators.maxLength(this.inventorySKUMaxLength)
+                    // Validators.pattern(this.alphaNumericOnlyRegex)
                 ]),
                 inventoryDescription: new FormControl(null, [
                     Validators.required,
@@ -205,13 +210,12 @@ export class AddInventoryPage implements OnInit, OnDestroy {
         });
     }
 
-    onComplete() {
-        console.log(this.inventorySlidersAsArray);
-        // if (this.inventoryInfoFormGroup.valid
-        //     && this.temporaryInventorySliders.length > 0
-        //     && this.temporaryInventoryThumbnail !== undefined
-        //     && this.temporaryInventoryThumbnail !== null
-        // ) {
+    createInventory() {
+        if (this.inventoryInfoFormGroup.valid
+            && this.temporaryInventorySliders.length > 0
+            && this.temporaryInventoryThumbnail !== undefined
+            && this.temporaryInventoryThumbnail !== null
+        ) {
             this.loadingService.present();
             this.createInventorySubscription = this.inventoryControllerService.createInventory(
                 this.inventoryNameModel,
@@ -243,7 +247,7 @@ export class AddInventoryPage implements OnInit, OnDestroy {
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Inventory, please try again later!', 'warning', 'top');
             });
-        // }
+        }
     }
 
     openSlidersFilePicker() {
@@ -339,16 +343,5 @@ export class AddInventoryPage implements OnInit, OnDestroy {
 
     async closeCreateInventoryModal(returnFromCreatingInventory: boolean) {
         await this.modalController.dismiss(returnFromCreatingInventory);
-    }
-
-    uploadPhotos() {
-        this.inventoryControllerService.uploadInventoryThumbnail(
-            '123',
-            this.inventorySlidersAsArray
-        ).subscribe(resp => {
-            console.log(resp);
-        }, error => {
-            console.log('api canot upload multiple photo');
-        });
     }
 }
