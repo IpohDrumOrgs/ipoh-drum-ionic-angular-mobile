@@ -25,7 +25,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class InventoryControllerServiceService {
+export class ArticleControllerServiceService {
 
     protected basePath = 'http://localhost:8000';
     public defaultHeaders = new HttpHeaders();
@@ -61,10 +61,10 @@ export class InventoryControllerServiceService {
 
 
     /**
-     * Creates a inventory.
-     * @param name Inventoryname
+     * Creates a article.
+     * @param name Article name
      * @param storeId Store ID
-     * @param inventoryfamilies Inventory Families
+     * @param articlefamilies Article Families
      * @param cost Product Cost
      * @param price Product Base Price
      * @param productPromotionId Promotion ID
@@ -79,24 +79,24 @@ export class InventoryControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createInventory(name: string, storeId: number, inventoryfamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createInventory(name: string, storeId: number, inventoryfamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createInventory(name: string, storeId: number, inventoryfamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createInventory(name: string, storeId: number, inventoryfamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createArticle(name: string, storeId: number, articlefamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createArticle(name: string, storeId: number, articlefamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createArticle(name: string, storeId: number, articlefamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createArticle(name: string, storeId: number, articlefamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling createInventory.');
+            throw new Error('Required parameter name was null or undefined when calling createArticle.');
         }
         if (storeId === null || storeId === undefined) {
-            throw new Error('Required parameter storeId was null or undefined when calling createInventory.');
+            throw new Error('Required parameter storeId was null or undefined when calling createArticle.');
         }
-        if (inventoryfamilies === null || inventoryfamilies === undefined) {
-            throw new Error('Required parameter inventoryfamilies was null or undefined when calling createInventory.');
+        if (articlefamilies === null || articlefamilies === undefined) {
+            throw new Error('Required parameter articlefamilies was null or undefined when calling createArticle.');
         }
         if (cost === null || cost === undefined) {
-            throw new Error('Required parameter cost was null or undefined when calling createInventory.');
+            throw new Error('Required parameter cost was null or undefined when calling createArticle.');
         }
         if (price === null || price === undefined) {
-            throw new Error('Required parameter price was null or undefined when calling createInventory.');
+            throw new Error('Required parameter price was null or undefined when calling createArticle.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -115,8 +115,8 @@ export class InventoryControllerServiceService {
         if (shippingId !== undefined && shippingId !== null) {
             queryParameters = queryParameters.set('shipping_id', <any>shippingId);
         }
-        if (inventoryfamilies !== undefined && inventoryfamilies !== null) {
-            queryParameters = queryParameters.set('inventoryfamilies', <any>inventoryfamilies);
+        if (articlefamilies !== undefined && articlefamilies !== null) {
+            queryParameters = queryParameters.set('articlefamilies', <any>articlefamilies);
         }
         if (code !== undefined && code !== null) {
             queryParameters = queryParameters.set('code', <any>code);
@@ -188,7 +188,7 @@ export class InventoryControllerServiceService {
             }
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/api/inventory`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/article`,
             convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,
@@ -201,17 +201,17 @@ export class InventoryControllerServiceService {
     }
 
     /**
-     * Set inventory\&#39;s \&#39;status\&#39; to 0.
-     * @param uid Inventory ID, NOT \&#39;ID\&#39;.
+     * Set article\&#39;s \&#39;status\&#39; to 0.
+     * @param uid Article ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteInventoryByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteInventoryByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteInventoryByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteInventoryByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteArticleByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteArticleByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteArticleByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteArticleByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling deleteInventoryByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling deleteArticleByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -225,7 +225,7 @@ export class InventoryControllerServiceService {
         }
 
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/inventory/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/article/${encodeURIComponent(String(uid))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -236,8 +236,8 @@ export class InventoryControllerServiceService {
     }
 
     /**
-     * Filter list of inventories
-     * Returns list of filtered inventories
+     * Filter list of articles
+     * Returns list of filtered articles
      * @param pageNumber Page number
      * @param pageSize number of pageSize
      * @param keyword Keyword for filter
@@ -248,10 +248,10 @@ export class InventoryControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterInventories(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterInventories(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterInventories(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterInventories(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterArticles(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterArticles(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterArticles(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterArticles(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -287,7 +287,7 @@ export class InventoryControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/inventory`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/article`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -299,17 +299,52 @@ export class InventoryControllerServiceService {
     }
 
     /**
-     * Get list of inventories
-     * Returns list of inventories
+     * Retrieves article by Uid.
+     * @param uid Article_ID, NOT \&#39;ID\&#39;.
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getArticleByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getArticleByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getArticleByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getArticleByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uid === null || uid === undefined) {
+            throw new Error('Required parameter uid was null or undefined when calling getArticleByUid.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/article/${encodeURIComponent(String(uid))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Get list of articles
+     * Returns list of articles
      * @param pageNumber Page number
      * @param pageSize number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getInventories(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getInventories(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getInventories(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getInventories(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getArticles(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getArticles(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getArticles(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getArticles(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -330,7 +365,7 @@ export class InventoryControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/inventory`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/article`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -342,17 +377,17 @@ export class InventoryControllerServiceService {
     }
 
     /**
-     * Retrieves inventory by Uid.
-     * @param uid Inventory_ID, NOT \&#39;ID\&#39;.
+     * Retrieves onsale article by Uid.
+     * @param uid Article_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getInventoryByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getInventoryByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getInventoryByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getInventoryByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getOnSaleArticleByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getOnSaleArticleByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getOnSaleArticleByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getOnSaleArticleByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getInventoryByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling getOnSaleArticleByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -366,7 +401,7 @@ export class InventoryControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/inventory/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/article/${encodeURIComponent(String(uid))}/onsale`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -377,44 +412,9 @@ export class InventoryControllerServiceService {
     }
 
     /**
-     * Retrieves onsale inventory by Uid.
-     * @param uid Inventory_ID, NOT \&#39;ID\&#39;.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getOnSaleInventoryByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getOnSaleInventoryByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getOnSaleInventoryByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getOnSaleInventoryByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getOnSaleInventoryByUid.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/inventory/${encodeURIComponent(String(uid))}/onsale`,
-            {
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Update inventory by Uid.
-     * @param uid Inventory_ID, NOT \&#39;ID\&#39;.
-     * @param name Inventoryname
+     * Update article by Uid.
+     * @param uid Article_ID, NOT \&#39;ID\&#39;.
+     * @param name Articlename
      * @param storeId Store ID
      * @param productPromotionId Promotion ID
      * @param warrantyId Warranty ID
@@ -423,7 +423,7 @@ export class InventoryControllerServiceService {
      * @param price Product Selling Price
      * @param qty Stock Qty
      * @param onsale On Sale
-     * @param inventoryfamilies Inventory Families
+     * @param articlefamilies Article Families
      * @param code Code
      * @param sku Sku
      * @param desc Product Description
@@ -432,39 +432,39 @@ export class InventoryControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateInventoryByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateInventoryByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateInventoryByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateInventoryByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateArticleByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, articlefamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateArticleByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, articlefamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateArticleByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, articlefamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateArticleByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, articlefamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling updateInventoryByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling updateArticleByUid.');
         }
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling updateInventoryByUid.');
+            throw new Error('Required parameter name was null or undefined when calling updateArticleByUid.');
         }
         if (storeId === null || storeId === undefined) {
-            throw new Error('Required parameter storeId was null or undefined when calling updateInventoryByUid.');
+            throw new Error('Required parameter storeId was null or undefined when calling updateArticleByUid.');
         }
         if (productPromotionId === null || productPromotionId === undefined) {
-            throw new Error('Required parameter productPromotionId was null or undefined when calling updateInventoryByUid.');
+            throw new Error('Required parameter productPromotionId was null or undefined when calling updateArticleByUid.');
         }
         if (warrantyId === null || warrantyId === undefined) {
-            throw new Error('Required parameter warrantyId was null or undefined when calling updateInventoryByUid.');
+            throw new Error('Required parameter warrantyId was null or undefined when calling updateArticleByUid.');
         }
         if (shippingId === null || shippingId === undefined) {
-            throw new Error('Required parameter shippingId was null or undefined when calling updateInventoryByUid.');
+            throw new Error('Required parameter shippingId was null or undefined when calling updateArticleByUid.');
         }
         if (cost === null || cost === undefined) {
-            throw new Error('Required parameter cost was null or undefined when calling updateInventoryByUid.');
+            throw new Error('Required parameter cost was null or undefined when calling updateArticleByUid.');
         }
         if (price === null || price === undefined) {
-            throw new Error('Required parameter price was null or undefined when calling updateInventoryByUid.');
+            throw new Error('Required parameter price was null or undefined when calling updateArticleByUid.');
         }
         if (qty === null || qty === undefined) {
-            throw new Error('Required parameter qty was null or undefined when calling updateInventoryByUid.');
+            throw new Error('Required parameter qty was null or undefined when calling updateArticleByUid.');
         }
         if (onsale === null || onsale === undefined) {
-            throw new Error('Required parameter onsale was null or undefined when calling updateInventoryByUid.');
+            throw new Error('Required parameter onsale was null or undefined when calling updateArticleByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -483,8 +483,8 @@ export class InventoryControllerServiceService {
         if (shippingId !== undefined && shippingId !== null) {
             queryParameters = queryParameters.set('shipping_id', <any>shippingId);
         }
-        if (inventoryfamilies !== undefined && inventoryfamilies !== null) {
-            queryParameters = queryParameters.set('inventoryfamilies', <any>inventoryfamilies);
+        if (articlefamilies !== undefined && articlefamilies !== null) {
+            queryParameters = queryParameters.set('articlefamilies', <any>articlefamilies);
         }
         if (code !== undefined && code !== null) {
             queryParameters = queryParameters.set('code', <any>code);
@@ -550,7 +550,78 @@ export class InventoryControllerServiceService {
             }
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/api/inventory/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.put<any>(`${this.configuration.basePath}/api/article/${encodeURIComponent(String(uid))}`,
+            convertFormParamsToString ? formParams.toString() : formParams,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Upload article thumbnail.
+     * @param uid ArticleUID
+     * @param img Image
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public uploadArticleThumbnail(uid: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public uploadArticleThumbnail(uid: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public uploadArticleThumbnail(uid: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public uploadArticleThumbnail(uid: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uid === null || uid === undefined) {
+            throw new Error('Required parameter uid was null or undefined when calling uploadArticleThumbnail.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (uid !== undefined && uid !== null) {
+            queryParameters = queryParameters.set('uid', <any>uid);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: this.encoder});
+        }
+
+        if (img) {
+            if (useForm) {
+                img.forEach((element) => {
+                    formParams = formParams.append('img', <any>element) as any || formParams;
+            })
+            } else {
+                formParams = formParams.append('img', img.join(COLLECTION_FORMATS['csv'])) as any || formParams;
+            }
+        }
+
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/thumbnail`,
             convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,

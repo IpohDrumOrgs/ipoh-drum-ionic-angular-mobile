@@ -50,22 +50,19 @@ export class WarrantyControllerServiceService {
     /**
      * Creates a warranty.
      * @param name Warrantyname
-     * @param storeId Store ID
      * @param period Warranty Period
      * @param policy Warranty Policy
+     * @param storeId Store ID
      * @param desc Warranty description
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createWarranty(name: string, storeId: number, period: number, policy: string, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createWarranty(name: string, storeId: number, period: number, policy: string, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createWarranty(name: string, storeId: number, period: number, policy: string, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createWarranty(name: string, storeId: number, period: number, policy: string, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createWarranty(name: string, period: number, policy: string, storeId?: number, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createWarranty(name: string, period: number, policy: string, storeId?: number, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createWarranty(name: string, period: number, policy: string, storeId?: number, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createWarranty(name: string, period: number, policy: string, storeId?: number, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createWarranty.');
-        }
-        if (storeId === null || storeId === undefined) {
-            throw new Error('Required parameter storeId was null or undefined when calling createWarranty.');
         }
         if (period === null || period === undefined) {
             throw new Error('Required parameter period was null or undefined when calling createWarranty.');
@@ -290,25 +287,22 @@ export class WarrantyControllerServiceService {
      * Update warranty by Uid.
      * @param uid Warranty_ID, NOT \&#39;ID\&#39;.
      * @param name Warrantyname
-     * @param storeId Store ID
      * @param period Warranty Period
      * @param policy Warranty Policy
+     * @param storeId Store ID
      * @param desc Warranty description
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateWarrantyByUid(uid: string, name: string, storeId: number, period: number, policy: string, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateWarrantyByUid(uid: string, name: string, storeId: number, period: number, policy: string, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateWarrantyByUid(uid: string, name: string, storeId: number, period: number, policy: string, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateWarrantyByUid(uid: string, name: string, storeId: number, period: number, policy: string, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, storeId?: number, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, storeId?: number, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, storeId?: number, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, storeId?: number, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateWarrantyByUid.');
         }
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling updateWarrantyByUid.');
-        }
-        if (storeId === null || storeId === undefined) {
-            throw new Error('Required parameter storeId was null or undefined when calling updateWarrantyByUid.');
         }
         if (period === null || period === undefined) {
             throw new Error('Required parameter period was null or undefined when calling updateWarrantyByUid.');

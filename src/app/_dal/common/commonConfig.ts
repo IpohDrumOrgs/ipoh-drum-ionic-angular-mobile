@@ -22,5 +22,6 @@ export let commonConfig = {
     storeCountryMaxLength: 30,
     storeStateMaxLength: 30,
     storeCityMaxLength: 30,
-    numericOnlyRegex: '^[0-9]+$'
+    numericOnlyRegex: '^[0-9]+$',
+    percentageRegex: '^[0-9]{1,3}$'
 };

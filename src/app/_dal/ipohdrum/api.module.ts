@@ -3,6 +3,8 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 
+import { ArticleControllerServiceService } from './api/articleControllerService.service';
+import { BloggerControllerServiceService } from './api/bloggerControllerService.service';
 import { CategoryControllerServiceService } from './api/categoryControllerService.service';
 import { CompanyControllerServiceService } from './api/companyControllerService.service';
 import { CompanyTypeControllerServiceService } from './api/companyTypeControllerService.service';
@@ -21,6 +23,7 @@ import { TicketControllerServiceService } from './api/ticketControllerService.se
 import { TypeControllerServiceService } from './api/typeControllerService.service';
 import { UserControllerServiceService } from './api/userControllerService.service';
 import { VerificationCodeControllerServiceService } from './api/verificationCodeControllerService.service';
+import { VoucherCodeControllerServiceService } from './api/voucherCodeControllerService.service';
 import { VoucherControllerServiceService } from './api/voucherControllerService.service';
 import { WarrantyControllerServiceService } from './api/warrantyControllerService.service';
 
@@ -29,6 +32,8 @@ import { WarrantyControllerServiceService } from './api/warrantyControllerServic
   declarations: [],
   exports:      [],
   providers: [
+    ArticleControllerServiceService,
+    BloggerControllerServiceService,
     CategoryControllerServiceService,
     CompanyControllerServiceService,
     CompanyTypeControllerServiceService,
@@ -47,6 +52,7 @@ import { WarrantyControllerServiceService } from './api/warrantyControllerServic
     TypeControllerServiceService,
     UserControllerServiceService,
     VerificationCodeControllerServiceService,
+    VoucherCodeControllerServiceService,
     VoucherControllerServiceService,
     WarrantyControllerServiceService ]
 })

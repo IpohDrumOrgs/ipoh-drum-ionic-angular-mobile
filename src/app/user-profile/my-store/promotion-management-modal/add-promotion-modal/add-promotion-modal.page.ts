@@ -24,6 +24,7 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
     // Regex
     priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
     numericOnlyRegex = commonConfig.numericOnlyRegex;
+    percentageRegex = commonConfig.percentageRegex;
 
     // NgModels
     promotionPlanNameModel: string;
@@ -41,6 +42,7 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
     promotionPlanDescriptionMinLength = 5;
     promotionPlanDescriptionMaxLength = 100;
     promotionPlanLimitedQuantityMaxLength = 5;
+    percentageMaxValue = 100;
 
     // Objects
     selectedStore: Store;
@@ -157,7 +159,7 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
             this.promotionPlanFormGroup.get('promotionPlanDiscountedPrice').reset();
         } else {
             this.promotionPlanFormGroup.controls.promotionPlanDiscountedPercentage.setValidators([
-                Validators.required, Validators.pattern(this.priceRegex)
+                Validators.required, Validators.pattern(this.percentageRegex), Validators.max(this.percentageMaxValue), Validators.min(0)
             ]);
             this.promotionPlanFormGroup.get('promotionPlanDiscountedPrice').disable();
             this.promotionPlanFormGroup.get('promotionPlanDiscountedPercentage').enable();
@@ -170,9 +172,9 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
         if (this.promotionPlanFormGroup.valid) {
             this.loadingService.present();
             this.createProductPromotionSubscription = this.productPromotionControllerService.createProductPromotion(
-                this.selectedStoreId,
                 this.promotionPlanNameModel,
                 this.promotionPlanDiscountByPriceFlagModel ? 1 : 0,
+                this.selectedStoreId,
                 this.promotionPlanDescriptionModel,
                 this.promotionPlanLimitedQuantityModel,
                 this.promotionPlanDiscountedPriceModel,

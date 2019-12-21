@@ -5,7 +5,7 @@ import {EditStoreModalPage} from '../edit-store-modal/edit-store-modal.page';
 import {PromotionManagementModalPage} from '../promotion-management-modal/promotion-management-modal.page';
 import {WarrantyManagementModalPage} from '../warranty-management-modal/warranty-management-modal.page';
 import {ShippingManagementModalPage} from '../shipping-management-modal/shipping-management-modal.page';
-import {AddVoucherModalPage} from '../add-voucher-modal/add-voucher-modal.page';
+import {VoucherManagementModalPage} from '../voucher-management-modal/voucher-management-modal.page';
 
 @Component({
   selector: 'app-store-inventory-management-modal',
@@ -45,11 +45,12 @@ export class StoreInventoryManagementModalPage implements OnInit {
     return await modal.present();
   }
 
-  async openAddVoucherModal() {
+  async openVoucherManagementModal() {
     const modal = await this.modalController.create({
-      component: AddVoucherModalPage,
+      component: VoucherManagementModalPage,
       componentProps: {
-        selectedStoreUid: this.selectedStoreUid
+        selectedStoreUid: this.selectedStoreUid,
+        selectedStoreId: this.selectedStoreId
       }
     });
     return await modal.present();

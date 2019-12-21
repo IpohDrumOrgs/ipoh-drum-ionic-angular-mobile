@@ -57,8 +57,12 @@ import {EditWarrantyModalPageModule} from '../user-profile/my-store/warranty-man
 import {EditShippingModalPageModule} from '../user-profile/my-store/shipping-management-modal/edit-shipping-modal/edit-shipping-modal.module';
 import {EditShippingModalPage} from '../user-profile/my-store/shipping-management-modal/edit-shipping-modal/edit-shipping-modal.page';
 import {CheckUnauthenticatedService} from '../_dal/common/services/check-unauthenticated.service';
-import {AddVoucherModalPageModule} from '../user-profile/my-store/add-voucher-modal/add-voucher-modal.module';
-import {AddVoucherModalPage} from '../user-profile/my-store/add-voucher-modal/add-voucher-modal.page';
+import {VoucherManagementModalPageModule} from '../user-profile/my-store/voucher-management-modal/voucher-management-modal.module';
+import {VoucherManagementModalPage} from '../user-profile/my-store/voucher-management-modal/voucher-management-modal.page';
+import {AddVoucherModalPageModule} from '../user-profile/my-store/voucher-management-modal/add-voucher-modal/add-voucher-modal.module';
+import {AddVoucherModalPage} from '../user-profile/my-store/voucher-management-modal/add-voucher-modal/add-voucher-modal.page';
+import {EditVoucherModalPage} from '../user-profile/my-store/voucher-management-modal/edit-voucher-modal/edit-voucher-modal.page';
+import {EditVoucherModalPageModule} from '../user-profile/my-store/voucher-management-modal/edit-voucher-modal/edit-voucher-modal.module';
 
 const routes: Routes = [
     {
@@ -118,7 +122,9 @@ const routes: Routes = [
         ShippingManagementModalPageModule,
         AddShippingModalPageModule,
         EditShippingModalPageModule,
-        AddVoucherModalPageModule
+        VoucherManagementModalPageModule,
+        AddVoucherModalPageModule,
+        EditVoucherModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -142,7 +148,9 @@ const routes: Routes = [
         ShippingManagementModalPage,
         AddShippingModalPage,
         EditShippingModalPage,
-        AddVoucherModalPage
+        VoucherManagementModalPage,
+        AddVoucherModalPage,
+        EditVoucherModalPage
     ]
 })
 

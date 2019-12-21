@@ -163,6 +163,7 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
         if (this.getListOfWarrantiesByStoreUidSubscription) {
             this.getListOfWarrantiesByStoreUidSubscription.unsubscribe();
         }
+        this.currentPageNumber = 1;
         this.getListOfWarrantiesByStoreUidSubscription = this.storeControllerService.getWarrantiesByStoreUid(
             this.selectedStoreUid,
             this.currentPageNumber,

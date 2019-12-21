@@ -74,13 +74,13 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
       this.getListOfProductPromotionsByStoreUidSubscription.unsubscribe();
     }
     this.getListOfProductPromotionsByStoreUidSubscription = this.storeControllerService.getPromotionsByStoreUid(
-        this.selectedStoreUid
+        this.selectedStoreUid,
+        this.currentPageNumber,
+        this.currentPageSize
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.listOfProductPromotions = resp.data;
       } else {
-        this.loadingService.dismiss();
         // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Promotion Plans, please try again later!', 'warning');
         // this.closePromotionManagementModal();
@@ -160,8 +160,11 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
     if (this.getListOfProductPromotionsByStoreUidSubscription) {
       this.getListOfProductPromotionsByStoreUidSubscription.unsubscribe();
     }
+    this.currentPageNumber = 1;
     this.getListOfProductPromotionsByStoreUidSubscription = this.storeControllerService.getPromotionsByStoreUid(
-        this.selectedStoreUid
+        this.selectedStoreUid,
+        this.currentPageNumber,
+        this.currentPageSize
     ).subscribe(resp => {
       if (resp.code === 200) {
         this.listOfProductPromotions = resp.data;

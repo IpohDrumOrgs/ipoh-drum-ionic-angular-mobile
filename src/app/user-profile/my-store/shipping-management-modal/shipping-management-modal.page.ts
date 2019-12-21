@@ -155,6 +155,7 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
     if (this.getListOfShippingsByStoreUidSubscription) {
       this.getListOfShippingsByStoreUidSubscription.unsubscribe();
     }
+    this.currentPageNumber = 1;
     this.getListOfShippingsByStoreUidSubscription = this.storeControllerService.getShippingsByStoreUid(
         this.selectedStoreUid,
         this.currentPageNumber,

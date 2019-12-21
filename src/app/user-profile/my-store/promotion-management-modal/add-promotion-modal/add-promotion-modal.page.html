@@ -145,7 +145,10 @@
                       Discounted Percentage is required.
                     </li>
                     <li *ngIf="promotionPlanFormGroup?.get('promotionPlanDiscountedPercentage')?.hasError('pattern')">
-                      Invalid format for Discounted Percentage. Should be (55.00) or (55).
+                      Invalid format for Discounted Percentage. Should be integers only.
+                    </li>
+                    <li *ngIf="promotionPlanFormGroup?.get('promotionPlanDiscountedPercentage')?.hasError('max')">
+                      Discounted Percentage cannot be larger than {{percentageMaxValue}}%.
                     </li>
                   </ul>
                 </ion-col>

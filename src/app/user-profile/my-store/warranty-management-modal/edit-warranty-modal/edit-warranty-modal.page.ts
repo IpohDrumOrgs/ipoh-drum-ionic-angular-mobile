@@ -87,6 +87,7 @@ export class EditWarrantyModalPage implements OnInit, OnDestroy {
                 if (resp.code === 200) {
                     this.selectedWarranty = resp.data;
                 } else {
+                    // tslint:disable-next-line:max-line-length
                     this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve the Warranty Plan, please try again later!', 'warning');
                     this.closeEditWarrantyModal(false);
                 }
@@ -95,6 +96,7 @@ export class EditWarrantyModalPage implements OnInit, OnDestroy {
                 this.ref.detectChanges();
             }, error => {
                 console.log('API Error while retrieving Warranty Plan by uid.');
+                // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve the Warranty Plan, please try again later!', 'warning');
                 this.loadingService.dismiss();
                 this.closeEditWarrantyModal(false);

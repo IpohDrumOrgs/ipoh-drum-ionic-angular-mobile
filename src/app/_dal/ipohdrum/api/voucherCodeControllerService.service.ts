@@ -25,7 +25,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class ShippingControllerServiceService {
+export class VoucherCodeControllerServiceService {
 
     protected basePath = 'http://localhost:8000';
     public defaultHeaders = new HttpHeaders();
@@ -48,51 +48,22 @@ export class ShippingControllerServiceService {
 
 
     /**
-     * Creates a shipping.
-     * @param name Shippingname
-     * @param price Shipping price
-     * @param maxweight Shipping maximum weight
-     * @param maxdimension Shipping maximum dimension
-     * @param storeId Store ID
-     * @param desc Shipping description
+     * Creates a vouchercode.
+     * @param voucherId VoucherCode belongs to which Voucher
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createShipping(name: string, price: number, maxweight: number, maxdimension: number, storeId?: number, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createShipping(name: string, price: number, maxweight: number, maxdimension: number, storeId?: number, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createShipping(name: string, price: number, maxweight: number, maxdimension: number, storeId?: number, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createShipping(name: string, price: number, maxweight: number, maxdimension: number, storeId?: number, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling createShipping.');
-        }
-        if (price === null || price === undefined) {
-            throw new Error('Required parameter price was null or undefined when calling createShipping.');
-        }
-        if (maxweight === null || maxweight === undefined) {
-            throw new Error('Required parameter maxweight was null or undefined when calling createShipping.');
-        }
-        if (maxdimension === null || maxdimension === undefined) {
-            throw new Error('Required parameter maxdimension was null or undefined when calling createShipping.');
+    public createVoucherCode(voucherId: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createVoucherCode(voucherId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createVoucherCode(voucherId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createVoucherCode(voucherId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (voucherId === null || voucherId === undefined) {
+            throw new Error('Required parameter voucherId was null or undefined when calling createVoucherCode.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
-        }
-        if (storeId !== undefined && storeId !== null) {
-            queryParameters = queryParameters.set('store_id', <any>storeId);
-        }
-        if (desc !== undefined && desc !== null) {
-            queryParameters = queryParameters.set('desc', <any>desc);
-        }
-        if (price !== undefined && price !== null) {
-            queryParameters = queryParameters.set('price', <any>price);
-        }
-        if (maxweight !== undefined && maxweight !== null) {
-            queryParameters = queryParameters.set('maxweight', <any>maxweight);
-        }
-        if (maxdimension !== undefined && maxdimension !== null) {
-            queryParameters = queryParameters.set('maxdimension', <any>maxdimension);
+        if (voucherId !== undefined && voucherId !== null) {
+            queryParameters = queryParameters.set('voucher_id', <any>voucherId);
         }
 
         let headers = this.defaultHeaders;
@@ -106,7 +77,7 @@ export class ShippingControllerServiceService {
         }
 
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/api/shipping`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/vouchercode`,
             null,
             {
                 params: queryParameters,
@@ -119,17 +90,17 @@ export class ShippingControllerServiceService {
     }
 
     /**
-     * Set shipping\&#39;s \&#39;status\&#39; to 0.
-     * @param uid Shipping ID, NOT \&#39;ID\&#39;.
+     * Set vouchercode\&#39;s \&#39;status\&#39; to 0.
+     * @param uid VoucherCode ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteShippingByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteShippingByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteShippingByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteShippingByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteVoucherCodeByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteVoucherCodeByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteVoucherCodeByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteVoucherCodeByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling deleteShippingByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling deleteVoucherCodeByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -143,7 +114,7 @@ export class ShippingControllerServiceService {
         }
 
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/shipping/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/vouchercode/${encodeURIComponent(String(uid))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -154,21 +125,21 @@ export class ShippingControllerServiceService {
     }
 
     /**
-     * Filter list of shippings
-     * Returns list of filtered shippings
+     * Filter list of vouchercodes
+     * Returns list of filtered vouchercodes
      * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param pageSize Page size
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
-     * @param todate To date for filter
+     * @param todate To string for filter
      * @param status status for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterShippings(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterShippings(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterShippings(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterShippings(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterVoucherCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterVoucherCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterVoucherCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterVoucherCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -201,7 +172,7 @@ export class ShippingControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/shipping`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/vouchercode`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -213,17 +184,17 @@ export class ShippingControllerServiceService {
     }
 
     /**
-     * Retrieves shipping by Uid.
-     * @param uid Shipping_ID, NOT \&#39;ID\&#39;.
+     * Retrieves vouchercode by Uid.
+     * @param uid VoucherCode_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getShippingByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getShippingByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getShippingByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getShippingByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getVoucherCodeByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getVoucherCodeByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getVoucherCodeByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getVoucherCodeByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getShippingByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling getVoucherCodeByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -237,7 +208,7 @@ export class ShippingControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/shipping/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/vouchercode/${encodeURIComponent(String(uid))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
@@ -248,17 +219,17 @@ export class ShippingControllerServiceService {
     }
 
     /**
-     * Get list of shippings
-     * Returns list of shippings
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * Get list of vouchercodes
+     * Returns list of vouchercodes
+     * @param pageNumber Page number.
+     * @param pageSize Page size.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getShippings(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getShippings(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getShippings(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getShippings(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getVoucherCodeList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getVoucherCodeList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getVoucherCodeList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getVoucherCodeList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -279,7 +250,7 @@ export class ShippingControllerServiceService {
         }
 
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/shipping`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/vouchercode`,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -291,55 +262,83 @@ export class ShippingControllerServiceService {
     }
 
     /**
-     * Update shipping by Uid.
-     * @param uid Shipping_ID, NOT \&#39;ID\&#39;.
-     * @param name Shippingname
-     * @param price Shipping price
-     * @param maxweight Shipping maximum weight
-     * @param maxdimension Shipping maximum dimension
-     * @param storeId Store ID
-     * @param desc Shipping description
+     * Update vouchercode by Uid.
+     * @param uid VoucherCode_ID, NOT \&#39;ID\&#39;.
+     * @param storeId VoucherCode belongs to which Store
+     * @param name VoucherCode Name
+     * @param unlimited Is This VoucherCode Unlimited?
+     * @param discbyprice Is This VoucherCode Discount By Price?
+     * @param desc VoucherCode Description
+     * @param qty The limited quantity of vouchercode
+     * @param disc Discount price
+     * @param discpctg Discount percentage
+     * @param minpurchase Minimum Purchase Price To Apply VoucherCode
+     * @param minqty Minimum Purchase Qty To Apply VoucherCode
+     * @param minvariety Minimum Item Variety To Apply VoucherCode
+     * @param startdate VoucherCode Start Date
+     * @param enddate VoucherCode End Date
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateShippingByUid(uid: string, name: string, price: number, maxweight: number, maxdimension: number, storeId?: number, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateShippingByUid(uid: string, name: string, price: number, maxweight: number, maxdimension: number, storeId?: number, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateShippingByUid(uid: string, name: string, price: number, maxweight: number, maxdimension: number, storeId?: number, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateShippingByUid(uid: string, name: string, price: number, maxweight: number, maxdimension: number, storeId?: number, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateVoucherCodeByUid(uid: string, storeId: number, name: string, unlimited: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, minpurchase?: number, minqty?: number, minvariety?: number, startdate?: string, enddate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateVoucherCodeByUid(uid: string, storeId: number, name: string, unlimited: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, minpurchase?: number, minqty?: number, minvariety?: number, startdate?: string, enddate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateVoucherCodeByUid(uid: string, storeId: number, name: string, unlimited: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, minpurchase?: number, minqty?: number, minvariety?: number, startdate?: string, enddate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateVoucherCodeByUid(uid: string, storeId: number, name: string, unlimited: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, minpurchase?: number, minqty?: number, minvariety?: number, startdate?: string, enddate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling updateShippingByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling updateVoucherCodeByUid.');
+        }
+        if (storeId === null || storeId === undefined) {
+            throw new Error('Required parameter storeId was null or undefined when calling updateVoucherCodeByUid.');
         }
         if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling updateShippingByUid.');
+            throw new Error('Required parameter name was null or undefined when calling updateVoucherCodeByUid.');
         }
-        if (price === null || price === undefined) {
-            throw new Error('Required parameter price was null or undefined when calling updateShippingByUid.');
+        if (unlimited === null || unlimited === undefined) {
+            throw new Error('Required parameter unlimited was null or undefined when calling updateVoucherCodeByUid.');
         }
-        if (maxweight === null || maxweight === undefined) {
-            throw new Error('Required parameter maxweight was null or undefined when calling updateShippingByUid.');
-        }
-        if (maxdimension === null || maxdimension === undefined) {
-            throw new Error('Required parameter maxdimension was null or undefined when calling updateShippingByUid.');
+        if (discbyprice === null || discbyprice === undefined) {
+            throw new Error('Required parameter discbyprice was null or undefined when calling updateVoucherCodeByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
-        }
         if (storeId !== undefined && storeId !== null) {
             queryParameters = queryParameters.set('store_id', <any>storeId);
+        }
+        if (name !== undefined && name !== null) {
+            queryParameters = queryParameters.set('name', <any>name);
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
         }
-        if (price !== undefined && price !== null) {
-            queryParameters = queryParameters.set('price', <any>price);
+        if (unlimited !== undefined && unlimited !== null) {
+            queryParameters = queryParameters.set('unlimited', <any>unlimited);
         }
-        if (maxweight !== undefined && maxweight !== null) {
-            queryParameters = queryParameters.set('maxweight', <any>maxweight);
+        if (qty !== undefined && qty !== null) {
+            queryParameters = queryParameters.set('qty', <any>qty);
         }
-        if (maxdimension !== undefined && maxdimension !== null) {
-            queryParameters = queryParameters.set('maxdimension', <any>maxdimension);
+        if (discbyprice !== undefined && discbyprice !== null) {
+            queryParameters = queryParameters.set('discbyprice', <any>discbyprice);
+        }
+        if (disc !== undefined && disc !== null) {
+            queryParameters = queryParameters.set('disc', <any>disc);
+        }
+        if (discpctg !== undefined && discpctg !== null) {
+            queryParameters = queryParameters.set('discpctg', <any>discpctg);
+        }
+        if (minpurchase !== undefined && minpurchase !== null) {
+            queryParameters = queryParameters.set('minpurchase', <any>minpurchase);
+        }
+        if (minqty !== undefined && minqty !== null) {
+            queryParameters = queryParameters.set('minqty', <any>minqty);
+        }
+        if (minvariety !== undefined && minvariety !== null) {
+            queryParameters = queryParameters.set('minvariety', <any>minvariety);
+        }
+        if (startdate !== undefined && startdate !== null) {
+            queryParameters = queryParameters.set('startdate', <any>startdate);
+        }
+        if (enddate !== undefined && enddate !== null) {
+            queryParameters = queryParameters.set('enddate', <any>enddate);
         }
 
         let headers = this.defaultHeaders;
@@ -353,7 +352,7 @@ export class ShippingControllerServiceService {
         }
 
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/api/shipping/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.put<any>(`${this.configuration.basePath}/api/vouchercode/${encodeURIComponent(String(uid))}`,
             null,
             {
                 params: queryParameters,

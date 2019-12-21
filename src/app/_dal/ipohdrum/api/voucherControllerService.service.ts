@@ -190,14 +190,13 @@ export class VoucherControllerServiceService {
      * @param fromdate From Date for filter
      * @param todate To string for filter
      * @param status status for filter
-     * @param onvoucher onvoucher for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterVoucherList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onvoucher?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterVoucherList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onvoucher?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterVoucherList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onvoucher?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterVoucherList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onvoucher?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterVoucherList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterVoucherList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterVoucherList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterVoucherList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (pageNumber !== undefined && pageNumber !== null) {
@@ -217,9 +216,6 @@ export class VoucherControllerServiceService {
         }
         if (status !== undefined && status !== null) {
             queryParameters = queryParameters.set('status', <any>status);
-        }
-        if (onvoucher !== undefined && onvoucher !== null) {
-            queryParameters = queryParameters.set('onvoucher', <any>onvoucher);
         }
 
         let headers = this.defaultHeaders;
