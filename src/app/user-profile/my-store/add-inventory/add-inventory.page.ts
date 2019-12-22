@@ -218,6 +218,7 @@ export class AddInventoryPage implements OnInit, OnDestroy {
             && this.temporaryInventorySliders.length > 0
             && this.temporaryInventoryThumbnail !== undefined
             && this.temporaryInventoryThumbnail !== null
+            && this.inventoryFamilyAndOrPatternsToInsert.length > 0
         ) {
             this.loadingService.present();
             this.createInventorySubscription = this.inventoryControllerService.createInventory(

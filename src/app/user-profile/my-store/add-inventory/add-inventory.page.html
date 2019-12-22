@@ -44,13 +44,11 @@
                 <ion-col size="4">
                     <ion-button fill="clear" style="width:100%;text-align:center;font-size:25px;"
                                 (click)="showWhichPage(3)">
-                        <ion-label [color]="temporaryInventoryThumbnail === undefined
-                                        || temporaryInventoryThumbnail === null ? 'danger' : 'success'">3</ion-label>
+                        <ion-label [color]="inventoryFamilyAndOrPatternsToInsert.length <= 0 ? 'danger' : 'success'">3</ion-label>
                         <ion-icon name="close" color="danger" style="font-size:10px;"
-                                  *ngIf="temporaryInventoryThumbnail === undefined
-                                        || temporaryInventoryThumbnail === null"></ion-icon>
+                                  *ngIf="inventoryFamilyAndOrPatternsToInsert.length <= 0"></ion-icon>
                         <ion-icon name="checkmark" color="success" style="font-size:15px;"
-                                  *ngIf="temporaryInventoryThumbnail && temporaryInventoryThumbnail"></ion-icon>
+                                  *ngIf="inventoryFamilyAndOrPatternsToInsert.length > 0"></ion-icon>
                     </ion-button>
                 </ion-col>
             </ion-row>
@@ -626,7 +624,8 @@
                                         || inventoryFamilyAndOrPatternsToInsert.length <= 0
                                         || temporaryInventorySliders.length <= 0
                                         || temporaryInventoryThumbnail === undefined
-                                        || temporaryInventoryThumbnail === null">
+                                        || temporaryInventoryThumbnail === null
+                                        || inventoryFamilyAndOrPatternsToInsert.length <= 0">
                             Create Inventory
                         </ion-button>
                     </ion-col>
