@@ -181,10 +181,10 @@ export class InventoryControllerServiceService {
         if (sliders) {
             if (useForm) {
                 sliders.forEach((element) => {
-                    formParams = formParams.append('sliders', <any>element) as any || formParams;
+                    formParams = formParams.append('sliders[]', <any>element) as any || formParams;
             })
             } else {
-                formParams = formParams.append('sliders', sliders.join(COLLECTION_FORMATS['csv'])) as any || formParams;
+                formParams = formParams.append('sliders[]', sliders.join(COLLECTION_FORMATS['csv'])) as any || formParams;
             }
         }
 

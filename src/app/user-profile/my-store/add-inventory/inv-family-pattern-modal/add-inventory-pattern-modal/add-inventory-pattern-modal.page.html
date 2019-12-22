@@ -150,9 +150,11 @@
         </ion-row>
         <ion-row class="ion-align-items-center">
           <ion-col size="12">
-<!--          TODO  [disabled]="inventoryPatternFormGroup.invalid"-->
-<!--          TODO  (inventoryPatternFormGroup.invalid) ? undefined : addPattern()-->
-            <ion-button (click)="addPattern()" expand="full">Add Pattern</ion-button>
+            <ion-button (click)="(inventoryPatternFormGroup.invalid) ? undefined : addPattern()"
+                        expand="full"
+                        [disabled]="inventoryPatternFormGroup.invalid">
+              Add Pattern
+            </ion-button>
           </ion-col>
         </ion-row>
       </div>

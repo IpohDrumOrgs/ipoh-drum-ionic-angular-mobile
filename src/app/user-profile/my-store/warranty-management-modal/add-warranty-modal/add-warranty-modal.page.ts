@@ -103,9 +103,9 @@ export class AddWarrantyModalPage implements OnInit, OnDestroy {
             this.loadingService.present();
             this.createWarrantySubscription = this.warrantyControllerService.createWarranty(
                 this.warrantyNameModel,
-                this.selectedStoreId,
                 this.warrantyPeriodModel,
                 this.warrantyPolicyModel,
+                this.selectedStoreId,
                 this.warrantyDescriptionModel
             ).subscribe(resp => {
                 if (resp.code === 200) {

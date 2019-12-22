@@ -27,9 +27,6 @@ export class AddInventoryPage implements OnInit, OnDestroy {
     defaultNoPlanSelectedStr = 'Default (None)';
     selectedStoreUid: string;
 
-    // Numbers
-    selectedStoreId: number;
-
     // NgModels
     inventoryNameModel: string;
     inventoryCodeModel: string;
@@ -45,6 +42,7 @@ export class AddInventoryPage implements OnInit, OnDestroy {
     numericOnlyRegex = commonConfig.numericOnlyRegex;
 
     // Number
+    selectedStoreId: number;
     inventoryNameMinLength = 5;
     inventoryNameMaxLength = 30;
     inventoryCodeMinLength = 2;
@@ -57,6 +55,11 @@ export class AddInventoryPage implements OnInit, OnDestroy {
     inventorySellingPriceMaxLength = 10;
     inventoryStockThresholdMaxLength = 3;
     maxInventoryPhotoSlider = 5;
+
+    // Booleans
+    showFirstPage = true;
+    showSecondPage = false;
+    showThirdPage = false;
 
     // ViewChild
     @ViewChild('inventoryThumbnailContainer', {static: false}) inventoryThumbnailContainer: ElementRef;
@@ -343,5 +346,25 @@ export class AddInventoryPage implements OnInit, OnDestroy {
 
     async closeCreateInventoryModal(returnFromCreatingInventory: boolean) {
         await this.modalController.dismiss(returnFromCreatingInventory);
+    }
+
+    showWhichPage(pageNum: number) {
+        switch (pageNum) {
+            case 1:
+                this.showFirstPage = true;
+                this.showSecondPage = false;
+                this.showThirdPage = false;
+                break;
+            case 2:
+                this.showFirstPage = false;
+                this.showSecondPage = true;
+                this.showThirdPage = false;
+                break;
+            case 3:
+                this.showFirstPage = false;
+                this.showSecondPage = false;
+                this.showThirdPage = true;
+                break;
+        }
     }
 }
