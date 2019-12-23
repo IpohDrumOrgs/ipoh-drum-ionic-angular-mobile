@@ -11,21 +11,14 @@
  */
 
 
-export interface InventoryFamily { 
+export interface InventoryImage { 
     id?: number;
-    inventory_id?: number;
     uid?: string;
-    code?: string;
-    sku?: string;
+    inventory_id?: number;
     name?: string;
     desc?: string;
     imgpublicid?: string;
     imgpath?: string;
-    cost?: number;
-    price?: number;
-    qty?: number;
-    salesqty?: number;
-    onsale?: number;
     status?: number;
     created_at?: string;
     updated_at?: string;

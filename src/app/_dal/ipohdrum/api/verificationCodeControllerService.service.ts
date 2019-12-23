@@ -134,8 +134,8 @@ export class VerificationCodeControllerServiceService {
     /**
      * Filter list of verificationcodes
      * Returns list of filtered verificationcodes
-     * @param pageNumber Page number
-     * @param pageSize Page size
+     * @param page_number Page number
+     * @param page_size Page size
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To string for filter
@@ -144,17 +144,17 @@ export class VerificationCodeControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterVerificationCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterVerificationCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterVerificationCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterVerificationCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterVerificationCodeList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterVerificationCodeList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterVerificationCodeList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterVerificationCodeList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onverificationcode?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
         if (keyword !== undefined && keyword !== null) {
             queryParameters = queryParameters.set('keyword', <any>keyword);
@@ -232,22 +232,22 @@ export class VerificationCodeControllerServiceService {
     /**
      * Get list of verificationcodes
      * Returns list of verificationcodes
-     * @param pageNumber Page number.
-     * @param pageSize Page size.
+     * @param page_number Page number.
+     * @param page_size Page size.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getVerificationCodeList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getVerificationCodeList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getVerificationCodeList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getVerificationCodeList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getVerificationCodeList(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getVerificationCodeList(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getVerificationCodeList(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getVerificationCodeList(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;

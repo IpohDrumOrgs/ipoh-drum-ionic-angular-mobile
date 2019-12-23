@@ -63,9 +63,9 @@ export class BloggerControllerServiceService {
     /**
      * Creates a blogger.
      * @param name Blogger Name
-     * @param companyBelongings Is This Blogger Belongs To Company?
-     * @param userId Blogger belongs to which user
-     * @param companyId Blogger belongs to which company
+     * @param company_belongings Is This Blogger Belongs To Company?
+     * @param user_id Blogger belongs to which user
+     * @param company_id Blogger belongs to which company
      * @param desc Blogger Description
      * @param email Blogger Email
      * @param tel1 Blogger telephone
@@ -73,23 +73,23 @@ export class BloggerControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createBlogger(name: string, companyBelongings: number, userId?: number, companyId?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createBlogger(name: string, companyBelongings: number, userId?: number, companyId?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createBlogger(name: string, companyBelongings: number, userId?: number, companyId?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createBlogger(name: string, companyBelongings: number, userId?: number, companyId?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createBlogger(name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createBlogger(name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createBlogger(name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createBlogger(name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createBlogger.');
         }
-        if (companyBelongings === null || companyBelongings === undefined) {
-            throw new Error('Required parameter companyBelongings was null or undefined when calling createBlogger.');
+        if (company_belongings === null || company_belongings === undefined) {
+            throw new Error('Required parameter company_belongings was null or undefined when calling createBlogger.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (userId !== undefined && userId !== null) {
-            queryParameters = queryParameters.set('user_id', <any>userId);
+        if (user_id !== undefined && user_id !== null) {
+            queryParameters = queryParameters.set('user_id', <any>user_id);
         }
-        if (companyId !== undefined && companyId !== null) {
-            queryParameters = queryParameters.set('company_id', <any>companyId);
+        if (company_id !== undefined && company_id !== null) {
+            queryParameters = queryParameters.set('company_id', <any>company_id);
         }
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
@@ -103,8 +103,8 @@ export class BloggerControllerServiceService {
         if (tel1 !== undefined && tel1 !== null) {
             queryParameters = queryParameters.set('tel1', <any>tel1);
         }
-        if (companyBelongings !== undefined && companyBelongings !== null) {
-            queryParameters = queryParameters.set('companyBelongings', <any>companyBelongings);
+        if (company_belongings !== undefined && company_belongings !== null) {
+            queryParameters = queryParameters.set('companyBelongings', <any>company_belongings);
         }
 
         let headers = this.defaultHeaders;
@@ -196,8 +196,8 @@ export class BloggerControllerServiceService {
     /**
      * Filter list of bloggers
      * Returns list of filtered bloggers
-     * @param pageNumber Page number
-     * @param pageSize Page size
+     * @param page_number Page number
+     * @param page_size Page size
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To string for filter
@@ -205,17 +205,17 @@ export class BloggerControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterBloggerList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterBloggerList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterBloggerList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterBloggerList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterBloggerList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterBloggerList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterBloggerList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterBloggerList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
         if (keyword !== undefined && keyword !== null) {
             queryParameters = queryParameters.set('keyword', <any>keyword);
@@ -290,22 +290,22 @@ export class BloggerControllerServiceService {
     /**
      * Get list of bloggers
      * Returns list of bloggers
-     * @param pageNumber Page number.
-     * @param pageSize Page size.
+     * @param page_number Page number.
+     * @param page_size Page size.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getBloggerList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getBloggerList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getBloggerList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getBloggerList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getBloggerList(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getBloggerList(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getBloggerList(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getBloggerList(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;
@@ -334,9 +334,9 @@ export class BloggerControllerServiceService {
      * Update blogger by Uid.
      * @param uid Blogger_ID, NOT \&#39;ID\&#39;.
      * @param name Blogger Name
-     * @param companyBelongings Is This Blogger Belongs To Company?
-     * @param userId Blogger belongs to which user
-     * @param companyId Blogger belongs to which company
+     * @param company_belongings Is This Blogger Belongs To Company?
+     * @param user_id Blogger belongs to which user
+     * @param company_id Blogger belongs to which company
      * @param desc Blogger Description
      * @param email Blogger Email
      * @param tel1 Blogger telephone
@@ -344,26 +344,26 @@ export class BloggerControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateBloggerByUid(uid: string, name: string, companyBelongings: number, userId?: number, companyId?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateBloggerByUid(uid: string, name: string, companyBelongings: number, userId?: number, companyId?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateBloggerByUid(uid: string, name: string, companyBelongings: number, userId?: number, companyId?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateBloggerByUid(uid: string, name: string, companyBelongings: number, userId?: number, companyId?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateBloggerByUid(uid: string, name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateBloggerByUid(uid: string, name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateBloggerByUid(uid: string, name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateBloggerByUid(uid: string, name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateBloggerByUid.');
         }
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling updateBloggerByUid.');
         }
-        if (companyBelongings === null || companyBelongings === undefined) {
-            throw new Error('Required parameter companyBelongings was null or undefined when calling updateBloggerByUid.');
+        if (company_belongings === null || company_belongings === undefined) {
+            throw new Error('Required parameter company_belongings was null or undefined when calling updateBloggerByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (userId !== undefined && userId !== null) {
-            queryParameters = queryParameters.set('user_id', <any>userId);
+        if (user_id !== undefined && user_id !== null) {
+            queryParameters = queryParameters.set('user_id', <any>user_id);
         }
-        if (companyId !== undefined && companyId !== null) {
-            queryParameters = queryParameters.set('company_id', <any>companyId);
+        if (company_id !== undefined && company_id !== null) {
+            queryParameters = queryParameters.set('company_id', <any>company_id);
         }
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
@@ -377,8 +377,8 @@ export class BloggerControllerServiceService {
         if (tel1 !== undefined && tel1 !== null) {
             queryParameters = queryParameters.set('tel1', <any>tel1);
         }
-        if (companyBelongings !== undefined && companyBelongings !== null) {
-            queryParameters = queryParameters.set('companyBelongings', <any>companyBelongings);
+        if (company_belongings !== undefined && company_belongings !== null) {
+            queryParameters = queryParameters.set('companyBelongings', <any>company_belongings);
         }
 
         let headers = this.defaultHeaders;

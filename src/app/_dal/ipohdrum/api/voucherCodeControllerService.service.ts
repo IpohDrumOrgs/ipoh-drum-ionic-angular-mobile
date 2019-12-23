@@ -49,21 +49,21 @@ export class VoucherCodeControllerServiceService {
 
     /**
      * Creates a vouchercode.
-     * @param voucherId VoucherCode belongs to which Voucher
+     * @param voucher_id VoucherCode belongs to which Voucher
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createVoucherCode(voucherId: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createVoucherCode(voucherId: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createVoucherCode(voucherId: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createVoucherCode(voucherId: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (voucherId === null || voucherId === undefined) {
-            throw new Error('Required parameter voucherId was null or undefined when calling createVoucherCode.');
+    public createVoucherCode(voucher_id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createVoucherCode(voucher_id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createVoucherCode(voucher_id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createVoucherCode(voucher_id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (voucher_id === null || voucher_id === undefined) {
+            throw new Error('Required parameter voucher_id was null or undefined when calling createVoucherCode.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (voucherId !== undefined && voucherId !== null) {
-            queryParameters = queryParameters.set('voucher_id', <any>voucherId);
+        if (voucher_id !== undefined && voucher_id !== null) {
+            queryParameters = queryParameters.set('voucher_id', <any>voucher_id);
         }
 
         let headers = this.defaultHeaders;
@@ -127,8 +127,8 @@ export class VoucherCodeControllerServiceService {
     /**
      * Filter list of vouchercodes
      * Returns list of filtered vouchercodes
-     * @param pageNumber Page number
-     * @param pageSize Page size
+     * @param page_number Page number
+     * @param page_size Page size
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To string for filter
@@ -136,17 +136,17 @@ export class VoucherCodeControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterVoucherCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterVoucherCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterVoucherCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterVoucherCodeList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterVoucherCodeList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterVoucherCodeList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterVoucherCodeList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterVoucherCodeList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
         if (keyword !== undefined && keyword !== null) {
             queryParameters = queryParameters.set('keyword', <any>keyword);
@@ -221,22 +221,22 @@ export class VoucherCodeControllerServiceService {
     /**
      * Get list of vouchercodes
      * Returns list of vouchercodes
-     * @param pageNumber Page number.
-     * @param pageSize Page size.
+     * @param page_number Page number.
+     * @param page_size Page size.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getVoucherCodeList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getVoucherCodeList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getVoucherCodeList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getVoucherCodeList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getVoucherCodeList(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getVoucherCodeList(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getVoucherCodeList(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getVoucherCodeList(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;
@@ -264,7 +264,7 @@ export class VoucherCodeControllerServiceService {
     /**
      * Update vouchercode by Uid.
      * @param uid VoucherCode_ID, NOT \&#39;ID\&#39;.
-     * @param storeId VoucherCode belongs to which Store
+     * @param store_id VoucherCode belongs to which Store
      * @param name VoucherCode Name
      * @param unlimited Is This VoucherCode Unlimited?
      * @param discbyprice Is This VoucherCode Discount By Price?
@@ -280,15 +280,15 @@ export class VoucherCodeControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateVoucherCodeByUid(uid: string, storeId: number, name: string, unlimited: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, minpurchase?: number, minqty?: number, minvariety?: number, startdate?: string, enddate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateVoucherCodeByUid(uid: string, storeId: number, name: string, unlimited: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, minpurchase?: number, minqty?: number, minvariety?: number, startdate?: string, enddate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateVoucherCodeByUid(uid: string, storeId: number, name: string, unlimited: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, minpurchase?: number, minqty?: number, minvariety?: number, startdate?: string, enddate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateVoucherCodeByUid(uid: string, storeId: number, name: string, unlimited: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, minpurchase?: number, minqty?: number, minvariety?: number, startdate?: string, enddate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateVoucherCodeByUid(uid: string, store_id: number, name: string, unlimited: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, minpurchase?: number, minqty?: number, minvariety?: number, startdate?: string, enddate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateVoucherCodeByUid(uid: string, store_id: number, name: string, unlimited: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, minpurchase?: number, minqty?: number, minvariety?: number, startdate?: string, enddate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateVoucherCodeByUid(uid: string, store_id: number, name: string, unlimited: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, minpurchase?: number, minqty?: number, minvariety?: number, startdate?: string, enddate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateVoucherCodeByUid(uid: string, store_id: number, name: string, unlimited: number, discbyprice: number, desc?: string, qty?: number, disc?: number, discpctg?: number, minpurchase?: number, minqty?: number, minvariety?: number, startdate?: string, enddate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateVoucherCodeByUid.');
         }
-        if (storeId === null || storeId === undefined) {
-            throw new Error('Required parameter storeId was null or undefined when calling updateVoucherCodeByUid.');
+        if (store_id === null || store_id === undefined) {
+            throw new Error('Required parameter store_id was null or undefined when calling updateVoucherCodeByUid.');
         }
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling updateVoucherCodeByUid.');
@@ -301,8 +301,8 @@ export class VoucherCodeControllerServiceService {
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (storeId !== undefined && storeId !== null) {
-            queryParameters = queryParameters.set('store_id', <any>storeId);
+        if (store_id !== undefined && store_id !== null) {
+            queryParameters = queryParameters.set('store_id', <any>store_id);
         }
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);

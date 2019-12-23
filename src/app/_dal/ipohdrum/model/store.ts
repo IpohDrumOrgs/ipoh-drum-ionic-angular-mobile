@@ -14,9 +14,9 @@ import { Company } from './company';
 
 export interface Store { 
     id?: number;
-    companyId?: number;
+    company_id?: number;
     company?: Company;
-    userId?: number;
+    user_id?: number;
     uid?: string;
     name?: string;
     contact?: string;
@@ -32,8 +32,8 @@ export interface Store {
     city?: string;
     country?: string;
     status?: number;
-    companyBelongings?: number;
-    createdAt?: string;
-    updatedAt?: string;
+    company_belongings?: number;
+    created_at?: string;
+    updated_at?: string;
 }
 

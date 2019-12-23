@@ -131,8 +131,8 @@ export class CompanyTypeControllerServiceService {
     /**
      * Filter list of companytypes
      * Returns list of filtered companytypes
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To string for filter
@@ -140,17 +140,17 @@ export class CompanyTypeControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterCompanyTypes(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterCompanyTypes(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterCompanyTypes(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterCompanyTypes(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterCompanyTypes(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterCompanyTypes(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterCompanyTypes(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterCompanyTypes(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
         if (keyword !== undefined && keyword !== null) {
             queryParameters = queryParameters.set('keyword', <any>keyword);
@@ -225,22 +225,22 @@ export class CompanyTypeControllerServiceService {
     /**
      * Get list of companytypes
      * Returns list of companytypes
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCompanyTypes(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getCompanyTypes(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getCompanyTypes(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getCompanyTypes(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getCompanyTypes(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getCompanyTypes(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getCompanyTypes(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getCompanyTypes(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;

@@ -23,7 +23,8 @@
                                 (click)="showWhichPage(1)">
                         <ion-label [color]="inventoryInfoFormGroup.valid
                         && temporaryInventorySliders.length > 0
-                        && temporaryInventoryThumbnail ? 'success' : 'danger'">1</ion-label>
+                        && temporaryInventoryThumbnail ? 'success' : 'danger'">1
+                        </ion-label>
                         <ion-icon name="close" color="danger" style="font-size:10px;"
                                   *ngIf="inventoryInfoFormGroup.invalid
                         || temporaryInventorySliders.length <= 0
@@ -44,7 +45,8 @@
                 <ion-col size="4">
                     <ion-button fill="clear" style="width:100%;text-align:center;font-size:25px;"
                                 (click)="showWhichPage(3)">
-                        <ion-label [color]="inventoryFamilyAndOrPatternsToInsert.length <= 0 ? 'danger' : 'success'">3</ion-label>
+                        <ion-label [color]="inventoryFamilyAndOrPatternsToInsert.length <= 0 ? 'danger' : 'success'">3
+                        </ion-label>
                         <ion-icon name="close" color="danger" style="font-size:10px;"
                                   *ngIf="inventoryFamilyAndOrPatternsToInsert.length <= 0"></ion-icon>
                         <ion-icon name="checkmark" color="success" style="font-size:15px;"
@@ -276,10 +278,10 @@
                                                                 </b>
                                                             </ion-col>
                                                             <ion-col size="12">
-                        <textarea cols="20" rows="3" class="form-control"
-                                  [(ngModel)]="inventoryDescriptionModel"
-                                  formControlName="inventoryDescription"
-                                  [ngClass]="{'is-invalid': inventoryInfoFormGroup.get('inventoryDescription').invalid && inventoryInfoFormGroup.get('inventoryDescription').touched, 'is-valid': inventoryInfoFormGroup.get('inventoryDescription').valid}"></textarea>
+                                                                <textarea cols="20" rows="3" class="form-control"
+                                                                          [(ngModel)]="inventoryDescriptionModel"
+                                                                          formControlName="inventoryDescription"
+                                                                          [ngClass]="{'is-invalid': inventoryInfoFormGroup.get('inventoryDescription').invalid && inventoryInfoFormGroup.get('inventoryDescription').touched, 'is-valid': inventoryInfoFormGroup.get('inventoryDescription').valid}"></textarea>
                                                                 <ul class="error"
                                                                     *ngIf="inventoryInfoFormGroup.get('inventoryDescription').invalid && inventoryInfoFormGroup.get('inventoryDescription').touched">
                                                                     <li *ngIf="inventoryInfoFormGroup.get('inventoryDescription').hasError('required') && inventoryInfoFormGroup.get('inventoryDescription').touched">
@@ -558,7 +560,8 @@
                                             <th>
                                                 <ion-row class="ion-align-items-center">
                                                     <ion-col size="12" style="text-align:left;">
-                                                        <ion-button (click)="openAddInventoryFamilyAndPatternModal()" color="warning"
+                                                        <ion-button (click)="openAddInventoryFamilyAndPatternModal()"
+                                                                    color="warning"
                                                                     style="white-space:normal;word-wrap:break-word;text-align:center;">
                                                             ADD FAMILIES AND PATTERNS&nbsp;<ion-icon
                                                                 name="add-circle"></ion-icon>

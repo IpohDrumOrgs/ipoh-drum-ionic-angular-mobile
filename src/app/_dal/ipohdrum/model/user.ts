@@ -27,10 +27,10 @@ export interface User {
     country?: string;
     password?: string;
     status?: string;
-    lastLogin?: string;
-    lastActive?: string;
-    rememberToken?: string;
-    createdAt?: string;
-    updatedAt?: string;
+    last_login?: string;
+    last_active?: string;
+    remember_token?: string;
+    created_at?: string;
+    updated_at?: string;
 }
 

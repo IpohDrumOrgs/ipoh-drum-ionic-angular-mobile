@@ -156,11 +156,13 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
     }, 500);
   }
 
-  async openInventoryDetailsModal(selectedInventoryUid) {
+  async openEditInventoryDetailsModal(selectedInventoryUid) {
     const modal = await this.modalController.create({
       component: InventoryDetailsModalPage,
       componentProps: {
-        selectedInventoryUid
+        selectedInventoryUid,
+        selectedStoreUid: this.selectedStoreUid,
+        selectedStoreId: this.selectedStoreId
       }
     });
     return await modal.present();

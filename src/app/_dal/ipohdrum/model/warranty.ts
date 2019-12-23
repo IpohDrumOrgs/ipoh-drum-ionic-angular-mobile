@@ -13,14 +13,14 @@
 
 export interface Warranty { 
     id?: number;
-    storeId?: number;
+    store_id?: number;
     uid?: string;
     name?: string;
     desc?: string;
     period?: number;
     policy?: string;
     status?: number;
-    createdAt?: string;
-    updatedAt?: string;
+    created_at?: string;
+    updated_at?: string;
 }
 

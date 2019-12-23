@@ -63,13 +63,13 @@ export class ArticleControllerServiceService {
     /**
      * Creates a article.
      * @param name Article name
-     * @param storeId Store ID
+     * @param store_id Store ID
      * @param articlefamilies Article Families
      * @param cost Product Cost
      * @param price Product Base Price
-     * @param productPromotionId Promotion ID
-     * @param warrantyId Warranty ID
-     * @param shippingId Shipping ID
+     * @param product_promotion_id Promotion ID
+     * @param warranty_id Warranty ID
+     * @param shipping_id Shipping ID
      * @param code Code
      * @param sku Sku
      * @param desc Product Description
@@ -79,15 +79,15 @@ export class ArticleControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createArticle(name: string, storeId: number, articlefamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createArticle(name: string, storeId: number, articlefamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createArticle(name: string, storeId: number, articlefamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createArticle(name: string, storeId: number, articlefamilies: string, cost: number, price: number, productPromotionId?: number, warrantyId?: number, shippingId?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createArticle(name: string, store_id: number, articlefamilies: string, cost: number, price: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createArticle(name: string, store_id: number, articlefamilies: string, cost: number, price: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createArticle(name: string, store_id: number, articlefamilies: string, cost: number, price: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createArticle(name: string, store_id: number, articlefamilies: string, cost: number, price: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createArticle.');
         }
-        if (storeId === null || storeId === undefined) {
-            throw new Error('Required parameter storeId was null or undefined when calling createArticle.');
+        if (store_id === null || store_id === undefined) {
+            throw new Error('Required parameter store_id was null or undefined when calling createArticle.');
         }
         if (articlefamilies === null || articlefamilies === undefined) {
             throw new Error('Required parameter articlefamilies was null or undefined when calling createArticle.');
@@ -103,17 +103,17 @@ export class ArticleControllerServiceService {
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (storeId !== undefined && storeId !== null) {
-            queryParameters = queryParameters.set('store_id', <any>storeId);
+        if (store_id !== undefined && store_id !== null) {
+            queryParameters = queryParameters.set('store_id', <any>store_id);
         }
-        if (productPromotionId !== undefined && productPromotionId !== null) {
-            queryParameters = queryParameters.set('product_promotion_id', <any>productPromotionId);
+        if (product_promotion_id !== undefined && product_promotion_id !== null) {
+            queryParameters = queryParameters.set('product_promotion_id', <any>product_promotion_id);
         }
-        if (warrantyId !== undefined && warrantyId !== null) {
-            queryParameters = queryParameters.set('warranty_id', <any>warrantyId);
+        if (warranty_id !== undefined && warranty_id !== null) {
+            queryParameters = queryParameters.set('warranty_id', <any>warranty_id);
         }
-        if (shippingId !== undefined && shippingId !== null) {
-            queryParameters = queryParameters.set('shipping_id', <any>shippingId);
+        if (shipping_id !== undefined && shipping_id !== null) {
+            queryParameters = queryParameters.set('shipping_id', <any>shipping_id);
         }
         if (articlefamilies !== undefined && articlefamilies !== null) {
             queryParameters = queryParameters.set('articlefamilies', <any>articlefamilies);
@@ -238,8 +238,8 @@ export class ArticleControllerServiceService {
     /**
      * Filter list of articles
      * Returns list of filtered articles
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To date for filter
@@ -248,17 +248,17 @@ export class ArticleControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterArticles(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterArticles(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterArticles(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterArticles(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterArticles(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterArticles(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterArticles(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterArticles(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
         if (keyword !== undefined && keyword !== null) {
             queryParameters = queryParameters.set('keyword', <any>keyword);
@@ -336,22 +336,22 @@ export class ArticleControllerServiceService {
     /**
      * Get list of articles
      * Returns list of articles
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getArticles(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getArticles(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getArticles(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getArticles(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getArticles(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getArticles(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getArticles(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getArticles(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;
@@ -415,10 +415,10 @@ export class ArticleControllerServiceService {
      * Update article by Uid.
      * @param uid Article_ID, NOT \&#39;ID\&#39;.
      * @param name Articlename
-     * @param storeId Store ID
-     * @param productPromotionId Promotion ID
-     * @param warrantyId Warranty ID
-     * @param shippingId Shipping ID
+     * @param store_id Store ID
+     * @param product_promotion_id Promotion ID
+     * @param warranty_id Warranty ID
+     * @param shipping_id Shipping ID
      * @param cost Product Cost
      * @param price Product Selling Price
      * @param qty Stock Qty
@@ -432,27 +432,27 @@ export class ArticleControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateArticleByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, articlefamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateArticleByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, articlefamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateArticleByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, articlefamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateArticleByUid(uid: string, name: string, storeId: number, productPromotionId: number, warrantyId: number, shippingId: number, cost: number, price: number, qty: number, onsale: number, articlefamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateArticleByUid(uid: string, name: string, store_id: number, product_promotion_id: number, warranty_id: number, shipping_id: number, cost: number, price: number, qty: number, onsale: number, articlefamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateArticleByUid(uid: string, name: string, store_id: number, product_promotion_id: number, warranty_id: number, shipping_id: number, cost: number, price: number, qty: number, onsale: number, articlefamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateArticleByUid(uid: string, name: string, store_id: number, product_promotion_id: number, warranty_id: number, shipping_id: number, cost: number, price: number, qty: number, onsale: number, articlefamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateArticleByUid(uid: string, name: string, store_id: number, product_promotion_id: number, warranty_id: number, shipping_id: number, cost: number, price: number, qty: number, onsale: number, articlefamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateArticleByUid.');
         }
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling updateArticleByUid.');
         }
-        if (storeId === null || storeId === undefined) {
-            throw new Error('Required parameter storeId was null or undefined when calling updateArticleByUid.');
+        if (store_id === null || store_id === undefined) {
+            throw new Error('Required parameter store_id was null or undefined when calling updateArticleByUid.');
         }
-        if (productPromotionId === null || productPromotionId === undefined) {
-            throw new Error('Required parameter productPromotionId was null or undefined when calling updateArticleByUid.');
+        if (product_promotion_id === null || product_promotion_id === undefined) {
+            throw new Error('Required parameter product_promotion_id was null or undefined when calling updateArticleByUid.');
         }
-        if (warrantyId === null || warrantyId === undefined) {
-            throw new Error('Required parameter warrantyId was null or undefined when calling updateArticleByUid.');
+        if (warranty_id === null || warranty_id === undefined) {
+            throw new Error('Required parameter warranty_id was null or undefined when calling updateArticleByUid.');
         }
-        if (shippingId === null || shippingId === undefined) {
-            throw new Error('Required parameter shippingId was null or undefined when calling updateArticleByUid.');
+        if (shipping_id === null || shipping_id === undefined) {
+            throw new Error('Required parameter shipping_id was null or undefined when calling updateArticleByUid.');
         }
         if (cost === null || cost === undefined) {
             throw new Error('Required parameter cost was null or undefined when calling updateArticleByUid.');
@@ -471,17 +471,17 @@ export class ArticleControllerServiceService {
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (storeId !== undefined && storeId !== null) {
-            queryParameters = queryParameters.set('store_id', <any>storeId);
+        if (store_id !== undefined && store_id !== null) {
+            queryParameters = queryParameters.set('store_id', <any>store_id);
         }
-        if (productPromotionId !== undefined && productPromotionId !== null) {
-            queryParameters = queryParameters.set('product_promotion_id', <any>productPromotionId);
+        if (product_promotion_id !== undefined && product_promotion_id !== null) {
+            queryParameters = queryParameters.set('product_promotion_id', <any>product_promotion_id);
         }
-        if (warrantyId !== undefined && warrantyId !== null) {
-            queryParameters = queryParameters.set('warranty_id', <any>warrantyId);
+        if (warranty_id !== undefined && warranty_id !== null) {
+            queryParameters = queryParameters.set('warranty_id', <any>warranty_id);
         }
-        if (shippingId !== undefined && shippingId !== null) {
-            queryParameters = queryParameters.set('shipping_id', <any>shippingId);
+        if (shipping_id !== undefined && shipping_id !== null) {
+            queryParameters = queryParameters.set('shipping_id', <any>shipping_id);
         }
         if (articlefamilies !== undefined && articlefamilies !== null) {
             queryParameters = queryParameters.set('articlefamilies', <any>articlefamilies);

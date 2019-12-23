@@ -84,15 +84,15 @@ export class UserControllerServiceService {
      * @param name Username
      * @param email Email
      * @param password Password
-     * @param passwordConfirmation Password Confirmation
+     * @param password_confirmation Password Confirmation
      * @param country Country
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createUser(name: string, email: string, password: string, passwordConfirmation: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createUser(name: string, email: string, password: string, passwordConfirmation: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createUser(name: string, email: string, password: string, passwordConfirmation: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createUser(name: string, email: string, password: string, passwordConfirmation: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createUser(name: string, email: string, password: string, password_confirmation: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createUser(name: string, email: string, password: string, password_confirmation: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createUser(name: string, email: string, password: string, password_confirmation: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createUser(name: string, email: string, password: string, password_confirmation: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createUser.');
         }
@@ -102,8 +102,8 @@ export class UserControllerServiceService {
         if (password === null || password === undefined) {
             throw new Error('Required parameter password was null or undefined when calling createUser.');
         }
-        if (passwordConfirmation === null || passwordConfirmation === undefined) {
-            throw new Error('Required parameter passwordConfirmation was null or undefined when calling createUser.');
+        if (password_confirmation === null || password_confirmation === undefined) {
+            throw new Error('Required parameter password_confirmation was null or undefined when calling createUser.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -116,8 +116,8 @@ export class UserControllerServiceService {
         if (password !== undefined && password !== null) {
             queryParameters = queryParameters.set('password', <any>password);
         }
-        if (passwordConfirmation !== undefined && passwordConfirmation !== null) {
-            queryParameters = queryParameters.set('password_confirmation', <any>passwordConfirmation);
+        if (password_confirmation !== undefined && password_confirmation !== null) {
+            queryParameters = queryParameters.set('password_confirmation', <any>password_confirmation);
         }
         if (country !== undefined && country !== null) {
             queryParameters = queryParameters.set('country', <any>country);
@@ -151,14 +151,14 @@ export class UserControllerServiceService {
      * @param name Username.
      * @param email Email.
      * @param password Password.
-     * @param passwordConfirmation Confirm Password.
+     * @param password_confirmation Confirm Password.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createUserWithoutAuthorization(name: string, email: string, password: string, passwordConfirmation: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createUserWithoutAuthorization(name: string, email: string, password: string, password_confirmation: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createUserWithoutAuthorization(name: string, email: string, password: string, password_confirmation: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createUserWithoutAuthorization(name: string, email: string, password: string, password_confirmation: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createUserWithoutAuthorization(name: string, email: string, password: string, password_confirmation: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createUserWithoutAuthorization.');
         }
@@ -168,8 +168,8 @@ export class UserControllerServiceService {
         if (password === null || password === undefined) {
             throw new Error('Required parameter password was null or undefined when calling createUserWithoutAuthorization.');
         }
-        if (passwordConfirmation === null || passwordConfirmation === undefined) {
-            throw new Error('Required parameter passwordConfirmation was null or undefined when calling createUserWithoutAuthorization.');
+        if (password_confirmation === null || password_confirmation === undefined) {
+            throw new Error('Required parameter password_confirmation was null or undefined when calling createUserWithoutAuthorization.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -182,8 +182,8 @@ export class UserControllerServiceService {
         if (password !== undefined && password !== null) {
             queryParameters = queryParameters.set('password', <any>password);
         }
-        if (passwordConfirmation !== undefined && passwordConfirmation !== null) {
-            queryParameters = queryParameters.set('password_confirmation', <any>passwordConfirmation);
+        if (password_confirmation !== undefined && password_confirmation !== null) {
+            queryParameters = queryParameters.set('password_confirmation', <any>password_confirmation);
         }
 
         let headers = this.defaultHeaders;
@@ -247,27 +247,27 @@ export class UserControllerServiceService {
     /**
      * Filter list of users
      * Returns list of filtered users
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To string for filter
      * @param status status for filter
-     * @param companyId Company id for filter
+     * @param company_id Company id for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterUserList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, companyId?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterUserList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, companyId?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterUserList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, companyId?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterUserList(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, companyId?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterUserList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterUserList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterUserList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterUserList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
         if (keyword !== undefined && keyword !== null) {
             queryParameters = queryParameters.set('keyword', <any>keyword);
@@ -281,8 +281,8 @@ export class UserControllerServiceService {
         if (status !== undefined && status !== null) {
             queryParameters = queryParameters.set('status', <any>status);
         }
-        if (companyId !== undefined && companyId !== null) {
-            queryParameters = queryParameters.set('company_id', <any>companyId);
+        if (company_id !== undefined && company_id !== null) {
+            queryParameters = queryParameters.set('company_id', <any>company_id);
         }
 
         let headers = this.defaultHeaders;
@@ -345,22 +345,22 @@ export class UserControllerServiceService {
     /**
      * Get list of users
      * Returns list of users
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUserList(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getUserList(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getUserList(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getUserList(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getUserList(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getUserList(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getUserList(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getUserList(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;

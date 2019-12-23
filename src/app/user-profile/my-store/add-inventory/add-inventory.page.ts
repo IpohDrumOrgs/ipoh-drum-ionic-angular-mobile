@@ -44,7 +44,7 @@ export class AddInventoryPage implements OnInit, OnDestroy {
     // Number
     selectedStoreId: number;
     inventoryNameMinLength = 5;
-    inventoryNameMaxLength = 30;
+    inventoryNameMaxLength = 50;
     inventoryCodeMinLength = 2;
     inventoryCodeMaxLength = 50;
     inventorySKUMinLength = 2;

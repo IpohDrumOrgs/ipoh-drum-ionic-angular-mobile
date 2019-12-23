@@ -11,21 +11,20 @@
  */
 
 
-export interface InventoryFamily { 
+export interface ProductReview { 
     id?: number;
     inventory_id?: number;
+    ticket_id?: number;
+    user_id?: number;
     uid?: string;
-    code?: string;
-    sku?: string;
-    name?: string;
+    title?: string;
     desc?: string;
-    imgpublicid?: string;
     imgpath?: string;
-    cost?: number;
-    price?: number;
-    qty?: number;
-    salesqty?: number;
-    onsale?: number;
+    imgpublicid?: string;
+    type?: string;
+    rating?: number;
+    like?: number;
+    dislike?: number;
     status?: number;
     created_at?: string;
     updated_at?: string;

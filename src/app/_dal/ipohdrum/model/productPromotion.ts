@@ -14,7 +14,7 @@
 export interface ProductPromotion { 
     id?: number;
     uid?: string;
-    storeId?: number;
+    store_id?: number;
     name?: string;
     desc?: string;
     qty?: number;
@@ -24,7 +24,7 @@ export interface ProductPromotion {
     promostartdate?: string;
     promoenddate?: string;
     status?: number;
-    createdAt?: string;
-    updatedAt?: string;
+    created_at?: string;
+    updated_at?: string;
 }
 

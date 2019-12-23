@@ -63,8 +63,8 @@ export class ProductReviewControllerServiceService {
     /**
      * Creates a productreview.
      * @param title ProductReview title
-     * @param inventoryId Inventory ID
-     * @param ticketId Ticket ID
+     * @param inventory_id Inventory ID
+     * @param ticket_id Ticket ID
      * @param desc Review description
      * @param type Review type
      * @param rating Review rating
@@ -72,10 +72,10 @@ export class ProductReviewControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createProductReview(title: string, inventoryId?: number, ticketId?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createProductReview(title: string, inventoryId?: number, ticketId?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createProductReview(title: string, inventoryId?: number, ticketId?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createProductReview(title: string, inventoryId?: number, ticketId?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createProductReview(title: string, inventory_id?: number, ticket_id?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createProductReview(title: string, inventory_id?: number, ticket_id?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createProductReview(title: string, inventory_id?: number, ticket_id?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createProductReview(title: string, inventory_id?: number, ticket_id?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (title === null || title === undefined) {
             throw new Error('Required parameter title was null or undefined when calling createProductReview.');
         }
@@ -84,11 +84,11 @@ export class ProductReviewControllerServiceService {
         if (title !== undefined && title !== null) {
             queryParameters = queryParameters.set('title', <any>title);
         }
-        if (inventoryId !== undefined && inventoryId !== null) {
-            queryParameters = queryParameters.set('inventory_id', <any>inventoryId);
+        if (inventory_id !== undefined && inventory_id !== null) {
+            queryParameters = queryParameters.set('inventory_id', <any>inventory_id);
         }
-        if (ticketId !== undefined && ticketId !== null) {
-            queryParameters = queryParameters.set('ticket_id', <any>ticketId);
+        if (ticket_id !== undefined && ticket_id !== null) {
+            queryParameters = queryParameters.set('ticket_id', <any>ticket_id);
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
@@ -189,8 +189,8 @@ export class ProductReviewControllerServiceService {
     /**
      * Filter list of productreviews
      * Returns list of filtered productreviews
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To date for filter
@@ -198,17 +198,17 @@ export class ProductReviewControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterProductReviews(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterProductReviews(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterProductReviews(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterProductReviews(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterProductReviews(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterProductReviews(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterProductReviews(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterProductReviews(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
         if (keyword !== undefined && keyword !== null) {
             queryParameters = queryParameters.set('keyword', <any>keyword);
@@ -283,22 +283,22 @@ export class ProductReviewControllerServiceService {
     /**
      * Get list of productreviews
      * Returns list of productreviews
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getProductReviews(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getProductReviews(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getProductReviews(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getProductReviews(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getProductReviews(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getProductReviews(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getProductReviews(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getProductReviews(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;
@@ -327,8 +327,8 @@ export class ProductReviewControllerServiceService {
      * Update productreview by Uid.
      * @param uid ProductReview_ID, NOT \&#39;ID\&#39;.
      * @param title ProductReview title
-     * @param inventoryId Inventory ID
-     * @param ticketId Ticket ID
+     * @param inventory_id Inventory ID
+     * @param ticket_id Ticket ID
      * @param desc Review description
      * @param type Review type
      * @param rating Review rating
@@ -336,10 +336,10 @@ export class ProductReviewControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateProductReviewByUid(uid: string, title: string, inventoryId?: number, ticketId?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateProductReviewByUid(uid: string, title: string, inventoryId?: number, ticketId?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateProductReviewByUid(uid: string, title: string, inventoryId?: number, ticketId?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateProductReviewByUid(uid: string, title: string, inventoryId?: number, ticketId?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateProductReviewByUid(uid: string, title: string, inventory_id?: number, ticket_id?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateProductReviewByUid(uid: string, title: string, inventory_id?: number, ticket_id?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateProductReviewByUid(uid: string, title: string, inventory_id?: number, ticket_id?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateProductReviewByUid(uid: string, title: string, inventory_id?: number, ticket_id?: number, desc?: string, type?: string, rating?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateProductReviewByUid.');
         }
@@ -351,11 +351,11 @@ export class ProductReviewControllerServiceService {
         if (title !== undefined && title !== null) {
             queryParameters = queryParameters.set('title', <any>title);
         }
-        if (inventoryId !== undefined && inventoryId !== null) {
-            queryParameters = queryParameters.set('inventory_id', <any>inventoryId);
+        if (inventory_id !== undefined && inventory_id !== null) {
+            queryParameters = queryParameters.set('inventory_id', <any>inventory_id);
         }
-        if (ticketId !== undefined && ticketId !== null) {
-            queryParameters = queryParameters.set('ticket_id', <any>ticketId);
+        if (ticket_id !== undefined && ticket_id !== null) {
+            queryParameters = queryParameters.set('ticket_id', <any>ticket_id);
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);

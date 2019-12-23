@@ -11,21 +11,12 @@
  */
 
 
-export interface InventoryFamily { 
+export interface ProductCharacteristic { 
     id?: number;
-    inventory_id?: number;
     uid?: string;
-    code?: string;
-    sku?: string;
     name?: string;
+    icon?: string;
     desc?: string;
-    imgpublicid?: string;
-    imgpath?: string;
-    cost?: number;
-    price?: number;
-    qty?: number;
-    salesqty?: number;
-    onsale?: number;
     status?: number;
     created_at?: string;
     updated_at?: string;

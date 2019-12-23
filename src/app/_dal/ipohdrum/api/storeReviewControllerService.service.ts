@@ -63,17 +63,17 @@ export class StoreReviewControllerServiceService {
     /**
      * Creates a storereview.
      * @param title StoreReview title
-     * @param storeId Store ID
+     * @param store_id Store ID
      * @param desc Review description
      * @param rating Review rating
      * @param img Image
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createStoreReview(title: string, storeId?: number, desc?: string, rating?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createStoreReview(title: string, storeId?: number, desc?: string, rating?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createStoreReview(title: string, storeId?: number, desc?: string, rating?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createStoreReview(title: string, storeId?: number, desc?: string, rating?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createStoreReview(title: string, store_id?: number, desc?: string, rating?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createStoreReview(title: string, store_id?: number, desc?: string, rating?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createStoreReview(title: string, store_id?: number, desc?: string, rating?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createStoreReview(title: string, store_id?: number, desc?: string, rating?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (title === null || title === undefined) {
             throw new Error('Required parameter title was null or undefined when calling createStoreReview.');
         }
@@ -82,8 +82,8 @@ export class StoreReviewControllerServiceService {
         if (title !== undefined && title !== null) {
             queryParameters = queryParameters.set('title', <any>title);
         }
-        if (storeId !== undefined && storeId !== null) {
-            queryParameters = queryParameters.set('store_id', <any>storeId);
+        if (store_id !== undefined && store_id !== null) {
+            queryParameters = queryParameters.set('store_id', <any>store_id);
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
@@ -181,8 +181,8 @@ export class StoreReviewControllerServiceService {
     /**
      * Filter list of storereviews
      * Returns list of filtered storereviews
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To date for filter
@@ -190,17 +190,17 @@ export class StoreReviewControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterStoreReviews(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterStoreReviews(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterStoreReviews(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterStoreReviews(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterStoreReviews(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterStoreReviews(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterStoreReviews(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterStoreReviews(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
         if (keyword !== undefined && keyword !== null) {
             queryParameters = queryParameters.set('keyword', <any>keyword);
@@ -275,22 +275,22 @@ export class StoreReviewControllerServiceService {
     /**
      * Get list of storereviews
      * Returns list of storereviews
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getStoreReviews(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getStoreReviews(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getStoreReviews(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getStoreReviews(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getStoreReviews(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getStoreReviews(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getStoreReviews(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getStoreReviews(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;
@@ -319,17 +319,17 @@ export class StoreReviewControllerServiceService {
      * Update storereview by Uid.
      * @param uid StoreReview_ID, NOT \&#39;ID\&#39;.
      * @param title StoreReview title
-     * @param storeId Store ID
+     * @param store_id Store ID
      * @param desc Review description
      * @param rating Review rating
      * @param img Image
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateStoreReviewByUid(uid: string, title: string, storeId?: number, desc?: string, rating?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateStoreReviewByUid(uid: string, title: string, storeId?: number, desc?: string, rating?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateStoreReviewByUid(uid: string, title: string, storeId?: number, desc?: string, rating?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateStoreReviewByUid(uid: string, title: string, storeId?: number, desc?: string, rating?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateStoreReviewByUid(uid: string, title: string, store_id?: number, desc?: string, rating?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateStoreReviewByUid(uid: string, title: string, store_id?: number, desc?: string, rating?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateStoreReviewByUid(uid: string, title: string, store_id?: number, desc?: string, rating?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateStoreReviewByUid(uid: string, title: string, store_id?: number, desc?: string, rating?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateStoreReviewByUid.');
         }
@@ -341,8 +341,8 @@ export class StoreReviewControllerServiceService {
         if (title !== undefined && title !== null) {
             queryParameters = queryParameters.set('title', <any>title);
         }
-        if (storeId !== undefined && storeId !== null) {
-            queryParameters = queryParameters.set('store_id', <any>storeId);
+        if (store_id !== undefined && store_id !== null) {
+            queryParameters = queryParameters.set('store_id', <any>store_id);
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);

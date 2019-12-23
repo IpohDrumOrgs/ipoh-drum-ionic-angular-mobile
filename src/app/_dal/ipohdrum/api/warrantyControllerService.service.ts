@@ -52,15 +52,15 @@ export class WarrantyControllerServiceService {
      * @param name Warrantyname
      * @param period Warranty Period
      * @param policy Warranty Policy
-     * @param storeId Store ID
+     * @param store_id Store ID
      * @param desc Warranty description
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createWarranty(name: string, period: number, policy: string, storeId?: number, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createWarranty(name: string, period: number, policy: string, storeId?: number, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createWarranty(name: string, period: number, policy: string, storeId?: number, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createWarranty(name: string, period: number, policy: string, storeId?: number, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createWarranty(name: string, period: number, policy: string, store_id?: number, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createWarranty(name: string, period: number, policy: string, store_id?: number, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createWarranty(name: string, period: number, policy: string, store_id?: number, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createWarranty(name: string, period: number, policy: string, store_id?: number, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createWarranty.');
         }
@@ -75,8 +75,8 @@ export class WarrantyControllerServiceService {
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (storeId !== undefined && storeId !== null) {
-            queryParameters = queryParameters.set('store_id', <any>storeId);
+        if (store_id !== undefined && store_id !== null) {
+            queryParameters = queryParameters.set('store_id', <any>store_id);
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
@@ -149,8 +149,8 @@ export class WarrantyControllerServiceService {
     /**
      * Filter list of warranties
      * Returns list of filtered warranties
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To date for filter
@@ -158,17 +158,17 @@ export class WarrantyControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterWarranties(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterWarranties(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterWarranties(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterWarranties(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterWarranties(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterWarranties(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterWarranties(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterWarranties(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
         if (keyword !== undefined && keyword !== null) {
             queryParameters = queryParameters.set('keyword', <any>keyword);
@@ -208,22 +208,22 @@ export class WarrantyControllerServiceService {
     /**
      * Get list of warranties
      * Returns list of warranties
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getWarranties(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getWarranties(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getWarranties(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getWarranties(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getWarranties(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getWarranties(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getWarranties(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getWarranties(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;
@@ -289,15 +289,15 @@ export class WarrantyControllerServiceService {
      * @param name Warrantyname
      * @param period Warranty Period
      * @param policy Warranty Policy
-     * @param storeId Store ID
+     * @param store_id Store ID
      * @param desc Warranty description
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, storeId?: number, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, storeId?: number, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, storeId?: number, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, storeId?: number, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, store_id?: number, desc?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, store_id?: number, desc?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, store_id?: number, desc?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, store_id?: number, desc?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateWarrantyByUid.');
         }
@@ -315,8 +315,8 @@ export class WarrantyControllerServiceService {
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (storeId !== undefined && storeId !== null) {
-            queryParameters = queryParameters.set('store_id', <any>storeId);
+        if (store_id !== undefined && store_id !== null) {
+            queryParameters = queryParameters.set('store_id', <any>store_id);
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);

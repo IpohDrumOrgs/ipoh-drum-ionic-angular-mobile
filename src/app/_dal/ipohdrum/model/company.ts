@@ -13,7 +13,7 @@
 
 export interface Company { 
     id?: number;
-    companyTypeId?: number;
+    company_type_id?: number;
     uid?: string;
     name?: string;
     img?: string;
@@ -31,7 +31,7 @@ export interface Company {
     state?: string;
     country?: string;
     status?: number;
-    createdAt?: string;
-    updatedAt?: string;
+    created_at?: string;
+    updated_at?: string;
 }
 

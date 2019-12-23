@@ -13,7 +13,7 @@
 
 export interface Shipping { 
     id?: number;
-    storeId?: number;
+    store_id?: number;
     uid?: string;
     name?: string;
     desc?: string;
@@ -21,7 +21,7 @@ export interface Shipping {
     maxweight?: number;
     maxdimension?: number;
     status?: number;
-    createdAt?: string;
-    updatedAt?: string;
+    created_at?: string;
+    updated_at?: string;
 }
 

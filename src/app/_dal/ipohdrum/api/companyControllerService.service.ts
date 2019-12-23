@@ -50,7 +50,7 @@ export class CompanyControllerServiceService {
     /**
      * Creates a company.
      * @param name Companyname
-     * @param companyTypeId Company Type ID
+     * @param company_type_id Company Type ID
      * @param regno Registration No
      * @param email1 Email 1
      * @param email2 Email 2
@@ -67,15 +67,15 @@ export class CompanyControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createCompany(name: string, companyTypeId: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createCompany(name: string, companyTypeId: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createCompany(name: string, companyTypeId: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createCompany(name: string, companyTypeId: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createCompany(name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createCompany(name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createCompany(name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createCompany(name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createCompany.');
         }
-        if (companyTypeId === null || companyTypeId === undefined) {
-            throw new Error('Required parameter companyTypeId was null or undefined when calling createCompany.');
+        if (company_type_id === null || company_type_id === undefined) {
+            throw new Error('Required parameter company_type_id was null or undefined when calling createCompany.');
         }
         if (regno === null || regno === undefined) {
             throw new Error('Required parameter regno was null or undefined when calling createCompany.');
@@ -85,8 +85,8 @@ export class CompanyControllerServiceService {
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (companyTypeId !== undefined && companyTypeId !== null) {
-            queryParameters = queryParameters.set('company_type_id', <any>companyTypeId);
+        if (company_type_id !== undefined && company_type_id !== null) {
+            queryParameters = queryParameters.set('company_type_id', <any>company_type_id);
         }
         if (email1 !== undefined && email1 !== null) {
             queryParameters = queryParameters.set('email1', <any>email1);
@@ -189,8 +189,8 @@ export class CompanyControllerServiceService {
     /**
      * Filter list of companies
      * Returns list of filtered companies
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To string for filter
@@ -198,17 +198,17 @@ export class CompanyControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterCompanies(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterCompanies(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterCompanies(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterCompanies(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterCompanies(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterCompanies(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterCompanies(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterCompanies(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
         if (keyword !== undefined && keyword !== null) {
             queryParameters = queryParameters.set('keyword', <any>keyword);
@@ -248,22 +248,22 @@ export class CompanyControllerServiceService {
     /**
      * Get list of companies
      * Returns list of companies
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCompanies(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getCompanies(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getCompanies(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getCompanies(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getCompanies(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getCompanies(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getCompanies(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getCompanies(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;
@@ -327,7 +327,7 @@ export class CompanyControllerServiceService {
      * Update company by Uid.
      * @param uid Company_ID, NOT \&#39;ID\&#39;.
      * @param name Companyname
-     * @param companyTypeId Company Type ID
+     * @param company_type_id Company Type ID
      * @param regno Registration No
      * @param email1 Email 1
      * @param email2 Email 2
@@ -344,18 +344,18 @@ export class CompanyControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateCompanyByUid(uid: string, name: string, companyTypeId: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateCompanyByUid(uid: string, name: string, companyTypeId: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateCompanyByUid(uid: string, name: string, companyTypeId: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateCompanyByUid(uid: string, name: string, companyTypeId: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateCompanyByUid(uid: string, name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateCompanyByUid(uid: string, name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateCompanyByUid(uid: string, name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateCompanyByUid(uid: string, name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateCompanyByUid.');
         }
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling updateCompanyByUid.');
         }
-        if (companyTypeId === null || companyTypeId === undefined) {
-            throw new Error('Required parameter companyTypeId was null or undefined when calling updateCompanyByUid.');
+        if (company_type_id === null || company_type_id === undefined) {
+            throw new Error('Required parameter company_type_id was null or undefined when calling updateCompanyByUid.');
         }
         if (regno === null || regno === undefined) {
             throw new Error('Required parameter regno was null or undefined when calling updateCompanyByUid.');
@@ -365,8 +365,8 @@ export class CompanyControllerServiceService {
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (companyTypeId !== undefined && companyTypeId !== null) {
-            queryParameters = queryParameters.set('company_type_id', <any>companyTypeId);
+        if (company_type_id !== undefined && company_type_id !== null) {
+            queryParameters = queryParameters.set('company_type_id', <any>company_type_id);
         }
         if (email1 !== undefined && email1 !== null) {
             queryParameters = queryParameters.set('email1', <any>email1);

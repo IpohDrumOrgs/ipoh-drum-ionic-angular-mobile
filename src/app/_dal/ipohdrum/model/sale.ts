@@ -13,8 +13,8 @@
 
 export interface Sale { 
     id?: number;
-    accountId?: number;
-    userId?: number;
+    account_id?: number;
+    user_id?: number;
     uid?: string;
     sono?: string;
     totalqty?: number;
@@ -27,12 +27,12 @@ export interface Sale {
     payment?: number;
     outstanding?: number;
     status?: string;
-    lasteditBy?: string;
+    lastedit_by?: string;
     remark?: string;
     docdate?: string;
     pos?: number;
-    rememberToken?: string;
-    createdAt?: string;
-    updatedAt?: string;
+    remember_token?: string;
+    created_at?: string;
+    updated_at?: string;
 }
 

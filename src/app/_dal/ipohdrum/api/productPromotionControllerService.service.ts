@@ -51,7 +51,7 @@ export class ProductPromotionControllerServiceService {
      * Creates a productpromotion.
      * @param name ProductPromotionname
      * @param discbyprice Promotion discount by price
-     * @param storeId Store ID
+     * @param store_id Store ID
      * @param desc Promotion description
      * @param qty Limited Qty
      * @param disc Promotion Discount
@@ -61,10 +61,10 @@ export class ProductPromotionControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createProductPromotion(name: string, discbyprice: number, storeId?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createProductPromotion(name: string, discbyprice: number, storeId?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createProductPromotion(name: string, discbyprice: number, storeId?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createProductPromotion(name: string, discbyprice: number, storeId?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createProductPromotion(name: string, discbyprice: number, store_id?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createProductPromotion(name: string, discbyprice: number, store_id?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createProductPromotion(name: string, discbyprice: number, store_id?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createProductPromotion(name: string, discbyprice: number, store_id?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createProductPromotion.');
         }
@@ -73,8 +73,8 @@ export class ProductPromotionControllerServiceService {
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (storeId !== undefined && storeId !== null) {
-            queryParameters = queryParameters.set('store_id', <any>storeId);
+        if (store_id !== undefined && store_id !== null) {
+            queryParameters = queryParameters.set('store_id', <any>store_id);
         }
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
@@ -162,8 +162,8 @@ export class ProductPromotionControllerServiceService {
     /**
      * Filter list of productpromotions
      * Returns list of filtered productpromotions
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To date for filter
@@ -171,17 +171,17 @@ export class ProductPromotionControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterProductPromotions(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterProductPromotions(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterProductPromotions(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterProductPromotions(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterProductPromotions(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterProductPromotions(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterProductPromotions(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterProductPromotions(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
         if (keyword !== undefined && keyword !== null) {
             queryParameters = queryParameters.set('keyword', <any>keyword);
@@ -256,22 +256,22 @@ export class ProductPromotionControllerServiceService {
     /**
      * Get list of productpromotions
      * Returns list of productpromotions
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getProductPromotions(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getProductPromotions(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getProductPromotions(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getProductPromotions(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getProductPromotions(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getProductPromotions(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getProductPromotions(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getProductPromotions(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;
@@ -301,7 +301,7 @@ export class ProductPromotionControllerServiceService {
      * @param uid ProductPromotion_ID, NOT \&#39;ID\&#39;.
      * @param name ProductPromotionname
      * @param discbyprice Promotion discount by price
-     * @param storeId Store ID
+     * @param store_id Store ID
      * @param desc Promotion description
      * @param qty Limited Qty
      * @param disc Promotion Discount
@@ -311,10 +311,10 @@ export class ProductPromotionControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateProductPromotionByUid(uid: string, name: string, discbyprice: number, storeId?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateProductPromotionByUid(uid: string, name: string, discbyprice: number, storeId?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateProductPromotionByUid(uid: string, name: string, discbyprice: number, storeId?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateProductPromotionByUid(uid: string, name: string, discbyprice: number, storeId?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateProductPromotionByUid(uid: string, name: string, discbyprice: number, store_id?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateProductPromotionByUid(uid: string, name: string, discbyprice: number, store_id?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateProductPromotionByUid(uid: string, name: string, discbyprice: number, store_id?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateProductPromotionByUid(uid: string, name: string, discbyprice: number, store_id?: number, desc?: string, qty?: number, disc?: number, discpctg?: number, promostartdate?: string, promoenddate?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateProductPromotionByUid.');
         }
@@ -329,8 +329,8 @@ export class ProductPromotionControllerServiceService {
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (storeId !== undefined && storeId !== null) {
-            queryParameters = queryParameters.set('store_id', <any>storeId);
+        if (store_id !== undefined && store_id !== null) {
+            queryParameters = queryParameters.set('store_id', <any>store_id);
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);

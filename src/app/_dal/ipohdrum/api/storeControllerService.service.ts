@@ -63,9 +63,9 @@ export class StoreControllerServiceService {
     /**
      * Creates a store.
      * @param name Storename
-     * @param companyBelongings Store belongs to Company
-     * @param companyId Company ID
-     * @param userId User ID
+     * @param company_belongings Store belongs to Company
+     * @param company_id Company ID
+     * @param user_id User ID
      * @param contact Contact
      * @param desc Description
      * @param email Email
@@ -78,29 +78,29 @@ export class StoreControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createStore(name: string, companyBelongings: number, companyId?: number, userId?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createStore(name: string, companyBelongings: number, companyId?: number, userId?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createStore(name: string, companyBelongings: number, companyId?: number, userId?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createStore(name: string, companyBelongings: number, companyId?: number, userId?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createStore(name: string, company_belongings: number, company_id?: number, user_id?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createStore(name: string, company_belongings: number, company_id?: number, user_id?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createStore(name: string, company_belongings: number, company_id?: number, user_id?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createStore(name: string, company_belongings: number, company_id?: number, user_id?: number, contact?: string, desc?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createStore.');
         }
-        if (companyBelongings === null || companyBelongings === undefined) {
-            throw new Error('Required parameter companyBelongings was null or undefined when calling createStore.');
+        if (company_belongings === null || company_belongings === undefined) {
+            throw new Error('Required parameter company_belongings was null or undefined when calling createStore.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (companyId !== undefined && companyId !== null) {
-            queryParameters = queryParameters.set('company_id', <any>companyId);
+        if (company_id !== undefined && company_id !== null) {
+            queryParameters = queryParameters.set('company_id', <any>company_id);
         }
-        if (userId !== undefined && userId !== null) {
-            queryParameters = queryParameters.set('user_id', <any>userId);
+        if (user_id !== undefined && user_id !== null) {
+            queryParameters = queryParameters.set('user_id', <any>user_id);
         }
-        if (companyBelongings !== undefined && companyBelongings !== null) {
-            queryParameters = queryParameters.set('companyBelongings', <any>companyBelongings);
+        if (company_belongings !== undefined && company_belongings !== null) {
+            queryParameters = queryParameters.set('companyBelongings', <any>company_belongings);
         }
         if (contact !== undefined && contact !== null) {
             queryParameters = queryParameters.set('contact', <any>contact);
@@ -216,8 +216,8 @@ export class StoreControllerServiceService {
     /**
      * Filter list of stores
      * Returns list of filtered stores
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
      * @param todate To date for filter
@@ -225,17 +225,17 @@ export class StoreControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterStores(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterStores(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterStores(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterStores(pageNumber?: number, pageSize?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterStores(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterStores(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterStores(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterStores(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
         if (keyword !== undefined && keyword !== null) {
             queryParameters = queryParameters.set('keyword', <any>keyword);
@@ -275,25 +275,25 @@ export class StoreControllerServiceService {
     /**
      * Retrieves store inventories by Uid.
      * @param uid Store ID, NOT \&#39;ID\&#39;.
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getInventoriesByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getInventoriesByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getInventoriesByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getInventoriesByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getInventoriesByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getInventoriesByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getInventoriesByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getInventoriesByStoreUid(uid: string, page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling getInventoriesByStoreUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;
@@ -321,25 +321,25 @@ export class StoreControllerServiceService {
     /**
      * Retrieves store promotion plans by Uid.
      * @param uid Store ID, NOT \&#39;ID\&#39;.
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPromotionsByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getPromotionsByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getPromotionsByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getPromotionsByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getPromotionsByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getPromotionsByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getPromotionsByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getPromotionsByStoreUid(uid: string, page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling getPromotionsByStoreUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;
@@ -367,25 +367,25 @@ export class StoreControllerServiceService {
     /**
      * Retrieves store shippings by Uid.
      * @param uid Store ID, NOT \&#39;ID\&#39;.
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getShippingsByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getShippingsByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getShippingsByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getShippingsByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getShippingsByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getShippingsByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getShippingsByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getShippingsByStoreUid(uid: string, page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling getShippingsByStoreUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;
@@ -448,22 +448,22 @@ export class StoreControllerServiceService {
     /**
      * Get list of stores
      * Returns list of stores
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getStores(pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getStores(pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getStores(pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getStores(pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getStores(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getStores(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getStores(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getStores(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;
@@ -491,25 +491,25 @@ export class StoreControllerServiceService {
     /**
      * Retrieves store vouchers by Uid.
      * @param uid Store ID, NOT \&#39;ID\&#39;.
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getVouchersByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getVouchersByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getVouchersByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getVouchersByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getVouchersByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getVouchersByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getVouchersByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getVouchersByStoreUid(uid: string, page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling getVouchersByStoreUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;
@@ -537,25 +537,25 @@ export class StoreControllerServiceService {
     /**
      * Retrieves store warranties by Uid.
      * @param uid Store ID, NOT \&#39;ID\&#39;.
-     * @param pageNumber Page number
-     * @param pageSize number of pageSize
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getWarrantiesByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getWarrantiesByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getWarrantiesByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getWarrantiesByStoreUid(uid: string, pageNumber?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getWarrantiesByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getWarrantiesByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getWarrantiesByStoreUid(uid: string, page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getWarrantiesByStoreUid(uid: string, page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling getWarrantiesByStoreUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (pageNumber !== undefined && pageNumber !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>pageNumber);
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
         }
-        if (pageSize !== undefined && pageSize !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>pageSize);
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
         }
 
         let headers = this.defaultHeaders;
@@ -584,9 +584,9 @@ export class StoreControllerServiceService {
      * Update store by Uid.
      * @param uid Store_ID, NOT \&#39;ID\&#39;.
      * @param name Storename
-     * @param companyBelongings Store belongs to Company
-     * @param companyId Company ID
-     * @param userId User ID
+     * @param company_belongings Store belongs to Company
+     * @param company_id Company ID
+     * @param user_id User ID
      * @param desc Description
      * @param contact Contact
      * @param email Email
@@ -595,37 +595,37 @@ export class StoreControllerServiceService {
      * @param state State
      * @param city City
      * @param country Country
-     * @param method For spoofing purposes.
+     * @param _method For spoofing purposes.
      * @param img Image
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, method?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, method?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, method?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateStoreByUid(uid: string, name: string, companyBelongings: number, companyId?: number, userId?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, method?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateStoreByUid(uid: string, name: string, company_belongings: number, company_id?: number, user_id?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, _method?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateStoreByUid(uid: string, name: string, company_belongings: number, company_id?: number, user_id?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, _method?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateStoreByUid(uid: string, name: string, company_belongings: number, company_id?: number, user_id?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, _method?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateStoreByUid(uid: string, name: string, company_belongings: number, company_id?: number, user_id?: number, desc?: string, contact?: string, email?: string, address?: string, postcode?: string, state?: string, city?: string, country?: string, _method?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateStoreByUid.');
         }
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling updateStoreByUid.');
         }
-        if (companyBelongings === null || companyBelongings === undefined) {
-            throw new Error('Required parameter companyBelongings was null or undefined when calling updateStoreByUid.');
+        if (company_belongings === null || company_belongings === undefined) {
+            throw new Error('Required parameter company_belongings was null or undefined when calling updateStoreByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (name !== undefined && name !== null) {
             queryParameters = queryParameters.set('name', <any>name);
         }
-        if (companyId !== undefined && companyId !== null) {
-            queryParameters = queryParameters.set('company_id', <any>companyId);
+        if (company_id !== undefined && company_id !== null) {
+            queryParameters = queryParameters.set('company_id', <any>company_id);
         }
-        if (userId !== undefined && userId !== null) {
-            queryParameters = queryParameters.set('user_id', <any>userId);
+        if (user_id !== undefined && user_id !== null) {
+            queryParameters = queryParameters.set('user_id', <any>user_id);
         }
-        if (companyBelongings !== undefined && companyBelongings !== null) {
-            queryParameters = queryParameters.set('companyBelongings', <any>companyBelongings);
+        if (company_belongings !== undefined && company_belongings !== null) {
+            queryParameters = queryParameters.set('companyBelongings', <any>company_belongings);
         }
         if (desc !== undefined && desc !== null) {
             queryParameters = queryParameters.set('desc', <any>desc);
@@ -651,8 +651,8 @@ export class StoreControllerServiceService {
         if (country !== undefined && country !== null) {
             queryParameters = queryParameters.set('country', <any>country);
         }
-        if (method !== undefined && method !== null) {
-            queryParameters = queryParameters.set('_method', <any>method);
+        if (_method !== undefined && _method !== null) {
+            queryParameters = queryParameters.set('_method', <any>_method);
         }
 
         let headers = this.defaultHeaders;
