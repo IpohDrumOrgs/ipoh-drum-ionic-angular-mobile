@@ -416,26 +416,27 @@ export class InventoryControllerServiceService {
      * @param uid Inventory_ID, NOT \&#39;ID\&#39;.
      * @param name Inventoryname
      * @param store_id Store ID
-     * @param product_promotion_id Promotion ID
-     * @param warranty_id Warranty ID
-     * @param shipping_id Shipping ID
+     * @param inventoryfamilies Inventory Families
      * @param cost Product Cost
      * @param price Product Selling Price
      * @param qty Stock Qty
      * @param onsale On Sale
-     * @param inventoryfamilies Inventory Families
+     * @param product_promotion_id Promotion ID
+     * @param warranty_id Warranty ID
+     * @param shipping_id Shipping ID
      * @param code Code
      * @param sku Sku
      * @param desc Product Description
      * @param stockthreshold Stock Threshold
+     * @param _method For spoofing purposes.
      * @param img Image
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateInventoryByUid(uid: string, name: string, store_id: number, product_promotion_id: number, warranty_id: number, shipping_id: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateInventoryByUid(uid: string, name: string, store_id: number, product_promotion_id: number, warranty_id: number, shipping_id: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateInventoryByUid(uid: string, name: string, store_id: number, product_promotion_id: number, warranty_id: number, shipping_id: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateInventoryByUid(uid: string, name: string, store_id: number, product_promotion_id: number, warranty_id: number, shipping_id: number, cost: number, price: number, qty: number, onsale: number, inventoryfamilies?: string, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateInventoryByUid(uid: string, name: string, store_id: number, inventoryfamilies: string, cost: number, price: number, qty: number, onsale: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, _method?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateInventoryByUid(uid: string, name: string, store_id: number, inventoryfamilies: string, cost: number, price: number, qty: number, onsale: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, _method?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateInventoryByUid(uid: string, name: string, store_id: number, inventoryfamilies: string, cost: number, price: number, qty: number, onsale: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, _method?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateInventoryByUid(uid: string, name: string, store_id: number, inventoryfamilies: string, cost: number, price: number, qty: number, onsale: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, _method?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateInventoryByUid.');
         }
@@ -445,14 +446,8 @@ export class InventoryControllerServiceService {
         if (store_id === null || store_id === undefined) {
             throw new Error('Required parameter store_id was null or undefined when calling updateInventoryByUid.');
         }
-        if (product_promotion_id === null || product_promotion_id === undefined) {
-            throw new Error('Required parameter product_promotion_id was null or undefined when calling updateInventoryByUid.');
-        }
-        if (warranty_id === null || warranty_id === undefined) {
-            throw new Error('Required parameter warranty_id was null or undefined when calling updateInventoryByUid.');
-        }
-        if (shipping_id === null || shipping_id === undefined) {
-            throw new Error('Required parameter shipping_id was null or undefined when calling updateInventoryByUid.');
+        if (inventoryfamilies === null || inventoryfamilies === undefined) {
+            throw new Error('Required parameter inventoryfamilies was null or undefined when calling updateInventoryByUid.');
         }
         if (cost === null || cost === undefined) {
             throw new Error('Required parameter cost was null or undefined when calling updateInventoryByUid.');
@@ -510,6 +505,9 @@ export class InventoryControllerServiceService {
         if (onsale !== undefined && onsale !== null) {
             queryParameters = queryParameters.set('onsale', <any>onsale);
         }
+        if (_method !== undefined && _method !== null) {
+            queryParameters = queryParameters.set('_method', <any>_method);
+        }
 
         let headers = this.defaultHeaders;
 
@@ -550,7 +548,7 @@ export class InventoryControllerServiceService {
             }
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/api/inventory/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/inventory/${encodeURIComponent(String(uid))}`,
             convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,

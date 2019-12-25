@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {
   Inventory,
   InventoryControllerServiceService,
@@ -69,11 +69,17 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
   selectedProductPromotionPlan: ProductPromotion;
   selectedWarrantyPlan: Warranty;
   selectedShippingPlan: Shipping;
+  temporaryInventoryThumbnail: Blob;
 
   // Arrays
   listOfStorePromotions: ProductPromotion [] = [];
   listOfStoreWarranties: Warranty[] = [];
   listOfStoreShippings: Shipping[] = [];
+  inventoryThumbnailAsArray: Array<Blob> = [];
+
+  // ViewChild
+  @ViewChild('inventoryThumbnailContainer', {static: false}) inventoryThumbnailContainer: ElementRef;
+  @ViewChild('inventorySlidersContainer', {static: false}) inventorySlidersContainer: ElementRef;
 
   // FormGroups
   inventoryInfoFormGroup: FormGroup;
@@ -329,24 +335,26 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
         // && this.temporaryInventoryThumbnail !== null
         && this.selectedInventory.inventoryfamilies.length > 0) {
       console.log('update inventory');
+      console.log(this.selectedInventory);
       this.loadingService.present();
       this.updateInventorySubscription = this.inventoryControllerService.updateInventoryByUid(
           this.selectedInventoryUid,
           this.selectedInventory.name,
           this.selectedStoreId,
-          this.selectedProductPromotionPlan.id,
-          this.selectedWarrantyPlan.id,
-          this.selectedShippingPlan.id,
+          JSON.stringify(this.selectedInventory.inventoryfamilies),
           this.selectedInventory.cost,
           this.selectedInventory.price,
           this.selectedInventory.qty,
           this.selectedInventory.onsale,
-          JSON.stringify(this.selectedInventory.inventoryfamilies),
+          this.selectedProductPromotionPlan.id,
+          this.selectedWarrantyPlan.id,
+          this.selectedShippingPlan.id,
           this.selectedInventory.code,
           this.selectedInventory.sku,
           this.selectedInventory.desc,
           this.selectedInventory.stockthreshold,
-          null
+          'PUT',
+          this.temporaryInventoryThumbnail ? this.inventoryThumbnailAsArray : null
       ).subscribe(resp => {
         console.log(resp);
         if (resp.code === 200) {
@@ -361,6 +369,37 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
         this.loadingService.dismiss();
         this.globalFunctionService.simpleToast('ERROR', 'Unable to update Inventory Info, please try again later!', 'danger');
       });
+    }
+  }
+
+  openThumbnailFilePicker() {
+    this.inventoryThumbnailContainer.nativeElement.click();
+  }
+
+  uploadInventoryThumbnail(event) {
+    const files = event.target.files;
+    if (files.length > 0) {
+      if (files[0].type.toString().includes('image')) {
+        // Actual Blob File
+        this.inventoryThumbnailAsArray[0] = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          // Some URL for displaying purpose only
+          this.temporaryInventoryThumbnail = e.target.result;
+        };
+        reader.readAsDataURL(files[0]);
+      }
+    }
+  }
+
+  revertUploadedInventoryThumbnail() {
+    if (this.temporaryInventoryThumbnail) {
+      this.loadingService.present();
+      setTimeout(() => {
+        this.inventoryThumbnailAsArray[0] = null;
+        this.temporaryInventoryThumbnail = null;
+        this.loadingService.dismiss();
+      }, 500);
     }
   }
 }
