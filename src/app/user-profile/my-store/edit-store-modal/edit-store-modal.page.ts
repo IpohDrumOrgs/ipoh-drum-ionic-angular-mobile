@@ -129,7 +129,7 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
           this.companyBelongingsFlag = resp.data.companyBelongings === 1;
         } else {
           this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store\'s info, please try again later!', 'warning', 'top');
-          this.closeEditStoreModal();
+          this.closeEditStoreModal(false);
         }
         this.isLoadingStoreInfo = false;
         this.loadingService.dismiss();
@@ -139,7 +139,7 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store\'s info, please try again later!', 'warning', 'top');
         this.isLoadingStoreInfo = false;
         this.loadingService.dismiss();
-        this.closeEditStoreModal();
+        this.closeEditStoreModal(false);
       });
     });
   }
@@ -169,8 +169,8 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
     });
   }
 
-  async closeEditStoreModal() {
-    await this.modalController.dismiss();
+  async closeEditStoreModal(returnFromEditingStore: boolean) {
+    await this.modalController.dismiss(returnFromEditingStore);
   }
 
   openStoreImageFilePicker() {
@@ -215,7 +215,7 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
       this.loadingService.dismiss();
       if (resp.code === 200) {
         this.globalFunctionService.simpleToast('SUCCESS', 'Store has been updated.', 'success', 'top');
-        this.closeEditStoreModal();
+        this.closeEditStoreModal(true);
       } else {
         this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Store, please try again later!', 'danger', 'top');
       }

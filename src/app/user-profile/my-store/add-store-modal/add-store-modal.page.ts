@@ -159,8 +159,8 @@ export class AddStoreModalPage implements OnInit, OnDestroy {
     });
   }
 
-  closeCreateStoreModal(returnFromCreatingStore: boolean) {
-    this.modalController.dismiss(returnFromCreatingStore);
+  async closeCreateStoreModal(returnFromCreatingStore: boolean) {
+    await this.modalController.dismiss(returnFromCreatingStore);
   }
 
   toggleBelongsToCompanyFlag() {

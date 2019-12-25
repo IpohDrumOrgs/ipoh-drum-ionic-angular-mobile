@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {InventoryManagementModalPage} from '../inventory-management-modal/inventory-management-modal.page';
-import {EditStoreModalPage} from '../edit-store-modal/edit-store-modal.page';
 import {PromotionManagementModalPage} from '../promotion-management-modal/promotion-management-modal.page';
 import {WarrantyManagementModalPage} from '../warranty-management-modal/warranty-management-modal.page';
 import {ShippingManagementModalPage} from '../shipping-management-modal/shipping-management-modal.page';
 import {VoucherManagementModalPage} from '../voucher-management-modal/voucher-management-modal.page';
+import {ViewStoreModalPage} from '../view-store-modal/view-store-modal.page';
 
 @Component({
   selector: 'app-store-inventory-management-modal',
@@ -35,14 +35,25 @@ export class StoreInventoryManagementModalPage implements OnInit {
     await this.modalController.dismiss();
   }
 
-  async openEditStoreModal() {
-    const modal = await this.modalController.create({
-      component: EditStoreModalPage,
-      componentProps: {
-        selectedStoreUid: this.selectedStoreUid
-      }
-    });
-    return await modal.present();
+  // async openEditStoreModal() {
+  //   const modal = await this.modalController.create({
+  //     component: EditStoreModalPage,
+  //     componentProps: {
+  //       selectedStoreUid: this.selectedStoreUid
+  //     }
+  //   });
+  //   return await modal.present();
+  // }
+
+  async openViewStoreModal() {
+      const modal = await this.modalController.create({
+        component: ViewStoreModalPage,
+        componentProps: {
+          selectedStoreUid: this.selectedStoreUid,
+          selectedStoreId: this.selectedStoreId
+        }
+      });
+      return await modal.present();
   }
 
   async openVoucherManagementModal() {

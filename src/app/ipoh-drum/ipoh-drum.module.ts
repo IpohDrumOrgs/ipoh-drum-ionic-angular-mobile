@@ -63,6 +63,8 @@ import {AddVoucherModalPageModule} from '../user-profile/my-store/voucher-manage
 import {AddVoucherModalPage} from '../user-profile/my-store/voucher-management-modal/add-voucher-modal/add-voucher-modal.page';
 import {EditVoucherModalPage} from '../user-profile/my-store/voucher-management-modal/edit-voucher-modal/edit-voucher-modal.page';
 import {EditVoucherModalPageModule} from '../user-profile/my-store/voucher-management-modal/edit-voucher-modal/edit-voucher-modal.module';
+import {ViewStoreModalPageModule} from '../user-profile/my-store/view-store-modal/view-store-modal.module';
+import {ViewStoreModalPage} from '../user-profile/my-store/view-store-modal/view-store-modal.page';
 
 const routes: Routes = [
     {
@@ -124,7 +126,8 @@ const routes: Routes = [
         EditShippingModalPageModule,
         VoucherManagementModalPageModule,
         AddVoucherModalPageModule,
-        EditVoucherModalPageModule
+        EditVoucherModalPageModule,
+        ViewStoreModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -150,7 +153,8 @@ const routes: Routes = [
         EditShippingModalPage,
         VoucherManagementModalPage,
         AddVoucherModalPage,
-        EditVoucherModalPage
+        EditVoucherModalPage,
+        ViewStoreModalPage
     ]
 })
 

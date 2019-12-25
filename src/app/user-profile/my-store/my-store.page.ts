@@ -24,6 +24,9 @@ export class MyStorePage implements OnInit, OnDestroy {
     maximumPages: number;
     totalResult: number;
 
+    // Objects
+    storeInfiniteScroll: any;
+
     // Arrays
     listOfCurrentUsersStores: Array<Store> = [];
 
@@ -104,6 +107,7 @@ export class MyStorePage implements OnInit, OnDestroy {
         modal.onDidDismiss().then((returnFromCreatingStore) => {
             if (returnFromCreatingStore.data) {
                 this.retrieveListOfStoresOfCurrentUser();
+                this.storeInfiniteScroll.target.disabled = false;
             }
         });
         return await modal.present();
@@ -122,6 +126,7 @@ export class MyStorePage implements OnInit, OnDestroy {
     }
 
     loadMoreStores(event) {
+        this.storeInfiniteScroll = event;
         setTimeout(() => {
             if (this.maximumPages > this.currentPageNumber) {
                 this.currentPageNumber++;
@@ -141,7 +146,7 @@ export class MyStorePage implements OnInit, OnDestroy {
                 });
             }
             if (this.totalResult === this.listOfCurrentUsersStores.length) {
-                event.target.disabled = true;
+                this.storeInfiniteScroll.target.disabled = true;
             }
         }, 500);
     }
