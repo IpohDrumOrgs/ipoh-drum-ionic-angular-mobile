@@ -11,14 +11,10 @@
  */
 
 
-export interface InlineObject8 { 
+export interface InlineObject15 { 
     /**
      * Image
      */
     img?: Array<Blob>;
-    /**
-     * Sliders Image
-     */
-    sliders?: Array<Blob>;
 }
 

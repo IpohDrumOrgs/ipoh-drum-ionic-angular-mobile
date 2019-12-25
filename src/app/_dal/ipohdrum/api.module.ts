@@ -10,7 +10,9 @@ import { CompanyControllerServiceService } from './api/companyControllerService.
 import { CompanyTypeControllerServiceService } from './api/companyTypeControllerService.service';
 import { GroupControllerServiceService } from './api/groupControllerService.service';
 import { InventoryControllerServiceService } from './api/inventoryControllerService.service';
+import { InventoryImageControllerServiceService } from './api/inventoryImageControllerService.service';
 import { ModuleControllerServiceService } from './api/moduleControllerService.service';
+import { PaymentControllerServiceService } from './api/paymentControllerService.service';
 import { ProductFeatureControllerServiceService } from './api/productFeatureControllerService.service';
 import { ProductPromotionControllerServiceService } from './api/productPromotionControllerService.service';
 import { ProductReviewControllerServiceService } from './api/productReviewControllerService.service';
@@ -39,7 +41,9 @@ import { WarrantyControllerServiceService } from './api/warrantyControllerServic
     CompanyTypeControllerServiceService,
     GroupControllerServiceService,
     InventoryControllerServiceService,
+    InventoryImageControllerServiceService,
     ModuleControllerServiceService,
+    PaymentControllerServiceService,
     ProductFeatureControllerServiceService,
     ProductPromotionControllerServiceService,
     ProductReviewControllerServiceService,

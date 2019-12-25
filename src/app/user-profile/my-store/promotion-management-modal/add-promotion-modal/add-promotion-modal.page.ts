@@ -44,9 +44,6 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
     promotionPlanLimitedQuantityMaxLength = 5;
     percentageMaxValue = 100;
 
-    // Objects
-    selectedStore: Store;
-
     // FormGroups
     promotionPlanFormGroup: FormGroup;
 
@@ -114,7 +111,7 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
     }
 
     async closeCreatePromotionModal(returnFromCreatingPromotion: boolean) {
-        this.modalController.dismiss(returnFromCreatingPromotion);
+        await this.modalController.dismiss(returnFromCreatingPromotion);
     }
 
     selectedStartDate(event) {

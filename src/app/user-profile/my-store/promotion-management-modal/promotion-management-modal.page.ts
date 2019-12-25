@@ -28,6 +28,9 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
   // Arrays
   listOfProductPromotions: Array<any> = [];
 
+  // Objects
+  referInfiniteScroll: any;
+
   // Subscriptions
   getListOfProductPromotionsByStoreUidSubscription: any;
   appendListOfProductPromotionByStoreUidSubscription: any;
@@ -109,12 +112,16 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
     modal.onDidDismiss().then((returnedFromCreatingPromo) => {
       if (returnedFromCreatingPromo.data) {
         this.retrieveListOfProductPromotionsByStoreUid();
+        if (this.referInfiniteScroll) {
+          this.referInfiniteScroll.target.disabled = false;
+        }
       }
     });
     return await modal.present();
   }
 
   loadMoreProductPromotions(event) {
+    this.referInfiniteScroll = event;
     setTimeout(() => {
       if (this.maximumPages > this.currentPageNumber) {
         this.currentPageNumber++;
@@ -128,14 +135,14 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
               this.listOfProductPromotions.push(tempPromo);
             }
           }
-          event.target.complete();
+          this.referInfiniteScroll.target.complete();
         }, error => {
           console.log('API Error while retrieving list of promos of current storeuid.');
-          event.target.complete();
+          this.referInfiniteScroll.target.complete();
         });
       }
       if (this.totalResult === this.listOfProductPromotions.length) {
-        event.target.disabled = true;
+        this.referInfiniteScroll.target.disabled = true;
       }
     }, 500);
   }
@@ -157,6 +164,9 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
   }
 
   ionRefresh(event) {
+    if (this.referInfiniteScroll) {
+      this.referInfiniteScroll.target.disabled = false;
+    }
     if (this.getListOfProductPromotionsByStoreUidSubscription) {
       this.getListOfProductPromotionsByStoreUidSubscription.unsubscribe();
     }

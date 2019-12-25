@@ -28,6 +28,9 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
   // Arrays
   listOfShippingsByStoreUid: Array<any> = [];
 
+  // Objects
+  referInfiniteScroll: any;
+
   // Subscriptions
   getListOfShippingsByStoreUidSubscription: any;
   appendListOfShippingsByStoreUidSubscription: any;
@@ -120,12 +123,16 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
     modal.onDidDismiss().then((returnedFromEditingShipping) => {
       if (returnedFromEditingShipping.data) {
         this.retrieveListOfShippingsByStoreUid();
+        if (this.referInfiniteScroll) {
+          this.referInfiniteScroll.target.disabled = false;
+        }
       }
     });
     return await modal.present();
   }
 
   loadMoreShippings(event) {
+    this.referInfiniteScroll = event;
     setTimeout(() => {
       if (this.maximumPages > this.currentPageNumber) {
         this.currentPageNumber++;
@@ -139,19 +146,22 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
               this.listOfShippingsByStoreUid.push(tempShipping);
             }
           }
-          event.target.complete();
+          this.referInfiniteScroll.target.complete();
         }, error => {
           console.log('API Error while retrieving list of shipping of current storeuid.');
-          event.target.complete();
+          this.referInfiniteScroll.target.complete();
         });
       }
       if (this.totalResult === this.listOfShippingsByStoreUid.length) {
-        event.target.disabled = true;
+        this.referInfiniteScroll.target.disabled = true;
       }
     }, 500);
   }
 
   ionRefresh(event) {
+    if (this.referInfiniteScroll) {
+      this.referInfiniteScroll.target.disabled = false;
+    }
     if (this.getListOfShippingsByStoreUidSubscription) {
       this.getListOfShippingsByStoreUidSubscription.unsubscribe();
     }

@@ -107,7 +107,9 @@ export class MyStorePage implements OnInit, OnDestroy {
         modal.onDidDismiss().then((returnFromCreatingStore) => {
             if (returnFromCreatingStore.data) {
                 this.retrieveListOfStoresOfCurrentUser();
-                this.storeInfiniteScroll.target.disabled = false;
+                if (this.storeInfiniteScroll) {
+                    this.storeInfiniteScroll.target.disabled = false;
+                }
             }
         });
         return await modal.present();
@@ -139,10 +141,10 @@ export class MyStorePage implements OnInit, OnDestroy {
                             this.listOfCurrentUsersStores.push(tempStores);
                         }
                     }
-                    event.target.complete();
+                    this.storeInfiniteScroll.target.complete();
                 }, error => {
                     console.log('API Error while retrieving list of stores of current User');
-                    event.target.complete();
+                    this.storeInfiniteScroll.target.complete();
                 });
             }
             if (this.totalResult === this.listOfCurrentUsersStores.length) {
@@ -152,6 +154,9 @@ export class MyStorePage implements OnInit, OnDestroy {
     }
 
     ionRefresh(event) {
+        if (this.storeInfiniteScroll) {
+            this.storeInfiniteScroll.target.disabled = false;
+        }
         if (this.getUsersListOfStoresSubscription) {
             this.getUsersListOfStoresSubscription.unsubscribe();
         }
@@ -160,7 +165,6 @@ export class MyStorePage implements OnInit, OnDestroy {
             this.currentPageNumber,
             this.currentPageSize
         ).subscribe(resp => {
-            console.log(resp);
             if (resp.code === 200) {
                 this.listOfCurrentUsersStores = resp.data;
                 this.maximumPages = resp.maximumPages;

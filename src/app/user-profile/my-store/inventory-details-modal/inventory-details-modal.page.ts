@@ -352,9 +352,7 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
           this.selectedInventory.code,
           this.selectedInventory.sku,
           this.selectedInventory.desc,
-          this.selectedInventory.stockthreshold,
-          'PUT',
-          this.temporaryInventoryThumbnail ? this.inventoryThumbnailAsArray : null
+          this.selectedInventory.stockthreshold
       ).subscribe(resp => {
         console.log(resp);
         if (resp.code === 200) {
@@ -374,22 +372,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
 
   openThumbnailFilePicker() {
     this.inventoryThumbnailContainer.nativeElement.click();
-  }
-
-  uploadInventoryThumbnail(event) {
-    const files = event.target.files;
-    if (files.length > 0) {
-      if (files[0].type.toString().includes('image')) {
-        // Actual Blob File
-        this.inventoryThumbnailAsArray[0] = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          // Some URL for displaying purpose only
-          this.temporaryInventoryThumbnail = e.target.result;
-        };
-        reader.readAsDataURL(files[0]);
-      }
-    }
   }
 
   revertUploadedInventoryThumbnail() {

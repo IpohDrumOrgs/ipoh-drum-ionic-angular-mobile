@@ -28,6 +28,9 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
     // Arrays
     listOfWarrantiesByStoreUid: Array<any> = [];
 
+    // Objects
+    referInfiniteScroll: any;
+
     // Subscriptions
     getListOfWarrantiesByStoreUidSubscription: any;
     appendListOfWarrantiesSubscription: any;
@@ -45,27 +48,27 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.ngZone.run(() => {
-           this.retrieveListOfWarrantiesByStoreUid();
+            this.retrieveListOfWarrantiesByStoreUid();
         });
     }
 
     ngOnDestroy() {
-      this.unsubscribeSubscriptions();
+        this.unsubscribeSubscriptions();
     }
 
     ionViewDidLeave() {
-      this.unsubscribeSubscriptions();
+        this.unsubscribeSubscriptions();
     }
 
     unsubscribeSubscriptions() {
-      this.ngZone.run(() => {
-        if (this.getListOfWarrantiesByStoreUidSubscription) {
-          this.getListOfWarrantiesByStoreUidSubscription.unsubscribe();
-        }
-        if (this.appendListOfWarrantiesSubscription) {
-          this.appendListOfWarrantiesSubscription.unsubscribe();
-        }
-      });
+        this.ngZone.run(() => {
+            if (this.getListOfWarrantiesByStoreUidSubscription) {
+                this.getListOfWarrantiesByStoreUidSubscription.unsubscribe();
+            }
+            if (this.appendListOfWarrantiesSubscription) {
+                this.appendListOfWarrantiesSubscription.unsubscribe();
+            }
+        });
     }
 
     retrieveListOfWarrantiesByStoreUid() {
@@ -128,38 +131,45 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
         modal.onDidDismiss().then((returnedFromEditingWarranty) => {
             if (returnedFromEditingWarranty.data) {
                 this.retrieveListOfWarrantiesByStoreUid();
+                if (this.referInfiniteScroll) {
+                    this.referInfiniteScroll.target.disabled = false;
+                }
             }
         });
         return await modal.present();
     }
 
-  loadMoreWarranties(event) {
-    setTimeout(() => {
-      if (this.maximumPages > this.currentPageNumber) {
-        this.currentPageNumber++;
-        this.appendListOfWarrantiesSubscription = this.storeControllerService.getWarrantiesByStoreUid(
-            this.selectedStoreUid,
-            this.currentPageNumber,
-            this.currentPageSize
-        ).subscribe(resp => {
-          if (resp.code === 200) {
-            for (const tempWarranty of resp.data) {
-              this.listOfWarrantiesByStoreUid.push(tempWarranty);
+    loadMoreWarranties(event) {
+        this.referInfiniteScroll = event;
+        setTimeout(() => {
+            if (this.maximumPages > this.currentPageNumber) {
+                this.currentPageNumber++;
+                this.appendListOfWarrantiesSubscription = this.storeControllerService.getWarrantiesByStoreUid(
+                    this.selectedStoreUid,
+                    this.currentPageNumber,
+                    this.currentPageSize
+                ).subscribe(resp => {
+                    if (resp.code === 200) {
+                        for (const tempWarranty of resp.data) {
+                            this.listOfWarrantiesByStoreUid.push(tempWarranty);
+                        }
+                    }
+                    this.referInfiniteScroll.target.complete();
+                }, error => {
+                    console.log('API Error while retrieving list of warranties of current storeuid.');
+                    this.referInfiniteScroll.target.complete();
+                });
             }
-          }
-          event.target.complete();
-        }, error => {
-          console.log('API Error while retrieving list of warranties of current storeuid.');
-          event.target.complete();
-        });
-      }
-      if (this.totalResult === this.listOfWarrantiesByStoreUid.length) {
-        event.target.disabled = true;
-      }
-    }, 500);
-  }
+            if (this.totalResult === this.listOfWarrantiesByStoreUid.length) {
+                this.referInfiniteScroll.target.disabled = true;
+            }
+        }, 500);
+    }
 
     ionRefresh(event) {
+        if (this.referInfiniteScroll) {
+            this.referInfiniteScroll.target.disabled = false;
+        }
         if (this.getListOfWarrantiesByStoreUidSubscription) {
             this.getListOfWarrantiesByStoreUidSubscription.unsubscribe();
         }

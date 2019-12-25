@@ -1,7 +1,7 @@
 import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {GlobalfunctionService} from '../../../../_dal/common/services/globalfunction.service';
-import {ProductPromotion, ProductPromotionControllerServiceService} from '../../../../_dal/ipohdrum';
+import {ProductPromotionControllerServiceService} from '../../../../_dal/ipohdrum';
 import {LoadingService} from '../../../../_dal/common/services/loading.service';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {commonConfig} from '../../../../_dal/common/commonConfig';

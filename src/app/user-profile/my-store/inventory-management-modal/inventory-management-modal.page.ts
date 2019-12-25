@@ -3,8 +3,8 @@ import {Inventory, Store, StoreControllerServiceService} from '../../../_dal/ipo
 import {ModalController} from '@ionic/angular';
 import {AddInventoryPage} from '../add-inventory/add-inventory.page';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
-import {InventoryDetailsModalPage} from '../inventory-details-modal/inventory-details-modal.page';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
+import {ViewInventoryModalPage} from '../view-inventory-modal/view-inventory-modal.page';
 
 @Component({
   selector: 'app-inventory-management-modal',
@@ -30,6 +30,7 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
 
   // Objects
   selectedStore: Store;
+  referInfiniteScroll: any;
 
   // Subscriptions
   getListOfInventoriesByStoreUidSubscription: any;
@@ -125,12 +126,16 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
     modal.onDidDismiss().then((returnedFromCreatingInventory) => {
       if (returnedFromCreatingInventory.data) {
         this.retrieveListOfInventoriesByStoreUid();
+        if (this.referInfiniteScroll) {
+          this.referInfiniteScroll.target.disabled = false;
+        }
       }
     });
     return await modal.present();
   }
 
   loadMoreInventoriesFromSelectedStore(event) {
+    this.referInfiniteScroll = event;
     setTimeout(() => {
       if (this.maximumPages > this.currentPageNumber) {
         this.currentPageNumber++;
@@ -144,31 +149,35 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
               this.listOfInventoriesFromSelectedStore.push(tempInventories);
             }
           }
-          event.target.complete();
+          this.referInfiniteScroll.target.complete();
         }, error => {
           console.log('API Error while retrieving list of inventories of current Store');
-          event.target.complete();
+          this.referInfiniteScroll.target.complete();
         });
       }
       if (this.totalResult === this.listOfInventoriesFromSelectedStore.length) {
-        event.target.disabled = true;
+        this.referInfiniteScroll.target.disabled = true;
       }
     }, 500);
   }
 
-  async openEditInventoryDetailsModal(selectedInventoryUid) {
+  async openViewInventoryModal(selectedInventoryUid, selectedInventoryId) {
     const modal = await this.modalController.create({
-      component: InventoryDetailsModalPage,
+      component: ViewInventoryModalPage,
       componentProps: {
         selectedInventoryUid,
+        selectedInventoryId,
         selectedStoreUid: this.selectedStoreUid,
-        selectedStoreId: this.selectedStoreId
+        selectedStoreId: this.selectedStoreId,
       }
     });
     return await modal.present();
   }
 
   ionRefresh(event) {
+    if (this.referInfiniteScroll) {
+      this.referInfiniteScroll.target.disabled = false;
+    }
     if (this.getListOfInventoriesByStoreUidSubscription) {
       this.getListOfInventoriesByStoreUidSubscription.unsubscribe();
     }

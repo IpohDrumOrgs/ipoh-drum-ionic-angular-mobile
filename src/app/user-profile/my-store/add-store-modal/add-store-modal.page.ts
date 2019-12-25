@@ -207,7 +207,6 @@ export class AddStoreModalPage implements OnInit, OnDestroy {
         this.storeCountryModel,
         this.storeImageAsBlobArray
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.globalFunctionService.simpleToast('SUCCESS', 'Store has been successfully created!', 'success', 'top');
         this.closeCreateStoreModal(true);
@@ -280,8 +279,7 @@ export class AddStoreModalPage implements OnInit, OnDestroy {
       event.component.enableInfiniteScroll();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving filtered company list.');
-      console.log(error);
+      console.log('API Error while retrieving filtered company list, error: ' + error);
     });
   }
 
@@ -327,8 +325,7 @@ export class AddStoreModalPage implements OnInit, OnDestroy {
           event.component.endInfiniteScroll();
           this.ref.detectChanges();
         }, error => {
-          console.log('API error while retrieving list of companies.');
-          console.log(error);
+          console.log('API error while retrieving list of companies, error: ' + error);
           event.component.endInfiniteScroll();
         });
       }

@@ -35,16 +35,6 @@ export class StoreInventoryManagementModalPage implements OnInit {
     await this.modalController.dismiss();
   }
 
-  // async openEditStoreModal() {
-  //   const modal = await this.modalController.create({
-  //     component: EditStoreModalPage,
-  //     componentProps: {
-  //       selectedStoreUid: this.selectedStoreUid
-  //     }
-  //   });
-  //   return await modal.present();
-  // }
-
   async openViewStoreModal() {
       const modal = await this.modalController.create({
         component: ViewStoreModalPage,
@@ -56,9 +46,9 @@ export class StoreInventoryManagementModalPage implements OnInit {
       return await modal.present();
   }
 
-  async openVoucherManagementModal() {
+  async openInventoryManagementModal() {
     const modal = await this.modalController.create({
-      component: VoucherManagementModalPage,
+      component: InventoryManagementModalPage,
       componentProps: {
         selectedStoreUid: this.selectedStoreUid,
         selectedStoreId: this.selectedStoreId
@@ -67,9 +57,9 @@ export class StoreInventoryManagementModalPage implements OnInit {
     return await modal.present();
   }
 
-  async openInventoryManagementModal() {
+  async openVoucherManagementModal() {
     const modal = await this.modalController.create({
-      component: InventoryManagementModalPage,
+      component: VoucherManagementModalPage,
       componentProps: {
         selectedStoreUid: this.selectedStoreUid,
         selectedStoreId: this.selectedStoreId
