@@ -1,8 +1,9 @@
 import {ChangeDetectorRef, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {
+  Company,
   Inventory,
   InventoryControllerServiceService, InventoryFamily,
-  ProductPromotion,
+  ProductPromotion, ProductPromotionControllerServiceService,
   Shipping,
   StoreControllerServiceService,
   Warranty
@@ -14,6 +15,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {commonConfig} from '../../../_dal/common/commonConfig';
 import {InvFamilyPatternModalPage} from '../add-inventory/inv-family-pattern-modal/inv-family-pattern-modal.page';
 import {EditInventoryFamiliesAndPatternsPage} from '../edit-inventory-families-and-patterns/edit-inventory-families-and-patterns.page';
+import {IonicSelectableComponent} from 'ionic-selectable';
 
 @Component({
   selector: 'app-inventory-details-modal',
@@ -53,6 +55,12 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
   inventoryStockThresholdMaxLength = 3;
   selectedStoreId: number;
 
+  // Promotions related numbers
+  currentPageSize = 10;
+  currentPromotionPageNumber = 1;
+  promotionMaxPages: number;
+  promotionTotalResults: number;
+
   // Objects
   selectedInventory: Inventory;
   defaultSelection = {
@@ -82,6 +90,7 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
   getListOfWarrantySubscription: any;
   getListOfShippingSubscription: any;
   updateInventorySubscription: any;
+  searchForListOfPromotionsSubscription: any;
 
   constructor(
       private ref: ChangeDetectorRef,
@@ -90,7 +99,8 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
       private modalController: ModalController,
       private globalFunctionService: GlobalfunctionService,
       private inventoryControllerService: InventoryControllerServiceService,
-      private storeControllerService: StoreControllerServiceService
+      private storeControllerService: StoreControllerServiceService,
+      private productPromotionControllerService: ProductPromotionControllerServiceService
   ) {
     console.log(this.constructorName + 'Initializing component');
   }
@@ -166,6 +176,9 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
       if (this.updateInventorySubscription) {
         this.updateInventorySubscription.unsubscribe();
       }
+      if (this.searchForListOfPromotionsSubscription) {
+        this.searchForListOfPromotionsSubscription.unsubscribe();
+      }
     });
   }
 
@@ -207,6 +220,7 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
         console.log(error);
         this.loadingService.dismiss();
         this.isLoadingInventoryDetails = false;
+        // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Inventory details, please try again later!', 'warning', 'top');
         this.closeInventoryDetailsModal(false);
         this.ref.detectChanges();
@@ -215,31 +229,31 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
   }
 
   retrieveListOfProductPromotions() {
-    this.loadingService.present();
-    setTimeout(() => {
-      this.isLoadingPromotionInfo = true;
-      if (this.getListOfProductPromotionSubscription) {
-        this.getListOfProductPromotionSubscription.unsubscribe();
-      }
-      this.getListOfProductPromotionSubscription = this.storeControllerService.getPromotionsByStoreUid(
-          this.selectedStoreUid
-      ).subscribe(resp => {
-        if (resp.code === 200) {
-          this.listOfStorePromotions.push(this.defaultSelection);
-          for (const tempPromo of resp.data) {
-            this.listOfStorePromotions.push(tempPromo);
-          }
-        } else {
-          this.listOfStorePromotions = [];
-        }
-        this.isLoadingPromotionInfo = false;
-        this.ref.detectChanges();
-      }, error => {
-        this.listOfStorePromotions = [];
-        this.isLoadingPromotionInfo = false;
-        this.ref.detectChanges();
-      });
-    }, 500);
+    // this.loadingService.present();
+    // setTimeout(() => {
+    //   this.isLoadingPromotionInfo = true;
+    //   if (this.getListOfProductPromotionSubscription) {
+    //     this.getListOfProductPromotionSubscription.unsubscribe();
+    //   }
+    //   this.getListOfProductPromotionSubscription = this.storeControllerService.getPromotionsByStoreUid(
+    //       this.selectedStoreUid
+    //   ).subscribe(resp => {
+    //     if (resp.code === 200) {
+    //       this.listOfStorePromotions.push(this.defaultSelection);
+    //       for (const tempPromo of resp.data) {
+    //         this.listOfStorePromotions.push(tempPromo);
+    //       }
+    //     } else {
+    //       this.listOfStorePromotions = [];
+    //     }
+    //     this.isLoadingPromotionInfo = false;
+    //     this.ref.detectChanges();
+    //   }, error => {
+    //     this.listOfStorePromotions = [];
+    //     this.isLoadingPromotionInfo = false;
+    //     this.ref.detectChanges();
+    //   });
+    // }, 500);
   }
 
   retrieveListOfWarranties() {
@@ -386,4 +400,70 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
       });
     }
   }
+
+  filterPromotions(productPromotionList: ProductPromotion[], text: string) {
+    return productPromotionList.filter(promo => {
+      return promo.name.toLowerCase().indexOf(text) !== -1;
+    });
+  }
+
+  // searchForPromotions(event: {
+  //   component: IonicSelectableComponent,
+  //   text: string
+  // }) {
+  //   console.log('search');
+  //   const text = event.text.trim().toLowerCase();
+  //   event.component.startSearch();
+  //   if (this.searchForListOfPromotionsSubscription) {
+  //     this.searchForListOfPromotionsSubscription.unsubscribe();
+  //   }
+  //   this.currentPromotionPageNumber = 1;
+  //   if (!text) {
+  //     if (this.searchForListOfPromotionsSubscription) {
+  //       this.searchForListOfPromotionsSubscription.unsubscribe();
+  //     }
+  //     this.searchForListOfPromotionsSubscription = this.storeControllerService.getPromotionsByStoreUid(
+  //         this.selectedStoreUid,
+  //         this.currentPromotionPageNumber,
+  //         this.currentPageSize
+  //     ).subscribe(resp => {
+  //       if (resp.code === 200) {
+  //         this.listOfStorePromotions.push(this.defaultSelection);
+  //         for (const tempPromo of resp.data) {
+  //           this.listOfStorePromotions.push(tempPromo);
+  //         }
+  //         this.promotionMaxPages = resp.maximumPages;
+  //         event.component.items = this.listOfStorePromotions;
+  //       } else {
+  //         this.listOfStorePromotions = [];
+  //         this.promotionMaxPages = 0;
+  //       }
+  //       event.component.endSearch();
+  //       event.component.enableInfiniteScroll();
+  //       this.ref.detectChanges();
+  //     }, error => {
+  //       console.log('API error while retrieving list of product promotions, error: ' + error);
+  //     });
+  //     return;
+  //   }
+  //   // getFilterPromotionsByStoreUid
+  //   this.searchForListOfPromotionsSubscription = this.storeControllerService.(
+  //       this.currentPromotionPageNumber,
+  //       this.currentPageSize,
+  //       text
+  //   ).subscribe(resp => {
+  //     if (this.searchForListOfPromotionsSubscription.closed) {
+  //       return;
+  //     }
+  //     if (resp.code === 200) {
+  //       this.listOfStorePromotions = this.filterPromotions(resp.data, text);
+  //     }
+  //     event.component.endSearch();
+  //     event.component.enableInfiniteScroll();
+  //     this.ref.detectChanges();
+  //   }, error => {
+  //     console.log('API Error while retrieving filtered product promotion list.');
+  //     console.log(error);
+  //   });
+  // }
 }

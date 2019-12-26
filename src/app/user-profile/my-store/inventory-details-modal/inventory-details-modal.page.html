@@ -264,7 +264,7 @@
                     </ion-col>
                 </ion-row>
             </ion-card>
-            <ion-card style="margin:10px;padding:5px;" *ngIf="!isLoadingPromotionInfo">
+            <ion-card style="margin:10px;padding:5px;">
                 <ion-card-header style="border-bottom:1px solid #f2f2f2;">
                     Promotion Details
                 </ion-card-header>
@@ -274,9 +274,9 @@
                             <b>Promotion Plans</b>
                         </ion-col>
                         <ion-col size="8">
-                            <!--[hasInfiniteScroll]="true"
-                            (onInfiniteScroll)="retrieveMoreCompanies($event)"
-                            (onSearch)="searchForCompanies($event)"-->
+<!--                            (onInfiniteScroll)="retrieveMoreCompanies($event)"-->
+<!--                            [hasInfiniteScroll]="true"
+                            (onSearch)="searchForPromotions($event)"-->
                             <ionic-selectable
                                     [(ngModel)]="selectedProductPromotionPlan"
                                     [items]="listOfStorePromotions"

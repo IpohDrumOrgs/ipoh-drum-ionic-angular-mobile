@@ -139,7 +139,7 @@
               <ion-button fill="clear" (click)="openThumbnailFilePicker()">
                 Change Thumbnail
               </ion-button>
-              <input type="file" multiple="true" style="display:none;"
+              <input type="file" multiple="false" style="display:none;"
                      #inventoryThumbnailContainer
                      accept=".jpg, .jpeg, .png"
                      (change)="uploadInventoryThumbnail($event)">
@@ -161,9 +161,13 @@
                           <ion-button color="danger" (click)="removeSelectedSliderPhotoPrompt(sliders.uid)">
                             Remove
                           </ion-button>
-                          <ion-button fill="clear">
+                          <ion-button fill="clear" (click)="openSlidersFilePicker()">
                             Add More
                           </ion-button>
+                          <input type="file" multiple="false" style="display:none;"
+                                 #inventorySlidersContainer
+                                 accept=".jpg, .jpeg, .png"
+                                 (change)="uploadInventorySliders($event)">
                         </ion-col>
                       </ion-row>
                     </ion-slide>

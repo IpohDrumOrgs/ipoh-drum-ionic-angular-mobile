@@ -36,6 +36,7 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
 
     // ViewChild
     @ViewChild('inventoryThumbnailContainer', {static: false}) inventoryThumbnailContainer: ElementRef;
+    @ViewChild('inventorySlidersContainer', {static: false}) inventorySlidersContainer: ElementRef;
 
     // Arrays
     inventoryThumbnailAsArray: Array<Blob> = [];
@@ -43,6 +44,7 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
     // Subscriptions
     getSelectedInventorySubscription: any;
     uploadThumbnailSubscription: any;
+    uploadSlidersSubscription: any;
     removeSliderSubscription: any;
     deleteInventorySubscription: any;
 
@@ -85,6 +87,9 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
             }
             if (this.deleteInventorySubscription) {
                 this.deleteInventorySubscription.unsubscribe();
+            }
+            if (this.uploadSlidersSubscription) {
+                this.uploadSlidersSubscription.unsubscribe();
             }
         });
     }
@@ -172,6 +177,41 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
                         console.log('API Error while uploading inventory thumbnail by uid.');
                         // tslint:disable-next-line:max-line-length
                         this.globalFunctionService.simpleToast('WARNING', 'Unable to update the thumbnail, please try again later!', 'warning');
+                        console.log(error);
+                        this.loadingService.dismiss();
+                    });
+                }
+            }
+        }, 500);
+    }
+
+    openSlidersFilePicker() {
+        this.inventorySlidersContainer.nativeElement.click();
+    }
+
+    uploadInventorySliders(event) {
+        this.loadingService.present();
+        setTimeout(() => {
+            const files = event.target.files;
+            if (files.length > 0) {
+                if (files[0].type.toString().includes('image')) {
+                    this.inventoryThumbnailAsArray[0] = event.target.files[0];
+                    this.uploadSlidersSubscription = this.inventoryImageControllerService.createInventoryImage(
+                        this.selectedInventoryId,
+                        this.inventoryThumbnailAsArray
+                    ).subscribe(resp => {
+                        if (resp.code === 200) {
+                            this.globalFunctionService.simpleToast('SUCCESS', 'The Sliders has been updated!', 'success');
+                            this.retrieveSelectedInventory();
+                        } else {
+                            // tslint:disable-next-line:max-line-length
+                            this.globalFunctionService.simpleToast('WARNING', 'Unable to update the Sliders, please try again later!', 'warning');
+                        }
+                        this.loadingService.dismiss();
+                    }, error => {
+                        console.log('API Error while uploading inventory Sliders by uid.');
+                        // tslint:disable-next-line:max-line-length
+                        this.globalFunctionService.simpleToast('WARNING', 'Unable to update the Sliders, please try again later!', 'warning');
                         console.log(error);
                         this.loadingService.dismiss();
                     });
