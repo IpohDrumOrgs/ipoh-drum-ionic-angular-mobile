@@ -135,24 +135,20 @@ export class InvFamilyPatternModalPage implements OnInit {
 
   addFamily() {
     const inventoryFamilyToInsert = {
+      id: null,
+      inventory_id: null,
+      uid: null,
       code: this.inventoryFamilyCodeModel,
-      cost: this.inventoryFamilyCostModel,
-      // created_at
-      desc: this.inventoryFamilyDescriptionModel,
-      // id
-      // imgpath
-      // imgpublicid
-      // inventory_id
+      sku: this.inventoryFamilySKUModel,
       name: this.inventoryFamilyNameModel,
-      onsale: this.selectedFamilyOnSaleToggle,
-      patterns: this.listOfInventoryPatterns,
+      desc: this.inventoryFamilyDescriptionModel,
+      imgpublicid: null,
+      imgpath: null,
+      cost: this.inventoryFamilyCostModel,
       price: this.inventoryFamilySellingPriceModel,
       qty: this.inventoryFamilyStockQuantityModel,
-      // salesqty
-      sku: this.inventoryFamilySKUModel
-      // status
-      // uid
-      // updated_at
+      onsale: this.selectedFamilyOnSaleToggle,
+      patterns: this.listOfInventoryPatterns,
     };
 
     // TODO: Hard-coded data

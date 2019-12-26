@@ -78,6 +78,9 @@ export class AddInventoryPatternModalPage implements OnInit {
 
   addPattern() {
     const inventoryPatternToInsert = {
+      id: null,
+      inventory_id: null,
+      uid: null,
       cost: this.inventoryPatternCostModel,
       // created_at
       desc: this.inventoryPatternDescriptionModel,

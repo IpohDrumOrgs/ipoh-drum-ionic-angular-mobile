@@ -67,6 +67,10 @@ import {ViewStoreModalPageModule} from '../user-profile/my-store/view-store-moda
 import {ViewStoreModalPage} from '../user-profile/my-store/view-store-modal/view-store-modal.page';
 import {ViewInventoryModalPage} from '../user-profile/my-store/view-inventory-modal/view-inventory-modal.page';
 import {ViewInventoryModalPageModule} from '../user-profile/my-store/view-inventory-modal/view-inventory-modal.module';
+// tslint:disable-next-line:max-line-length
+import {EditInventoryFamiliesAndPatternsPageModule} from '../user-profile/my-store/edit-inventory-families-and-patterns/edit-inventory-families-and-patterns.module';
+// tslint:disable-next-line:max-line-length
+import {EditInventoryFamiliesAndPatternsPage} from '../user-profile/my-store/edit-inventory-families-and-patterns/edit-inventory-families-and-patterns.page';
 
 const routes: Routes = [
     {
@@ -130,7 +134,8 @@ const routes: Routes = [
         AddVoucherModalPageModule,
         EditVoucherModalPageModule,
         ViewStoreModalPageModule,
-        ViewInventoryModalPageModule
+        ViewInventoryModalPageModule,
+        EditInventoryFamiliesAndPatternsPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -158,7 +163,8 @@ const routes: Routes = [
         AddVoucherModalPage,
         EditVoucherModalPage,
         ViewStoreModalPage,
-        ViewInventoryModalPage
+        ViewInventoryModalPage,
+        EditInventoryFamiliesAndPatternsPage
     ]
 })
 

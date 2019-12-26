@@ -11,10 +11,21 @@
  */
 
 
-export interface InlineObject1 { 
-    /**
-     * Image
-     */
-    img?: Array<Blob>;
+export interface Pattern { 
+    id?: number;
+    inventory_family_id?: number;
+    uid?: string;
+    name?: string;
+    desc?: string;
+    imgpublicid?: string;
+    imgpath?: string;
+    cost?: number;
+    price?: number;
+    qty?: number;
+    salesqty?: number;
+    onsale?: number;
+    status?: number;
+    created_at?: string;
+    updated_at?: string;
 }
 

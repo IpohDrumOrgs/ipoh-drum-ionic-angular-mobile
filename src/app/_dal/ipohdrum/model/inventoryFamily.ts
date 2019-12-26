@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Pattern } from './pattern';
 
 
 export interface InventoryFamily { 
@@ -29,5 +30,6 @@ export interface InventoryFamily {
     status?: number;
     created_at?: string;
     updated_at?: string;
+    patterns?: Array<Pattern>;
 }
 

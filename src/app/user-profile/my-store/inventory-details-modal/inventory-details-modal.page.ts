@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {
   Inventory,
-  InventoryControllerServiceService,
+  InventoryControllerServiceService, InventoryFamily,
   ProductPromotion,
   Shipping,
   StoreControllerServiceService,
@@ -13,6 +13,7 @@ import {GlobalfunctionService} from '../../../_dal/common/services/globalfunctio
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {commonConfig} from '../../../_dal/common/commonConfig';
 import {InvFamilyPatternModalPage} from '../add-inventory/inv-family-pattern-modal/inv-family-pattern-modal.page';
+import {EditInventoryFamiliesAndPatternsPage} from '../edit-inventory-families-and-patterns/edit-inventory-families-and-patterns.page';
 
 @Component({
   selector: 'app-inventory-details-modal',
@@ -170,120 +171,131 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
 
   retrieveSelectedInventoryInfo() {
     this.loadingService.present();
-    this.isLoadingInventoryDetails = true;
-    if (this.getInventoryDetailsSubscription) {
-      this.getInventoryDetailsSubscription.unsubscribe();
-    }
-    this.getInventoryDetailsSubscription = this.inventoryControllerService.getInventoryByUid(
-        this.selectedInventoryUid
-    ).subscribe(resp => {
-      if (resp.code === 200) {
-        this.selectedInventory = resp.data;
-        this.selectedProductPromotionPlan = this.selectedInventory.promotion;
-        this.selectedInventory.promotion ? this.selectedProductPromotionPlan = this.selectedInventory.promotion
-            : this.selectedProductPromotionPlan = this.defaultSelection;
-        this.selectedInventory.warranty ? this.selectedWarrantyPlan = this.selectedInventory.warranty
-            : this.selectedWarrantyPlan = this.defaultSelection;
-        this.selectedInventory.shipping ? this.selectedShippingPlan = this.selectedInventory.shipping
-            : this.selectedShippingPlan = this.defaultSelection;
-      } else {
-        // tslint:disable-next-line:max-line-length
+    setTimeout(() => {
+      this.isLoadingInventoryDetails = true;
+      if (this.getInventoryDetailsSubscription) {
+        this.getInventoryDetailsSubscription.unsubscribe();
+      }
+      this.getInventoryDetailsSubscription = this.inventoryControllerService.getInventoryByUid(
+          this.selectedInventoryUid
+      ).subscribe(resp => {
+        if (resp.code === 200) {
+          this.selectedInventory = resp.data;
+          this.selectedProductPromotionPlan = this.selectedInventory.promotion;
+          this.selectedInventory.promotion ? this.selectedProductPromotionPlan = this.selectedInventory.promotion
+              : this.selectedProductPromotionPlan = this.defaultSelection;
+          this.selectedInventory.warranty ? this.selectedWarrantyPlan = this.selectedInventory.warranty
+              : this.selectedWarrantyPlan = this.defaultSelection;
+          this.selectedInventory.shipping ? this.selectedShippingPlan = this.selectedInventory.shipping
+              : this.selectedShippingPlan = this.defaultSelection;
+        } else {
+          // tslint:disable-next-line:max-line-length
+          this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Inventory details, please try again later!', 'warning', 'top');
+          this.closeInventoryDetailsModal(false);
+        }
+
+        // Callbacks
+        this.retrieveListOfProductPromotions();
+        this.retrieveListOfWarranties();
+        this.retrieveListOfShippings();
+
+        this.loadingService.dismiss();
+        this.isLoadingInventoryDetails = false;
+        this.ref.detectChanges();
+      }, error => {
+        console.log('API error unable to retrieve inventory details');
+        console.log(error);
+        this.loadingService.dismiss();
+        this.isLoadingInventoryDetails = false;
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Inventory details, please try again later!', 'warning', 'top');
         this.closeInventoryDetailsModal(false);
-      }
-
-      // Callbacks
-      this.retrieveListOfProductPromotions();
-      this.retrieveListOfWarranties();
-      this.retrieveListOfShippings();
-
-      this.loadingService.dismiss();
-      this.isLoadingInventoryDetails = false;
-      this.ref.detectChanges();
-    }, error => {
-      console.log('API error unable to retrieve inventory details');
-      console.log(error);
-      this.loadingService.dismiss();
-      this.isLoadingInventoryDetails = false;
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Inventory details, please try again later!', 'warning', 'top');
-      this.closeInventoryDetailsModal(false);
-      this.ref.detectChanges();
-    });
+        this.ref.detectChanges();
+      });
+    }, 500);
   }
 
   retrieveListOfProductPromotions() {
-    this.isLoadingPromotionInfo = true;
-    if (this.getListOfProductPromotionSubscription) {
-      this.getListOfProductPromotionSubscription.unsubscribe();
-    }
-    this.getListOfProductPromotionSubscription = this.storeControllerService.getPromotionsByStoreUid(
-        this.selectedStoreUid
-    ).subscribe(resp => {
-      if (resp.code === 200) {
-        this.listOfStorePromotions.push(this.defaultSelection);
-        for (const tempPromo of resp.data) {
-          this.listOfStorePromotions.push(tempPromo);
-        }
-      } else {
-        this.listOfStorePromotions = [];
+    this.loadingService.present();
+    setTimeout(() => {
+      this.isLoadingPromotionInfo = true;
+      if (this.getListOfProductPromotionSubscription) {
+        this.getListOfProductPromotionSubscription.unsubscribe();
       }
-      this.isLoadingPromotionInfo = false;
-      this.ref.detectChanges();
-    }, error => {
-      this.listOfStorePromotions = [];
-      this.isLoadingPromotionInfo = false;
-      this.ref.detectChanges();
-    });
+      this.getListOfProductPromotionSubscription = this.storeControllerService.getPromotionsByStoreUid(
+          this.selectedStoreUid
+      ).subscribe(resp => {
+        if (resp.code === 200) {
+          this.listOfStorePromotions.push(this.defaultSelection);
+          for (const tempPromo of resp.data) {
+            this.listOfStorePromotions.push(tempPromo);
+          }
+        } else {
+          this.listOfStorePromotions = [];
+        }
+        this.isLoadingPromotionInfo = false;
+        this.ref.detectChanges();
+      }, error => {
+        this.listOfStorePromotions = [];
+        this.isLoadingPromotionInfo = false;
+        this.ref.detectChanges();
+      });
+    }, 500);
   }
 
   retrieveListOfWarranties() {
-    this.isLoadingWarrantyInfo = true;
-    if (this.getListOfWarrantySubscription) {
-      this.getListOfWarrantySubscription.unsubscribe();
-    }
-    this.getListOfWarrantySubscription = this.storeControllerService.getWarrantiesByStoreUid(
-        this.selectedStoreUid
-    ).subscribe(resp => {
-      if (resp.code === 200) {
-        this.listOfStoreWarranties.push(this.defaultSelection);
-        for (const tempWarranty of resp.data) {
-          this.listOfStoreWarranties.push(tempWarranty);
-        }
-      } else {
-        this.listOfStoreWarranties = [];
+    this.loadingService.present();
+    setTimeout(() => {
+      this.isLoadingWarrantyInfo = true;
+      if (this.getListOfWarrantySubscription) {
+        this.getListOfWarrantySubscription.unsubscribe();
       }
-      this.isLoadingWarrantyInfo = false;
-      this.ref.detectChanges();
-    }, error => {
-      this.listOfStoreWarranties = [];
-      this.isLoadingWarrantyInfo = false;
-      this.ref.detectChanges();
-    });
+      this.getListOfWarrantySubscription = this.storeControllerService.getWarrantiesByStoreUid(
+          this.selectedStoreUid
+      ).subscribe(resp => {
+        if (resp.code === 200) {
+          this.listOfStoreWarranties.push(this.defaultSelection);
+          for (const tempWarranty of resp.data) {
+            this.listOfStoreWarranties.push(tempWarranty);
+          }
+        } else {
+          this.listOfStoreWarranties = [];
+        }
+        this.isLoadingWarrantyInfo = false;
+        this.ref.detectChanges();
+      }, error => {
+        this.listOfStoreWarranties = [];
+        this.isLoadingWarrantyInfo = false;
+        this.ref.detectChanges();
+      });
+    }, 500);
   }
 
   retrieveListOfShippings() {
-    this.isLoadingShippingInfo = true;
-    if (this.getListOfShippingSubscription) {
-      this.getListOfShippingSubscription.unsubscribe();
-    }
-    this.getListOfShippingSubscription = this.storeControllerService.getShippingsByStoreUid(
-        this.selectedStoreUid
-    ).subscribe(resp => {
-      if (resp.code === 200) {
-        this.listOfStoreShippings.push(this.defaultSelection);
-        for (const tempShipping of resp.data) {
-          this.listOfStoreShippings.push(tempShipping);
-        }
-      } else {
-        this.listOfStoreShippings = [];
+    this.loadingService.present();
+    setTimeout(() => {
+      this.isLoadingShippingInfo = true;
+      if (this.getListOfShippingSubscription) {
+        this.getListOfShippingSubscription.unsubscribe();
       }
-      this.isLoadingShippingInfo = false;
-      this.ref.detectChanges();
-    }, error => {
-      this.listOfStoreShippings = [];
-      this.isLoadingShippingInfo = false;
-      this.ref.detectChanges();
-    });
+      this.getListOfShippingSubscription = this.storeControllerService.getShippingsByStoreUid(
+          this.selectedStoreUid
+      ).subscribe(resp => {
+        if (resp.code === 200) {
+          this.listOfStoreShippings.push(this.defaultSelection);
+          for (const tempShipping of resp.data) {
+            this.listOfStoreShippings.push(tempShipping);
+          }
+        } else {
+          this.listOfStoreShippings = [];
+        }
+        this.isLoadingShippingInfo = false;
+        this.ref.detectChanges();
+      }, error => {
+        this.listOfStoreShippings = [];
+        this.isLoadingShippingInfo = false;
+        this.ref.detectChanges();
+      });
+    }, 500);
   }
 
   removeSelectedInventoryFamilyAndOrPattern(index: number) {
@@ -299,6 +311,26 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
 
   removeInventoryFamilyAndOrPattern(index: number) {
     this.selectedInventory.inventoryfamilies.splice(index, 1);
+  }
+
+  async openEditInventoryFamiliesAndPatternsModal(inventoryFamiliesAndPatternsToEdit: InventoryFamily) {
+    const modal = await this.modalController.create({
+      component: EditInventoryFamiliesAndPatternsPage,
+      componentProps: {
+        inventoryFamiliesAndPatternsToEdit
+      }
+    });
+    modal.onDidDismiss().then((dataReturned) => {
+      if (dataReturned.data !== undefined && dataReturned.data !== null) {
+        for (let i = 0 ; i < this.selectedInventory.inventoryfamilies.length ; i++) {
+          if (this.selectedInventory.inventoryfamilies[i].id === dataReturned.data.id) {
+            this.selectedInventory.inventoryfamilies[i] = dataReturned.data;
+          }
+        }
+      }
+      this.ref.detectChanges();
+    });
+    return await modal.present();
   }
 
   async openAddInventoryFamilyAndPatternModal() {
