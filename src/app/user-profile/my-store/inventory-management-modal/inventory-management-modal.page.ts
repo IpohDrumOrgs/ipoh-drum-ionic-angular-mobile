@@ -171,6 +171,14 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
         selectedStoreId: this.selectedStoreId,
       }
     });
+    modal.onDidDismiss().then((returnedFromEditingInventory) => {
+      if (returnedFromEditingInventory.data) {
+        this.retrieveListOfInventoriesByStoreUid();
+        if (this.referInfiniteScroll) {
+          this.referInfiniteScroll.target.disabled = false;
+        }
+      }
+    });
     return await modal.present();
   }
 

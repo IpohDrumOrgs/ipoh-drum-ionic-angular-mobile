@@ -29,7 +29,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
   selectedStoreUid: string;
 
   // Regex
-  alphaNumericOnlyRegex = '^[a-zA-Z0-9_]+$';
   priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
   numericOnlyRegex = commonConfig.numericOnlyRegex;
 
@@ -51,15 +50,9 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
   inventoryCostMaxLength = 10;
   inventorySellingPriceMaxLength = 10;
   inventoryStockThresholdMaxLength = 3;
-  maxInventoryPhotoSlider = 5;
   selectedStoreId: number;
 
   // Objects
-  ionSliderOptions = {
-    autoHeight: true,
-    initialSlide: 0,
-    speed: 400
-  };
   selectedInventory: Inventory;
   defaultSelection = {
     id: null,
@@ -69,13 +62,11 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
   selectedProductPromotionPlan: ProductPromotion;
   selectedWarrantyPlan: Warranty;
   selectedShippingPlan: Shipping;
-  temporaryInventoryThumbnail: Blob;
 
   // Arrays
   listOfStorePromotions: ProductPromotion [] = [];
   listOfStoreWarranties: Warranty[] = [];
   listOfStoreShippings: Shipping[] = [];
-  inventoryThumbnailAsArray: Array<Blob> = [];
 
   // ViewChild
   @ViewChild('inventoryThumbnailContainer', {static: false}) inventoryThumbnailContainer: ElementRef;
@@ -195,7 +186,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
             : this.selectedWarrantyPlan = this.defaultSelection;
         this.selectedInventory.shipping ? this.selectedShippingPlan = this.selectedInventory.shipping
             : this.selectedShippingPlan = this.defaultSelection;
-        console.log(this.selectedInventory);
       } else {
         // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Inventory details, please try again later!', 'warning', 'top');
@@ -330,12 +320,7 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
   updateInventory() {
     console.log(this.selectedInventory);
     if (this.inventoryInfoFormGroup.valid
-        // && this.temporaryInventorySliders.length > 0
-        // && this.temporaryInventoryThumbnail !== undefined
-        // && this.temporaryInventoryThumbnail !== null
         && this.selectedInventory.inventoryfamilies.length > 0) {
-      console.log('update inventory');
-      console.log(this.selectedInventory);
       this.loadingService.present();
       this.updateInventorySubscription = this.inventoryControllerService.updateInventoryByUid(
           this.selectedInventoryUid,
@@ -367,21 +352,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
         this.loadingService.dismiss();
         this.globalFunctionService.simpleToast('ERROR', 'Unable to update Inventory Info, please try again later!', 'danger');
       });
-    }
-  }
-
-  openThumbnailFilePicker() {
-    this.inventoryThumbnailContainer.nativeElement.click();
-  }
-
-  revertUploadedInventoryThumbnail() {
-    if (this.temporaryInventoryThumbnail) {
-      this.loadingService.present();
-      setTimeout(() => {
-        this.inventoryThumbnailAsArray[0] = null;
-        this.temporaryInventoryThumbnail = null;
-        this.loadingService.dismiss();
-      }, 500);
     }
   }
 }

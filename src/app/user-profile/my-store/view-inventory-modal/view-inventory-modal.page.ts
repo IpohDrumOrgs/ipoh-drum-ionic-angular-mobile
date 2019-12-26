@@ -44,6 +44,7 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
     getSelectedInventorySubscription: any;
     uploadThumbnailSubscription: any;
     removeSliderSubscription: any;
+    deleteInventorySubscription: any;
 
     constructor(
         private ngZone: NgZone,
@@ -81,6 +82,9 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
             }
             if (this.removeSliderSubscription) {
                 this.removeSliderSubscription.unsubscribe();
+            }
+            if (this.deleteInventorySubscription) {
+                this.deleteInventorySubscription.unsubscribe();
             }
         });
     }
@@ -189,23 +193,60 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
 
     removeSelectedSliderPhoto(selectedSliderUid: string) {
         this.loadingService.present();
-        if (this.removeSliderSubscription) {
-            this.removeSliderSubscription.unsubscribe();
-        }
-        this.removeSliderSubscription = this.inventoryImageControllerService.deleteInventoryImageByUid(
-            selectedSliderUid
-        ).subscribe(resp => {
-            if (resp.code === 200) {
-                this.globalFunctionService.simpleToast('SUCCESS', 'The sliders image has been updated!', 'success');
-                this.retrieveSelectedInventory();
-            } else {
-                this.globalFunctionService.simpleToast('WARNING', 'Unable to remove the Slider image, please try again later!', 'warning');
+        setTimeout(() => {
+            if (this.removeSliderSubscription) {
+                this.removeSliderSubscription.unsubscribe();
             }
-            this.loadingService.dismiss();
-        }, error => {
-            console.log('API Error while deleting sliders image.');
-            this.loadingService.dismiss();
-            this.globalFunctionService.simpleToast('WARNING', 'Unable to remove the Slider image, please try again later!', 'warning');
-        });
+            this.removeSliderSubscription = this.inventoryImageControllerService.deleteInventoryImageByUid(
+                selectedSliderUid
+            ).subscribe(resp => {
+                if (resp.code === 200) {
+                    this.globalFunctionService.simpleToast('SUCCESS', 'The sliders image has been updated!', 'success');
+                    this.retrieveSelectedInventory();
+                } else {
+                    this.globalFunctionService.simpleToast('WARNING', 'Unable to remove the Slider image, please try again later!', 'warning');
+                }
+                this.loadingService.dismiss();
+            }, error => {
+                console.log('API Error while deleting sliders image.');
+                this.loadingService.dismiss();
+                this.globalFunctionService.simpleToast('WARNING', 'Unable to remove the Slider image, please try again later!', 'warning');
+            });
+        }, 500);
+    }
+
+    deleteSelectedInventoryPrompt() {
+        this.globalFunctionService.presentAlertConfirm(
+            'WARNING',
+            'Are you sure you want to delete the Inventory?',
+            'Cancel',
+            'Confirm',
+            undefined,
+            () => this.deleteSelectedInventory()
+        );
+    }
+
+    deleteSelectedInventory() {
+        this.loadingService.present();
+        setTimeout(() => {
+            if (this.deleteInventorySubscription) {
+                this.deleteInventorySubscription.unsubscribe();
+            }
+            this.deleteInventorySubscription = this.inventoryControllerService.deleteInventoryByUid(
+                this.selectedInventoryUid
+            ).subscribe(resp => {
+                if (resp.code === 200) {
+                    this.globalFunctionService.simpleToast('SUCCESS', 'The Inventory has been deleted!', 'success');
+                    this.closeViewInventoryModal(true);
+                } else {
+                    this.globalFunctionService.simpleToast('WARNING', 'Unable to delete the Inventory, please try again later!', 'warning');
+                }
+                this.loadingService.dismiss();
+            }, error => {
+                console.log('API Error while deleting the Inventory by uid.');
+                this.loadingService.dismiss();
+                this.globalFunctionService.simpleToast('WARNING', 'Unable to delete the Inventory, please try again later!', 'warning');
+            });
+        }, 500);
     }
 }
