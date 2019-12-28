@@ -4,11 +4,13 @@ import {IonicModule} from '@ionic/angular';
 import {BottomMenuComponent} from './bottom-menu/bottom-menu.component';
 import {RouterModule} from '@angular/router';
 import { MyCurrencyPipe } from './my-currency.pipe';
+import {VideoUrlSanitizerPipe} from './video-url-sanitizer.pipe';
 
 @NgModule({
     declarations: [
         BottomMenuComponent,
-        MyCurrencyPipe
+        MyCurrencyPipe,
+        VideoUrlSanitizerPipe
     ],
     imports: [
         CommonModule,
@@ -17,7 +19,8 @@ import { MyCurrencyPipe } from './my-currency.pipe';
     ],
     exports: [
         BottomMenuComponent,
-        MyCurrencyPipe
+        MyCurrencyPipe,
+        VideoUrlSanitizerPipe
     ]
 })
 

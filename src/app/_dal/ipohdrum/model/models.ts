@@ -28,5 +28,6 @@ export * from './shipping';
 export * from './store';
 export * from './type';
 export * from './user';
+export * from './video';
 export * from './voucher';
 export * from './warranty';

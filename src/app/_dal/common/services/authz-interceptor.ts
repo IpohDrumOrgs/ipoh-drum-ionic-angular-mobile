@@ -7,7 +7,7 @@ export class AuthzInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (!request.headers.has('Authorization')) {
-            const header = request.headers.set('Authorization', 'Bearer ' + localStorage.getItem('access_token'));
+            let header = request.headers.set('Authorization', 'Bearer ' + localStorage.getItem('access_token'));
             const newRequest = request.clone({headers: header});
             return next.handle(newRequest);
         }

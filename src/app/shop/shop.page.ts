@@ -17,6 +17,18 @@ import {GlobalfunctionService} from '../_dal/common/services/globalfunction.serv
 
 export class ShopPage implements OnInit, OnDestroy {
 
+    // Strings
+    constructorName = '[' + this.constructor.name + ']';
+    keywordToSearchItems = '';
+
+    // Booleans
+    isLoadingCategories = true;
+    isLoadingProductFeaturesAndProductInventories = true;
+
+    // Arrays
+    listOfCategories: Array<Type> = [];
+    listOfProductFeatures: Array<ProductFeature> = [];
+    listOfProducts: Array<Inventory> = [];
     imageObject: Array<object> = [
         {
             image: 'assets/images/ekko.jpg',
@@ -38,19 +50,7 @@ export class ShopPage implements OnInit, OnDestroy {
         }
     ];
 
-    constructorName = '[' + this.constructor.name + ']';
-    keywordToSearchItems = '';
-
-    isLoadingCategories = true;
-    isLoadingProductFeaturesAndProductInventories = true;
-
-    // Sports, Musical, Clothing, Games
-    listOfCategories: Array<Type> = [];
-    // Recommended, Flash Sales, Hot Deals
-    listOfProductFeatures: Array<ProductFeature> = [];
-    // List of Inventory for each "ProductFeature"
-    listOfProducts: Array<Inventory> = [];
-
+    // Subscriptions
     inventorySubscription: any;
     typeSubscription: any;
     productFeaturesSubscription: any;
@@ -81,7 +81,7 @@ export class ShopPage implements OnInit, OnDestroy {
     }
 
     ionViewDidLeave() {
-        this.unsubscribeSubscriptions()
+        this.unsubscribeSubscriptions();
     }
 
     unsubscribeSubscriptions() {

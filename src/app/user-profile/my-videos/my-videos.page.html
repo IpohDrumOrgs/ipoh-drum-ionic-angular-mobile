@@ -1,4 +1,9 @@
 <ion-content main>
+  <vg-player>
+    <video [vgMedia]="media" #media id="singleVideo" preload="auto" controls>
+      <source src="http://static.videogular.com/assets/videos/videogular.mp4" type="video/mp4">
+    </video>
+  </vg-player>
   <ion-card style="height:100%;">
     <ion-buttons slot="start" style="padding:5px;">
       <ion-menu-button style="border:1px solid #ebebeb;border-radius:5px;color:black;"></ion-menu-button>
@@ -21,7 +26,6 @@
         </ion-col>
       </ion-row>
     </ng-container>
-
 
     <ng-template #gotVideoUploaded>
       <ion-row>

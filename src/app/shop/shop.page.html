@@ -2,13 +2,11 @@
   <ion-card>
     <ion-row>
       <ion-col size="12">
-        <!-- Searchbar -->
         <ion-row>
           <ion-col size="12">
             <ion-searchbar [placeholder]="'Search..'"></ion-searchbar>
           </ion-col>
         </ion-row>
-        <!-- Carousel -->
         <ion-row>
           <ion-col size="12">
             <ng-image-slider [images]="imageObject"
@@ -17,7 +15,6 @@
                              [animationSpeed]="15" [imageSize]="{width:300, height:200}"></ng-image-slider>
           </ion-col>
         </ion-row>
-        <!-- Categories -->
         <ion-row>
           <ion-col size="12">
             <ng-container *ngIf="isLoadingCategories else finishedLoadingCategories">
@@ -26,7 +23,7 @@
             <ng-template #finishedLoadingCategories>
               <ion-card style="margin:5px;padding:5px;">
                 <div style="width:100%;overflow-x:auto;white-space:nowrap;padding:5px;">
-                  <ion-button *ngFor="let categories of listOfCategories" (click)="selectCategory(categories.uid)">
+                  <ion-button fill="clear" *ngFor="let categories of listOfCategories" (click)="selectCategory(categories.uid)">
                     <ion-icon [name]="categories.icon"></ion-icon>
                   </ion-button>
                 </div>
@@ -34,8 +31,7 @@
             </ng-template>
           </ion-col>
         </ion-row>
-        <!-- Hot Deals -->
-        <!-- SKeleton -->
+
         <ng-container *ngIf="isLoadingProductFeaturesAndProductInventories else finishedLoadingProductFeatures">
           <ion-row>
             <ion-col size="6">
@@ -119,7 +115,6 @@
           </ion-row>
 
         </ng-container>
-        <!-- Actual Inventories -->
         <ng-template #finishedLoadingProductFeatures>
           <ion-row *ngFor="let productFeatures of listOfProductFeatures; let i = index;" style="margin-bottom:10px;">
             <ion-col size="12">

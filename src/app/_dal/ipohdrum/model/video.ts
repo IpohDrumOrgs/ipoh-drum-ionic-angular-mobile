@@ -11,14 +11,29 @@
  */
 
 
-export interface ProductFeature { 
+export interface Video { 
     id?: number;
+    channel_id?: number;
+    playlist_id?: number;
     uid?: string;
-    name?: string;
-    icon?: string;
+    title?: string;
+    desc?: string;
+    videopath?: string;
+    videopublicid?: string;
     imgpath?: string;
     imgpublicid?: string;
-    desc?: string;
+    totallength?: string;
+    view?: number;
+    like?: number;
+    dislike?: number;
+    price?: number;
+    discpctg?: number;
+    disc?: number;
+    discbyprice?: number;
+    free?: number;
+    salesqty?: number;
+    scope?: string;
+    agerestrict?: number;
     status?: number;
     created_at?: string;
     updated_at?: string;

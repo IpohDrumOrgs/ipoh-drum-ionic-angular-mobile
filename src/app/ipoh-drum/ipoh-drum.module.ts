@@ -71,6 +71,15 @@ import {ViewInventoryModalPageModule} from '../user-profile/my-store/view-invent
 import {EditInventoryFamiliesAndPatternsPageModule} from '../user-profile/my-store/edit-inventory-families-and-patterns/edit-inventory-families-and-patterns.module';
 // tslint:disable-next-line:max-line-length
 import {EditInventoryFamiliesAndPatternsPage} from '../user-profile/my-store/edit-inventory-families-and-patterns/edit-inventory-families-and-patterns.page';
+import {VgBufferingModule} from 'videogular2/compiled/src/buffering/buffering';
+import {VgOverlayPlayModule} from 'videogular2/compiled/src/overlay-play/overlay-play';
+import {VgControlsModule} from 'videogular2/compiled/src/controls/controls';
+import {VgCoreModule} from 'videogular2/compiled/src/core/core';
+import {PlaySelectedVideoModalPageModule} from '../home/sale-videos/play-selected-video-modal/play-selected-video-modal.module';
+import {PlaySelectedVideoModalPage} from '../home/sale-videos/play-selected-video-modal/play-selected-video-modal.page';
+
+import { HttpClientModule } from '@angular/common/http';
+import { EmbedVideo } from 'ngx-embed-video';
 
 const routes: Routes = [
     {
@@ -112,6 +121,12 @@ const routes: Routes = [
         FormWizardModule,
         IonicSelectableModule,
         RouterModule.forChild(routes),
+        HttpClientModule,
+        EmbedVideo,
+        VgCoreModule,
+        VgControlsModule,
+        VgOverlayPlayModule,
+        VgBufferingModule,
         ProductVariationModalPageModule,
         AddInventoryPageModule,
         InvFamilyPatternModalPageModule,
@@ -135,7 +150,8 @@ const routes: Routes = [
         EditVoucherModalPageModule,
         ViewStoreModalPageModule,
         ViewInventoryModalPageModule,
-        EditInventoryFamiliesAndPatternsPageModule
+        EditInventoryFamiliesAndPatternsPageModule,
+        PlaySelectedVideoModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -164,7 +180,8 @@ const routes: Routes = [
         EditVoucherModalPage,
         ViewStoreModalPage,
         ViewInventoryModalPage,
-        EditInventoryFamiliesAndPatternsPage
+        EditInventoryFamiliesAndPatternsPage,
+        PlaySelectedVideoModalPage
     ]
 })
 

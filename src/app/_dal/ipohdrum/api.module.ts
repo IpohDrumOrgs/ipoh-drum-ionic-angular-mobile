@@ -25,6 +25,7 @@ import { TicketControllerServiceService } from './api/ticketControllerService.se
 import { TypeControllerServiceService } from './api/typeControllerService.service';
 import { UserControllerServiceService } from './api/userControllerService.service';
 import { VerificationCodeControllerServiceService } from './api/verificationCodeControllerService.service';
+import { VideoControllerServiceService } from './api/videoControllerService.service';
 import { VoucherCodeControllerServiceService } from './api/voucherCodeControllerService.service';
 import { VoucherControllerServiceService } from './api/voucherControllerService.service';
 import { WarrantyControllerServiceService } from './api/warrantyControllerService.service';
@@ -56,6 +57,7 @@ import { WarrantyControllerServiceService } from './api/warrantyControllerServic
     TypeControllerServiceService,
     UserControllerServiceService,
     VerificationCodeControllerServiceService,
+    VideoControllerServiceService,
     VoucherCodeControllerServiceService,
     VoucherControllerServiceService,
     WarrantyControllerServiceService ]
