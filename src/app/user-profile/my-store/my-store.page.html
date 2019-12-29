@@ -6,10 +6,10 @@
     </ion-refresher-content>
   </ion-refresher>
   <ng-container *ngIf="listOfCurrentUsersStores?.length > 0 else noStoresCreated">
-    <ion-card>
+    <ion-card class="backgroundColor">
       <ion-buttons slot="start" style="padding:5px;">
-        <ion-menu-button style="border:1px solid #ebebeb;border-radius:5px;color:black;"></ion-menu-button>
-        <h3 style="width:100%;margin-left:10px;">
+        <ion-menu-button style="border:1px solid #ebebeb;border-radius:5px;color:black;background:white;"></ion-menu-button>
+        <h3 style="width:100%;margin-left:10px;color:white;">
           <b>My Store</b>
         </h3>
       </ion-buttons>
@@ -17,7 +17,7 @@
         <ion-col size="12">
           <ion-row class="ion-align-items-center">
             <ion-col size="12">
-              <div style="border:1px dashed #4285F4;text-align:center;color:rgba(66,133,244,0.4);" (click)="openCreateStoreModal()">
+              <div style="border:1px dashed #4285F4;text-align:center;color:rgba(66,133,244,0.4);background:white;" (click)="openCreateStoreModal()">
                 <ion-icon name="home" style="font-size:5rem;"></ion-icon>
                 <h3 style="margin-top:0;">Click here to create a new Store</h3>
               </div>
@@ -25,7 +25,7 @@
           </ion-row>
           <ion-row>
             <ion-col size="6" *ngFor="let store of listOfCurrentUsersStores">
-              <ion-card  (click)="openStoreInventoryManagementModal(store.uid, store.id)" style="margin:0;">
+              <ion-card (click)="openStoreInventoryManagementModal(store.uid, store.id)" style="margin:0;background:white;">
                 <ion-card-header style="background-color:#ececec;padding:0;">
                   <ng-container *ngIf="store.imgpath else noImageForStore">
                     <img [src]="store.imgpath" alt="store_img" class="productImage">

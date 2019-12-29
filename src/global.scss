@@ -98,3 +98,9 @@ input.ng-dirty.ng-invalid.ng-touched {
 .required {
     color: #ff1749;
 }
+
+// Background colors
+.backgroundColor {
+    background: #0DE89B;
+    //background: linear-gradient(90deg, rgba(9,108,71,1) 12%, rgba(11,132,87,1) 34%, rgba(11,132,87,1) 46%, rgba(234,216,0,1) 93%);
+}

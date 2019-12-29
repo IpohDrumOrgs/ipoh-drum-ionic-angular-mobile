@@ -1,9 +1,9 @@
-<!-- list of users -->
+<!-- list of users
 <div style="padding:10px;">
   <small style="color:#d9d9d9;">Recommended Authors</small>
 </div>
 <div style="width:100%;overflow-x:auto;white-space:nowrap;padding-bottom:15px;border-bottom:1px solid #f8f8f8;">
-  <!-- TODO: Infinite-scrolling, but horizontal -->
+  &lt;!&ndash; TODO: Infinite-scrolling, but horizontal &ndash;&gt;
   <img src="../../../assets/images/avatar_1.jpg" alt="user_prof" class="userProfileAvatar">
   <img src="../../../assets/images/avatar_2.png" alt="user_prof" class="userProfileAvatar">
   <img src="../../../assets/images/avatar_3.png" alt="user_prof" class="userProfileAvatar">
@@ -16,4 +16,12 @@
   <img src="../../../assets/images/avatar_2.png" alt="user_prof" class="userProfileAvatar">
   <img src="../../../assets/images/avatar_3.png" alt="user_prof" class="userProfileAvatar">
   <img src="../../../assets/images/avatar_1.jpg" alt="user_prof" class="userProfileAvatar">
-</div>
+</div>-->
+<ng-container *ngIf="isLoadingListOfPublicArticles else finishedLoadingListOfPublicArticles">
+
+</ng-container>
+<ng-template #finishedLoadingListOfPublicArticles>
+  <ion-card style="margin-bottom:10px;background-color:white !important;" *ngFor="let article of listOfPublicArticles;let i = index;">
+    {{article.title}}
+  </ion-card>
+</ng-template>

@@ -2,19 +2,19 @@
 <ion-content>
 <ion-row class="ion-align-items-center" style="height:100%;">
   <ion-col size="12">
-    <ion-card *ngIf="showLoginCard">
+    <ion-card *ngIf="showLoginCard" class="backgroundColor">
       <ion-card-header>
         <ion-card-subtitle>
-          <h1>Ipoh Drum</h1>
+          <h1 style="color:white;">Ipoh Drum</h1>
         </ion-card-subtitle>
-        <ion-card-title>Login</ion-card-title>
+        <ion-card-title style="color:white;">Login</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
         <ion-row [formGroup]="userLoginFormGroup">
           <ion-col size="12">
             <ion-row>
-              <ion-col size="12">
+              <ion-col size="12" style="color:white;">
                 EMAIL
               </ion-col>
             </ion-row>
@@ -32,7 +32,7 @@
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="12">
+              <ion-col size="12" style="color:white;">
                 PASSWORD
               </ion-col>
             </ion-row>
@@ -55,25 +55,25 @@
             </ion-row>
           </ion-col>
           <ion-row>
-            <ion-col size="12" style="text-align:right;">
+            <ion-col size="12" style="text-align:right;color:white;">
               <a (click)="changeToUserRegistrationCard()">Not a member yet? Register here!</a>
             </ion-col>
           </ion-row>
         </ion-row>
       </ion-card-content>
     </ion-card>
-    <ion-card *ngIf="showRegisterCard">
+    <ion-card *ngIf="showRegisterCard" class="backgroundColor">
       <ion-card-header>
         <ion-card-subtitle>
-          <h1>Ipoh Drum</h1>
+          <h1 style="color:white;">Ipoh Drum</h1>
         </ion-card-subtitle>
-        <ion-card-title>Register</ion-card-title>
+        <ion-card-title style="color:white;">Register</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <ion-row [formGroup]="userRegisterFormGroup">
           <ion-col size="12">
             <ion-row>
-              <ion-col size="12">
+              <ion-col size="12" style="color:white;">
                 USERNAME
               </ion-col>
             </ion-row>
@@ -97,7 +97,7 @@
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="12">
+              <ion-col size="12" style="color:white;">
                 EMAIL
               </ion-col>
             </ion-row>
@@ -115,7 +115,7 @@
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="12">
+              <ion-col size="12" style="color:white;">
                 PASSWORD
               </ion-col>
             </ion-row>
@@ -138,7 +138,7 @@
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="12">
+              <ion-col size="12" style="color:white;">
                 CONFIRM PASSWORD
               </ion-col>
             </ion-row>
@@ -171,7 +171,7 @@
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="12">
+              <ion-col size="12" style="color:white;">
                 <a (click)="changeToUserLoginCard()">Already a member? Login here!</a>
               </ion-col>
             </ion-row>

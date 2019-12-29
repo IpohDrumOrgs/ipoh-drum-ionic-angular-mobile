@@ -11,10 +11,19 @@
  */
 
 
-export interface InlineObject13 { 
-    /**
-     * Image
-     */
-    img?: Array<Blob>;
+export interface Article { 
+    id?: number;
+    blogger_id?: number;
+    uid?: string;
+    title?: string;
+    desc?: string;
+    view?: number;
+    like?: number;
+    dislike?: number;
+    scope?: string;
+    agerestrict?: number;
+    status?: number;
+    created_at?: string;
+    updated_at?: string;
 }
 

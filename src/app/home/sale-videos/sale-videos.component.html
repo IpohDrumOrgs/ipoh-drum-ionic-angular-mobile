@@ -1,5 +1,5 @@
 <ng-container *ngIf="isLoadingListOfPublicVideos else finishedLoadingListOfPublicVideos">
-    <ion-card style="margin-bottom:10px;">
+    <ion-card style="margin-bottom:10px;margin-top:0;background-color:white !important;">
         <img src="../../../assets/images/default_product.png" style="object-fit:cover;"/>
         <ion-card-header style="padding-top:5px;padding-bottom:0;">
             <ion-label>
@@ -29,7 +29,7 @@
             </ion-row>
         </ion-card-content>
     </ion-card>
-    <ion-card style="margin-bottom:10px;">
+    <ion-card style="margin-bottom:10px;background-color:white !important;">
         <img src="../../../assets/images/default_product.png" style="object-fit:cover;"/>
         <ion-card-header style="padding-top:5px;padding-bottom:0;">
             <ion-label>
@@ -67,7 +67,7 @@
                 refreshingSpinner="crescent">
         </ion-refresher-content>
     </ion-refresher>
-    <ion-card style="margin-bottom:10px;" *ngFor="let video of listOfPublicVideos;let i = index;"
+    <ion-card style="margin-bottom:10px;margin-top:0;background-color:white !important;" *ngFor="let video of listOfPublicVideos;let i = index;"
               (click)="playSelectedVideo(video.uid)">
         <div class="play-button-div">
             <img [src]="video.imgpath" [alt]="'vid_' + i" *ngIf="video.imgpath" style="object-fit:cover;"/>

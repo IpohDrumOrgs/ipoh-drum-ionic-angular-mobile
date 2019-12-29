@@ -10,8 +10,10 @@ export class HomePage implements OnInit {
 
   // Strings
   constructorName = '[' + this.constructor.name + ']';
-
   currentTab = 'videos';
+
+  // Booleans
+  isShowingVideosTab = true;
 
   constructor() {
     console.log(this.constructorName + 'Initializing component');
@@ -23,6 +25,7 @@ export class HomePage implements OnInit {
 
   selectedTab(tab: string) {
     this.currentTab = tab;
+    this.isShowingVideosTab = tab === 'videos';
   }
 
   ionViewDidLeave() {

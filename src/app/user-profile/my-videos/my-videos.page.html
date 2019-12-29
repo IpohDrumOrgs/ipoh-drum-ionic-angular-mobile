@@ -1,25 +1,20 @@
 <ion-content main>
-  <vg-player>
-    <video [vgMedia]="media" #media id="singleVideo" preload="auto" controls>
-      <source src="http://static.videogular.com/assets/videos/videogular.mp4" type="video/mp4">
-    </video>
-  </vg-player>
-  <ion-card style="height:100%;">
+  <ion-card class="backgroundColor" style="height:100%;">
     <ion-buttons slot="start" style="padding:5px;">
-      <ion-menu-button style="border:1px solid #ebebeb;border-radius:5px;color:black;"></ion-menu-button>
-      <h3 style="width:100%;margin-left:10px;">
+      <ion-menu-button style="border:1px solid #ebebeb;border-radius:5px;color:black;background:white;"></ion-menu-button>
+      <h3 style="width:100%;margin-left:10px; color:white;">
         <b>My Video</b>
       </h3>
     </ion-buttons>
     <ng-container *ngIf="noVideosUploaded else gotVideoUploaded">
       <ion-row>
         <ion-col size="12" style="text-align:center;">
-          <h3 style="color:#e6e6e6;">
+          <h3 style="color:white;">
             <ion-icon name="videocam" style="font-size:8rem;"></ion-icon>
             <br>
             No videos yet! <br>Start uploading!
             <br>
-            <ion-button fill="outline" style="margin-top:10px;">
+            <ion-button fill="outline" style="margin-top:10px;color:white;">
               UPLOAD&nbsp;&nbsp;<ion-icon name="arrow-round-up"></ion-icon>
             </ion-button>
           </h3>

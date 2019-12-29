@@ -8,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
 
 export class MyVideosPage implements OnInit {
 
+  // Strings
   constructorName = '[' + this.constructor.name + ']';
 
+  // Booleans
   noVideosUploaded = true;
 
+  // Arrays
   listOfCountries: any[] = [
     {
       name: 'Russia',
