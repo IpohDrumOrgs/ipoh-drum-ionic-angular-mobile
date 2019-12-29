@@ -3,8 +3,6 @@ import {Video, VideoControllerServiceService} from '../../../_dal/ipohdrum';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {ModalController} from '@ionic/angular';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
-import { EmbedVideoService } from 'ngx-embed-video';
-import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
     selector: 'app-play-selected-video-modal',
@@ -28,11 +26,7 @@ export class PlaySelectedVideoModalPage implements OnInit {
     // Subscriptions
     getVideoByIdSubscription: any;
 
-    iFrameHtml: any;
-
     constructor(
-        private domSanitizer: DomSanitizer,
-        private embedService: EmbedVideoService,
         private ngZone: NgZone,
         private loadingService: LoadingService,
         private videoControllerService: VideoControllerServiceService,
@@ -62,7 +56,6 @@ export class PlaySelectedVideoModalPage implements OnInit {
             if (resp.code === 200) {
                 this.selectedPublicVideo = resp.data;
                 this.videoUrl = this.selectedPublicVideo.videopath;
-                this.iFrameHtml = this.embedService.embed(this.videoUrl);
             } else {
                 console.log('API Error while retrieving the selected public video by uid.');
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the selected Video, please try again later!', 'danger');

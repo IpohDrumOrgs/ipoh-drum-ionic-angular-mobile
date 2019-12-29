@@ -78,9 +78,6 @@ import {VgCoreModule} from 'videogular2/compiled/src/core/core';
 import {PlaySelectedVideoModalPageModule} from '../home/sale-videos/play-selected-video-modal/play-selected-video-modal.module';
 import {PlaySelectedVideoModalPage} from '../home/sale-videos/play-selected-video-modal/play-selected-video-modal.page';
 
-import { HttpClientModule } from '@angular/common/http';
-import { EmbedVideo } from 'ngx-embed-video';
-
 const routes: Routes = [
     {
         path: '',
@@ -121,8 +118,6 @@ const routes: Routes = [
         FormWizardModule,
         IonicSelectableModule,
         RouterModule.forChild(routes),
-        HttpClientModule,
-        EmbedVideo,
         VgCoreModule,
         VgControlsModule,
         VgOverlayPlayModule,
