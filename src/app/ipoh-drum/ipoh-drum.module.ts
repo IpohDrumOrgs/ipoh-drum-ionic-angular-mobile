@@ -77,6 +77,7 @@ import {VgControlsModule} from 'videogular2/compiled/src/controls/controls';
 import {VgCoreModule} from 'videogular2/compiled/src/core/core';
 import {PlaySelectedVideoModalPageModule} from '../home/sale-videos/play-selected-video-modal/play-selected-video-modal.module';
 import {PlaySelectedVideoModalPage} from '../home/sale-videos/play-selected-video-modal/play-selected-video-modal.page';
+import {RatingModule} from 'ng-starrating';
 
 const routes: Routes = [
     {
@@ -146,7 +147,8 @@ const routes: Routes = [
         ViewStoreModalPageModule,
         ViewInventoryModalPageModule,
         EditInventoryFamiliesAndPatternsPageModule,
-        PlaySelectedVideoModalPageModule
+        PlaySelectedVideoModalPageModule,
+        RatingModule
     ],
     declarations: [
         IpohDrumPage,
@@ -176,7 +178,7 @@ const routes: Routes = [
         ViewStoreModalPage,
         ViewInventoryModalPage,
         EditInventoryFamiliesAndPatternsPage,
-        PlaySelectedVideoModalPage
+        PlaySelectedVideoModalPage,
     ]
 })
 

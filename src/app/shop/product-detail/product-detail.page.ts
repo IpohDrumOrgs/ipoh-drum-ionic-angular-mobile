@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {Inventory, InventoryControllerServiceService} from '../../_dal/ipohdrum';
 import {ProductVariationModalPage} from './product-variation-modal/product-variation-modal.page';
 import {ModalController} from '@ionic/angular';
+import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
+import {Location} from '@angular/common';
 
 @Component({
     selector: 'app-product-detail',
@@ -12,12 +14,14 @@ import {ModalController} from '@ionic/angular';
 
 export class ProductDetailPage implements OnInit, OnDestroy {
 
+    // Strings
     constructorName = '[' + this.constructor.name + ']';
+    inventoryUID: string;
 
-    inventoryUID: number;
-
+    // Booleans
     isLoadingInventory = true;
 
+    // Objects
     currentInventory: Inventory;
     ionSliderOptions = {
         autoHeight: true,
@@ -25,36 +29,25 @@ export class ProductDetailPage implements OnInit, OnDestroy {
         speed: 400
     };
 
+    // Subscriptions
     currentInventorySubscription: any;
+    routerEventsSubscription: any;
 
     constructor(
+        private location: Location,
         private router: Router,
         private route: ActivatedRoute,
         private ngZone: NgZone,
         private modalController: ModalController,
-        private inventoryControllerService: InventoryControllerServiceService
+        private inventoryControllerService: InventoryControllerServiceService,
+        private globalFunctionService: GlobalfunctionService
     ) {
         console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
-        this.isLoadingInventory = true;
-        this.route.params.subscribe(params => {
-            this.inventoryUID = +params.uid;
-            this.currentInventorySubscription = this.inventoryControllerService.getOnSaleInventoryByUid(
-                this.inventoryUID.toString()
-            ).subscribe(resp => {
-                if (resp.code === 200) {
-                    this.currentInventory = resp.data;
-                } else {
-                    // TODO: Navigate to Shop page after showed alert prompt
-                }
-                this.isLoadingInventory = false;
-            }, error => {
-                console.log('cannot get item');
-                this.isLoadingInventory = false;
-                // TODO: Navigate to Shop page after showed alert prompt
-            });
+        this.ngZone.run(() => {
+            this.retrieveSelectedInventoryInfo();
         });
     }
 
@@ -71,17 +64,45 @@ export class ProductDetailPage implements OnInit, OnDestroy {
             if (this.currentInventorySubscription) {
                 this.currentInventorySubscription.unsubscribe();
             }
+            if (this.routerEventsSubscription) {
+                this.routerEventsSubscription.unsubscribe();
+            }
+        });
+    }
+
+    retrieveSelectedInventoryInfo() {
+        this.isLoadingInventory = true;
+        this.route.params.subscribe(params => {
+            this.inventoryUID = params.uid;
+            if (this.currentInventorySubscription) {
+                this.currentInventorySubscription.unsubscribe();
+            }
+            this.currentInventorySubscription = this.inventoryControllerService.getOnSaleInventoryByUid(
+                this.inventoryUID.toString()
+            ).subscribe(resp => {
+                if (resp.code === 200) {
+                    this.currentInventory = resp.data;
+                } else {
+                    // tslint:disable-next-line:max-line-length
+                    this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the selected Inventory info, please try again later!', 'danger');
+                    this.backToShopPage();
+                }
+                this.isLoadingInventory = false;
+            }, error => {
+                console.log('cannot get item');
+                this.isLoadingInventory = false;
+                // tslint:disable-next-line:max-line-length
+                this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the selected Inventory info, please try again later!', 'danger');
+                this.backToShopPage();
+            });
         });
     }
 
     backToShopPage() {
-        this.router.navigate(['ipoh-drum/shop']).catch(reason => {
-            console.log('Routing error, reason:', reason);
-            // TODO: Navigate to home page after showed alert prompt
-        });
+        this.location.back();
     }
 
-    async openModal() {
+    async openProductVariationsModal() {
         const modal = await this.modalController.create({
             component: ProductVariationModalPage,
             cssClass: 'dialog-modal',

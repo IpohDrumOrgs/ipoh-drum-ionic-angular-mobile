@@ -21,7 +21,6 @@ export class AppComponent implements OnInit {
     private ngZone: NgZone
   ) {
     this.initializeApp();
-    console.log(this.constructorName + 'Initializing component');
   }
 
   initializeApp() {

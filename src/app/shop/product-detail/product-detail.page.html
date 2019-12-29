@@ -39,9 +39,6 @@
                     <ion-slide>
                         <img [src]="currentInventory?.imgpath" alt="product_image">
                     </ion-slide>
-                    <ion-slide>
-                        <img src="../../../assets/images/test.jpg" alt="product_image">
-                    </ion-slide>
                 </ion-slides>
             </ng-container>
             <ng-container *ngIf="isLoadingInventory">
@@ -97,7 +94,7 @@
                         <br>
                         <ion-chip color="primary">{{currentInventory.qty}}</ion-chip>&nbsp;stock quantity
                         <br>
-                        <ion-chip outline style="margin-left:0;" (click)="openModal()">
+                        <ion-chip outline style="margin-left:0;" (click)="openProductVariationsModal()">
                             <ion-icon name="cart" color="primary"></ion-icon>
                             <ion-label>Add To Cart</ion-label>
                             <ion-icon name="add-circle" color="primary"></ion-icon>

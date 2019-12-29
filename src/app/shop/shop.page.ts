@@ -5,7 +5,7 @@ import {
     Type,
     ProductFeatureControllerServiceService, ProductFeature, Inventory
 } from '../_dal/ipohdrum';
-import {NavController} from '@ionic/angular';
+import {ModalController, NavController} from '@ionic/angular';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GlobalfunctionService} from '../_dal/common/services/globalfunction.service';
 
@@ -64,7 +64,8 @@ export class ShopPage implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private typeControllerService: TypeControllerServiceService,
         private productFeatureControllerService: ProductFeatureControllerServiceService,
-        private globalFunctionService: GlobalfunctionService
+        private globalFunctionService: GlobalfunctionService,
+        private modalController: ModalController
     ) {
         console.log(this.constructorName + 'Initializing component');
     }
@@ -153,10 +154,11 @@ export class ShopPage implements OnInit, OnDestroy {
         });
     }
 
-    viewProductDetail(inventoryUID: number) {
+    viewProductDetail(inventoryUID: string) {
         this.router.navigate(['product-detail', inventoryUID], {relativeTo: this.route}).catch(reason => {
             console.log('Routing navigation failed');
-            this.globalFunctionService.simpleToast('ERROR', 'Unable to view Product\'s details, please try again later.', 'warning', 'top');
+            // tslint:disable-next-line:max-line-length
+            this.globalFunctionService.simpleToast('ERROR', 'Unable to view Inventory\'s details, please try again later.', 'warning', 'top');
             this.router.navigate(['/home']);
         });
     }
@@ -168,9 +170,13 @@ export class ShopPage implements OnInit, OnDestroy {
             undefined, undefined);
     }
 
-    // TODO
     showMore(productFeatureUid: string) {
-        console.log('show more items from product feature of uid:' + productFeatureUid);
+        this.router.navigate(['show-more-products', productFeatureUid], {relativeTo: this.route}).catch(reason => {
+            console.log('Routing navigation failed');
+            // tslint:disable-next-line:max-line-length
+            this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of Inventories, please try again later.', 'warning', 'top');
+            this.router.navigate(['/home']);
+        });
     }
 
     // TODO
