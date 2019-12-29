@@ -69,14 +69,21 @@
     </ion-refresher>
     <ion-card style="margin-bottom:10px;" *ngFor="let video of listOfPublicVideos;let i = index;"
               (click)="playSelectedVideo(video.uid)">
-        <img [src]="video.imgpath" [alt]="'vid_' + i" *ngIf="video.imgpath" style="object-fit:cover;"/>
-        <img src="../../../assets/images/default_product.png" [alt]="'vid_' + i" *ngIf="!video.imgpath"
-             style="object-fit:cover;"/>
+        <div class="play-button-div">
+            <img [src]="video.imgpath" [alt]="'vid_' + i" *ngIf="video.imgpath" style="object-fit:cover;"/>
+            <img src="../../../assets/images/default_product.png" [alt]="'vid_' + i" *ngIf="!video.imgpath"
+                 style="object-fit:cover;"/>
+            <ion-icon name="play" class="play-button-icon" style="color:white;font-size:4rem;border:3px solid white;border-radius:50%;"></ion-icon>
+        </div>
         <ion-card-header style="padding-top:5px;padding-bottom:0;">
-            <ion-card-title>{{video?.title}}</ion-card-title>
+            <ion-card-title>
+                <b>
+                    {{video?.title}}
+                </b>
+            </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-            <ion-row>
+            <!--<ion-row>
                 <ion-col size="12">
                     <ion-row>
                         <ion-col size="3">
@@ -90,6 +97,11 @@
                             Views: {{video?.view}}
                         </ion-col>
                     </ion-row>
+                </ion-col>
+            </ion-row>-->
+            <ion-row>
+                <ion-col size="12" style="padding-left:0;">
+                    <b>Views&nbsp;</b>{{video?.view}}
                 </ion-col>
             </ion-row>
         </ion-card-content>
