@@ -17,6 +17,7 @@ import {LoadingService} from './_dal/common/services/loading.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SharedService} from './shared.service';
 import {IpohDrumPageModule} from './ipoh-drum/ipoh-drum.module';
+import {Stripe} from '@ionic-native/stripe/ngx';
 
 @NgModule({
     declarations: [
@@ -43,6 +44,7 @@ import {IpohDrumPageModule} from './ipoh-drum/ipoh-drum.module';
         AuthenticationService,
         LoadingService,
         SharedService,
+        Stripe,
         {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
         {
             provide: HTTP_INTERCEPTORS,

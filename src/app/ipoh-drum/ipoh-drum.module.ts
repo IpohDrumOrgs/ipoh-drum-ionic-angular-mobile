@@ -78,6 +78,10 @@ import {VgCoreModule} from 'videogular2/compiled/src/core/core';
 import {PlaySelectedVideoModalPageModule} from '../home/sale-videos/play-selected-video-modal/play-selected-video-modal.module';
 import {PlaySelectedVideoModalPage} from '../home/sale-videos/play-selected-video-modal/play-selected-video-modal.page';
 import {RatingModule} from 'ng-starrating';
+import {ViewSelectedArticleModalPageModule} from '../home/sale-articles/view-selected-article-modal/view-selected-article-modal.module';
+import {ViewSelectedArticleModalPage} from '../home/sale-articles/view-selected-article-modal/view-selected-article-modal.page';
+import {PaymentInfoModalPageModule} from '../shared/payment-info-modal/payment-info-modal.module';
+import {PaymentInfoModalPage} from '../shared/payment-info-modal/payment-info-modal.page';
 
 const routes: Routes = [
     {
@@ -148,7 +152,9 @@ const routes: Routes = [
         ViewInventoryModalPageModule,
         EditInventoryFamiliesAndPatternsPageModule,
         PlaySelectedVideoModalPageModule,
-        RatingModule
+        RatingModule,
+        ViewSelectedArticleModalPageModule,
+        PaymentInfoModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -179,6 +185,8 @@ const routes: Routes = [
         ViewInventoryModalPage,
         EditInventoryFamiliesAndPatternsPage,
         PlaySelectedVideoModalPage,
+        ViewSelectedArticleModalPage,
+        PaymentInfoModalPage
     ]
 })
 

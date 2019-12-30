@@ -2,6 +2,8 @@ import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {Article, ArticleControllerServiceService} from '../../_dal/ipohdrum';
 import {LoadingService} from '../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
+import {ModalController} from '@ionic/angular';
+import {ViewSelectedArticleModalPage} from './view-selected-article-modal/view-selected-article-modal.page';
 
 @Component({
   selector: 'app-sale-articles',
@@ -30,6 +32,7 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
   getListOfArticlesSubscription: any;
 
   constructor(
+      private modalController: ModalController,
       private ngZone: NgZone,
       private loadingService: LoadingService,
       private globalFunctionService: GlobalfunctionService,
@@ -85,5 +88,15 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
       this.isLoadingListOfPublicArticles = false;
       this.listOfPublicArticles = [];
     });
+  }
+
+  async openSelectedArticleInModal(publicArticleUid: string) {
+    const modal = await this.modalController.create({
+      component: ViewSelectedArticleModalPage,
+      componentProps: {
+        publicArticleUid
+      }
+    });
+    return await modal.present();
   }
 }

@@ -3,6 +3,7 @@ import {Video, VideoControllerServiceService} from '../../../_dal/ipohdrum';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {ModalController} from '@ionic/angular';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
+import {PaymentInfoModalPage} from '../../../shared/payment-info-modal/payment-info-modal.page';
 
 @Component({
     selector: 'app-play-selected-video-modal',
@@ -72,5 +73,12 @@ export class PlaySelectedVideoModalPage implements OnInit {
 
     async closePlaySelectedVideoModal() {
         await this.modalController.dismiss();
+    }
+
+    async openPaymentInfoModal() {
+        const modal = await this.modalController.create({
+            component: PaymentInfoModalPage
+        });
+        return await modal.present();
     }
 }
