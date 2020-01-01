@@ -5,7 +5,10 @@
         <ion-col size="2" style="text-align:left;padding:0;">
           <ion-icon name="arrow-back" style="font-size:25px;" (click)="closeViewStoreModal()"></ion-icon>
         </ion-col>
-        <ion-col size="10" *ngIf="!isLoadingStoreInfo" style="text-align:right;">
+        <ion-col size="8" style="text-align:left;white-space:normal;word-wrap:break-word;">
+          <b>View Store</b>
+        </ion-col>
+        <ion-col size="2" *ngIf="!isLoadingStoreInfo" style="text-align:right;">
           <ion-button fill="clear" (click)="openEditStoreModal()">
             <ion-icon name="create"></ion-icon>
           </ion-button>

@@ -86,6 +86,8 @@ import {AddBlogModalPageModule} from '../user-profile/my-blog/add-blog-modal/add
 import {AddBlogModalPage} from '../user-profile/my-blog/add-blog-modal/add-blog-modal.page';
 import {ViewBlogModalPage} from '../user-profile/my-blog/view-blog-modal/view-blog-modal.page';
 import {ViewBlogModalPageModule} from '../user-profile/my-blog/view-blog-modal/view-blog-modal.module';
+import {EditBlogModalPageModule} from '../user-profile/my-blog/edit-blog-modal/edit-blog-modal.module';
+import {EditBlogModalPage} from '../user-profile/my-blog/edit-blog-modal/edit-blog-modal.page';
 
 const routes: Routes = [
     {
@@ -160,7 +162,8 @@ const routes: Routes = [
         ViewSelectedArticleModalPageModule,
         PaymentInfoModalPageModule,
         AddBlogModalPageModule,
-        ViewBlogModalPageModule
+        ViewBlogModalPageModule,
+        EditBlogModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -194,7 +197,8 @@ const routes: Routes = [
         ViewSelectedArticleModalPage,
         PaymentInfoModalPage,
         AddBlogModalPage,
-        ViewBlogModalPage
+        ViewBlogModalPage,
+        EditBlogModalPage
     ]
 })
 

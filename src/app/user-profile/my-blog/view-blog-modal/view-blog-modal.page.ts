@@ -4,6 +4,7 @@ import {Blogger} from '../../../_dal/ipohdrum/model/blogger';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {ModalController} from '@ionic/angular';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
+import {EditBlogModalPage} from '../edit-blog-modal/edit-blog-modal.page';
 
 @Component({
   selector: 'app-view-blog-modal',
@@ -88,18 +89,17 @@ export class ViewBlogModalPage implements OnInit, OnDestroy {
     await this.modalController.dismiss();
   }
   async openEditBloggerModal() {
-    // const modal = await this.modalController.create({
-    //   component: EditStoreModalPage,
-    //   componentProps: {
-    //     selectedStoreUid: this.selectedStoreUid,
-    //     selectedStoreId: this.selectedStoreId
-    //   }
-    // });
-    // modal.onDidDismiss().then((returnFromEditingStore) => {
-    //   if (returnFromEditingStore.data) {
-    //     this.retrieveSelectedStore();
-    //   }
-    // });
-    // return await modal.present();
+    const modal = await this.modalController.create({
+      component: EditBlogModalPage,
+      componentProps: {
+        selectedBloggerUid: this.selectedBloggerUid
+      }
+    });
+    modal.onDidDismiss().then((returnFromEditingBlog) => {
+      if (returnFromEditingBlog.data) {
+        this.retrieveSelectedBloggerByUid();
+      }
+    });
+    return await modal.present();
   }
 }

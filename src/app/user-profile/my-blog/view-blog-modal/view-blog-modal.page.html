@@ -6,7 +6,10 @@
           <ion-icon *ngIf="!isLoadingBloggerInfo" name="arrow-back" style="font-size:25px;" (click)="closeViewBloggerModal()"></ion-icon>
           <ion-spinner *ngIf="isLoadingBloggerInfo" name="crescent"></ion-spinner>
         </ion-col>
-        <ion-col size="10" *ngIf="!isLoadingBloggerInfo" style="text-align:right;">
+        <ion-col size="8" style="text-align:left;white-space:normal;word-wrap:break-word;">
+          <b>View Blogger</b>
+        </ion-col>
+        <ion-col size="2" *ngIf="!isLoadingBloggerInfo">
           <ion-button fill="clear" (click)="openEditBloggerModal()">
             <ion-icon name="create"></ion-icon>
           </ion-button>

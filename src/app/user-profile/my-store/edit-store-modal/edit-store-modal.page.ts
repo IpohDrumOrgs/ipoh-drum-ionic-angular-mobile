@@ -140,6 +140,7 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
         this.isLoadingStoreInfo = false;
         this.loadingService.dismiss();
         this.closeEditStoreModal(false);
+        this.ref.detectChanges();
       });
     });
   }
@@ -212,13 +213,13 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
         'PUT',
         this.storeImageAsBlobArray[0] !== undefined || this.storeImageAsBlobArray[0] !== null ? this.storeImageAsBlobArray : null
     ).subscribe(resp => {
-      this.loadingService.dismiss();
       if (resp.code === 200) {
         this.globalFunctionService.simpleToast('SUCCESS', 'Store has been updated.', 'success', 'top');
         this.closeEditStoreModal(true);
       } else {
         this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Store, please try again later!', 'danger', 'top');
       }
+      this.loadingService.dismiss();
     }, error => {
       console.log('API Error while updating store');
       this.loadingService.dismiss();
