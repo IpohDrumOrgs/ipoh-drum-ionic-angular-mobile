@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Company } from './company';
 
 
 export interface Blogger { 
@@ -26,5 +27,6 @@ export interface Blogger {
     status?: number;
     created_at?: string;
     updated_at?: string;
+    company?: Company;
 }
 

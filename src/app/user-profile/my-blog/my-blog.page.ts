@@ -118,11 +118,11 @@ export class MyBlogPage implements OnInit, OnDestroy {
         return await modal.present();
     }
 
-    async openViewSelectedBlogModal(selectedBlogUid: string) {
+    async openViewSelectedBlogModal(selectedBloggerUid: string) {
         const modal = await this.modalController.create({
            component: ViewBlogModalPage,
            componentProps: {
-               selectedBlogUid
+               selectedBloggerUid
            }
         });
         return await modal.present();

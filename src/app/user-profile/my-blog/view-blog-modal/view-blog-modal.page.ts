@@ -1,15 +1,105 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {BloggerControllerServiceService, Store} from '../../../_dal/ipohdrum';
+import {Blogger} from '../../../_dal/ipohdrum/model/blogger';
+import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
+import {ModalController} from '@ionic/angular';
+import {LoadingService} from '../../../_dal/common/services/loading.service';
 
 @Component({
   selector: 'app-view-blog-modal',
   templateUrl: './view-blog-modal.page.html',
   styleUrls: ['./view-blog-modal.page.scss'],
 })
-export class ViewBlogModalPage implements OnInit {
 
-  constructor() { }
+export class ViewBlogModalPage implements OnInit, OnDestroy {
 
-  ngOnInit() {
+  // Strings
+  constructorName = '[' + this.constructor.name + ']';
+  selectedBloggerUid: string;
+
+  // Booleans
+  isLoadingBloggerInfo = true;
+  companyBelongingsFlag = false;
+
+  // Objects
+  selectedBlogger: Blogger;
+
+  // Subscriptions
+  getSelectedBloggerByUidSubscription: any;
+
+  constructor(
+      private ngZone: NgZone,
+      private bloggerControllerService: BloggerControllerServiceService,
+      private globalFunctionService: GlobalfunctionService,
+      private modalController: ModalController,
+      private loadingService: LoadingService
+  ) {
+    console.log(this.constructorName + 'Initializing component');
   }
 
+  ngOnInit() {
+    this.ngZone.run(() => {
+      this.retrieveSelectedBloggerByUid();
+    });
+  }
+
+  ngOnDestroy() {
+    this.unsubscribeSubscriptions();
+  }
+
+  ionViewDidLeave() {
+    this.unsubscribeSubscriptions();
+  }
+
+  unsubscribeSubscriptions() {
+    this.ngZone.run(() => {
+      if (this.getSelectedBloggerByUidSubscription) {
+        this.getSelectedBloggerByUidSubscription.unsubscribe();
+      }
+    });
+  }
+
+  retrieveSelectedBloggerByUid() {
+    this.isLoadingBloggerInfo = true;
+    if (this.getSelectedBloggerByUidSubscription) {
+      this.getSelectedBloggerByUidSubscription.unsubscribe();
+    }
+    this.getSelectedBloggerByUidSubscription = this.bloggerControllerService.getBloggerByUid(
+        this.selectedBloggerUid
+    ).subscribe(resp => {
+      if (resp.code === 200) {
+        this.selectedBlogger = resp.data;
+        this.companyBelongingsFlag = resp.data.companyBelongings === 1;
+      } else {
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Blogger info, please try again later!', 'danger');
+        this.closeViewBloggerModal();
+      }
+      this.isLoadingBloggerInfo = false;
+    }, error => {
+      console.log('API Error while retriving selected Blogger by uid.');
+      console.log(error);
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Blogger info, please try again later!', 'danger');
+      this.closeViewBloggerModal();
+      this.isLoadingBloggerInfo = false;
+    });
+  }
+
+  async closeViewBloggerModal() {
+    await this.modalController.dismiss();
+  }
+  async openEditBloggerModal() {
+    // const modal = await this.modalController.create({
+    //   component: EditStoreModalPage,
+    //   componentProps: {
+    //     selectedStoreUid: this.selectedStoreUid,
+    //     selectedStoreId: this.selectedStoreId
+    //   }
+    // });
+    // modal.onDidDismiss().then((returnFromEditingStore) => {
+    //   if (returnFromEditingStore.data) {
+    //     this.retrieveSelectedStore();
+    //   }
+    // });
+    // return await modal.present();
+  }
 }
