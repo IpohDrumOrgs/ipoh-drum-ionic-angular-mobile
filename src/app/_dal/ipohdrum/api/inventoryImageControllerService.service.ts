@@ -348,7 +348,7 @@ export class InventoryImageControllerServiceService {
         }
 
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/api/inventoryimage/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/inventoryimage/${encodeURIComponent(String(uid))}`,
             null,
             {
                 params: queryParameters,

@@ -53,12 +53,12 @@ export class AddStoreModalPage implements OnInit, OnDestroy {
 
   // Arrays
   listOfCompanies: Array<Company> = [];
+  storeImageAsBlobArray: Array<Blob> = [];
 
   // ViewChilds
   @ViewChild('storeImageContainer', {static: false}) storeImageContainer: ElementRef;
 
   // Objects
-  storeImageAsBlobArray: Array<Blob> = [];
   inventoryImageSliderOptions = {
     autoHeight: true,
     initialSlide: 0,

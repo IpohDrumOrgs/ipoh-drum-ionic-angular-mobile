@@ -107,6 +107,14 @@ export class MyBlogPage implements OnInit, OnDestroy {
         const modal = await this.modalController.create({
            component: AddBlogModalPage
         });
+        modal.onDidDismiss().then((returnFromCreatingBlog) => {
+            if (returnFromCreatingBlog.data) {
+                this.retrieveListOfBlogsOfCurrentUsers();
+                if (this.referInfiniteScroll) {
+                    this.referInfiniteScroll.target.disabled = false;
+                }
+            }
+        });
         return await modal.present();
     }
 

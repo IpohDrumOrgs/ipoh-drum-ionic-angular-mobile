@@ -75,7 +75,7 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
     if (this.getListOfArticlesSubscription) {
       this.getListOfArticlesSubscription.unsubscribe();
     }
-    this.getListOfArticlesSubscription = this.articleControllerService.getPublicArticlesListing(
+    this.getListOfArticlesSubscription = this.articleControllerService.getPublicArticles(
         this.currentPageNumber,
         this.currentPageSize
     ).subscribe(resp => {
@@ -105,7 +105,7 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
       this.getListOfArticlesSubscription.unsubscribe();
     }
     this.currentPageNumber = 1;
-    this.getListOfArticlesSubscription = this.articleControllerService.getPublicArticlesListing(
+    this.getListOfArticlesSubscription = this.articleControllerService.getPublicArticles(
         this.currentPageNumber,
         this.currentPageSize
     ).subscribe(resp => {
@@ -134,7 +134,7 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       if (this.maximumPages > this.currentPageNumber) {
         this.currentPageNumber++;
-        this.appendListOfArticlesSubscription = this.articleControllerService.getPublicArticlesListing(
+        this.appendListOfArticlesSubscription = this.articleControllerService.getPublicArticles(
             this.currentPageNumber,
             this.currentPageSize
         ).subscribe(resp => {

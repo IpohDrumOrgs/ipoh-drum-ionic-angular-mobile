@@ -15,7 +15,7 @@ export let commonConfig = {
     storeContactNumMinLength: 11,
     storeContactNumMaxLength: 14,
     storeDescriptionMinLength: 10,
-    storeDescriptionMaxLength: 100,
+    storeDescriptionMaxLength: 500,
     storeNoStreetNameMaxLength: 200,
     storePostCodeMinLength: 5,
     storePostCodeMaxLength: 5,
@@ -23,5 +23,9 @@ export let commonConfig = {
     storeStateMaxLength: 30,
     storeCityMaxLength: 30,
     numericOnlyRegex: '^[0-9]+$',
-    percentageRegex: '^[0-9]{1,3}$'
+    percentageRegex: '^[0-9]{1,3}$',
+    blogNameMinLength: 2,
+    blogNameMaxLength: 40,
+    blogDescriptionMinLength: 5,
+    blogDescriptionMaxLength: 500
 };

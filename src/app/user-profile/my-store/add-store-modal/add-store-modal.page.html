@@ -14,7 +14,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-row class="ion-align-items-center" style="margin:10px;">
+  <ion-row style="margin:10px;">
     <ion-col size="12">
       <input type="file" multiple="false" style="display:none;" #storeImageContainer
              accept=".jpg, .jpeg, .png" (change)="uploadStoreImage($event)">
@@ -292,7 +292,7 @@
           <ion-button expand="block" (click)="createStore()" [disabled]="storeInfoFormGroup.invalid
           || storeAddressFormGroup.invalid
           || temporaryStoreImageURL === undefined
-          || temporaryStoreImageURL === null">
+          || temporaryStoreImageURL === null || (selectedStoreBelongsToCompanyFlag && !selectedCompany)">
             Create Store
           </ion-button>
         </ion-col>
