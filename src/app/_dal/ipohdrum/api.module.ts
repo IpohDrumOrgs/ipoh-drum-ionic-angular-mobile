@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { ArticleControllerServiceService } from './api/articleControllerService.service';
 import { BloggerControllerServiceService } from './api/bloggerControllerService.service';
 import { CategoryControllerServiceService } from './api/categoryControllerService.service';
+import { CommentControllerServiceService } from './api/commentControllerService.service';
 import { CompanyControllerServiceService } from './api/companyControllerService.service';
 import { CompanyTypeControllerServiceService } from './api/companyTypeControllerService.service';
 import { GroupControllerServiceService } from './api/groupControllerService.service';
@@ -38,6 +39,7 @@ import { WarrantyControllerServiceService } from './api/warrantyControllerServic
     ArticleControllerServiceService,
     BloggerControllerServiceService,
     CategoryControllerServiceService,
+    CommentControllerServiceService,
     CompanyControllerServiceService,
     CompanyTypeControllerServiceService,
     GroupControllerServiceService,

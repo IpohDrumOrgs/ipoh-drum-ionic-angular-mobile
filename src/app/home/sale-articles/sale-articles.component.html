@@ -68,6 +68,12 @@
   </ion-card>
 </ng-container>
 <ng-template #finishedLoadingListOfPublicArticles>
+  <ion-refresher slot="fixed" (ionRefresh)="ionRefresh($event)">
+    <ion-refresher-content
+            pullingText="Pull to Refresh"
+            refreshingSpinner="crescent">
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-card (click)="openSelectedArticleInModal(article.uid)" style="margin-bottom:10px;margin-top:0;background-color:white !important;" *ngFor="let article of listOfPublicArticles;let i = index;">
     <ion-card-header style="padding:0;">
       <img [src]="article?.articleimages[0]?.imgpath" style="object-fit:cover;" *ngIf="article?.articleimages?.length > 0">
@@ -96,4 +102,9 @@
       </ion-row>
     </ion-card-content>
   </ion-card>
+  <ion-infinite-scroll threshold="10px" (ionInfinite)="loadMoreArticles($event)">
+    <ion-infinite-scroll-content
+            loadingSpinner="crescent">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ng-template>

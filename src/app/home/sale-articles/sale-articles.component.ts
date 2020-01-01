@@ -28,8 +28,12 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
   // Arrays
   listOfPublicArticles: Array<Article> = [];
 
+  // Objects
+  referInfiniteScroll: any;
+
   // Subscriptions
   getListOfArticlesSubscription: any;
+  appendListOfArticlesSubscription: any;
 
   constructor(
       private modalController: ModalController,
@@ -60,6 +64,9 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
       if (this.getListOfArticlesSubscription) {
         this.getListOfArticlesSubscription.unsubscribe();
       }
+      if (this.appendListOfArticlesSubscription) {
+        this.appendListOfArticlesSubscription.unsubscribe();
+      }
     });
   }
 
@@ -88,6 +95,64 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
       this.isLoadingListOfPublicArticles = false;
       this.listOfPublicArticles = [];
     });
+  }
+
+  ionRefresh(event) {
+    if (this.referInfiniteScroll) {
+      this.referInfiniteScroll.target.disabled = false;
+    }
+    if (this.getListOfArticlesSubscription) {
+      this.getListOfArticlesSubscription.unsubscribe();
+    }
+    this.currentPageNumber = 1;
+    this.getListOfArticlesSubscription = this.articleControllerService.getPublicArticlesListing(
+        this.currentPageNumber,
+        this.currentPageSize
+    ).subscribe(resp => {
+      if (resp.code === 200) {
+        this.listOfPublicArticles = resp.data;
+        this.maximumPages = resp.maximumPages;
+        this.totalResult = resp.totalResult;
+      } else {
+        this.listOfPublicArticles = [];
+        // tslint:disable-next-line:max-line-length
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Articles, please try again later!', 'warning', 'top');
+        console.log('Unable to retrieve list of Videos.');
+      }
+      event.target.complete();
+    }, error => {
+      // tslint:disable-next-line:max-line-length
+      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Articles, please try again later!', 'warning', 'top');
+      this.listOfPublicArticles = [];
+      console.log('API Error while retrieving list of Articles.');
+      event.target.complete();
+    });
+  }
+
+  loadMoreArticles(event) {
+    this.referInfiniteScroll = event;
+    setTimeout(() => {
+      if (this.maximumPages > this.currentPageNumber) {
+        this.currentPageNumber++;
+        this.appendListOfArticlesSubscription = this.articleControllerService.getPublicArticlesListing(
+            this.currentPageNumber,
+            this.currentPageSize
+        ).subscribe(resp => {
+          if (resp.code === 200) {
+            for (const tempPublicArticle of resp.data) {
+              this.listOfPublicArticles.push(tempPublicArticle);
+            }
+          }
+          this.referInfiniteScroll.target.complete();
+        }, error => {
+          console.log('API Error while retrieving list of Articles');
+          this.referInfiniteScroll.target.complete();
+        });
+      }
+      if (this.totalResult === this.listOfPublicArticles.length) {
+        this.referInfiniteScroll.target.disabled = true;
+      }
+    }, 500);
   }
 
   async openSelectedArticleInModal(publicArticleUid: string) {

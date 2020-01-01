@@ -6,6 +6,7 @@ import {RouterModule, Routes} from '@angular/router';
 import { HomePage } from './home.page';
 import {SaleVideosComponent} from './sale-videos/sale-videos.component';
 import {SaleArticlesComponent} from './sale-articles/sale-articles.component';
+import {SharedModule} from '../shared/shared.module';
 
 const routes: Routes = [
   {
@@ -15,12 +16,13 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    RouterModule.forChild(routes)
-  ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        RouterModule.forChild(routes),
+        SharedModule
+    ],
   declarations: [
       HomePage,
       SaleVideosComponent,
