@@ -9,28 +9,22 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Blogger } from './blogger';
-import { Comment } from './comment';
-import { ArticleImage } from './articleImage';
 
 
-export interface Article { 
+export interface Comment { 
     id?: number;
-    blogger_id?: number;
+    video_id?: number;
+    article_id?: number;
+    article_image_id?: number;
     uid?: string;
-    title?: string;
-    desc?: string;
-    view?: number;
+    text?: string;
+    imgpath?: string;
+    imgpublicid?: string;
     like?: number;
     dislike?: number;
-    scope?: string;
-    agerestrict?: number;
+    type?: string;
     status?: number;
     created_at?: string;
     updated_at?: string;
-    commentcount?: number;
-    articleimages?: Array<ArticleImage>;
-    store?: Blogger;
-    comments?: Array<Comment>;
 }
 

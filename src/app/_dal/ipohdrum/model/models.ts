@@ -1,4 +1,7 @@
 export * from './article';
+export * from './articleImage';
+export * from './blogger';
+export * from './comment';
 export * from './company';
 export * from './inlineObject';
 export * from './inlineObject1';
