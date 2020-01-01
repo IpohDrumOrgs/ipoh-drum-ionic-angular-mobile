@@ -15,7 +15,7 @@
                              [animationSpeed]="15" [imageSize]="{width:300, height:200}"></ng-image-slider>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <!--<ion-row>
           <ion-col size="12">
             <ng-container *ngIf="isLoadingCategories else finishedLoadingCategories">
               <ion-skeleton-text animated></ion-skeleton-text>
@@ -30,7 +30,7 @@
               </ion-card>
             </ng-template>
           </ion-col>
-        </ion-row>
+        </ion-row>-->
 
         <ng-container *ngIf="isLoadingProductFeaturesAndProductInventories else finishedLoadingProductFeatures">
           <ion-row>
@@ -153,7 +153,9 @@
                             <small>
                               <b>{{listOfItems?.promoprice | myCurrency}}</b>
                               <span>
-                                -{{listOfItems?.promopctg}}%
+                                <ion-chip color="primary" style="font-size:10px;padding:5px;">
+                                  -{{listOfItems?.promopctg}}%
+                                </ion-chip>
                               </span>
                             </small>
                           </ng-container>

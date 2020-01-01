@@ -68,10 +68,10 @@
                     <ion-col size="12">
                         <ng-container *ngIf="currentInventory.promotion else noPromoPrice">
                             <ion-label style="font-size:20px;text-decoration:line-through;color:#e3e3e3;">
-                                {{currentInventory.price | myCurrency}}
+                                {{currentInventory?.promoprice | myCurrency}}
                             </ion-label>
                             <ion-chip color="primary" style="margin-left:5px;">
-                                -{{currentInventory.promotion.discpctg}}%
+                                -{{currentInventory?.promopctg}}%
                             </ion-chip>
                             <br>
                             <ion-label style="font-size:30px;">
@@ -80,7 +80,7 @@
                         </ng-container>
                         <ng-template #noPromoPrice>
                             <ion-label style="font-size:30px;">
-                                <b>{{currentInventory.price | myCurrency}}</b>
+                                <b>{{currentInventory?.price | myCurrency}}</b>
                             </ion-label>
                         </ng-template>
                         <br>
