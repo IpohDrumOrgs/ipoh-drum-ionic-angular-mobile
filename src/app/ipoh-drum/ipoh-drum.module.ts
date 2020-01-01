@@ -82,6 +82,10 @@ import {ViewSelectedArticleModalPageModule} from '../home/sale-articles/view-sel
 import {ViewSelectedArticleModalPage} from '../home/sale-articles/view-selected-article-modal/view-selected-article-modal.page';
 import {PaymentInfoModalPageModule} from '../shared/payment-info-modal/payment-info-modal.module';
 import {PaymentInfoModalPage} from '../shared/payment-info-modal/payment-info-modal.page';
+import {AddBlogModalPageModule} from '../user-profile/my-blog/add-blog-modal/add-blog-modal.module';
+import {AddBlogModalPage} from '../user-profile/my-blog/add-blog-modal/add-blog-modal.page';
+import {ViewBlogModalPage} from '../user-profile/my-blog/view-blog-modal/view-blog-modal.page';
+import {ViewBlogModalPageModule} from '../user-profile/my-blog/view-blog-modal/view-blog-modal.module';
 
 const routes: Routes = [
     {
@@ -154,7 +158,9 @@ const routes: Routes = [
         PlaySelectedVideoModalPageModule,
         RatingModule,
         ViewSelectedArticleModalPageModule,
-        PaymentInfoModalPageModule
+        PaymentInfoModalPageModule,
+        AddBlogModalPageModule,
+        ViewBlogModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -186,7 +192,9 @@ const routes: Routes = [
         EditInventoryFamiliesAndPatternsPage,
         PlaySelectedVideoModalPage,
         ViewSelectedArticleModalPage,
-        PaymentInfoModalPage
+        PaymentInfoModalPage,
+        AddBlogModalPage,
+        ViewBlogModalPage
     ]
 })
 

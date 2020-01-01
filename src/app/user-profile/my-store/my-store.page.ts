@@ -25,7 +25,7 @@ export class MyStorePage implements OnInit, OnDestroy {
     totalResult: number;
 
     // Objects
-    storeInfiniteScroll: any;
+    referInfiniteScroll: any;
 
     // Arrays
     listOfCurrentUsersStores: Array<Store> = [];
@@ -107,8 +107,8 @@ export class MyStorePage implements OnInit, OnDestroy {
         modal.onDidDismiss().then((returnFromCreatingStore) => {
             if (returnFromCreatingStore.data) {
                 this.retrieveListOfStoresOfCurrentUser();
-                if (this.storeInfiniteScroll) {
-                    this.storeInfiniteScroll.target.disabled = false;
+                if (this.referInfiniteScroll) {
+                    this.referInfiniteScroll.target.disabled = false;
                 }
             }
         });
@@ -128,7 +128,7 @@ export class MyStorePage implements OnInit, OnDestroy {
     }
 
     loadMoreStores(event) {
-        this.storeInfiniteScroll = event;
+        this.referInfiniteScroll = event;
         setTimeout(() => {
             if (this.maximumPages > this.currentPageNumber) {
                 this.currentPageNumber++;
@@ -141,21 +141,21 @@ export class MyStorePage implements OnInit, OnDestroy {
                             this.listOfCurrentUsersStores.push(tempStores);
                         }
                     }
-                    this.storeInfiniteScroll.target.complete();
+                    this.referInfiniteScroll.target.complete();
                 }, error => {
                     console.log('API Error while retrieving list of stores of current User');
-                    this.storeInfiniteScroll.target.complete();
+                    this.referInfiniteScroll.target.complete();
                 });
             }
             if (this.totalResult === this.listOfCurrentUsersStores.length) {
-                this.storeInfiniteScroll.target.disabled = true;
+                this.referInfiniteScroll.target.disabled = true;
             }
         }, 500);
     }
 
     ionRefresh(event) {
-        if (this.storeInfiniteScroll) {
-            this.storeInfiniteScroll.target.disabled = false;
+        if (this.referInfiniteScroll) {
+            this.referInfiniteScroll.target.disabled = false;
         }
         if (this.getUsersListOfStoresSubscription) {
             this.getUsersListOfStoresSubscription.unsubscribe();

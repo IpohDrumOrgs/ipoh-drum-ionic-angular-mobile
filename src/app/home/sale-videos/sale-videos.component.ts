@@ -29,7 +29,7 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
     listOfPublicVideos: Array<Video> = [];
 
     // Objects
-    storeInfiniteScroll: any;
+    referInfiniteScroll: any;
 
     // Subscriptions
     getListOfVideosSubscription: any;
@@ -109,8 +109,8 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
     }
 
     ionRefresh(event) {
-        if (this.storeInfiniteScroll) {
-            this.storeInfiniteScroll.target.disabled = false;
+        if (this.referInfiniteScroll) {
+            this.referInfiniteScroll.target.disabled = false;
         }
         if (this.getListOfVideosSubscription) {
             this.getListOfVideosSubscription.unsubscribe();
@@ -141,7 +141,7 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
     }
 
     loadMoreVideos(event) {
-        this.storeInfiniteScroll = event;
+        this.referInfiniteScroll = event;
         setTimeout(() => {
             if (this.maximumPages > this.currentPageNumber) {
                 this.currentPageNumber++;
@@ -154,14 +154,14 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
                             this.listOfPublicVideos.push(tempPublicVideo);
                         }
                     }
-                    this.storeInfiniteScroll.target.complete();
+                    this.referInfiniteScroll.target.complete();
                 }, error => {
                     console.log('API Error while retrieving list of videos');
-                    this.storeInfiniteScroll.target.complete();
+                    this.referInfiniteScroll.target.complete();
                 });
             }
             if (this.totalResult === this.listOfPublicVideos.length) {
-                this.storeInfiniteScroll.target.disabled = true;
+                this.referInfiniteScroll.target.disabled = true;
             }
         }, 500);
     }
