@@ -31,8 +31,7 @@
     </ion-row>
     <ion-row>
       <ion-col size="6" *ngFor="let article of listOfArticlesByBloggerUid">
-        <!-- TODO -->
-        <ion-card style="margin:0;" (click)="openViewInventoryModal(inventory.uid, inventory.id)">
+        <ion-card style="margin:0;" (click)="openViewArticleModal(article.id, article.uid)">
           <ion-card-header style="background-color:#ececec;padding:0;">
             <ng-container *ngIf="article.articleimages.length > 0 else noImageForInventory">
               <img [src]="article?.articleimages[0].imgpath" alt="inventory_img" class="productImage">

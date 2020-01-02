@@ -5,6 +5,8 @@ import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {Article, BloggerControllerServiceService} from '../../../_dal/ipohdrum';
 import {AddInventoryPage} from '../../my-store/add-inventory/add-inventory.page';
 import {CreateArticleModalPage} from './create-article-modal/create-article-modal.page';
+import {ViewInventoryModalPage} from '../../my-store/view-inventory-modal/view-inventory-modal.page';
+import {ViewArticleModalPage} from './view-article-modal/view-article-modal.page';
 
 @Component({
     selector: 'app-article-management-modal',
@@ -83,6 +85,25 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
         });
         modal.onDidDismiss().then((returnedFromCreatingArticle) => {
             if (returnedFromCreatingArticle.data) {
+                this.retrieveListOfArticlesByBloggerUid();
+                if (this.referInfiniteScroll) {
+                    this.referInfiniteScroll.target.disabled = false;
+                }
+            }
+        });
+        return await modal.present();
+    }
+
+    async openViewArticleModal(selectedArticleId: number, selectedArticleUid: string) {
+        const modal = await this.modalController.create({
+            component: ViewArticleModalPage,
+            componentProps: {
+                selectedArticleId,
+                selectedArticleUid
+            }
+        });
+        modal.onDidDismiss().then((returnedFromEditingArticle) => {
+            if (returnedFromEditingArticle.data) {
                 this.retrieveListOfArticlesByBloggerUid();
                 if (this.referInfiniteScroll) {
                     this.referInfiniteScroll.target.disabled = false;

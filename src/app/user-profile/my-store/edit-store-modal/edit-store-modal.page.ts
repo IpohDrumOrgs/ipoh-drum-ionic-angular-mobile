@@ -60,6 +60,7 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
   updateStoreSubscription: any;
   searchListOfCompaniesSubscription: any;
   appendListOfCompaniesSubscription: any;
+  deleteStoreSubscription: any;
 
   constructor(
       private ngZone: NgZone,
@@ -166,6 +167,9 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
       }
       if (this.appendListOfCompaniesSubscription) {
         this.appendListOfCompaniesSubscription.unsubscribe();
+      }
+      if (this.deleteStoreSubscription) {
+        this.deleteStoreSubscription.unsubscribe();
       }
     });
   }
@@ -336,5 +340,37 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
         });
       }
     }
+  }
+
+  deleteStore() {
+    this.globalFunctionService.presentAlertConfirm(
+        'WARNING',
+        'Are you sure you want to delete the selected Store?',
+        'Cancel','Confirm',
+        undefined, () => this.actuallyDeleteStore()
+    );
+  }
+
+  actuallyDeleteStore() {
+    this.loadingService.present();
+    if (this.deleteStoreSubscription) {
+      this.deleteStoreSubscription.unsubscribe();
+    }
+    this.deleteStoreSubscription = this.storeControllerService.deleteStoreByUid(
+        this.selectedStoreUid
+    ).subscribe(resp => {
+      if (resp.code === 200) {
+        this.globalFunctionService.simpleToast('SUCCESS', 'The Store has been successfully deleted!', 'success');
+        this.closeEditStoreModal(true);
+      } else {
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Store, please try again later!', 'danger');
+      }
+      this.loadingService.dismiss();
+    }, error => {
+      console.log('API Error while deleting the selected store');
+      console.log(error);
+      this.loadingService.dismiss();
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Store, please try again later!', 'danger');
+    });
   }
 }

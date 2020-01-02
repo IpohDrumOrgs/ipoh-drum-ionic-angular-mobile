@@ -94,6 +94,8 @@ import {ArticleManagementModalPageModule} from '../user-profile/my-blog/article-
 import {ArticleManagementModalPage} from '../user-profile/my-blog/article-management-modal/article-management-modal.page';
 import {CreateArticleModalPage} from '../user-profile/my-blog/article-management-modal/create-article-modal/create-article-modal.page';
 import {CreateArticleModalPageModule} from '../user-profile/my-blog/article-management-modal/create-article-modal/create-article-modal.module';
+import {ViewArticleModalPage} from '../user-profile/my-blog/article-management-modal/view-article-modal/view-article-modal.page';
+import {ViewArticleModalPageModule} from '../user-profile/my-blog/article-management-modal/view-article-modal/view-article-modal.module';
 
 const routes: Routes = [
     {
@@ -172,7 +174,8 @@ const routes: Routes = [
         EditBlogModalPageModule,
         MainBlogManagementModalPageModule,
         ArticleManagementModalPageModule,
-        CreateArticleModalPageModule
+        CreateArticleModalPageModule,
+        ViewArticleModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -210,7 +213,8 @@ const routes: Routes = [
         EditBlogModalPage,
         MainBlogManagementModalPage,
         ArticleManagementModalPage,
-        CreateArticleModalPage
+        CreateArticleModalPage,
+        ViewArticleModalPage
     ]
 })
 

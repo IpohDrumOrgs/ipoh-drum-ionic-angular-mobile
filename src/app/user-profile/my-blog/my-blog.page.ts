@@ -121,7 +121,7 @@ export class MyBlogPage implements OnInit, OnDestroy {
     async openMainBlogManagementModal(selectedBloggerId: number, selectedBloggerUid: string) {
         const modal = await this.modalController.create({
             component: MainBlogManagementModalPage,
-            cssClass: 'store-management-modal',
+            cssClass: 'article-management-modal',
             componentProps: {
                 selectedBloggerId,
                 selectedBloggerUid

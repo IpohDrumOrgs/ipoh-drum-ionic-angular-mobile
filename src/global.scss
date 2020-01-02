@@ -69,7 +69,7 @@ input.ng-dirty.ng-invalid.ng-touched {
 }
 
 // Custom Modal
-.dialog-modal {
+.dialog-modal .modal-wrapper{
     width:100%;
     height:70%;
     border-top-right-radius:5px;
@@ -82,6 +82,14 @@ input.ng-dirty.ng-invalid.ng-touched {
 .store-management-modal .modal-wrapper {
     width:100%;
     height:45%;
+    bottom:0;
+    position:fixed;
+}
+
+// Article Management Custom Modal Size
+.article-management-modal .modal-wrapper{
+    width:100%;
+    height:20%;
     bottom:0;
     position:fixed;
 }

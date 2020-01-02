@@ -167,6 +167,9 @@ export class EditWarrantyModalPage implements OnInit, OnDestroy {
 
     confirmDeleteWarranty() {
         this.loadingService.present();
+        if (this.deleteWarrantySubscription) {
+            this.deleteWarrantySubscription.unsubscribe();
+        }
         this.deleteWarrantySubscription = this.warrantyControllerService.deleteWarrantyByUid(
             this.warrantyUid
         ).subscribe(resp => {

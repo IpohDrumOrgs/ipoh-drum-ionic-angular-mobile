@@ -53,6 +53,7 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
   updateBloggerSubscription: any;
   searchListOfCompaniesSubscription: any;
   appendListOfCompaniesSubscription: any;
+  deleteBloggerSubscription: any;
 
   constructor(
       private ref: ChangeDetectorRef,
@@ -129,6 +130,9 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
       }
       if (this.getBloggerSubscription) {
         this.getBloggerSubscription.unsubscribe();
+      }
+      if (this.deleteBloggerSubscription) {
+        this.deleteBloggerSubscription.unsubscribe();
       }
     });
   }
@@ -295,6 +299,40 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
       console.log(error);
       this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Blogger, please try again later!', 'danger', 'top');
       this.loadingService.dismiss();
+    });
+  }
+
+  deleteBlogger() {
+    this.globalFunctionService.presentAlertConfirm(
+        'WARNING',
+        'Are you sure you want to delete the selected Blogger?',
+        'Cancel',
+        'Confirm',
+        undefined,
+        () => this.actuallyDeleteBlogger()
+    );
+  }
+
+  actuallyDeleteBlogger() {
+    this.loadingService.present();
+    if (this.deleteBloggerSubscription) {
+      this.deleteBloggerSubscription.unsubscribe();
+    }
+    this.deleteBloggerSubscription = this.bloggerControllerService.deleteBloggerByUid(
+        this.selectedBloggerUid
+    ).subscribe(resp => {
+      if (resp.code === 200) {
+        this.globalFunctionService.simpleToast('SUCCESS', 'The Blogger has been deleted!', 'success');
+        this.closeEditBlogModal(true);
+      } else {
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Blogger, please try again later!', 'danger');
+      }
+      this.loadingService.dismiss();
+    }, error => {
+      console.log('API Error while deleting the blogger');
+      console.log(error);
+      this.loadingService.dismiss();
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Blogger, please try again later!', 'danger');
     });
   }
 }

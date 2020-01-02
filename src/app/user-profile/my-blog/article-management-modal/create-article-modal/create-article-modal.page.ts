@@ -143,10 +143,6 @@ export class CreateArticleModalPage implements OnInit, OnDestroy {
     }
 
     createArticle() {
-        console.log('create article');
-        console.log(this.articleTitleModel);
-        console.log(this.articleDescriptionModel);
-        console.log(this.articleIsPublicFlagModel);
         if (this.articleInfoFormGroup.valid) {
             this.loadingService.present();
             if (this.createArticleSubscription) {
@@ -159,8 +155,6 @@ export class CreateArticleModalPage implements OnInit, OnDestroy {
                 this.articleIsPublicFlagModel === true ? 'public' : 'private',
                 this.articleSlidersAsArray
             ).subscribe(resp => {
-                console.log('create article ok');
-                console.log(resp);
                 if (resp.code === 200) {
                     this.globalFunctionService.simpleToast('SUCCESS', 'Article has been successfully created!', 'success', 'top');
                     this.closeCreateArticleModal(true);
