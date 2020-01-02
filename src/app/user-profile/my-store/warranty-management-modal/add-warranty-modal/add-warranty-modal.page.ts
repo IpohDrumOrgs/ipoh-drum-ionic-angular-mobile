@@ -94,8 +94,8 @@ export class AddWarrantyModalPage implements OnInit, OnDestroy {
         });
     }
 
-    async closeCreateWarrantyModal(returnFromCreatingWarranty: boolean) {
-        await this.modalController.dismiss(returnFromCreatingWarranty);
+    closeCreateWarrantyModal(returnFromCreatingWarranty: boolean) {
+        this.modalController.dismiss(returnFromCreatingWarranty);
     }
 
     createWarrantyPlan() {

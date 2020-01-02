@@ -170,8 +170,8 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
     });
   }
 
-  async closeEditStoreModal(returnFromEditingStore: boolean) {
-    await this.modalController.dismiss(returnFromEditingStore);
+  closeEditStoreModal(returnFromEditingStore: boolean) {
+    this.modalController.dismiss(returnFromEditingStore);
   }
 
   openStoreImageFilePicker() {

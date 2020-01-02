@@ -8,6 +8,7 @@ export * from './inlineObject1';
 export * from './inlineObject10';
 export * from './inlineObject11';
 export * from './inlineObject12';
+export * from './inlineObject13';
 export * from './inlineObject2';
 export * from './inlineObject3';
 export * from './inlineObject4';

@@ -36,13 +36,13 @@ export class EditInventoryFamiliesAndPatternsPage implements OnInit {
     });
   }
 
-  async closeEditInventoryFamiliesAndPatternsModal() {
-    await this.modalController.dismiss();
+  closeEditInventoryFamiliesAndPatternsModal() {
+    this.modalController.dismiss();
   }
 
-  async closeAndPassEditedInventoryFamiliesAndPatternModal() {
+  closeAndPassEditedInventoryFamiliesAndPatternModal() {
     this.referenceInventoryFamiliesAndPatternsToEdit.patterns = Object.assign([], this.tempInventoryPatternsToInsert);
-    await this.modalController.dismiss(this.referenceInventoryFamiliesAndPatternsToEdit);
+    this.modalController.dismiss(this.referenceInventoryFamiliesAndPatternsToEdit);
   }
 
   removeSelectedInventoryPattern(indexOfPattern: number) {

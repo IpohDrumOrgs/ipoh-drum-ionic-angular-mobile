@@ -133,8 +133,8 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
     });
   }
 
-  async closeEditBlogModal(returnFromEditingBlog: boolean) {
-    await this.modalController.dismiss(returnFromEditingBlog);
+  closeEditBlogModal(returnFromEditingBlog: boolean) {
+    this.modalController.dismiss(returnFromEditingBlog);
   }
 
   openBloggerImageFilePicker() {

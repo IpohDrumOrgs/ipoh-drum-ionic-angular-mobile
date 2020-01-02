@@ -128,8 +128,8 @@ export class EditWarrantyModalPage implements OnInit, OnDestroy {
         });
     }
 
-    async closeEditWarrantyModal(returnFromEditWarranty: boolean) {
-        await this.modalController.dismiss(returnFromEditWarranty);
+    closeEditWarrantyModal(returnFromEditWarranty: boolean) {
+        this.modalController.dismiss(returnFromEditWarranty);
     }
 
     updateWarrantyPlan() {

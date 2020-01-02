@@ -126,8 +126,8 @@ export class EditVoucherModalPage implements OnInit, OnDestroy {
     });
   }
 
-  async closeEditVoucherModal(returnFromEditingVoucher: boolean) {
-    await this.modalController.dismiss(returnFromEditingVoucher);
+  closeEditVoucherModal(returnFromEditingVoucher: boolean) {
+    this.modalController.dismiss(returnFromEditingVoucher);
   }
 
   validateSelectedDates = (c: AbstractControl): any => {

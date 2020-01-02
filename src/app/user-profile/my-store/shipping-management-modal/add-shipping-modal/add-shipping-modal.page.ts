@@ -99,8 +99,8 @@ export class AddShippingModalPage implements OnInit, OnDestroy {
       });
     }
 
-    async closeCreateShippingModal(returnFromCreatingShipping: boolean) {
-        await this.modalController.dismiss(returnFromCreatingShipping);
+    closeCreateShippingModal(returnFromCreatingShipping: boolean) {
+        this.modalController.dismiss(returnFromCreatingShipping);
     }
 
   createShippingPlan() {

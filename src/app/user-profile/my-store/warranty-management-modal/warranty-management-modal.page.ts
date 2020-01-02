@@ -100,8 +100,8 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
         });
     }
 
-    async closeWarrantyManagementModal() {
-        await this.modalController.dismiss();
+    closeWarrantyManagementModal() {
+        this.modalController.dismiss();
     }
 
     async openCreateWarrantyModal() {

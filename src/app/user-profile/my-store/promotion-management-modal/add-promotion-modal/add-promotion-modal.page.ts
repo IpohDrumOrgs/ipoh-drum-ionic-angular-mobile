@@ -110,8 +110,8 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
         });
     }
 
-    async closeCreatePromotionModal(returnFromCreatingPromotion: boolean) {
-        await this.modalController.dismiss(returnFromCreatingPromotion);
+    closeCreatePromotionModal(returnFromCreatingPromotion: boolean) {
+        this.modalController.dismiss(returnFromCreatingPromotion);
     }
 
     selectedStartDate(event) {

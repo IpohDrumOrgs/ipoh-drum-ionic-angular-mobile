@@ -113,8 +113,8 @@ export class AddBlogModalPage implements OnInit, OnDestroy {
     });
   }
 
-  async closeCreateBlogModal(returnFromCreatingBlog: boolean) {
-    await this.modalController.dismiss(returnFromCreatingBlog);
+  closeCreateBlogModal(returnFromCreatingBlog: boolean) {
+    this.modalController.dismiss(returnFromCreatingBlog);
   }
 
   openBlogImageFilePicker() {

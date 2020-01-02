@@ -175,7 +175,7 @@ export class InvFamilyPatternModalPage implements OnInit {
     this.modalController.dismiss(inventoryFamilyToInsert);
   }
 
-  async closeModal() {
-    await this.modalController.dismiss();
+  closeModal() {
+    this.modalController.dismiss();
   }
 }

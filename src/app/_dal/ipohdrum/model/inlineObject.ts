@@ -13,8 +13,8 @@
 
 export interface InlineObject { 
     /**
-     * Image
+     * Article Images
      */
-    img?: Array<Blob>;
+    imgs?: Array<Blob>;
 }
 

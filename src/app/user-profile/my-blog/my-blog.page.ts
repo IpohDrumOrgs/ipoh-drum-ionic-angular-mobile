@@ -5,7 +5,7 @@ import {LoadingService} from '../../_dal/common/services/loading.service';
 import {ModalController} from '@ionic/angular';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
 import {AddBlogModalPage} from './add-blog-modal/add-blog-modal.page';
-import {ViewBlogModalPage} from './view-blog-modal/view-blog-modal.page';
+import {MainBlogManagementModalPage} from './main-blog-management-modal/main-blog-management-modal.page';
 
 @Component({
     selector: 'app-my-blog',
@@ -118,12 +118,14 @@ export class MyBlogPage implements OnInit, OnDestroy {
         return await modal.present();
     }
 
-    async openViewSelectedBlogModal(selectedBloggerUid: string) {
+    async openMainBlogManagementModal(selectedBloggerId: number, selectedBloggerUid: string) {
         const modal = await this.modalController.create({
-           component: ViewBlogModalPage,
-           componentProps: {
-               selectedBloggerUid
-           }
+            component: MainBlogManagementModalPage,
+            cssClass: 'store-management-modal',
+            componentProps: {
+                selectedBloggerId,
+                selectedBloggerUid
+            }
         });
         return await modal.present();
     }

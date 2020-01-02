@@ -67,8 +67,8 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
     });
   }
 
-  async closeShippingManagementModal() {
-    await this.modalController.dismiss();
+  closeShippingManagementModal() {
+    this.modalController.dismiss();
   }
 
   retrieveListOfShippingsByStoreUid() {

@@ -71,8 +71,8 @@ export class PlaySelectedVideoModalPage implements OnInit {
         });
     }
 
-    async closePlaySelectedVideoModal() {
-        await this.modalController.dismiss();
+    closePlaySelectedVideoModal() {
+        this.modalController.dismiss();
     }
 
     async openPaymentInfoModal() {

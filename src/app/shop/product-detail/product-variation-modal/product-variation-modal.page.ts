@@ -31,8 +31,8 @@ export class ProductVariationModalPage implements OnInit {
   ngOnInit() {
   }
 
-  async closeModal() {
-    await this.modalController.dismiss();
+  closeModal() {
+    this.modalController.dismiss();
   }
 
   addQuantity() {

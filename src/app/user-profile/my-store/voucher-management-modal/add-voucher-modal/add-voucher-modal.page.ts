@@ -123,8 +123,8 @@ export class AddVoucherModalPage implements OnInit {
         });
     }
 
-    async closeCreateVoucherModal(returnFromCreatingVoucher: boolean) {
-        await this.modalController.dismiss(returnFromCreatingVoucher);
+    closeCreateVoucherModal(returnFromCreatingVoucher: boolean) {
+        this.modalController.dismiss(returnFromCreatingVoucher);
     }
 
     enableDisableDiscountedPriceAndPercentage() {

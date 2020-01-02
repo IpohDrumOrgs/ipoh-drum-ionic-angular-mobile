@@ -88,6 +88,12 @@ import {ViewBlogModalPage} from '../user-profile/my-blog/view-blog-modal/view-bl
 import {ViewBlogModalPageModule} from '../user-profile/my-blog/view-blog-modal/view-blog-modal.module';
 import {EditBlogModalPageModule} from '../user-profile/my-blog/edit-blog-modal/edit-blog-modal.module';
 import {EditBlogModalPage} from '../user-profile/my-blog/edit-blog-modal/edit-blog-modal.page';
+import {MainBlogManagementModalPage} from '../user-profile/my-blog/main-blog-management-modal/main-blog-management-modal.page';
+import {MainBlogManagementModalPageModule} from '../user-profile/my-blog/main-blog-management-modal/main-blog-management-modal.module';
+import {ArticleManagementModalPageModule} from '../user-profile/my-blog/article-management-modal/article-management-modal.module';
+import {ArticleManagementModalPage} from '../user-profile/my-blog/article-management-modal/article-management-modal.page';
+import {CreateArticleModalPage} from '../user-profile/my-blog/article-management-modal/create-article-modal/create-article-modal.page';
+import {CreateArticleModalPageModule} from '../user-profile/my-blog/article-management-modal/create-article-modal/create-article-modal.module';
 
 const routes: Routes = [
     {
@@ -163,7 +169,10 @@ const routes: Routes = [
         PaymentInfoModalPageModule,
         AddBlogModalPageModule,
         ViewBlogModalPageModule,
-        EditBlogModalPageModule
+        EditBlogModalPageModule,
+        MainBlogManagementModalPageModule,
+        ArticleManagementModalPageModule,
+        CreateArticleModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -198,7 +207,10 @@ const routes: Routes = [
         PaymentInfoModalPage,
         AddBlogModalPage,
         ViewBlogModalPage,
-        EditBlogModalPage
+        EditBlogModalPage,
+        MainBlogManagementModalPage,
+        ArticleManagementModalPage,
+        CreateArticleModalPage
     ]
 })
 

@@ -120,7 +120,7 @@ export class AddInventoryPatternModalPage implements OnInit {
     this.modalController.dismiss(inventoryPatternToInsert);
   }
 
-  async closeModal() {
-    await this.modalController.dismiss();
+  closeModal() {
+    this.modalController.dismiss();
   }
 }

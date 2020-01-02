@@ -159,7 +159,7 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
     }, 500);
   }
 
-  async closeViewSelectedArticleModal() {
-    await this.modalController.dismiss();
+  closeViewSelectedArticleModal() {
+    this.modalController.dismiss();
   }
 }

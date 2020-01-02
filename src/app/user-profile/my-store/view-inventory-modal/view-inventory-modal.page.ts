@@ -94,8 +94,8 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
         });
     }
 
-    async closeViewInventoryModal(returnFromEditingInventory: boolean) {
-        await this.modalController.dismiss(returnFromEditingInventory);
+    closeViewInventoryModal(returnFromEditingInventory: boolean) {
+        this.modalController.dismiss(returnFromEditingInventory);
     }
 
     async openEditInventoryModal() {

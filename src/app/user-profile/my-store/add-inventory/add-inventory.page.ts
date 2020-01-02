@@ -260,7 +260,8 @@ export class AddInventoryPage implements OnInit, OnDestroy {
 
     uploadInventorySliders(event) {
         const files = event.target.files;
-        if (this.temporaryInventorySliders.length < 5 && (files.length + this.temporaryInventorySliders.length <= 5)) {
+        // tslint:disable-next-line:max-line-length
+        if (this.temporaryInventorySliders.length < this.maxInventoryPhotoSlider && (files.length + this.temporaryInventorySliders.length <= this.maxInventoryPhotoSlider)) {
             if (files) {
                 for (const file of files) {
                     if (file.type.toString().includes('image')) {
@@ -269,7 +270,6 @@ export class AddInventoryPage implements OnInit, OnDestroy {
                         reader.onload = (e: any) => {
                             this.temporaryInventorySliders.push(e.target.result);
                         };
-                        console.log(this.temporaryInventorySliders);
                         reader.readAsDataURL(file);
                     } else {
                         // tslint:disable-next-line:max-line-length
@@ -345,8 +345,8 @@ export class AddInventoryPage implements OnInit, OnDestroy {
         return await modal.present();
     }
 
-    async closeCreateInventoryModal(returnFromCreatingInventory: boolean) {
-        await this.modalController.dismiss(returnFromCreatingInventory);
+    closeCreateInventoryModal(returnFromCreatingInventory: boolean) {
+        this.modalController.dismiss(returnFromCreatingInventory);
     }
 
     showWhichPage(pageNum: number) {

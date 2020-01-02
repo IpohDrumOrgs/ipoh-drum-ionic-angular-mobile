@@ -359,8 +359,8 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
     return await modal.present();
   }
 
-  async closeInventoryDetailsModal(returnFromEditingInventory: boolean) {
-    await this.modalController.dismiss(returnFromEditingInventory);
+  closeInventoryDetailsModal(returnFromEditingInventory: boolean) {
+    this.modalController.dismiss(returnFromEditingInventory);
   }
 
   updateInventory() {

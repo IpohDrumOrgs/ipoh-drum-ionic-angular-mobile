@@ -85,8 +85,8 @@ export class ViewBlogModalPage implements OnInit, OnDestroy {
     });
   }
 
-  async closeViewBloggerModal() {
-    await this.modalController.dismiss();
+  closeViewBloggerModal() {
+    this.modalController.dismiss();
   }
   async openEditBloggerModal() {
     const modal = await this.modalController.create({

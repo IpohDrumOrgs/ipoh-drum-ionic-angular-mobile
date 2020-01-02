@@ -130,8 +130,8 @@ export class EditPromotionModalPage implements OnInit, OnDestroy {
     });
   }
 
-  async closeEditProductPromotionModal(returnFromEditPromotion: boolean) {
-    await this.modalController.dismiss(returnFromEditPromotion);
+  closeEditProductPromotionModal(returnFromEditPromotion: boolean) {
+    this.modalController.dismiss(returnFromEditPromotion);
   }
 
   validateSelectedDates = (c: AbstractControl): any => {

@@ -130,8 +130,8 @@ export class EditShippingModalPage implements OnInit, OnDestroy {
     });
   }
 
-  async closeEditShippingModal(returnFromEditShipping: boolean) {
-    await this.modalController.dismiss(returnFromEditShipping);
+  closeEditShippingModal(returnFromEditShipping: boolean) {
+    this.modalController.dismiss(returnFromEditShipping);
   }
 
   updateShippingPlan() {

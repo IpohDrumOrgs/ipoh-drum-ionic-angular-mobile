@@ -87,8 +87,8 @@ export class ViewStoreModalPage implements OnInit, OnDestroy {
     });
   }
 
-  async closeViewStoreModal() {
-    await this.modalController.dismiss();
+  closeViewStoreModal() {
+    this.modalController.dismiss();
   }
 
   async openEditStoreModal() {

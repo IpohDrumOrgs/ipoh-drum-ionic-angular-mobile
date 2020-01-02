@@ -31,8 +31,8 @@ export class StoreInventoryManagementModalPage implements OnInit {
   ngOnInit() {
   }
 
-  async closeStoreInventoryManagementModal() {
-    await this.modalController.dismiss();
+  closeStoreInventoryManagementModal() {
+    this.modalController.dismiss();
   }
 
   async openViewStoreModal() {

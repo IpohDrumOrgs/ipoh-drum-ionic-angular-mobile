@@ -97,8 +97,8 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
     });
   }
 
-  async closePromotionManagementModal() {
-    await this.modalController.dismiss();
+  closePromotionManagementModal() {
+    this.modalController.dismiss();
   }
 
   async openCreatePromotionPlanModal() {

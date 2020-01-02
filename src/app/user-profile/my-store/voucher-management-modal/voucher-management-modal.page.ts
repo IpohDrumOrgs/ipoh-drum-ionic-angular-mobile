@@ -94,8 +94,8 @@ export class VoucherManagementModalPage implements OnInit, OnDestroy {
     });
   }
 
-  async closeVoucherManagementModal() {
-    await this.modalController.dismiss();
+  closeVoucherManagementModal() {
+    this.modalController.dismiss();
   }
 
   async openAddVoucherModal() {

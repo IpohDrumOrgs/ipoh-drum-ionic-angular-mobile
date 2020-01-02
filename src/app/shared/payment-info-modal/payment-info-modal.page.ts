@@ -36,8 +36,8 @@ export class PaymentInfoModalPage implements OnInit {
     });
   }
 
-  async closePaymentInfoModal() {
-    await this.modalController.dismiss();
+  closePaymentInfoModal() {
+    this.modalController.dismiss();
   }
 
   pay() {
