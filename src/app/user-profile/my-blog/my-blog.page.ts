@@ -1,4 +1,4 @@
-import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {BloggerControllerServiceService} from '../../_dal/ipohdrum';
 import {Blogger} from '../../_dal/ipohdrum/model/blogger';
 import {LoadingService} from '../../_dal/common/services/loading.service';
@@ -35,6 +35,7 @@ export class MyBlogPage implements OnInit, OnDestroy {
     appendListOfBloggersOfCurrentUserSubscription: any;
 
     constructor(
+        private ref: ChangeDetectorRef,
         private ngZone: NgZone,
         private loadingService: LoadingService,
         private modalController: ModalController,
@@ -70,7 +71,6 @@ export class MyBlogPage implements OnInit, OnDestroy {
     }
 
     retrieveListOfBlogsOfCurrentUsers() {
-        console.log('getting list of blog');
         this.loadingService.present();
         if (this.getListOfBloggersOfCurrentUserSubscription) {
             this.getListOfBloggersOfCurrentUserSubscription.unsubscribe();
@@ -80,7 +80,6 @@ export class MyBlogPage implements OnInit, OnDestroy {
             this.currentPageNumber,
             this.currentPageSize
         ).subscribe(resp => {
-            console.log(resp);
             if (resp.code === 200) {
                 this.listOfCurrentUsersBlogs = resp.data;
                 this.maximumPages = resp.maximumPages;
@@ -94,11 +93,13 @@ export class MyBlogPage implements OnInit, OnDestroy {
                 console.log('Unable to retrieve list of Blogs');
             }
             this.loadingService.dismiss();
+            this.ref.detectChanges();
         }, error => {
             // tslint:disable-next-line:max-line-length
             this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Blogs list info, please try again later!', 'warning', 'top');
             this.listOfCurrentUsersBlogs = [];
             this.loadingService.dismiss();
+            this.ref.detectChanges();
             console.log('API Error while retrieving list of bloggers of current user');
         });
     }
@@ -144,6 +145,7 @@ export class MyBlogPage implements OnInit, OnDestroy {
                             this.listOfCurrentUsersBlogs.push(tempBlogs);
                         }
                     }
+                    this.ref.detectChanges();
                     this.referInfiniteScroll.target.complete();
                 }, error => {
                     console.log('API Error while retrieving list of Blogs of current User');
@@ -178,6 +180,7 @@ export class MyBlogPage implements OnInit, OnDestroy {
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Blogs list info, please try again later!', 'warning', 'top');
                 console.log('Unable to retrieve list of Blogs');
             }
+            this.ref.detectChanges();
             event.target.complete();
         }, error => {
             // tslint:disable-next-line:max-line-length

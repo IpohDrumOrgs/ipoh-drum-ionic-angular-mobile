@@ -1,9 +1,10 @@
-import {Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {GlobalfunctionService} from '../../../../_dal/common/services/globalfunction.service';
 import {LoadingService} from '../../../../_dal/common/services/loading.service';
 import {ArticleControllerServiceService} from '../../../../_dal/ipohdrum';
+import {commonConfig} from '../../../../_dal/common/commonConfig';
 
 @Component({
     selector: 'app-create-article-modal',
@@ -24,9 +25,9 @@ export class CreateArticleModalPage implements OnInit, OnDestroy {
 
     // Numbers
     selectedBloggerId: number;
-    articleTitleMaxLength = 200;
-    articleDescriptionMaxLength = 1500;
-    maxArticleImageNumbers = 5;
+    articleTitleMaxLength = commonConfig.articleTitleMaxLength;
+    articleDescriptionMaxLength = commonConfig.articleDescriptionMaxLength;
+    maxArticleImageNumbers = commonConfig.maxArticleImageNumbers;
 
     // Arrays
     temporaryArticleSliders: Array<Blob> = [];
@@ -49,6 +50,7 @@ export class CreateArticleModalPage implements OnInit, OnDestroy {
     createArticleSubscription: any;
 
     constructor(
+        private ref: ChangeDetectorRef,
         private ngZone: NgZone,
         private modalController: ModalController,
         private globalFunctionService: GlobalfunctionService,
@@ -60,10 +62,6 @@ export class CreateArticleModalPage implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.ngZone.run(() => {
-            console.log('blogger uid');
-            console.log(this.selectedBloggerUid);
-            console.log('blogger id');
-            console.log(this.selectedBloggerId);
             this.articleInfoFormGroup = new FormGroup({
                 articleTitle: new FormControl(null, [
                     Validators.required,
@@ -163,12 +161,14 @@ export class CreateArticleModalPage implements OnInit, OnDestroy {
                     this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Article, please try again later!', 'warning', 'top');
                 }
                 this.loadingService.dismiss();
+                this.ref.detectChanges();
             }, error => {
                 console.log('API Error while creating a new Article.');
                 console.log(error);
                 this.loadingService.dismiss();
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Article, please try again later!', 'warning', 'top');
+                this.ref.detectChanges();
             });
         }
     }

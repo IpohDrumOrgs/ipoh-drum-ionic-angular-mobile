@@ -1,4 +1,4 @@
-import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {BloggerControllerServiceService, Store} from '../../../_dal/ipohdrum';
 import {Blogger} from '../../../_dal/ipohdrum/model/blogger';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
@@ -29,6 +29,7 @@ export class ViewBlogModalPage implements OnInit, OnDestroy {
   getSelectedBloggerByUidSubscription: any;
 
   constructor(
+      private ref: ChangeDetectorRef,
       private ngZone: NgZone,
       private bloggerControllerService: BloggerControllerServiceService,
       private globalFunctionService: GlobalfunctionService,
@@ -76,18 +77,21 @@ export class ViewBlogModalPage implements OnInit, OnDestroy {
         this.closeViewBloggerModal();
       }
       this.isLoadingBloggerInfo = false;
+      this.ref.detectChanges();
     }, error => {
       console.log('API Error while retriving selected Blogger by uid.');
       console.log(error);
       this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Blogger info, please try again later!', 'danger');
       this.closeViewBloggerModal();
       this.isLoadingBloggerInfo = false;
+      this.ref.detectChanges();
     });
   }
 
   closeViewBloggerModal() {
     this.modalController.dismiss();
   }
+
   async openEditBloggerModal() {
     const modal = await this.modalController.create({
       component: EditBlogModalPage,

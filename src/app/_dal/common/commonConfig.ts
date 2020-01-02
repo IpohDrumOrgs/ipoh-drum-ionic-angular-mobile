@@ -27,5 +27,8 @@ export let commonConfig = {
     blogNameMinLength: 2,
     blogNameMaxLength: 40,
     blogDescriptionMinLength: 5,
-    blogDescriptionMaxLength: 500
+    blogDescriptionMaxLength: 500,
+    articleTitleMaxLength: 200,
+    articleDescriptionMaxLength: 1500,
+    maxArticleImageNumbers: 5
 };

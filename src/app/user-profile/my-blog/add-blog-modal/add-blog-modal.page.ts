@@ -271,12 +271,14 @@ export class AddBlogModalPage implements OnInit, OnDestroy {
         this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Blogger, please try again later!', 'warning', 'top');
       }
       this.loadingService.dismiss();
+      this.ref.detectChanges();
     }, error => {
       console.log('API Error while creating a new Blogger.');
       console.log(error);
       this.loadingService.dismiss();
       // tslint:disable-next-line:max-line-length
       this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Blogger, please try again later!', 'warning', 'top');
+      this.ref.detectChanges();
     });
   }
 }

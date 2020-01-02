@@ -199,36 +199,38 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
   }
 
   updateStore() {
-    this.loadingService.present();
-    this.updateStoreSubscription = this.storeControllerService.updateStoreByUid(
-        this.selectedStore.uid,
-        this.selectedStore.name,
-        this.companyBelongingsFlag ? 1 : 0,
-        this.companyBelongingsFlag ? this.selectedStore.company.id : null,
-        null,
-        this.selectedStore.desc,
-        this.selectedStore.contact,
-        this.selectedStore.email,
-        this.selectedStore.address,
-        this.selectedStore.postcode,
-        this.selectedStore.state,
-        this.selectedStore.city,
-        this.selectedStore.country,
-        'PUT',
-        this.storeImageAsBlobArray[0] !== undefined || this.storeImageAsBlobArray[0] !== null ? this.storeImageAsBlobArray : null
-    ).subscribe(resp => {
-      if (resp.code === 200) {
-        this.globalFunctionService.simpleToast('SUCCESS', 'Store has been updated.', 'success', 'top');
-        this.closeEditStoreModal(true);
-      } else {
+    if (this.storeInfoFormGroup.valid) {
+      this.loadingService.present();
+      this.updateStoreSubscription = this.storeControllerService.updateStoreByUid(
+          this.selectedStore.uid,
+          this.selectedStore.name,
+          this.companyBelongingsFlag ? 1 : 0,
+          this.companyBelongingsFlag ? this.selectedStore.company.id : null,
+          null,
+          this.selectedStore.desc,
+          this.selectedStore.contact,
+          this.selectedStore.email,
+          this.selectedStore.address,
+          this.selectedStore.postcode,
+          this.selectedStore.state,
+          this.selectedStore.city,
+          this.selectedStore.country,
+          'PUT',
+          this.storeImageAsBlobArray[0] !== undefined || this.storeImageAsBlobArray[0] !== null ? this.storeImageAsBlobArray : null
+      ).subscribe(resp => {
+        if (resp.code === 200) {
+          this.globalFunctionService.simpleToast('SUCCESS', 'Store has been updated.', 'success', 'top');
+          this.closeEditStoreModal(true);
+        } else {
+          this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Store, please try again later!', 'danger', 'top');
+        }
+        this.loadingService.dismiss();
+      }, error => {
+        console.log('API Error while updating store');
+        this.loadingService.dismiss();
         this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Store, please try again later!', 'danger', 'top');
-      }
-      this.loadingService.dismiss();
-    }, error => {
-      console.log('API Error while updating store');
-      this.loadingService.dismiss();
-      this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Store, please try again later!', 'danger', 'top');
-    });
+      });
+    }
   }
 
   filterCompanies(companyList: Company[], text: string) {

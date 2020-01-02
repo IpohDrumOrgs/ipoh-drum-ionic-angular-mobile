@@ -1,11 +1,9 @@
-import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {Article, BloggerControllerServiceService} from '../../../_dal/ipohdrum';
-import {AddInventoryPage} from '../../my-store/add-inventory/add-inventory.page';
 import {CreateArticleModalPage} from './create-article-modal/create-article-modal.page';
-import {ViewInventoryModalPage} from '../../my-store/view-inventory-modal/view-inventory-modal.page';
 import {ViewArticleModalPage} from './view-article-modal/view-article-modal.page';
 
 @Component({
@@ -38,6 +36,7 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
     appendListOfArticlesByBloggerUidSubscription: any;
 
     constructor(
+        private ref: ChangeDetectorRef,
         private ngZone: NgZone,
         private modalController: ModalController,
         private globalFunctionService: GlobalfunctionService,
@@ -49,8 +48,6 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.ngZone.run(() => {
-            console.log('blogger uid');
-            console.log(this.selectedBloggerUid);
             this.retrieveListOfArticlesByBloggerUid();
         });
     }
@@ -99,7 +96,8 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
             component: ViewArticleModalPage,
             componentProps: {
                 selectedArticleId,
-                selectedArticleUid
+                selectedArticleUid,
+                selectedBloggerId: this.selectedBloggerId
             }
         });
         modal.onDidDismiss().then((returnedFromEditingArticle) => {
@@ -137,6 +135,7 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
                 this.closeArticleManagementModal();
             }
             this.loadingService.dismiss();
+            this.ref.detectChanges();
         }, error => {
             console.log('API Error while retrieving list of Articles by Blogger Uid.');
             console.log(error);
@@ -144,6 +143,7 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
             // tslint:disable-next-line:max-line-length
             this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Articles, please try again later!', 'warning', 'top');
             this.closeArticleManagementModal();
+            this.ref.detectChanges();
         });
     }
 
@@ -169,6 +169,7 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Articles, please try again later!', 'warning', 'top');
                 this.closeArticleManagementModal();
             }
+            this.ref.detectChanges();
             event.target.complete();
         }, error => {
             console.log('API Error while retrieving list of Articles by blogger uid.');
@@ -194,6 +195,7 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
                             this.listOfArticlesByBloggerUid.push(tempArticles);
                         }
                     }
+                    this.ref.detectChanges();
                     this.referInfiniteScroll.target.complete();
                 }, error => {
                     console.log('API Error while retrieving list of Articles by blogger uid.');

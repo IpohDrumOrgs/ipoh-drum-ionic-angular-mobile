@@ -1,7 +1,8 @@
-import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {Article, ArticleControllerServiceService} from '../../../../_dal/ipohdrum';
 import {GlobalfunctionService} from '../../../../_dal/common/services/globalfunction.service';
+import {EditArticleModalPage} from '../edit-article-modal/edit-article-modal.page';
 
 @Component({
   selector: 'app-view-article-modal',
@@ -17,6 +18,7 @@ export class ViewArticleModalPage implements OnInit, OnDestroy {
 
   // Numbers
   selectedArticleId: number;
+  selectedBloggerId: number;
 
   // Booleans
   isLoadingArticleInfo = true;
@@ -34,6 +36,7 @@ export class ViewArticleModalPage implements OnInit, OnDestroy {
   getSelectedArticleByUidSubscription: any;
 
   constructor(
+      private ref: ChangeDetectorRef,
       private ngZone: NgZone,
       private modalController: ModalController,
       private globalFunctionService: GlobalfunctionService,
@@ -44,6 +47,7 @@ export class ViewArticleModalPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.ngZone.run(() => {
+      console.log(this.selectedArticleUid);
       this.retrieveSelectedArticleByUid();
     });
   }
@@ -65,11 +69,11 @@ export class ViewArticleModalPage implements OnInit, OnDestroy {
   }
 
   retrieveSelectedArticleByUid() {
-    console.log('selected article');
     this.isLoadingArticleInfo = true;
     if (this.getSelectedArticleByUidSubscription) {
       this.getSelectedArticleByUidSubscription.unsubscribe();
     }
+    console.log(this.selectedArticleUid);
     this.getSelectedArticleByUidSubscription = this.articleControllerService.getArticleByUid(
         this.selectedArticleUid
     ).subscribe(resp => {
@@ -82,16 +86,35 @@ export class ViewArticleModalPage implements OnInit, OnDestroy {
         this.closeViewArticleModal();
       }
       this.isLoadingArticleInfo = false;
+      this.ref.detectChanges();
     }, error => {
       console.log('API Error while retrieving selected Article by uid.');
       console.log(error);
       this.isLoadingArticleInfo = false;
       this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Article info, please try again later!', 'danger');
       this.closeViewArticleModal();
+      this.ref.detectChanges();
     });
   }
 
   closeViewArticleModal() {
     this.modalController.dismiss();
+  }
+
+  async openEditArticleModal() {
+    const modal = await this.modalController.create({
+      component: EditArticleModalPage,
+      componentProps: {
+        selectedArticleId: this.selectedArticleId,
+        selectedArticleUid: this.selectedArticleUid,
+        selectedBloggerId: this.selectedBloggerId
+      }
+    });
+    modal.onDidDismiss().then((returnFromEditingArticle) => {
+      if (returnFromEditingArticle.data) {
+        this.retrieveSelectedArticleByUid();
+      }
+    });
+    return await modal.present();
   }
 }

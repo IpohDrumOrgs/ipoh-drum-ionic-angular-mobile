@@ -273,7 +273,6 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
   }
 
   updateBlogger() {
-    console.log('update blogger');
     this.loadingService.present();
     this.updateBloggerSubscription = this.bloggerControllerService.updateBloggerByUid(
         this.selectedBloggerUid,
@@ -294,11 +293,13 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
         this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Blogger, please try again later!', 'danger', 'top');
       }
       this.loadingService.dismiss();
+      this.ref.detectChanges();
     }, error => {
       console.log('API Error while updating the Blogger by uid.');
       console.log(error);
       this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Blogger, please try again later!', 'danger', 'top');
       this.loadingService.dismiss();
+      this.ref.detectChanges();
     });
   }
 
@@ -328,11 +329,13 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
         this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Blogger, please try again later!', 'danger');
       }
       this.loadingService.dismiss();
+      this.ref.detectChanges();
     }, error => {
       console.log('API Error while deleting the blogger');
       console.log(error);
       this.loadingService.dismiss();
       this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Blogger, please try again later!', 'danger');
+      this.ref.detectChanges();
     });
   }
 }
