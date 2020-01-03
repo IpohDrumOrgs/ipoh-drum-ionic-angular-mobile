@@ -25,7 +25,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class InventoryImageControllerServiceService {
+export class ArticleImageControllerServiceService {
 
     protected basePath = 'http://localhost:8000';
     public defaultHeaders = new HttpHeaders();
@@ -61,23 +61,23 @@ export class InventoryImageControllerServiceService {
 
 
     /**
-     * Creates a inventoryimage.
-     * @param inventory_id Inventory Id
+     * Creates a articleimage.
+     * @param article_id Article Id
      * @param img Image
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createInventoryImage(inventory_id: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createInventoryImage(inventory_id: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createInventoryImage(inventory_id: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createInventoryImage(inventory_id: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (inventory_id === null || inventory_id === undefined) {
-            throw new Error('Required parameter inventory_id was null or undefined when calling createInventoryImage.');
+    public createArticleImage(article_id: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createArticleImage(article_id: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createArticleImage(article_id: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createArticleImage(article_id: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (article_id === null || article_id === undefined) {
+            throw new Error('Required parameter article_id was null or undefined when calling createArticleImage.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (inventory_id !== undefined && inventory_id !== null) {
-            queryParameters = queryParameters.set('inventory_id', <any>inventory_id);
+        if (article_id !== undefined && article_id !== null) {
+            queryParameters = queryParameters.set('article_id', <any>article_id);
         }
 
         let headers = this.defaultHeaders;
@@ -119,7 +119,7 @@ export class InventoryImageControllerServiceService {
             }
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/api/inventoryimage`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/articleimage`,
             convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,
@@ -132,17 +132,17 @@ export class InventoryImageControllerServiceService {
     }
 
     /**
-     * Set inventoryimage\&#39;s \&#39;status\&#39; to 0.
-     * @param uid InventoryImage ID, NOT \&#39;ID\&#39;.
+     * Set articleimage\&#39;s \&#39;status\&#39; to 0.
+     * @param uid ArticleImage ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteInventoryImageByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteInventoryImageByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteInventoryImageByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteInventoryImageByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteArticleImageByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public deleteArticleImageByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public deleteArticleImageByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public deleteArticleImageByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling deleteInventoryImageByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling deleteArticleImageByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -156,7 +156,7 @@ export class InventoryImageControllerServiceService {
         }
 
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/inventoryimage/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/articleimage/${encodeURIComponent(String(uid))}`,
             {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,

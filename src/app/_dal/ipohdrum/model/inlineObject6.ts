@@ -16,9 +16,5 @@ export interface InlineObject6 {
      * Image
      */
     img?: Array<Blob>;
-    /**
-     * Sliders Image
-     */
-    sliders?: Array<Blob>;
 }
 

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 
 
 import { ArticleControllerServiceService } from './api/articleControllerService.service';
+import { ArticleImageControllerServiceService } from './api/articleImageControllerService.service';
 import { BloggerControllerServiceService } from './api/bloggerControllerService.service';
 import { CategoryControllerServiceService } from './api/categoryControllerService.service';
 import { CommentControllerServiceService } from './api/commentControllerService.service';
@@ -37,6 +38,7 @@ import { WarrantyControllerServiceService } from './api/warrantyControllerServic
   exports:      [],
   providers: [
     ArticleControllerServiceService,
+    ArticleImageControllerServiceService,
     BloggerControllerServiceService,
     CategoryControllerServiceService,
     CommentControllerServiceService,

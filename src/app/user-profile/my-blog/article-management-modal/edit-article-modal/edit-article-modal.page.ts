@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {GlobalfunctionService} from '../../../../_dal/common/services/globalfunction.service';
-import {Article, ArticleControllerServiceService} from '../../../../_dal/ipohdrum';
+import {Article, ArticleControllerServiceService, ArticleImageControllerServiceService} from '../../../../_dal/ipohdrum';
 import {ModalController} from '@ionic/angular';
 import {LoadingService} from '../../../../_dal/common/services/loading.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -30,7 +30,7 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
     isArticlePublicScope = false;
 
     // Arrays
-    inventoryThumbnailAsArray: Array<Blob> = [];
+    articleImageSlidersAsArray: Array<Blob> = [];
 
     // ViewChilds
     @ViewChild('articleSlidersContainer', {static: false}) articleSlidersContainer: ElementRef;
@@ -49,6 +49,7 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
     // Subscriptions
     getSelectedArticleSubscription: any;
     updateArticleSubscription: any;
+    uploadSlidersSubscription: any;
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -56,7 +57,8 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
         private ngZone: NgZone,
         private globalFunctionService: GlobalfunctionService,
         private modalController: ModalController,
-        private articleControllerService: ArticleControllerServiceService
+        private articleControllerService: ArticleControllerServiceService,
+        private articleImageControllerService: ArticleImageControllerServiceService
     ) {
         console.log(this.constructorName + 'Initializing component');
     }
@@ -156,34 +158,34 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
     }
 
     uploadArticleSliders(event) {
-        // this.loadingService.present();
-        // setTimeout(() => {
-        //   const files = event.target.files;
-        //   if (files.length > 0) {
-        //     if (files[0].type.toString().includes('image')) {
-        //       this.inventoryThumbnailAsArray[0] = event.target.files[0];
-        //       this.uploadSlidersSubscription = this.inventoryImageControllerService.createInventoryImage(
-        //           this.selectedInventoryId,
-        //           this.inventoryThumbnailAsArray
-        //       ).subscribe(resp => {
-        //         if (resp.code === 200) {
-        //           this.globalFunctionService.simpleToast('SUCCESS', 'The Sliders has been updated!', 'success');
-        //           this.retrieveSelectedInventory();
-        //         } else {
-        //           // tslint:disable-next-line:max-line-length
-        //           this.globalFunctionService.simpleToast('WARNING', 'Unable to update the Sliders, please try again later!', 'warning');
-        //         }
-        //         this.loadingService.dismiss();
-        //       }, error => {
-        //         console.log('API Error while uploading inventory Sliders by uid.');
-        //         // tslint:disable-next-line:max-line-length
-        //         this.globalFunctionService.simpleToast('WARNING', 'Unable to update the Sliders, please try again later!', 'warning');
-        //         console.log(error);
-        //         this.loadingService.dismiss();
-        //       });
-        //     }
-        //   }
-        // }, 500);
+        this.loadingService.present();
+        setTimeout(() => {
+          const files = event.target.files;
+          if (files.length > 0) {
+            if (files[0].type.toString().includes('image')) {
+              this.articleImageSlidersAsArray[0] = event.target.files[0];
+              this.uploadSlidersSubscription = this.articleImageControllerService.createArticleImage(
+                  this.selectedArticleId,
+                  this.articleImageSlidersAsArray
+              ).subscribe(resp => {
+                if (resp.code === 200) {
+                  this.globalFunctionService.simpleToast('SUCCESS', 'The Sliders has been updated!', 'success');
+                  this.retrieveSelectedArticleByUid();
+                } else {
+                  // tslint:disable-next-line:max-line-length
+                  this.globalFunctionService.simpleToast('WARNING', 'Unable to update the Sliders, please try again later!', 'warning');
+                }
+                this.loadingService.dismiss();
+              }, error => {
+                console.log('API Error while uploading inventory Sliders by uid.');
+                // tslint:disable-next-line:max-line-length
+                this.globalFunctionService.simpleToast('WARNING', 'Unable to update the Sliders, please try again later!', 'warning');
+                console.log(error);
+                this.loadingService.dismiss();
+              });
+            }
+          }
+        }, 500);
     }
 
     updateArticle() {

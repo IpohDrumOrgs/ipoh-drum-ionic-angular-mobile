@@ -1,5 +1,7 @@
 export * from './articleControllerService.service';
 import { ArticleControllerServiceService } from './articleControllerService.service';
+export * from './articleImageControllerService.service';
+import { ArticleImageControllerServiceService } from './articleImageControllerService.service';
 export * from './bloggerControllerService.service';
 import { BloggerControllerServiceService } from './bloggerControllerService.service';
 export * from './categoryControllerService.service';
@@ -52,4 +54,4 @@ export * from './voucherControllerService.service';
 import { VoucherControllerServiceService } from './voucherControllerService.service';
 export * from './warrantyControllerService.service';
 import { WarrantyControllerServiceService } from './warrantyControllerService.service';
-export const APIS = [ArticleControllerServiceService, BloggerControllerServiceService, CategoryControllerServiceService, CommentControllerServiceService, CompanyControllerServiceService, CompanyTypeControllerServiceService, GroupControllerServiceService, InventoryControllerServiceService, InventoryImageControllerServiceService, ModuleControllerServiceService, PaymentControllerServiceService, ProductFeatureControllerServiceService, ProductPromotionControllerServiceService, ProductReviewControllerServiceService, RoleControllerServiceService, SaleControllerServiceService, ShippingControllerServiceService, StoreControllerServiceService, StoreReviewControllerServiceService, TicketControllerServiceService, TypeControllerServiceService, UserControllerServiceService, VerificationCodeControllerServiceService, VideoControllerServiceService, VoucherCodeControllerServiceService, VoucherControllerServiceService, WarrantyControllerServiceService];
+export const APIS = [ArticleControllerServiceService, ArticleImageControllerServiceService, BloggerControllerServiceService, CategoryControllerServiceService, CommentControllerServiceService, CompanyControllerServiceService, CompanyTypeControllerServiceService, GroupControllerServiceService, InventoryControllerServiceService, InventoryImageControllerServiceService, ModuleControllerServiceService, PaymentControllerServiceService, ProductFeatureControllerServiceService, ProductPromotionControllerServiceService, ProductReviewControllerServiceService, RoleControllerServiceService, SaleControllerServiceService, ShippingControllerServiceService, StoreControllerServiceService, StoreReviewControllerServiceService, TicketControllerServiceService, TypeControllerServiceService, UserControllerServiceService, VerificationCodeControllerServiceService, VideoControllerServiceService, VoucherCodeControllerServiceService, VoucherControllerServiceService, WarrantyControllerServiceService];
