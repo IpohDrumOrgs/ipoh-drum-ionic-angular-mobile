@@ -107,16 +107,11 @@
                     <b>Uploaded On&nbsp;</b>{{video?.created_at | date: 'mediumDate'}}
                 </ion-col>
                 <ion-col size="12" style="padding-left:0;">
-                    <ng-container *ngIf="video?.free === 1 else videoNotFree">
-                        <span class="badge badge-primary" style="font-size:18px;">
-                            FREE
-                        </span>
-                    </ng-container>
-                    <ng-template #videoNotFree>
+                    <ng-container *ngIf="video?.free !== 1">
                         <span class="badge badge-primary" style="font-size:18px;">
                             {{video?.price | myCurrency}}
                         </span>
-                    </ng-template>
+                    </ng-container>
                 </ion-col>
             </ion-row>
         </ion-card-content>

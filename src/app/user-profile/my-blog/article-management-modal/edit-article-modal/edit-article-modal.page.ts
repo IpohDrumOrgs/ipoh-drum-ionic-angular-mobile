@@ -50,6 +50,7 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
     getSelectedArticleSubscription: any;
     updateArticleSubscription: any;
     uploadSlidersSubscription: any;
+    removeSlidersSubscription: any;
 
     constructor(
         private ref: ChangeDetectorRef,
@@ -97,6 +98,12 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
             }
             if (this.updateArticleSubscription) {
                 this.updateArticleSubscription.unsubscribe();
+            }
+            if (this.uploadSlidersSubscription) {
+                this.uploadSlidersSubscription.unsubscribe();
+            }
+            if (this.removeSlidersSubscription) {
+                this.removeSlidersSubscription.unsubscribe();
             }
         });
     }
@@ -150,7 +157,28 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
     }
 
     removeSelectedSliderPhoto(selectedSliderUid: string) {
-
+        this.loadingService.present();
+        setTimeout(() => {
+            if (this.removeSlidersSubscription) {
+                this.removeSlidersSubscription.unsubscribe();
+            }
+            this.removeSlidersSubscription = this.articleImageControllerService.deleteArticleImageByUid(
+                selectedSliderUid
+            ).subscribe(resp => {
+                if (resp.code === 200) {
+                    this.globalFunctionService.simpleToast('SUCCESS', 'The Slider image has been updated!', 'success');
+                    this.retrieveSelectedArticleByUid();
+                } else {
+                    // tslint:disable-next-line:max-line-length
+                    this.globalFunctionService.simpleToast('WARNING', 'Unable to remove the Slider image, please try again later!', 'warning');
+                }
+                this.loadingService.dismiss();
+            }, error => {
+                console.log('API Error while deleting sliders image.');
+                this.loadingService.dismiss();
+                this.globalFunctionService.simpleToast('WARNING', 'Unable to remove the Slider image, please try again later!', 'warning');
+            });
+        }, 500);
     }
 
     openSlidersFilePicker() {
