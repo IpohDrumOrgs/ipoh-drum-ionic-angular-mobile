@@ -496,6 +496,55 @@ export class VideoControllerServiceService {
     }
 
     /**
+     * Set like for video
+     * @param video_id Video id
+     * @param type Like or dislike
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public setVideoLikeById(video_id: number, type: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public setVideoLikeById(video_id: number, type: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public setVideoLikeById(video_id: number, type: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public setVideoLikeById(video_id: number, type: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (video_id === null || video_id === undefined) {
+            throw new Error('Required parameter video_id was null or undefined when calling setVideoLikeById.');
+        }
+        if (type === null || type === undefined) {
+            throw new Error('Required parameter type was null or undefined when calling setVideoLikeById.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (video_id !== undefined && video_id !== null) {
+            queryParameters = queryParameters.set('video_id', <any>video_id);
+        }
+        if (type !== undefined && type !== null) {
+            queryParameters = queryParameters.set('type', <any>type);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/public/video/like/edit`,
+            null,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Update video by Uid.
      * @param uid Video_ID, NOT \&#39;ID\&#39;.
      * @param blogger_id Video belongs To which Blogger

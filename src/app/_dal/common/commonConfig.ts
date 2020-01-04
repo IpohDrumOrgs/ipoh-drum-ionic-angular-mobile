@@ -36,5 +36,9 @@ export let commonConfig = {
     channelDescriptionMinLength: 5,
     channelDescriptionMaxLength: 1500,
     channelContactNumMinLength: 11,
-    channelContactNumMaxLength: 14
+    channelContactNumMaxLength: 14,
+    videoTitleMaxLength: 100,
+    videoLinkMaxLength: 200,
+    videoIdMaxLength: 50,
+    videoTotalLengthMaxLength: 50
 };
