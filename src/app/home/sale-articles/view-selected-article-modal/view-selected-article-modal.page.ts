@@ -110,7 +110,7 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
     if (this.getListOfCommentsByArticleSubscription) {
       this.getListOfCommentsByArticleSubscription.unsubscribe();
     }
-    this.getListOfCommentsByArticleSubscription = this.articleControllerService.getPublicComments(
+    this.getListOfCommentsByArticleSubscription = this.articleControllerService.getPublicArticleComments(
         this.publicArticleUid,
         this.currentPageNumber,
         this.currentPageSize
@@ -137,7 +137,7 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
     setTimeout(() => {
       if (this.maximumPages > this.currentPageNumber) {
         this.currentPageNumber++;
-        this.appendListOfCommentsByArticleSubscription = this.articleControllerService.getPublicComments(
+        this.appendListOfCommentsByArticleSubscription = this.articleControllerService.getPublicArticleComments(
             this.publicArticleUid,
             this.currentPageNumber,
             this.currentPageSize

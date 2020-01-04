@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MyVideosPage } from './my-videos.page';
+import { EditChannelModalPage } from './edit-channel-modal.page';
 
-describe('MyVideosPage', () => {
-  let component: MyVideosPage;
-  let fixture: ComponentFixture<MyVideosPage>;
+describe('EditChannelModalPage', () => {
+  let component: EditChannelModalPage;
+  let fixture: ComponentFixture<EditChannelModalPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MyVideosPage ],
+      declarations: [ EditChannelModalPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MyVideosPage);
+    fixture = TestBed.createComponent(EditChannelModalPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

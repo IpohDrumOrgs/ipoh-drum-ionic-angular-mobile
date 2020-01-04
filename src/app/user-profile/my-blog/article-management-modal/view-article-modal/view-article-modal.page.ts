@@ -3,6 +3,7 @@ import {ModalController} from '@ionic/angular';
 import {Article, ArticleControllerServiceService} from '../../../../_dal/ipohdrum';
 import {GlobalfunctionService} from '../../../../_dal/common/services/globalfunction.service';
 import {EditArticleModalPage} from '../edit-article-modal/edit-article-modal.page';
+import {LoadingService} from '../../../../_dal/common/services/loading.service';
 
 @Component({
   selector: 'app-view-article-modal',
@@ -34,10 +35,12 @@ export class ViewArticleModalPage implements OnInit, OnDestroy {
 
   // Subscriptions
   getSelectedArticleByUidSubscription: any;
+  deleteArticleSubscription: any;
 
   constructor(
       private ref: ChangeDetectorRef,
       private ngZone: NgZone,
+      private loadingService: LoadingService,
       private modalController: ModalController,
       private globalFunctionService: GlobalfunctionService,
       private articleControllerService: ArticleControllerServiceService
@@ -64,6 +67,9 @@ export class ViewArticleModalPage implements OnInit, OnDestroy {
     this.ngZone.run(() => {
       if (this.getSelectedArticleByUidSubscription) {
         this.getSelectedArticleByUidSubscription.unsubscribe();
+      }
+      if (this.deleteArticleSubscription) {
+        this.deleteArticleSubscription.unsubscribe();
       }
     });
   }
@@ -116,5 +122,41 @@ export class ViewArticleModalPage implements OnInit, OnDestroy {
       }
     });
     return await modal.present();
+  }
+
+  deleteArticle() {
+    this.globalFunctionService.presentAlertConfirm(
+        'WARNING',
+        'Are you sure you want to delete the selected Article?',
+        'Cancel',
+        'Confirm',
+        undefined,
+        () => this.actuallyDeleteArticle()
+    );
+  }
+
+  actuallyDeleteArticle() {
+    this.loadingService.present();
+    if (this.deleteArticleSubscription) {
+      this.deleteArticleSubscription.unsubscribe();
+    }
+    this.deleteArticleSubscription = this.articleControllerService.deleteArticleByUid(
+        this.selectedArticleUid
+    ).subscribe(resp => {
+      if (resp.code === 200) {
+        this.globalFunctionService.simpleToast('SUCCESS', 'The Article has been deleted!', 'success');
+        this.closeViewArticleModal();
+      } else {
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Article, please try again later!', 'danger');
+      }
+      this.loadingService.dismiss();
+      this.ref.detectChanges();
+    }, error => {
+      console.log('API Error while deleting the Article');
+      console.log(error);
+      this.loadingService.dismiss();
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Article, please try again later!', 'danger');
+      this.ref.detectChanges();
+    });
   }
 }

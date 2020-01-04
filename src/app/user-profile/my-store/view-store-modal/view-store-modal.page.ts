@@ -29,6 +29,7 @@ export class ViewStoreModalPage implements OnInit, OnDestroy {
 
   // Subscriptions
   getSelectedStoreSubscription: any;
+  deleteSelectedStoreSubscription: any;
 
   constructor(
       private ref: ChangeDetectorRef,
@@ -84,6 +85,9 @@ export class ViewStoreModalPage implements OnInit, OnDestroy {
       if (this.getSelectedStoreSubscription) {
         this.getSelectedStoreSubscription.unsubscribe();
       }
+      if (this.deleteSelectedStoreSubscription) {
+        this.deleteSelectedStoreSubscription.unsubscribe();
+      }
     });
   }
 
@@ -105,5 +109,41 @@ export class ViewStoreModalPage implements OnInit, OnDestroy {
       }
     });
     return await modal.present();
+  }
+
+  deleteStore() {
+    this.globalFunctionService.presentAlertConfirm(
+        'WARNING',
+        'Are you sure you want to delete the selected Store?',
+        'Cancel',
+        'Confirm',
+        undefined,
+        () => this.actuallyDeleteStore()
+    );
+  }
+
+  actuallyDeleteStore() {
+    this.loadingService.present();
+    if (this.deleteSelectedStoreSubscription) {
+      this.deleteSelectedStoreSubscription.unsubscribe();
+    }
+    this.deleteSelectedStoreSubscription = this.storeControllerService.deleteStoreByUid(
+        this.selectedStoreUid
+    ).subscribe(resp => {
+      if (resp.code === 200) {
+        this.globalFunctionService.simpleToast('SUCCESS', 'The Store has been deleted!', 'success');
+        this.closeViewStoreModal();
+      } else {
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to delete Store, please try again later!', 'danger');
+      }
+      this.loadingService.dismiss();
+      this.ref.detectChanges();
+    }, error => {
+      console.log('API Error while deleting the Store');
+      console.log(error);
+      this.loadingService.dismiss();
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to delete Store, please try again later!', 'danger');
+      this.ref.detectChanges();
+    });
   }
 }

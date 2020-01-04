@@ -81,8 +81,8 @@
     <div [formGroup]="blogInfoFormGroup">
       <ion-row>
         <ion-col size="12" style="margin-top:10px;text-align:center;">
-          <ng-container *ngIf="temporaryStoreImageURL else showOriginalBloggerImage">
-            <img [src]="temporaryStoreImageURL" style="border-radius:50%;height:100px;width:100px;object-fit:cover;">
+          <ng-container *ngIf="temporaryBlogImageUrl else showOriginalBloggerImage">
+            <img [src]="temporaryBlogImageUrl" style="border-radius:50%;height:100px;width:100px;object-fit:cover;">
           </ng-container>
           <ng-template #showOriginalBloggerImage>
             <img [src]="selectedBlogger?.imgpath ? selectedBlogger.imgpath : '../../../../assets/images/default_product.png'" style="border-radius:50%;height:100px;width:100px;object-fit:cover;">
@@ -90,7 +90,7 @@
         </ion-col>
         <ion-col size="12" style="text-align:center;">
           <ion-button fill="outline" (click)="openBloggerImageFilePicker()">
-            <b>Change Store Photo</b>
+            <b>Change Blog Photo</b>
           </ion-button>
           <input type="file" multiple="false" style="display:none;" #bloggerImageContainer
                  accept=".jpg, .jpeg, .png" (change)="uploadBloggerImage($event)">
@@ -166,7 +166,7 @@
                     </ion-col>
                     <ion-col size="7">
                       <ionic-selectable
-                              formControlName="blogSelectedStore"
+                              formControlName="blogSelectedCompany"
                               [placeholder]="'Select a Company'"
                               [(ngModel)]="selectedBlogger.company"
                               [items]="listOfCompanies"
@@ -204,13 +204,6 @@
               </ion-row>
             </ng-container>
           </ion-card>
-          <ion-row class="ion-align-items-center">
-            <ion-col size="12">
-              <ion-button expand="full" color="danger" (click)="deleteBlogger()">
-                Delete Blogger
-              </ion-button>
-            </ion-col>
-          </ion-row>
         </ion-col>
       </ion-row>
     </div>

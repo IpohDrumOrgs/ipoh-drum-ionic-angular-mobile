@@ -131,6 +131,14 @@ export class MyChannelPage implements OnInit, OnDestroy {
                 selectedChannelUid
             }
         });
+        modal.onDidDismiss().then((refreshPageFlag) => {
+            if (refreshPageFlag.data) {
+                this.retrieveListOfChannelsOfCurrentUser();
+                if (this.referInfiniteScroll) {
+                    this.referInfiniteScroll.target.disabled = false;
+                }
+            }
+        });
         return await modal.present();
     }
 

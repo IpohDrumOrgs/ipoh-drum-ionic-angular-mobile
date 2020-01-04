@@ -44,24 +44,21 @@ export class UserProfilePage implements OnInit {
         this.navController.navigateRoot('/ipoh-drum/user-profile/my-profile');
         break;
       case 1:
-        this.navController.navigateRoot('/ipoh-drum/user-profile/my-videos');
-        break;
-      case 2:
         this.navController.navigateRoot('/ipoh-drum/user-profile/my-store');
         break;
-      case 3:
+      case 2:
         this.navController.navigateRoot('/ipoh-drum/user-profile/my-blog');
         break;
-      case 4:
+      case 3:
         this.navController.navigateRoot('/ipoh-drum/user-profile/my-channel');
         break;
-      case 5:
+      case 4:
         this.navController.navigateRoot('/ipoh-drum/user-profile/my-orders');
         break;
-      case 6:
+      case 5:
         this.navController.navigateRoot('/ipoh-drum/user-profile/my-statistics');
         break;
-      case 7:
+      case 6:
         this.logoutUser();
         break;
     }

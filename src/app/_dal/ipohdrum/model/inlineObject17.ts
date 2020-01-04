@@ -9,24 +9,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { Company } from './company';
 
 
-export interface Channel { 
-    id?: number;
-    company_id?: number;
-    user_id?: number;
-    uid?: string;
-    name?: string;
-    desc?: string;
-    email?: string;
-    imgpath?: string;
-    imgpublicid?: string;
-    tel1?: string;
-    company_belongings?: number;
-    status?: number;
-    created_at?: string;
-    updated_at?: string;
-    company?: Company;
+export interface InlineObject17 { 
+    /**
+     * Video Cover Image
+     */
+    img?: Array<Blob>;
 }
 

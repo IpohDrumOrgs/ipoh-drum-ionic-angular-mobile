@@ -2,6 +2,9 @@ import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/
 import {Blogger, BloggerControllerServiceService, Channel, ChannelControllerServiceService} from '../../../_dal/ipohdrum';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {ModalController} from '@ionic/angular';
+import {EditBlogModalPage} from '../../my-blog/edit-blog-modal/edit-blog-modal.page';
+import {EditChannelModalPage} from '../edit-channel-modal/edit-channel-modal.page';
+import {LoadingService} from '../../../_dal/common/services/loading.service';
 
 @Component({
   selector: 'app-view-channel-modal',
@@ -24,8 +27,10 @@ export class ViewChannelModalPage implements OnInit, OnDestroy {
 
   // Subscriptions
   getSelectedChannelByUidSubscription: any;
+  deleteChannelSubscription: any;
 
   constructor(
+      private loadingService: LoadingService,
       private ref: ChangeDetectorRef,
       private ngZone: NgZone,
       private globalFunctionService: GlobalfunctionService,
@@ -37,7 +42,6 @@ export class ViewChannelModalPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.ngZone.run(() => {
-      console.log('selected channel uid: ' + this.selectedChannelUid);
       this.retrieveSelectedChannelByUid();
     });
   }
@@ -59,7 +63,6 @@ export class ViewChannelModalPage implements OnInit, OnDestroy {
   }
 
   retrieveSelectedChannelByUid() {
-    console.log('retrieve chanel');
     this.isLoadingChannelInfo = true;
     if (this.getSelectedChannelByUidSubscription) {
       this.getSelectedChannelByUidSubscription.unsubscribe();
@@ -89,5 +92,56 @@ export class ViewChannelModalPage implements OnInit, OnDestroy {
 
   closeViewChannelModal() {
     this.modalController.dismiss();
+  }
+
+  async openEditChannelModal() {
+    const modal = await this.modalController.create({
+      component: EditChannelModalPage,
+      componentProps: {
+        selectedChannelUid: this.selectedChannelUid
+      }
+    });
+    modal.onDidDismiss().then((returnFromEditingChannel) => {
+      if (returnFromEditingChannel.data) {
+        this.retrieveSelectedChannelByUid();
+      }
+    });
+    return await modal.present();
+  }
+
+  deleteChannel() {
+    this.globalFunctionService.presentAlertConfirm(
+        'WARNING',
+        'Are you sure you want to delete the selected Channel?',
+        'Cancel',
+        'Confirm',
+        undefined,
+        () => this.actuallyDeleteChannel()
+    );
+  }
+
+  actuallyDeleteChannel() {
+    this.loadingService.present();
+    if (this.deleteChannelSubscription) {
+      this.deleteChannelSubscription.unsubscribe();
+    }
+    this.deleteChannelSubscription = this.channelControllerService.deleteChannelByUid(
+        this.selectedChannelUid
+    ).subscribe(resp => {
+      if (resp.code === 200) {
+        this.globalFunctionService.simpleToast('SUCCESS', 'The Channel has been deleted!', 'success');
+        this.closeViewChannelModal();
+      } else {
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Channel, please try again later!', 'danger');
+      }
+      this.loadingService.dismiss();
+      this.ref.detectChanges();
+    }, error => {
+      console.log('API Error while deleting the Channel');
+      console.log(error);
+      this.loadingService.dismiss();
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Channel, please try again later!', 'danger');
+      this.ref.detectChanges();
+    });
   }
 }

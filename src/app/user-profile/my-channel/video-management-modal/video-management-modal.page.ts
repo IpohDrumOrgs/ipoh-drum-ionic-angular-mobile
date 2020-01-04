@@ -75,34 +75,96 @@ export class VideoManagementModalPage implements OnInit, OnDestroy {
     if (this.getListOfVideosByChannelUidSubscription) {
       this.getListOfVideosByChannelUidSubscription.unsubscribe();
     }
-/*    this.getListOfVideosByChannelUidSubscription = this.channelControllerService.getVideosByChannelUid(
-        this.selectedBloggerUid,
+    this.getListOfVideosByChannelUidSubscription = this.channelControllerService.getVideosByChannelUid(
+        this.selectedChannelUid,
         this.currentPageNumber,
         this.currentPageSize
     ).subscribe(resp => {
       console.log(resp);
       if (resp.code === 200) {
-        this.listOfArticlesByBloggerUid = resp.data;
+        this.listOfVideosByChannelUid = resp.data;
         this.maximumPages = resp.maximumPages;
         this.totalResult = resp.totalResult;
       } else {
-        this.listOfArticlesByBloggerUid = [];
+        this.listOfVideosByChannelUid = [];
         this.maximumPages = 0;
         this.totalResult = 0;
         // tslint:disable-next-line:max-line-length
-        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Articles, please try again later!', 'warning', 'top');
-        this.closeArticleManagementModal();
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Videos, please try again later!', 'warning', 'top');
+        this.closeVideoManagementModal();
       }
       this.loadingService.dismiss();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving list of Articles by Blogger Uid.');
+      console.log('API Error while retrieving list of Videos by Channel Uid.');
       console.log(error);
       this.loadingService.dismiss();
       // tslint:disable-next-line:max-line-length
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Articles, please try again later!', 'warning', 'top');
-      this.closeArticleManagementModal();
+      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Videos, please try again later!', 'warning', 'top');
+      this.closeVideoManagementModal();
       this.ref.detectChanges();
-    });*/
+    });
+  }
+
+  ionRefresh(event) {
+    if (this.referInfiniteScroll) {
+      this.referInfiniteScroll.target.disabled = false;
+    }
+    if (this.getListOfVideosByChannelUidSubscription) {
+      this.getListOfVideosByChannelUidSubscription.unsubscribe();
+    }
+    this.currentPageNumber = 1;
+    this.getListOfVideosByChannelUidSubscription = this.channelControllerService.getVideosByChannelUid(
+        this.selectedChannelUid,
+        this.currentPageNumber,
+        this.currentPageSize
+    ).subscribe(resp => {
+      if (resp.code === 200) {
+        this.listOfVideosByChannelUid = resp.data;
+        this.maximumPages = resp.maximumPages;
+        this.totalResult = resp.totalResult;
+      } else {
+        // tslint:disable-next-line:max-line-length
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Videos, please try again later!', 'warning', 'top');
+        this.closeVideoManagementModal();
+      }
+      this.ref.detectChanges();
+      event.target.complete();
+    }, error => {
+      console.log('API Error while retrieving list of Videos by Channel uid.');
+      // tslint:disable-next-line:max-line-length
+      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Videos, please try again later!', 'warning', 'top');
+      this.closeVideoManagementModal();
+      event.target.complete();
+    });
+  }
+
+  loadMoreVideosByChannelUid(event) {
+    this.referInfiniteScroll = event;
+    setTimeout(() => {
+      if (this.maximumPages > this.currentPageNumber) {
+        this.currentPageNumber++;
+        this.appendListOfVideosByChannelUidSubscription = this.channelControllerService.getVideosByChannelUid(
+            this.selectedChannelUid,
+            this.currentPageNumber,
+            this.currentPageSize
+        ).subscribe(resp => {
+          if (resp.code === 200) {
+            for (const tempVideos of resp.data) {
+              this.listOfVideosByChannelUid.push(tempVideos);
+            }
+          }
+          this.ref.detectChanges();
+          this.referInfiniteScroll.target.complete();
+        }, error => {
+          console.log('API Error while retrieving list of Videos by Channel uid.');
+          console.log(error);
+          this.referInfiniteScroll.target.complete();
+        });
+      }
+      if (this.totalResult === this.listOfVideosByChannelUid.length) {
+        this.referInfiniteScroll.target.disabled = true;
+      }
+    }, 500);
   }
 }

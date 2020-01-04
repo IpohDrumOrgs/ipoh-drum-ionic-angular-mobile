@@ -4,6 +4,7 @@ import {Blogger} from '../../../_dal/ipohdrum/model/blogger';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {ModalController} from '@ionic/angular';
 import {EditBlogModalPage} from '../edit-blog-modal/edit-blog-modal.page';
+import {LoadingService} from '../../../_dal/common/services/loading.service';
 
 @Component({
   selector: 'app-view-blog-modal',
@@ -26,10 +27,12 @@ export class ViewBlogModalPage implements OnInit, OnDestroy {
 
   // Subscriptions
   getSelectedBloggerByUidSubscription: any;
+  deleteBloggerSubscription: any;
 
   constructor(
       private ref: ChangeDetectorRef,
       private ngZone: NgZone,
+      private loadingService: LoadingService,
       private bloggerControllerService: BloggerControllerServiceService,
       private globalFunctionService: GlobalfunctionService,
       private modalController: ModalController
@@ -55,6 +58,9 @@ export class ViewBlogModalPage implements OnInit, OnDestroy {
     this.ngZone.run(() => {
       if (this.getSelectedBloggerByUidSubscription) {
         this.getSelectedBloggerByUidSubscription.unsubscribe();
+      }
+      if (this.deleteBloggerSubscription) {
+        this.deleteBloggerSubscription.unsubscribe();
       }
     });
   }
@@ -103,5 +109,41 @@ export class ViewBlogModalPage implements OnInit, OnDestroy {
       }
     });
     return await modal.present();
+  }
+
+  deleteBlogger() {
+    this.globalFunctionService.presentAlertConfirm(
+        'WARNING',
+        'Are you sure you want to delete the selected Blogger?',
+        'Cancel',
+        'Confirm',
+        undefined,
+        () => this.actuallyDeleteBlogger()
+    );
+  }
+
+  actuallyDeleteBlogger() {
+    this.loadingService.present();
+    if (this.deleteBloggerSubscription) {
+      this.deleteBloggerSubscription.unsubscribe();
+    }
+    this.deleteBloggerSubscription = this.bloggerControllerService.deleteBloggerByUid(
+        this.selectedBloggerUid
+    ).subscribe(resp => {
+      if (resp.code === 200) {
+        this.globalFunctionService.simpleToast('SUCCESS', 'The Blogger has been deleted!', 'success');
+        this.closeViewBloggerModal();
+      } else {
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Blogger, please try again later!', 'danger');
+      }
+      this.loadingService.dismiss();
+      this.ref.detectChanges();
+    }, error => {
+      console.log('API Error while deleting the blogger');
+      console.log(error);
+      this.loadingService.dismiss();
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Blogger, please try again later!', 'danger');
+      this.ref.detectChanges();
+    });
   }
 }

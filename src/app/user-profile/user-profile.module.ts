@@ -12,7 +12,6 @@ const routes: Routes = [
         children: [
             {path: '', pathMatch: 'full', redirectTo: '/ipoh-drum/user-profile/my-profile'},
             {path: 'my-profile', loadChildren: '../user-profile/my-profile/my-profile.module#MyProfilePageModule'},
-            {path: 'my-videos', loadChildren: '../user-profile/my-videos/my-videos.module#MyVideosPageModule'},
             {path: 'my-store', loadChildren: '../user-profile/my-store/my-store.module#MyStorePageModule'},
             {path: 'my-blog', loadChildren: '../user-profile/my-blog/my-blog.module#MyBlogPageModule'},
             {path: 'my-channel', loadChildren: '../user-profile/my-channel/my-channel.module#MyChannelPageModule'},

@@ -108,7 +108,7 @@
                   <ion-item>
                     <ion-row class="ion-align-items-center">
                       <ion-col size="8" style="color:#e6e6e6;">
-                        Is This Article Public? (Scope)
+                        Is This Article Public?
                       </ion-col>
                       <ion-col size="4">
                         <ion-toggle disabled [(ngModel)]="isArticlePublicScope" color="success"></ion-toggle>
@@ -118,6 +118,13 @@
                 </ion-list>
               </ion-card-content>
             </ion-card>
+            <ion-row class="ion-align-items-center">
+              <ion-col size="12">
+                <ion-button expand="full" color="danger" (click)="deleteArticle()">
+                  Delete Article
+                </ion-button>
+              </ion-col>
+            </ion-row>
           </ion-col>
         </ion-row>
       </ion-col>

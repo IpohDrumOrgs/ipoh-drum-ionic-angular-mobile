@@ -110,7 +110,7 @@
             </ion-card>
             <ion-card style="padding:5px;">
               <ion-row class="ion-align-items-center">
-                <ion-col size="9">
+                <ion-col size="9" style="white-space:normal;word-wrap:break-word;">
                   Belongs to A Company?
                 </ion-col>
                 <ion-col size="3">
@@ -156,6 +156,13 @@
                 </ion-row>
               </ng-container>
             </ion-card>
+            <ion-row class="ion-align-items-center">
+              <ion-col size="12">
+                <ion-button expand="full" color="danger" (click)="deleteBlogger()">
+                  Delete Blogger
+                </ion-button>
+              </ion-col>
+            </ion-row>
           </ion-col>
         </ion-row>
       </ion-col>

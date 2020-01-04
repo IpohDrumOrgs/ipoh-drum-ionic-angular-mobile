@@ -75,7 +75,7 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
         if (this.getListOfVideosSubscription) {
             this.getListOfVideosSubscription.unsubscribe();
         }
-        this.getListOfVideosSubscription = this.videoControllerService.getPublicVideosListing(
+        this.getListOfVideosSubscription = this.videoControllerService.getPublicVideos(
             this.currentPageNumber,
             this.currentPageSize
         ).subscribe(resp => {
@@ -116,7 +116,7 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
             this.getListOfVideosSubscription.unsubscribe();
         }
         this.currentPageNumber = 1;
-        this.getListOfVideosSubscription = this.videoControllerService.getPublicVideosListing(
+        this.getListOfVideosSubscription = this.videoControllerService.getPublicVideos(
             this.currentPageNumber,
             this.currentPageSize
         ).subscribe(resp => {
@@ -145,7 +145,7 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
         setTimeout(() => {
             if (this.maximumPages > this.currentPageNumber) {
                 this.currentPageNumber++;
-                this.appendListOfVideosSubscription = this.videoControllerService.getPublicVideosListing(
+                this.appendListOfVideosSubscription = this.videoControllerService.getPublicVideos(
                     this.currentPageNumber,
                     this.currentPageSize
                 ).subscribe(resp => {

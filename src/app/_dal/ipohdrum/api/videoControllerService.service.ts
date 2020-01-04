@@ -45,50 +45,104 @@ export class VideoControllerServiceService {
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
 
+    /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        for (const consume of consumes) {
+            if (form === consume) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     /**
      * Creates a video.
-     * @param name Videoname
-     * @param email Email
-     * @param password Password
-     * @param password_confirmation Password Confirmation
-     * @param country Country
+     * @param channel_id Video belongs To which Channel
+     * @param title Video title
+     * @param scope Is this video public?
+     * @param videopath Video Link
+     * @param videopublicid Video Link
+     * @param totallength Length Of Video
+     * @param free Is this video free?
+     * @param discbyprice Is this video discount by price?
+     * @param desc Video description
+     * @param price Video Price
+     * @param disc Discount Price
+     * @param discpctg Discount Percentage
+     * @param img Video Cover Image
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createVideo(name: string, email: string, password: string, password_confirmation: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createVideo(name: string, email: string, password: string, password_confirmation: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createVideo(name: string, email: string, password: string, password_confirmation: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createVideo(name: string, email: string, password: string, password_confirmation: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling createVideo.');
+    public createVideo(channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createVideo(channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createVideo(channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createVideo(channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (channel_id === null || channel_id === undefined) {
+            throw new Error('Required parameter channel_id was null or undefined when calling createVideo.');
         }
-        if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling createVideo.');
+        if (title === null || title === undefined) {
+            throw new Error('Required parameter title was null or undefined when calling createVideo.');
         }
-        if (password === null || password === undefined) {
-            throw new Error('Required parameter password was null or undefined when calling createVideo.');
+        if (scope === null || scope === undefined) {
+            throw new Error('Required parameter scope was null or undefined when calling createVideo.');
         }
-        if (password_confirmation === null || password_confirmation === undefined) {
-            throw new Error('Required parameter password_confirmation was null or undefined when calling createVideo.');
+        if (videopath === null || videopath === undefined) {
+            throw new Error('Required parameter videopath was null or undefined when calling createVideo.');
+        }
+        if (videopublicid === null || videopublicid === undefined) {
+            throw new Error('Required parameter videopublicid was null or undefined when calling createVideo.');
+        }
+        if (totallength === null || totallength === undefined) {
+            throw new Error('Required parameter totallength was null or undefined when calling createVideo.');
+        }
+        if (free === null || free === undefined) {
+            throw new Error('Required parameter free was null or undefined when calling createVideo.');
+        }
+        if (discbyprice === null || discbyprice === undefined) {
+            throw new Error('Required parameter discbyprice was null or undefined when calling createVideo.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
+        if (channel_id !== undefined && channel_id !== null) {
+            queryParameters = queryParameters.set('channel_id', <any>channel_id);
         }
-        if (email !== undefined && email !== null) {
-            queryParameters = queryParameters.set('email', <any>email);
+        if (title !== undefined && title !== null) {
+            queryParameters = queryParameters.set('title', <any>title);
         }
-        if (password !== undefined && password !== null) {
-            queryParameters = queryParameters.set('password', <any>password);
+        if (desc !== undefined && desc !== null) {
+            queryParameters = queryParameters.set('desc', <any>desc);
         }
-        if (password_confirmation !== undefined && password_confirmation !== null) {
-            queryParameters = queryParameters.set('password_confirmation', <any>password_confirmation);
+        if (scope !== undefined && scope !== null) {
+            queryParameters = queryParameters.set('scope', <any>scope);
         }
-        if (country !== undefined && country !== null) {
-            queryParameters = queryParameters.set('country', <any>country);
+        if (videopath !== undefined && videopath !== null) {
+            queryParameters = queryParameters.set('videopath', <any>videopath);
+        }
+        if (videopublicid !== undefined && videopublicid !== null) {
+            queryParameters = queryParameters.set('videopublicid', <any>videopublicid);
+        }
+        if (totallength !== undefined && totallength !== null) {
+            queryParameters = queryParameters.set('totallength', <any>totallength);
+        }
+        if (free !== undefined && free !== null) {
+            queryParameters = queryParameters.set('free', <any>free);
+        }
+        if (price !== undefined && price !== null) {
+            queryParameters = queryParameters.set('price', <any>price);
+        }
+        if (discbyprice !== undefined && discbyprice !== null) {
+            queryParameters = queryParameters.set('discbyprice', <any>discbyprice);
+        }
+        if (disc !== undefined && disc !== null) {
+            queryParameters = queryParameters.set('disc', <any>disc);
+        }
+        if (discpctg !== undefined && discpctg !== null) {
+            queryParameters = queryParameters.set('discpctg', <any>discpctg);
         }
 
         let headers = this.defaultHeaders;
@@ -101,9 +155,37 @@ export class VideoControllerServiceService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: this.encoder});
+        }
+
+        if (img) {
+            if (useForm) {
+                img.forEach((element) => {
+                    formParams = formParams.append('img', <any>element) as any || formParams;
+            })
+            } else {
+                formParams = formParams.append('img', img.join(COLLECTION_FORMATS['csv'])) as any || formParams;
+            }
+        }
 
         return this.httpClient.post<any>(`${this.configuration.basePath}/api/video`,
-            null,
+            convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
@@ -162,10 +244,10 @@ export class VideoControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterVideoList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterVideoList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterVideoList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterVideoList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterVideos(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterVideos(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterVideos(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterVideos(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (page_number !== undefined && page_number !== null) {
@@ -248,16 +330,62 @@ export class VideoControllerServiceService {
     }
 
     /**
+     * Retrieves all public comments.
+     * @param uid Video ID, NOT \&#39;ID\&#39;.
+     * @param page_number Page number
+     * @param page_size number of pageSize
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getPublicVideoComments(uid: string, page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getPublicVideoComments(uid: string, page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getPublicVideoComments(uid: string, page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getPublicVideoComments(uid: string, page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (uid === null || uid === undefined) {
+            throw new Error('Required parameter uid was null or undefined when calling getPublicVideoComments.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (page_number !== undefined && page_number !== null) {
+            queryParameters = queryParameters.set('pageNumber', <any>page_number);
+        }
+        if (page_size !== undefined && page_size !== null) {
+            queryParameters = queryParameters.set('pageSize', <any>page_size);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/public/video/${encodeURIComponent(String(uid))}/comments`,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Retrieves all public videos.
      * @param page_number Page number
      * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPublicVideosListing(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getPublicVideosListing(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getPublicVideosListing(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getPublicVideosListing(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getPublicVideos(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getPublicVideos(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getPublicVideos(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getPublicVideos(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (page_number !== undefined && page_number !== null) {
@@ -332,10 +460,10 @@ export class VideoControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getVideoList(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getVideoList(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getVideoList(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getVideoList(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getVideos(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getVideos(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getVideos(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getVideos(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (page_number !== undefined && page_number !== null) {
@@ -370,62 +498,39 @@ export class VideoControllerServiceService {
     /**
      * Update video by Uid.
      * @param uid Video_ID, NOT \&#39;ID\&#39;.
-     * @param name Videoname.
-     * @param email Email.
-     * @param country Country.
-     * @param tel1 Telephone Number #1.
-     * @param address1 Address #1.
-     * @param city City.
-     * @param postcode PostCode.
-     * @param state State.
-     * @param icno IC Number.
+     * @param blogger_id Video belongs To which Blogger
+     * @param title Video title
+     * @param desc Video description
+     * @param scope Is this video public?
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateVideoByUid(uid: string, name: string, email: string, country: string, tel1?: string, address1?: string, city?: string, postcode?: string, state?: string, icno?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateVideoByUid(uid: string, name: string, email: string, country: string, tel1?: string, address1?: string, city?: string, postcode?: string, state?: string, icno?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateVideoByUid(uid: string, name: string, email: string, country: string, tel1?: string, address1?: string, city?: string, postcode?: string, state?: string, icno?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateVideoByUid(uid: string, name: string, email: string, country: string, tel1?: string, address1?: string, city?: string, postcode?: string, state?: string, icno?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateVideoByUid(uid: string, blogger_id: number, title: string, desc?: string, scope?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateVideoByUid(uid: string, blogger_id: number, title: string, desc?: string, scope?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateVideoByUid(uid: string, blogger_id: number, title: string, desc?: string, scope?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateVideoByUid(uid: string, blogger_id: number, title: string, desc?: string, scope?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateVideoByUid.');
         }
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling updateVideoByUid.');
+        if (blogger_id === null || blogger_id === undefined) {
+            throw new Error('Required parameter blogger_id was null or undefined when calling updateVideoByUid.');
         }
-        if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling updateVideoByUid.');
-        }
-        if (country === null || country === undefined) {
-            throw new Error('Required parameter country was null or undefined when calling updateVideoByUid.');
+        if (title === null || title === undefined) {
+            throw new Error('Required parameter title was null or undefined when calling updateVideoByUid.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
+        if (blogger_id !== undefined && blogger_id !== null) {
+            queryParameters = queryParameters.set('blogger_id', <any>blogger_id);
         }
-        if (email !== undefined && email !== null) {
-            queryParameters = queryParameters.set('email', <any>email);
+        if (title !== undefined && title !== null) {
+            queryParameters = queryParameters.set('title', <any>title);
         }
-        if (tel1 !== undefined && tel1 !== null) {
-            queryParameters = queryParameters.set('tel1', <any>tel1);
+        if (desc !== undefined && desc !== null) {
+            queryParameters = queryParameters.set('desc', <any>desc);
         }
-        if (address1 !== undefined && address1 !== null) {
-            queryParameters = queryParameters.set('address1', <any>address1);
-        }
-        if (city !== undefined && city !== null) {
-            queryParameters = queryParameters.set('city', <any>city);
-        }
-        if (postcode !== undefined && postcode !== null) {
-            queryParameters = queryParameters.set('postcode', <any>postcode);
-        }
-        if (state !== undefined && state !== null) {
-            queryParameters = queryParameters.set('state', <any>state);
-        }
-        if (country !== undefined && country !== null) {
-            queryParameters = queryParameters.set('country', <any>country);
-        }
-        if (icno !== undefined && icno !== null) {
-            queryParameters = queryParameters.set('icno', <any>icno);
+        if (scope !== undefined && scope !== null) {
+            queryParameters = queryParameters.set('scope', <any>scope);
         }
 
         let headers = this.defaultHeaders;

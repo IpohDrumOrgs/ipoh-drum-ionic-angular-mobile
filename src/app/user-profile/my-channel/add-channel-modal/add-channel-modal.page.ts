@@ -273,6 +273,7 @@ export class AddChannelModalPage implements OnInit, OnDestroy {
           this.selectedCompany ? this.selectedCompany.id : null,
           this.channelDescriptionModel,
           this.channelEmailModel,
+          this.channelContactNumModel,
           this.channelImageAsBlobArray
       ).subscribe(resp => {
         console.log(resp);
