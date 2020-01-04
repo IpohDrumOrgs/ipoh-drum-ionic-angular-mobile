@@ -15,6 +15,7 @@ const routes: Routes = [
             {path: 'my-videos', loadChildren: '../user-profile/my-videos/my-videos.module#MyVideosPageModule'},
             {path: 'my-store', loadChildren: '../user-profile/my-store/my-store.module#MyStorePageModule'},
             {path: 'my-blog', loadChildren: '../user-profile/my-blog/my-blog.module#MyBlogPageModule'},
+            {path: 'my-channel', loadChildren: '../user-profile/my-channel/my-channel.module#MyChannelPageModule'},
             {path: 'my-orders', loadChildren: '../user-profile/my-orders/my-orders.module#MyOrdersPageModule'},
             {path: 'my-statistics', loadChildren: '../user-profile/my-statistics/my-statistics.module#MyStatisticsPageModule'},
         ]

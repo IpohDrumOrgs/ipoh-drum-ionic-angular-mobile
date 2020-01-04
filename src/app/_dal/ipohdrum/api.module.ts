@@ -7,6 +7,7 @@ import { ArticleControllerServiceService } from './api/articleControllerService.
 import { ArticleImageControllerServiceService } from './api/articleImageControllerService.service';
 import { BloggerControllerServiceService } from './api/bloggerControllerService.service';
 import { CategoryControllerServiceService } from './api/categoryControllerService.service';
+import { ChannelControllerServiceService } from './api/channelControllerService.service';
 import { CommentControllerServiceService } from './api/commentControllerService.service';
 import { CompanyControllerServiceService } from './api/companyControllerService.service';
 import { CompanyTypeControllerServiceService } from './api/companyTypeControllerService.service';
@@ -41,6 +42,7 @@ import { WarrantyControllerServiceService } from './api/warrantyControllerServic
     ArticleImageControllerServiceService,
     BloggerControllerServiceService,
     CategoryControllerServiceService,
+    ChannelControllerServiceService,
     CommentControllerServiceService,
     CompanyControllerServiceService,
     CompanyTypeControllerServiceService,

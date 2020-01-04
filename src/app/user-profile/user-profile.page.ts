@@ -53,12 +53,15 @@ export class UserProfilePage implements OnInit {
         this.navController.navigateRoot('/ipoh-drum/user-profile/my-blog');
         break;
       case 4:
-        this.navController.navigateRoot('/ipoh-drum/user-profile/my-orders');
+        this.navController.navigateRoot('/ipoh-drum/user-profile/my-channel');
         break;
       case 5:
-        this.navController.navigateRoot('/ipoh-drum/user-profile/my-statistics');
+        this.navController.navigateRoot('/ipoh-drum/user-profile/my-orders');
         break;
       case 6:
+        this.navController.navigateRoot('/ipoh-drum/user-profile/my-statistics');
+        break;
+      case 7:
         this.logoutUser();
         break;
     }

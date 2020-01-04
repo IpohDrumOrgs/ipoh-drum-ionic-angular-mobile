@@ -62,10 +62,10 @@
                      [ngClass]="{'is-invalid': blogInfoFormGroup.get('blogName').invalid && blogInfoFormGroup.get('blogName').touched, 'is-valid': blogInfoFormGroup.get('blogName').valid}">
               <ul class="error"
                   *ngIf="blogInfoFormGroup.get('blogName').invalid && blogInfoFormGroup.get('blogName').touched">
-                <li *ngIf="blogInfoFormGroup.get('blogName').hasError('required') && blogInfoFormGroup.get('blogName').touched">
+                <li *ngIf="blogInfoFormGroup.get('blogName').hasError('required')">
                   Name is required.
                 </li>
-                <li *ngIf="(blogInfoFormGroup.get('blogName').hasError('minlength') || blogInfoFormGroup.get('blogName').hasError('maxlength'))&& blogInfoFormGroup.get('blogName').touched">
+                <li *ngIf="(blogInfoFormGroup.get('blogName').hasError('minlength') || blogInfoFormGroup.get('blogName').hasError('maxlength'))">
                   Name must be between {{blogNameMinLength}} to {{blogNameMaxLength}} characters.
                 </li>
               </ul>

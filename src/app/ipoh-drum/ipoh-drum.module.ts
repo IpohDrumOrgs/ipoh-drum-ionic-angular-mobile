@@ -98,6 +98,14 @@ import {ViewArticleModalPage} from '../user-profile/my-blog/article-management-m
 import {ViewArticleModalPageModule} from '../user-profile/my-blog/article-management-modal/view-article-modal/view-article-modal.module';
 import {EditArticleModalPageModule} from '../user-profile/my-blog/article-management-modal/edit-article-modal/edit-article-modal.module';
 import {EditArticleModalPage} from '../user-profile/my-blog/article-management-modal/edit-article-modal/edit-article-modal.page';
+import {AddChannelModalPage} from '../user-profile/my-channel/add-channel-modal/add-channel-modal.page';
+import {AddChannelModalPageModule} from '../user-profile/my-channel/add-channel-modal/add-channel-modal.module';
+import {MainChannelManagementModalPageModule} from '../user-profile/my-channel/main-channel-management-modal/main-channel-management-modal.module';
+import {MainChannelManagementModalPage} from '../user-profile/my-channel/main-channel-management-modal/main-channel-management-modal.page';
+import {ViewChannelModalPage} from '../user-profile/my-channel/view-channel-modal/view-channel-modal.page';
+import {ViewChannelModalPageModule} from '../user-profile/my-channel/view-channel-modal/view-channel-modal.module';
+import {VideoManagementModalPage} from '../user-profile/my-channel/video-management-modal/video-management-modal.page';
+import {VideoManagementModalPageModule} from '../user-profile/my-channel/video-management-modal/video-management-modal.module';
 
 const routes: Routes = [
     {
@@ -178,7 +186,11 @@ const routes: Routes = [
         ArticleManagementModalPageModule,
         CreateArticleModalPageModule,
         ViewArticleModalPageModule,
-        EditArticleModalPageModule
+        EditArticleModalPageModule,
+        AddChannelModalPageModule,
+        MainChannelManagementModalPageModule,
+        ViewChannelModalPageModule,
+        VideoManagementModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -218,7 +230,11 @@ const routes: Routes = [
         ArticleManagementModalPage,
         CreateArticleModalPage,
         ViewArticleModalPage,
-        EditArticleModalPage
+        EditArticleModalPage,
+        AddChannelModalPage,
+        MainChannelManagementModalPage,
+        ViewChannelModalPage,
+        VideoManagementModalPage
     ]
 })
 

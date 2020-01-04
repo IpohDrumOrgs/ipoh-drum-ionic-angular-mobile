@@ -3,7 +3,6 @@ import {BloggerControllerServiceService, Store} from '../../../_dal/ipohdrum';
 import {Blogger} from '../../../_dal/ipohdrum/model/blogger';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {ModalController} from '@ionic/angular';
-import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {EditBlogModalPage} from '../edit-blog-modal/edit-blog-modal.page';
 
 @Component({
@@ -33,8 +32,7 @@ export class ViewBlogModalPage implements OnInit, OnDestroy {
       private ngZone: NgZone,
       private bloggerControllerService: BloggerControllerServiceService,
       private globalFunctionService: GlobalfunctionService,
-      private modalController: ModalController,
-      private loadingService: LoadingService
+      private modalController: ModalController
   ) {
     console.log(this.constructorName + 'Initializing component');
   }

@@ -11,14 +11,20 @@
  */
 
 
-export interface InlineObject6 { 
-    /**
-     * Image
-     */
-    img?: Array<Blob>;
-    /**
-     * Sliders Image
-     */
-    sliders?: Array<Blob>;
+export interface Channel { 
+    id?: number;
+    company_id?: number;
+    user_id?: number;
+    uid?: string;
+    name?: string;
+    desc?: string;
+    email?: string;
+    imgpath?: string;
+    imgpublicid?: string;
+    tel1?: string;
+    company_belongings?: number;
+    status?: number;
+    created_at?: string;
+    updated_at?: string;
 }
 

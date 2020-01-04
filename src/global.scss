@@ -94,6 +94,14 @@ input.ng-dirty.ng-invalid.ng-touched {
     position:fixed;
 }
 
+// Channel Management Custom Modal Size
+.channel-management-modal .modal-wrapper{
+    width:100%;
+    height:20%;
+    bottom:0;
+    position:fixed;
+}
+
 // Custom Error Messages styling for wizard-step
 .error {
     color: #ff1749;

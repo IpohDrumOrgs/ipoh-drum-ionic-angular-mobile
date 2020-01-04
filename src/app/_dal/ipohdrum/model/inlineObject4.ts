@@ -16,9 +16,5 @@ export interface InlineObject4 {
      * Image
      */
     img?: Array<Blob>;
-    /**
-     * Sliders Image
-     */
-    sliders?: Array<Blob>;
 }
 
