@@ -50,7 +50,6 @@ export class ViewArticleModalPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.ngZone.run(() => {
-      console.log(this.selectedArticleUid);
       this.retrieveSelectedArticleByUid();
     });
   }
@@ -79,7 +78,6 @@ export class ViewArticleModalPage implements OnInit, OnDestroy {
     if (this.getSelectedArticleByUidSubscription) {
       this.getSelectedArticleByUidSubscription.unsubscribe();
     }
-    console.log(this.selectedArticleUid);
     this.getSelectedArticleByUidSubscription = this.articleControllerService.getArticleByUid(
         this.selectedArticleUid
     ).subscribe(resp => {

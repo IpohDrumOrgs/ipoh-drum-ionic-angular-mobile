@@ -3,6 +3,8 @@ import {ChannelControllerServiceService, Video} from '../../../_dal/ipohdrum';
 import {ModalController} from '@ionic/angular';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
+import {ViewVideoModalPage} from './view-video-modal/view-video-modal.page';
+import {CreateVideoModalPage} from './create-video-modal/create-video-modal.page';
 
 @Component({
   selector: 'app-video-management-modal',
@@ -68,6 +70,37 @@ export class VideoManagementModalPage implements OnInit, OnDestroy {
 
   closeVideoManagementModal() {
     this.modalController.dismiss();
+  }
+
+  async openCreateVideoModal() {
+    const modal = await this.modalController.create({
+      component: CreateVideoModalPage,
+      componentProps: {
+        selectedChannelUid: this.selectedChannelUid,
+        selectedChannelId: this.selectedChannelId
+      }
+    });
+    modal.onDidDismiss().then((returnedFromCreatingVideo) => {
+      if (returnedFromCreatingVideo.data) {
+        this.retrieveListOfVideosByChannelUid();
+        if (this.referInfiniteScroll) {
+          this.referInfiniteScroll.target.disabled = false;
+        }
+      }
+    });
+    return await modal.present();
+  }
+
+  async openViewVideoModal(selectedVideoId: number, selectedVideoUid: string) {
+    const modal = await this.modalController.create({
+      component: ViewVideoModalPage,
+      componentProps: {
+        selectedVideoId,
+        selectedVideoUid,
+        selectedChannelId: this.selectedChannelId
+      }
+    });
+    return await modal.present();
   }
 
   retrieveListOfVideosByChannelUid() {

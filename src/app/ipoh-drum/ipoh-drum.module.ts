@@ -108,6 +108,10 @@ import {VideoManagementModalPage} from '../user-profile/my-channel/video-managem
 import {VideoManagementModalPageModule} from '../user-profile/my-channel/video-management-modal/video-management-modal.module';
 import {EditChannelModalPage} from '../user-profile/my-channel/edit-channel-modal/edit-channel-modal.page';
 import {EditChannelModalPageModule} from '../user-profile/my-channel/edit-channel-modal/edit-channel-modal.module';
+import {ViewVideoModalPageModule} from '../user-profile/my-channel/video-management-modal/view-video-modal/view-video-modal.module';
+import {ViewVideoModalPage} from '../user-profile/my-channel/video-management-modal/view-video-modal/view-video-modal.page';
+import {CreateVideoModalPage} from '../user-profile/my-channel/video-management-modal/create-video-modal/create-video-modal.page';
+import {CreateVideoModalPageModule} from '../user-profile/my-channel/video-management-modal/create-video-modal/create-video-modal.module';
 
 const routes: Routes = [
     {
@@ -193,7 +197,9 @@ const routes: Routes = [
         MainChannelManagementModalPageModule,
         ViewChannelModalPageModule,
         VideoManagementModalPageModule,
-        EditChannelModalPageModule
+        EditChannelModalPageModule,
+        ViewVideoModalPageModule,
+        CreateVideoModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -238,7 +244,9 @@ const routes: Routes = [
         MainChannelManagementModalPage,
         ViewChannelModalPage,
         VideoManagementModalPage,
-        EditChannelModalPage
+        EditChannelModalPage,
+        ViewVideoModalPage,
+        CreateVideoModalPage
     ]
 })
 
