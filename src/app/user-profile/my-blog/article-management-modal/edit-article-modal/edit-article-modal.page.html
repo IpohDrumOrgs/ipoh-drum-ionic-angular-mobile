@@ -113,7 +113,8 @@
           <ion-col size="12">
             <ion-list>
               <ion-item>
-                <ion-label position="floating">Title</ion-label>
+                <ion-label position="floating"><b>Title<span *ngIf="articleInfoFormGroup.get('articleTitle').invalid"
+                                                             class="required">&nbsp;*</span></b></ion-label>
                 <ion-input [(ngModel)]="selectedArticle.title" formControlName="articleTitle"></ion-input>
               </ion-item>
               <ul class="error"
@@ -126,7 +127,8 @@
                 </li>
               </ul>
               <ion-item>
-                <ion-label position="floating">Description</ion-label>
+                <ion-label position="floating"><b>Description<span *ngIf="articleInfoFormGroup.get('articleDescription').invalid"
+                                                                   class="required">&nbsp;*</span></b></ion-label>
                 <ion-textarea rows="3" cols="20" [(ngModel)]="selectedArticle.desc" formControlName="articleDescription"></ion-textarea>
               </ion-item>
               <ul class="error"
@@ -143,7 +145,7 @@
                   <ion-col size="9" style="padding:0;">
                     <ion-label style="white-space:normal;word-wrap:break-word;">Is This Article Public?</ion-label>
                   </ion-col>
-                  <ion-col size="3" style="padding:0;">
+                  <ion-col size="3" style="padding:0;text-align:right;">
                     <ion-toggle color="success" [(ngModel)]="isArticlePublicScope" formControlName="articleIsPublicFlag"></ion-toggle>
                   </ion-col>
                 </ion-row>

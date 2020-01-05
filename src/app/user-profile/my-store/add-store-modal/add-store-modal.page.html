@@ -27,17 +27,17 @@
       </ng-container>
       <ng-template #uploadedStoreImage>
         <ion-row class="ion-align-items-center">
-          <ion-col size="12" style="border:2px dashed #4285F4;border-radius:5px;">
-            <ion-slides pager="false" class="no-swipe" [options]="inventoryImageSliderOptions" style="margin:1px;height:50vw;">
-              <ion-slide style="height:100% !important;">
-                <ion-row class="ion-align-items-center">
-                  <ion-col size="12">
-                    <img [src]="temporaryStoreImageURL" alt="store_image" (click)="openStoreImageFilePicker()" style="height:50vw;"
-                         class="rounded">
-                  </ion-col>
-                </ion-row>
-              </ion-slide>
-            </ion-slides>
+          <ion-col size="12">
+            <div style="border:1px dashed #4285F4;text-align:center;color:rgba(66,133,244,0.4);padding:10px;">
+              <img [src]="temporaryStoreImageURL" style="object-fit:cover;" class="rounded">
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12" style="text-align:center;">
+            <ion-button color="warning" (click)="openStoreImageFilePicker()">
+              Change Photo
+            </ion-button>
           </ion-col>
         </ion-row>
       </ng-template>
@@ -52,8 +52,8 @@
         </h4>
         <div [formGroup]="storeInfoFormGroup">
           <ion-row class="ion-align-items-center">
-            <ion-col size="4">
-              Name
+            <ion-col size="4" style="font-weight:bold;">
+              Name<span *ngIf="storeInfoFormGroup.get('storeName').invalid" class="required">*</span>
             </ion-col>
             <ion-col size="8">
               <input type="text" class="form-control"
@@ -72,8 +72,8 @@
             </ion-col>
           </ion-row>
           <ion-row class="ion-align-items-center">
-            <ion-col size="4">
-              Contact Num
+            <ion-col size="4" style="font-weight:bold;">
+              Contact Num<span *ngIf="storeInfoFormGroup.get('storeContactNum').invalid" class="required">*</span>
             </ion-col>
             <ion-col size="8">
               <input type="text" class="form-control"
@@ -95,8 +95,8 @@
             </ion-col>
           </ion-row>
           <ion-row class="ion-align-items-center">
-            <ion-col size="4">
-              Email
+            <ion-col size="4" style="font-weight:bold;">
+              Email<span *ngIf="storeInfoFormGroup.get('storeEmail').invalid" class="required">*</span>
             </ion-col>
             <ion-col size="8">
               <input type="text" class="form-control"
@@ -115,8 +115,8 @@
             </ion-col>
           </ion-row>
           <ion-row class="ion-align-items-center" style="border-bottom:1px solid #e6e6e6;">
-            <ion-col size="4">
-              Description
+            <ion-col size="4" style="font-weight:bold;">
+              Description<span *ngIf="storeInfoFormGroup.get('storeDescription').invalid" class="required">*</span>
             </ion-col>
             <ion-col size="8">
               <textarea cols="20" rows="3" class="form-control"
@@ -149,7 +149,7 @@
           <div style="border-radius:5px;border:1px solid #e6e6e6;width:100%;">
             <ion-row class="ion-align-items-center" *ngIf="selectedStoreBelongsToCompanyFlag">
               <ion-col size="5">
-                <b>Company</b>
+                <b>Company<span *ngIf="!selectedCompany" class="required">*</span></b>
               </ion-col>
               <ion-col size="7">
                   <ionic-selectable
@@ -188,8 +188,8 @@
         <b>Address</b>
       </h4>
       <ion-row class="ion-align-items-center">
-        <ion-col size="12">
-          No. & Street Name
+        <ion-col size="12" style="font-weight:bold;">
+          No. & Street Name<span *ngIf="storeAddressFormGroup.get('noStreetName').invalid" class="required">*</span>
         </ion-col>
         <ion-col size="12">
           <textarea cols="20" rows="2" class="form-control"
@@ -208,8 +208,8 @@
         </ion-col>
       </ion-row>
       <ion-row class="ion-align-items-center">
-        <ion-col size="4">
-          Post Code
+        <ion-col size="4" style="font-weight:bold;">
+          Post Code<span *ngIf="storeAddressFormGroup.get('storePostCode').invalid" class="required">*</span>
         </ion-col>
         <ion-col size="8">
           <input type="text" class="form-control"
@@ -228,8 +228,8 @@
         </ion-col>
       </ion-row>
       <ion-row class="ion-align-items-center">
-        <ion-col size="4">
-          Country
+        <ion-col size="4" style="font-weight:bold;">
+          Country<span *ngIf="storeAddressFormGroup.get('storeCountry').invalid" class="required">*</span>
         </ion-col>
         <ion-col size="8">
           <input type="text" class="form-control"
@@ -248,8 +248,8 @@
         </ion-col>
       </ion-row>
       <ion-row class="ion-align-items-center">
-        <ion-col size="4">
-          State
+        <ion-col size="4" style="font-weight:bold;">
+          State<span *ngIf="storeAddressFormGroup.get('storeState').invalid" class="required">*</span>
         </ion-col>
         <ion-col size="8">
           <input type="text" class="form-control"
@@ -268,8 +268,8 @@
         </ion-col>
       </ion-row>
       <ion-row class="ion-align-items-center">
-        <ion-col size="4">
-          City
+        <ion-col size="4" style="font-weight:bold;">
+          City<span *ngIf="storeAddressFormGroup.get('storeCity').invalid" class="required">*</span>
         </ion-col>
         <ion-col size="8">
           <input type="text" class="form-control"

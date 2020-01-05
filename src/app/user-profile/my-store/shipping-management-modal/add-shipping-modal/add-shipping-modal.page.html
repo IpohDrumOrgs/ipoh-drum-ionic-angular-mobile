@@ -18,16 +18,16 @@
     <ion-col size="12">
       <ion-card style="margin:5px;">
         <ion-card-header style="padding-top:0;border-bottom:1px solid #e6e6e6;">
-          <h4 style="margin-bottom:0;">
-            <b>Shipping Plan Details&nbsp;<ion-icon name="boat"></ion-icon></b>
+          <h4 style="margin-bottom:0;margin-top:15px;">
+            <b>Shipping Plan Details</b>
           </h4>
         </ion-card-header>
         <ion-card-content style="padding:5px;" [formGroup]="shippingPlanFormGroup">
           <ion-row>
             <ion-col size="12">
               <ion-row class="ion-align-items-center">
-                <ion-col size="4">
-                  Shipping Plan Name
+                <ion-col size="4" style="font-weight:bold;">
+                  Shipping Plan Name<span class="required" *ngIf="shippingPlanFormGroup.get('shippingPlanName').invalid">*</span>
                 </ion-col>
                 <ion-col size="8">
                   <input type="text" class="form-control"
@@ -46,8 +46,8 @@
                 </ion-col>
               </ion-row>
               <ion-row class="ion-align-items-center">
-                <ion-col size="4">
-                  Description
+                <ion-col size="4" style="font-weight:bold;">
+                  Description<span class="required" *ngIf="shippingPlanFormGroup.get('shippingPlanDescription').invalid">*</span>
                 </ion-col>
                 <ion-col size="8">
                   <textarea rows="3" cols="20" class="form-control"
@@ -66,8 +66,8 @@
                 </ion-col>
               </ion-row>
               <ion-row class="ion-align-items-center">
-                <ion-col size="4">
-                  Shipping Price
+                <ion-col size="4" style="font-weight:bold;">
+                  Shipping Price<span class="required" *ngIf="shippingPlanFormGroup.get('shippingPlanPrice').invalid">*</span>
                 </ion-col>
                 <ion-col size="8">
                   <input type="text" class="form-control"
@@ -89,8 +89,8 @@
                 </ion-col>
               </ion-row>
               <ion-row class="ion-align-items-center">
-                <ion-col size="4">
-                  Max Weightage (KG)
+                <ion-col size="4" style="font-weight:bold;">
+                  Max Weightage (KG)<span class="required" *ngIf="shippingPlanFormGroup.get('shippingPlanMaxWeightage').invalid">*</span>
                 </ion-col>
                 <ion-col size="8">
                   <input type="text" class="form-control"
@@ -112,8 +112,8 @@
                 </ion-col>
               </ion-row>
               <ion-row class="ion-align-items-center">
-                <ion-col size="4">
-                  Max Dimension
+                <ion-col size="4" style="font-weight:bold;">
+                  Max Dimension<span class="required" *ngIf="shippingPlanFormGroup.get('shippingPlanMaxDimension').invalid">*</span>
                 </ion-col>
                 <ion-col size="8">
                   <input type="text" class="form-control"

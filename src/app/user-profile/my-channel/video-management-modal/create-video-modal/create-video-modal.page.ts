@@ -168,9 +168,18 @@ export class CreateVideoModalPage implements OnInit, OnDestroy {
     this.enableDisableDiscountedPriceAndPercentage();
   }
 
+  toggleVideoFreeToWatch() {
+    if (this.videoIsFreeFlagModel) {
+      this.videoNotFreeFormGroup.get('videoPrice').reset();
+      this.videoNotFreeFormGroup.get('videoDiscountedPrice').reset();
+      this.videoNotFreeFormGroup.get('videoDiscountedPercentage').reset();
+      this.videoDiscountedByPriceFlagModel = true;
+    }
+  }
+
   createVideo() {
     if (this.videoInfoFormGroup.valid
-        && (!this.videoIsFreeFlagModel && this.videoNotFreeFormGroup.valid)
+        && ((!this.videoIsFreeFlagModel && this.videoNotFreeFormGroup.valid) || (this.videoIsFreeFlagModel))
         && this.temporaryVideoImageURL) {
       this.loadingService.present();
       if (this.createVideoSubscription) {

@@ -29,8 +29,17 @@
       </ng-container>
       <ng-template #uploadedVideoImage>
         <ion-row class="ion-align-items-center">
-          <ion-col size="12" style="border:2px dashed #4285F4;border-radius:5px;">
-            <img [src]="temporaryVideoImageURL" style="object-fit:cover;">
+          <ion-col size="12">
+            <div style="border:1px dashed #4285F4;text-align:center;color:rgba(66,133,244,0.4);padding:10px;">
+              <img [src]="temporaryVideoImageURL" style="object-fit:cover;" class="rounded">
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12" style="text-align:center;">
+            <ion-button color="warning" (click)="openVideoImageFilePicker()">
+              Change Photo
+            </ion-button>
           </ion-col>
         </ion-row>
       </ng-template>
@@ -153,6 +162,7 @@
             </ion-col>
             <ion-col size="3">
               <ion-toggle color="success"
+                          (ionChange)="toggleVideoFreeToWatch()"
                           [checked]="videoIsFreeFlagModel"
                           [(ngModel)]="videoIsFreeFlagModel"
                           formControlName="videoIsFreeFlag"></ion-toggle>

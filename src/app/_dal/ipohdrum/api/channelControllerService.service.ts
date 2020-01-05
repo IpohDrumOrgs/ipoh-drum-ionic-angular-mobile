@@ -382,14 +382,15 @@ export class ChannelControllerServiceService {
      * @param desc Channel Description
      * @param email Channel Email
      * @param tel1 Channel telephone
+     * @param _method For spoofing purposes.
      * @param img Image
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateChannelByUid(uid: string, name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateChannelByUid(uid: string, name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateChannelByUid(uid: string, name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateChannelByUid(uid: string, name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateChannelByUid(uid: string, name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, _method?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateChannelByUid(uid: string, name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, _method?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateChannelByUid(uid: string, name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, _method?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateChannelByUid(uid: string, name: string, company_belongings: number, user_id?: number, company_id?: number, desc?: string, email?: string, tel1?: string, _method?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateChannelByUid.');
         }
@@ -421,6 +422,9 @@ export class ChannelControllerServiceService {
         }
         if (company_belongings !== undefined && company_belongings !== null) {
             queryParameters = queryParameters.set('companyBelongings', <any>company_belongings);
+        }
+        if (_method !== undefined && _method !== null) {
+            queryParameters = queryParameters.set('_method', <any>_method);
         }
 
         let headers = this.defaultHeaders;
@@ -462,7 +466,7 @@ export class ChannelControllerServiceService {
             }
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/api/channel/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/channel/${encodeURIComponent(String(uid))}`,
             convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,

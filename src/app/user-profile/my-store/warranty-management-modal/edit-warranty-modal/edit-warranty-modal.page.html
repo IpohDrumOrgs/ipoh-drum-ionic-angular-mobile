@@ -45,7 +45,7 @@
                 <ion-col size="12">
                   <ion-list style="padding-top:0;padding-bottom:0;">
                     <ion-item>
-                      <ion-label position="floating">Warranty Name</ion-label>
+                      <ion-label position="floating">Warranty Name<span class="required" *ngIf="warrantyPlanFormGroup.get('warrantyName').invalid">*</span></ion-label>
                       <ion-input [(ngModel)]="selectedWarranty.name" formControlName="warrantyName"></ion-input>
                     </ion-item>
                     <ul class="error"
@@ -58,7 +58,7 @@
                       </li>
                     </ul>
                     <ion-item>
-                      <ion-label position="floating">Description</ion-label>
+                      <ion-label position="floating">Description<span class="required" *ngIf="warrantyPlanFormGroup.get('warrantyDescription').invalid">*</span></ion-label>
                       <ion-textarea [(ngModel)]="selectedWarranty.desc" formControlName="warrantyDescription"></ion-textarea>
                     </ion-item>
                     <ul class="error"
@@ -71,7 +71,7 @@
                       </li>
                     </ul>
                     <ion-item>
-                      <ion-label position="floating">Warranty Period (Months)</ion-label>
+                      <ion-label position="floating">Warranty Period (Months)<span class="required" *ngIf="warrantyPlanFormGroup.get('warrantyPeriod').invalid">*</span></ion-label>
                       <ion-input [(ngModel)]="selectedWarranty.period" formControlName="warrantyPeriod"></ion-input>
                     </ion-item>
                     <ul class="error"
@@ -87,7 +87,7 @@
                       </li>
                     </ul>
                     <ion-item>
-                      <ion-label position="floating">Policy</ion-label>
+                      <ion-label position="floating">Policy<span class="required" *ngIf="warrantyPlanFormGroup.get('warrantyPolicy').invalid">*</span></ion-label>
                       <ion-textarea [(ngModel)]="selectedWarranty.policy" formControlName="warrantyPolicy"></ion-textarea>
                     </ion-item>
                     <ul class="error"

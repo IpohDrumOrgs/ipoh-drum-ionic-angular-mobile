@@ -88,13 +88,29 @@
             <img [src]="selectedChannel?.imgpath ? selectedChannel.imgpath : '../../../../assets/images/default_product.png'" style="border-radius:50%;height:100px;width:100px;object-fit:cover;">
           </ng-template>
         </ion-col>
-        <ion-col size="12" style="text-align:center;">
-          <ion-button fill="outline" (click)="openChannelImageFilePicker()">
-            <b>Change Channel Photo</b>
-          </ion-button>
-          <input type="file" multiple="false" style="display:none;" #channelImageContainer
-                 accept=".jpg, .jpeg, .png" (change)="uploadChannelImage($event)">
-        </ion-col>
+        <ng-container *ngIf="!temporaryChannelImageURL else uploadedTemporaryPhoto">
+          <ion-col size="12" style="text-align:center;">
+            <ion-button fill="outline" (click)="openChannelImageFilePicker()">
+              Change Photo
+            </ion-button>
+            <input type="file" multiple="false" style="display:none;" #channelImageContainer
+                   accept=".jpg, .jpeg, .png" (change)="uploadChannelImage($event)">
+          </ion-col>
+        </ng-container>
+        <ng-template #uploadedTemporaryPhoto>
+          <ion-col size="6" style="text-align:center;">
+            <ion-button fill="outline" color="warning" (click)="resetUploadedTempPhoto()">
+              Reset
+            </ion-button>
+          </ion-col>
+          <ion-col size="6" style="text-align:center;">
+            <ion-button fill="outline" (click)="openChannelImageFilePicker()">
+              Change Photo
+            </ion-button>
+            <input type="file" multiple="false" style="display:none;" #channelImageContainer
+                   accept=".jpg, .jpeg, .png" (change)="uploadChannelImage($event)">
+          </ion-col>
+        </ng-template>
       </ion-row>
       <ion-row>
         <ion-col size="12">
@@ -103,7 +119,7 @@
               <ion-col size="12">
                 <ion-list style="padding-top:0;padding-bottom:0;">
                   <ion-item>
-                    <ion-label position="floating">Name</ion-label>
+                    <ion-label position="floating"><b>Name<span class="required" *ngIf="channelInfoFormGroup.get('channelName').invalid">*</span></b></ion-label>
                     <ion-input [(ngModel)]="selectedChannel.name" formControlName="channelName"></ion-input>
                   </ion-item>
                   <ul class="error"
@@ -116,7 +132,7 @@
                     </li>
                   </ul>
                   <ion-item>
-                    <ion-label position="floating">Description</ion-label>
+                    <ion-label position="floating"><b>Description<span class="required" *ngIf="channelInfoFormGroup.get('channelDescription').invalid">*</span></b></ion-label>
                     <ion-textarea [(ngModel)]="selectedChannel.desc" formControlName="channelDescription" rows="3" cols="20"></ion-textarea>
                   </ion-item>
                   <ul class="error"
@@ -129,7 +145,7 @@
                     </li>
                   </ul>
                   <ion-item>
-                    <ion-label position="floating">Contact Num</ion-label>
+                    <ion-label position="floating"><b>Contact Num<span class="required" *ngIf="channelInfoFormGroup.get('channelContactNum').invalid">*</span></b></ion-label>
                     <ion-input [(ngModel)]="selectedChannel.tel1" formControlName="channelContactNum"></ion-input>
                   </ion-item>
                   <ul class="error"
@@ -145,7 +161,7 @@
                     </li>
                   </ul>
                   <ion-item>
-                    <ion-label position="floating">Email</ion-label>
+                    <ion-label position="floating"><b>Email<span class="required" *ngIf="channelInfoFormGroup.get('channelEmail').invalid">*</span></b></ion-label>
                     <ion-input [(ngModel)]="selectedChannel.email" formControlName="channelEmail"></ion-input>
                   </ion-item>
                   <ul class="error"
@@ -159,7 +175,7 @@
                   </ul>
                   <ion-item>
                     <ion-row class="ion-align-items-center">
-                      <ion-col size="9" style="white-space:normal;word-wrap:break-word;">
+                      <ion-col size="9" style="white-space:normal;word-wrap:break-word;color:grey;font-weight:bold;font-size:15px;padding-left:0;padding-right:0;">
                         Channel belongs to a company?
                       </ion-col>
                       <ion-col size="3">
@@ -171,10 +187,10 @@
                     <ion-row class="ion-align-items-center" style="border-top:1px solid #f2f2f2;">
                       <ion-col size="12">
                         <ion-row class="ion-align-items-center">
-                          <ion-col size="5">
-                            Currently Selected Company
+                          <ion-col size="6" style="font-weight:bold;">
+                            Currently Selected Company<span class="required" *ngIf="!selectedChannel.company">*</span>
                           </ion-col>
-                          <ion-col size="7">
+                          <ion-col size="6">
                             <ionic-selectable
                                     formControlName="channelSelectedCompany"
                                     [placeholder]="'Select a Company'"

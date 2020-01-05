@@ -18,16 +18,16 @@
     <ion-col size="12">
       <ion-card style="margin:5px;">
         <ion-card-header style="padding-top:0;border-bottom:1px solid #e6e6e6;">
-          <h4 style="margin-bottom:0;">
-            <b>Warranty Plan Details&nbsp;<ion-icon name="cube"></ion-icon></b>
+          <h4 style="margin-bottom:0;margin-top:15px;">
+            <b>Warranty Plan Details</b>
           </h4>
         </ion-card-header>
         <ion-card-content style="padding:5px;" [formGroup]="warrantyPlanFormGroup">
           <ion-row>
             <ion-col size="12">
               <ion-row class="ion-align-items-center">
-                <ion-col size="4">
-                  Warranty Name
+                <ion-col size="4" style="font-weight:bold;">
+                  Warranty Name<span class="required" *ngIf="warrantyPlanFormGroup.get('warrantyName').invalid">*</span>
                 </ion-col>
                 <ion-col size="8">
                   <input type="text" class="form-control"
@@ -46,8 +46,8 @@
                 </ion-col>
               </ion-row>
               <ion-row class="ion-align-items-center">
-                <ion-col size="4">
-                  Description
+                <ion-col size="4" style="font-weight:bold;">
+                  Description<span class="required" *ngIf="warrantyPlanFormGroup.get('warrantyDescription').invalid">*</span>
                 </ion-col>
                 <ion-col size="8">
                   <textarea rows="3" cols="20" class="form-control"
@@ -66,8 +66,8 @@
                 </ion-col>
               </ion-row>
               <ion-row class="ion-align-items-center">
-                <ion-col size="4">
-                  Warranty Period (Months)
+                <ion-col size="4" style="font-weight:bold;">
+                  Warranty Period (Months)<span class="required" *ngIf="warrantyPlanFormGroup.get('warrantyPeriod').invalid">*</span>
                 </ion-col>
                 <ion-col size="8">
                   <input type="text" class="form-control"
@@ -89,8 +89,8 @@
                 </ion-col>
               </ion-row>
               <ion-row class="ion-align-items-center">
-                <ion-col size="4">
-                  Policy
+                <ion-col size="4" style="font-weight:bold;">
+                  Policy<span class="required" *ngIf="warrantyPlanFormGroup.get('warrantyPolicy').invalid">*</span>
                 </ion-col>
                 <ion-col size="8">
                   <textarea rows="6" cols="20" class="form-control"

@@ -290,6 +290,25 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
     });
   }
 
+  resetUploadedTempPhoto() {
+    this.globalFunctionService.presentAlertConfirm(
+        'Warning',
+        'Are you sure you want to reset the uploaded photo?',
+        'Cancel',
+        'Confirm',
+        undefined,
+        () => this.resetPhoto());
+  }
+
+  resetPhoto() {
+    this.loadingService.present();
+    setTimeout(() => {
+      this.temporaryStoreImageURL = null;
+      this.storeImageAsBlobArray = [];
+      this.loadingService.dismiss();
+    }, 500);
+  }
+
   retrieveMoreCompanies(event: {
     component: IonicSelectableComponent,
     text: string

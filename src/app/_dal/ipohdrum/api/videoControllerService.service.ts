@@ -547,30 +547,58 @@ export class VideoControllerServiceService {
     /**
      * Update video by Uid.
      * @param uid Video_ID, NOT \&#39;ID\&#39;.
-     * @param blogger_id Video belongs To which Blogger
+     * @param channel_id Video belongs To which Channel
      * @param title Video title
-     * @param desc Video description
      * @param scope Is this video public?
+     * @param videopath Video Link
+     * @param videopublicid Video ID
+     * @param totallength Length Of Video
+     * @param free Is this video free?
+     * @param discbyprice Is this video discount by price?
+     * @param desc Video description
+     * @param price Video Price
+     * @param disc Discount Price
+     * @param discpctg Discount Percentage
+     * @param _method For spoofing purposes.
+     * @param img Video Cover Image
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateVideoByUid(uid: string, blogger_id: number, title: string, desc?: string, scope?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateVideoByUid(uid: string, blogger_id: number, title: string, desc?: string, scope?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateVideoByUid(uid: string, blogger_id: number, title: string, desc?: string, scope?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateVideoByUid(uid: string, blogger_id: number, title: string, desc?: string, scope?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateVideoByUid(uid: string, channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, _method?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public updateVideoByUid(uid: string, channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, _method?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public updateVideoByUid(uid: string, channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, _method?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public updateVideoByUid(uid: string, channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, _method?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateVideoByUid.');
         }
-        if (blogger_id === null || blogger_id === undefined) {
-            throw new Error('Required parameter blogger_id was null or undefined when calling updateVideoByUid.');
+        if (channel_id === null || channel_id === undefined) {
+            throw new Error('Required parameter channel_id was null or undefined when calling updateVideoByUid.');
         }
         if (title === null || title === undefined) {
             throw new Error('Required parameter title was null or undefined when calling updateVideoByUid.');
         }
+        if (scope === null || scope === undefined) {
+            throw new Error('Required parameter scope was null or undefined when calling updateVideoByUid.');
+        }
+        if (videopath === null || videopath === undefined) {
+            throw new Error('Required parameter videopath was null or undefined when calling updateVideoByUid.');
+        }
+        if (videopublicid === null || videopublicid === undefined) {
+            throw new Error('Required parameter videopublicid was null or undefined when calling updateVideoByUid.');
+        }
+        if (totallength === null || totallength === undefined) {
+            throw new Error('Required parameter totallength was null or undefined when calling updateVideoByUid.');
+        }
+        if (free === null || free === undefined) {
+            throw new Error('Required parameter free was null or undefined when calling updateVideoByUid.');
+        }
+        if (discbyprice === null || discbyprice === undefined) {
+            throw new Error('Required parameter discbyprice was null or undefined when calling updateVideoByUid.');
+        }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (blogger_id !== undefined && blogger_id !== null) {
-            queryParameters = queryParameters.set('blogger_id', <any>blogger_id);
+        if (channel_id !== undefined && channel_id !== null) {
+            queryParameters = queryParameters.set('channel_id', <any>channel_id);
         }
         if (title !== undefined && title !== null) {
             queryParameters = queryParameters.set('title', <any>title);
@@ -580,6 +608,33 @@ export class VideoControllerServiceService {
         }
         if (scope !== undefined && scope !== null) {
             queryParameters = queryParameters.set('scope', <any>scope);
+        }
+        if (videopath !== undefined && videopath !== null) {
+            queryParameters = queryParameters.set('videopath', <any>videopath);
+        }
+        if (videopublicid !== undefined && videopublicid !== null) {
+            queryParameters = queryParameters.set('videopublicid', <any>videopublicid);
+        }
+        if (totallength !== undefined && totallength !== null) {
+            queryParameters = queryParameters.set('totallength', <any>totallength);
+        }
+        if (free !== undefined && free !== null) {
+            queryParameters = queryParameters.set('free', <any>free);
+        }
+        if (price !== undefined && price !== null) {
+            queryParameters = queryParameters.set('price', <any>price);
+        }
+        if (discbyprice !== undefined && discbyprice !== null) {
+            queryParameters = queryParameters.set('discbyprice', <any>discbyprice);
+        }
+        if (disc !== undefined && disc !== null) {
+            queryParameters = queryParameters.set('disc', <any>disc);
+        }
+        if (discpctg !== undefined && discpctg !== null) {
+            queryParameters = queryParameters.set('discpctg', <any>discpctg);
+        }
+        if (_method !== undefined && _method !== null) {
+            queryParameters = queryParameters.set('_method', <any>_method);
         }
 
         let headers = this.defaultHeaders;
@@ -592,9 +647,37 @@ export class VideoControllerServiceService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/api/video/${encodeURIComponent(String(uid))}`,
-            null,
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: this.encoder});
+        }
+
+        if (img) {
+            if (useForm) {
+                img.forEach((element) => {
+                    formParams = formParams.append('img', <any>element) as any || formParams;
+            })
+            } else {
+                formParams = formParams.append('img', img.join(COLLECTION_FORMATS['csv'])) as any || formParams;
+            }
+        }
+
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/video/${encodeURIComponent(String(uid))}`,
+            convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

@@ -39,7 +39,7 @@
               <ion-col size="12">
                 <ion-list>
                   <ion-item>
-                    <ion-label position="floating">Voucher Name</ion-label>
+                    <ion-label position="floating">Voucher Name<span class="required" *ngIf="storeVoucherFormGroup.get('voucherName').invalid">*</span></ion-label>
                     <ion-input [(ngModel)]="selectedVoucher.name" formControlName="voucherName"></ion-input>
                   </ion-item>
                   <ul class="error"
@@ -52,7 +52,7 @@
                     </li>
                   </ul>
                   <ion-item>
-                    <ion-label position="floating">Description</ion-label>
+                    <ion-label position="floating">Description<span class="required" *ngIf="storeVoucherFormGroup.get('voucherDescription').invalid">*</span></ion-label>
                     <ion-textarea [(ngModel)]="selectedVoucher.desc" formControlName="voucherDescription"></ion-textarea>
                   </ion-item>
                   <ul class="error"
@@ -81,10 +81,10 @@
                   <ion-item>
                     <ion-label position="floating">
                       <span *ngIf="voucherDiscountedByPriceFlagModel">
-                        Discounted Price (RM)
+                        Discounted Price (RM)<span class="required" *ngIf="storeVoucherFormGroup.get('voucherDiscountedPrice').invalid">*</span>
                       </span>
                           <span *ngIf="!voucherDiscountedByPriceFlagModel" style="text-decoration:line-through;">
-                        Discounted Price (RM)
+                        Discounted Price (RM)<span class="required" *ngIf="storeVoucherFormGroup.get('voucherDiscountedPrice').invalid">*</span>
                       </span>
                     </ion-label>
                     <ion-input [(ngModel)]="selectedVoucher.disc" formControlName="voucherDiscountedPrice"></ion-input>
@@ -101,10 +101,10 @@
                   <ion-item>
                     <ion-label position="floating">
                       <span *ngIf="!voucherDiscountedByPriceFlagModel">
-                        Discounted Percentage
+                        Discounted Percentage<span class="required" *ngIf="storeVoucherFormGroup.get('voucherDiscountedPrice').invalid">*</span>
                       </span>
                       <span *ngIf="voucherDiscountedByPriceFlagModel" style="text-decoration:line-through;">
-                        Discounted Percentage
+                        Discounted Percentage<span class="required" *ngIf="storeVoucherFormGroup.get('voucherDiscountedPrice').invalid">*</span>
                       </span>
                     </ion-label>
                     <ion-input [(ngModel)]="selectedVoucher.discpctg" formControlName="voucherDiscountedPercentage"></ion-input>
@@ -135,7 +135,7 @@
                     </ion-row>
                   </ion-item>
                   <ion-item>
-                    <ion-label position="floating">Limited Quantity</ion-label>
+                    <ion-label position="floating">Limited Quantity<span class="required" *ngIf="storeVoucherFormGroup.get('voucherLimitedQuantity').invalid">*</span></ion-label>
                     <ion-input [(ngModel)]="selectedVoucher.qty" formControlName="voucherLimitedQuantity"></ion-input>
                   </ion-item>
                   <ul class="error"
@@ -151,7 +151,7 @@
                     </li>
                   </ul>
                   <ion-item>
-                    <ion-label position="floating">Minimum Purchase Price (RM)</ion-label>
+                    <ion-label position="floating">Minimum Purchase Price (RM)<span class="required" *ngIf="storeVoucherFormGroup.get('voucherMinimumPurchasePrice').invalid">*</span></ion-label>
                     <ion-input [(ngModel)]="selectedVoucher.minpurchase" formControlName="voucherMinimumPurchasePrice"></ion-input>
                   </ion-item>
                   <ul class="error"
@@ -164,7 +164,7 @@
                     </li>
                   </ul>
                   <ion-item>
-                    <ion-label position="floating">Minimum Purchase Quantity</ion-label>
+                    <ion-label position="floating">Minimum Purchase Quantity<span class="required" *ngIf="storeVoucherFormGroup.get('voucherMinimumPurchaseQuantity').invalid">*</span></ion-label>
                     <ion-input [(ngModel)]="selectedVoucher.minqty" formControlName="voucherMinimumPurchaseQuantity"></ion-input>
                   </ion-item>
                   <ul class="error"
@@ -177,7 +177,7 @@
                     </li>
                   </ul>
                   <ion-item>
-                    <ion-label position="floating">Minimum Purchase Variety</ion-label>
+                    <ion-label position="floating">Minimum Purchase Variety<span class="required" *ngIf="storeVoucherFormGroup.get('voucherMinimumPurchaseVariety').invalid">*</span></ion-label>
                     <ion-input [(ngModel)]="selectedVoucher.minvariety" formControlName="voucherMinimumPurchaseVariety"></ion-input>
                   </ion-item>
                   <ul class="error"
@@ -190,14 +190,14 @@
                     </li>
                   </ul>
                   <ion-item>
-                    <ion-label position="floating">Start Date</ion-label>
+                    <ion-label position="floating">Start Date<span class="required" *ngIf="storeVoucherFormGroup.get('voucherStartDate').invalid">*</span></ion-label>
                     <ion-datetime placeholder="Select Start Date" (ionChange)="selectedStartDate($event)"
                                   formControlName="voucherStartDate"
                                   [(ngModel)]="voucherStartDateModel">
                     </ion-datetime>
                   </ion-item>
                   <ion-item>
-                    <ion-label position="floating">End Date</ion-label>
+                    <ion-label position="floating">End Date<span class="required" *ngIf="storeVoucherFormGroup.get('voucherEndDate').invalid">*</span></ion-label>
                     <ion-datetime placeholder="Select End Date" [min]="voucherStartDateModel" (ionChange)="selectedEndDate($event)"
                                   formControlName="voucherEndDate"
                                   [(ngModel)]="voucherEndDateModel"></ion-datetime>

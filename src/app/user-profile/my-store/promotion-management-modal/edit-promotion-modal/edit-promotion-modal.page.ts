@@ -1,4 +1,4 @@
-import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {GlobalfunctionService} from '../../../../_dal/common/services/globalfunction.service';
 import {ProductPromotionControllerServiceService} from '../../../../_dal/ipohdrum';
@@ -48,6 +48,7 @@ export class EditPromotionModalPage implements OnInit, OnDestroy {
   deleteProductPromotionSubscription: any;
 
   constructor(
+      private ref: ChangeDetectorRef,
       private ngZone: NgZone,
       private modalController: ModalController,
       private globalFunctionService: GlobalfunctionService,
@@ -104,12 +105,14 @@ export class EditPromotionModalPage implements OnInit, OnDestroy {
         }
         this.loadingService.dismiss();
         this.isLoadingProductPromotion = false;
+        this.ref.detectChanges();
       }, error => {
         console.log('API Error while retrieving product promotion by uid.');
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve the Promotion Plan, please try again later!', 'warning');
         this.loadingService.dismiss();
         this.closeEditProductPromotionModal(false);
         this.isLoadingProductPromotion = false;
+        this.ref.detectChanges();
       });
     });
   }
@@ -171,6 +174,7 @@ export class EditPromotionModalPage implements OnInit, OnDestroy {
       this.promotionPlanFormGroup.get('promotionPlanDiscountedPrice').disable();
       this.promotionPlanFormGroup.get('promotionPlanDiscountedPercentage').enable();
     }
+    this.ref.detectChanges();
   }
 
   updateProductPromotionPlan() {

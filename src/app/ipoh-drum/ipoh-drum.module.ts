@@ -112,6 +112,8 @@ import {ViewVideoModalPageModule} from '../user-profile/my-channel/video-managem
 import {ViewVideoModalPage} from '../user-profile/my-channel/video-management-modal/view-video-modal/view-video-modal.page';
 import {CreateVideoModalPage} from '../user-profile/my-channel/video-management-modal/create-video-modal/create-video-modal.page';
 import {CreateVideoModalPageModule} from '../user-profile/my-channel/video-management-modal/create-video-modal/create-video-modal.module';
+import {EditVideoModalPageModule} from '../user-profile/my-channel/video-management-modal/edit-video-modal/edit-video-modal.module';
+import {EditVideoModalPage} from '../user-profile/my-channel/video-management-modal/edit-video-modal/edit-video-modal.page';
 
 const routes: Routes = [
     {
@@ -199,7 +201,8 @@ const routes: Routes = [
         VideoManagementModalPageModule,
         EditChannelModalPageModule,
         ViewVideoModalPageModule,
-        CreateVideoModalPageModule
+        CreateVideoModalPageModule,
+        EditVideoModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -246,7 +249,8 @@ const routes: Routes = [
         VideoManagementModalPage,
         EditChannelModalPage,
         ViewVideoModalPage,
-        CreateVideoModalPage
+        CreateVideoModalPage,
+        EditVideoModalPage
     ]
 })
 

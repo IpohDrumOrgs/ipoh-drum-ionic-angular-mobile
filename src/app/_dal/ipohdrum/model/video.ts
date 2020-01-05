@@ -9,6 +9,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { Channel } from './channel';
 
 
 export interface Video { 
@@ -37,5 +38,7 @@ export interface Video {
     status?: number;
     created_at?: string;
     updated_at?: string;
+    commentcount?: number;
+    channel?: Channel;
 }
 

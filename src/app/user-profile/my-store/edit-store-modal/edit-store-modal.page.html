@@ -88,13 +88,29 @@
                     <img [src]="selectedStore?.imgpath ? selectedStore.imgpath : '../../../../assets/images/default_product.png'" style="border-radius:50%;height:100px;width:100px;object-fit:cover;">
                 </ng-template>
             </ion-col>
-            <ion-col size="12" style="text-align:center;">
-                <ion-button fill="outline" (click)="openStoreImageFilePicker()">
-                    <b>Change Store Photo</b>
-                </ion-button>
-                <input type="file" multiple="false" style="display:none;" #storeImageContainer
-                       accept=".jpg, .jpeg, .png" (change)="uploadStoreImage($event)">
-            </ion-col>
+            <ng-container *ngIf="!temporaryStoreImageURL else uploadedTemporaryPhoto">
+                <ion-col size="12" style="text-align:center;">
+                    <ion-button fill="outline" (click)="openStoreImageFilePicker()">
+                        Change Photo
+                    </ion-button>
+                    <input type="file" multiple="false" style="display:none;" #storeImageContainer
+                           accept=".jpg, .jpeg, .png" (change)="uploadStoreImage($event)">
+                </ion-col>
+            </ng-container>
+            <ng-template #uploadedTemporaryPhoto>
+                <ion-col size="6" style="text-align:center;">
+                    <ion-button fill="outline" color="warning" (click)="resetUploadedTempPhoto()">
+                        Reset
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6" style="text-align:center;">
+                    <ion-button fill="outline" (click)="openStoreImageFilePicker()">
+                        Change Photo
+                    </ion-button>
+                    <input type="file" multiple="false" style="display:none;" #storeImageContainer
+                           accept=".jpg, .jpeg, .png" (change)="uploadStoreImage($event)">
+                </ion-col>
+            </ng-template>
         </ion-row>
         <ion-row>
             <ion-col size="12">
@@ -103,7 +119,7 @@
                         <ion-col size="12">
                             <ion-list style="padding-top:0;padding-bottom:0;">
                                 <ion-item>
-                                    <ion-label position="floating">Name</ion-label>
+                                    <ion-label position="floating">Name<span *ngIf="storeInfoFormGroup.get('storeName').invalid" class="required">*</span></ion-label>
                                     <ion-input [(ngModel)]="selectedStore.name" formControlName="storeName"></ion-input>
                                 </ion-item>
                                 <ul class="error"
@@ -116,7 +132,7 @@
                                     </li>
                                 </ul>
                                 <ion-item>
-                                    <ion-label position="floating">Contact Number</ion-label>
+                                    <ion-label position="floating">Contact Number<span *ngIf="storeInfoFormGroup.get('storeContactNum').invalid" class="required">*</span></ion-label>
                                     <ion-input [(ngModel)]="selectedStore.contact" formControlName="storeContactNum"></ion-input>
                                 </ion-item>
                                 <ul class="error"
@@ -132,7 +148,7 @@
                                     </li>
                                 </ul>
                                 <ion-item>
-                                    <ion-label position="floating">Email</ion-label>
+                                    <ion-label position="floating">Email<span *ngIf="storeInfoFormGroup.get('storeEmail').invalid" class="required">*</span></ion-label>
                                     <ion-input [(ngModel)]="selectedStore.email" formControlName="storeEmail"></ion-input>
                                 </ion-item>
                                 <ul class="error"
@@ -145,7 +161,7 @@
                                     </li>
                                 </ul>
                                 <ion-item>
-                                    <ion-label position="floating">Description</ion-label>
+                                    <ion-label position="floating">Description<span *ngIf="storeInfoFormGroup.get('storeDescription').invalid" class="required">*</span></ion-label>
                                     <ion-textarea [(ngModel)]="selectedStore.desc" formControlName="storeDescription"></ion-textarea>
                                 </ion-item>
                                 <ul class="error"
@@ -225,7 +241,7 @@
                         <ion-col size="12">
                             <ion-list style="padding-top:0;padding-bottom:0;">
                                 <ion-item>
-                                    <ion-label position="floating">No. & Street Name</ion-label>
+                                    <ion-label position="floating">No. & Street Name<span *ngIf="storeInfoFormGroup.get('noStreetName').invalid" class="required">*</span></ion-label>
                                     <ion-textarea [(ngModel)]="selectedStore.address" formControlName="noStreetName"></ion-textarea>
                                 </ion-item>
                                 <ul class="error"
@@ -238,7 +254,7 @@
                                     </li>
                                 </ul>
                                 <ion-item>
-                                    <ion-label position="floating">Post Code</ion-label>
+                                    <ion-label position="floating">Post Code<span *ngIf="storeInfoFormGroup.get('storePostCode').invalid" class="required">*</span></ion-label>
                                     <ion-input [(ngModel)]="selectedStore.postcode" formControlName="storePostCode"></ion-input>
                                 </ion-item>
                                 <ul class="error"
@@ -251,7 +267,7 @@
                                     </li>
                                 </ul>
                                 <ion-item>
-                                    <ion-label position="floating">Country</ion-label>
+                                    <ion-label position="floating">Country<span *ngIf="storeInfoFormGroup.get('storeCountry').invalid" class="required">*</span></ion-label>
                                     <ion-input [(ngModel)]="selectedStore.country" formControlName="storeCountry"></ion-input>
                                 </ion-item>
                                 <ul class="error"
@@ -264,7 +280,7 @@
                                     </li>
                                 </ul>
                                 <ion-item>
-                                    <ion-label position="floating">State</ion-label>
+                                    <ion-label position="floating">State<span *ngIf="storeInfoFormGroup.get('storeState').invalid" class="required">*</span></ion-label>
                                     <ion-input [(ngModel)]="selectedStore.state" formControlName="storeState"></ion-input>
                                 </ion-item>
                                 <ul class="error"
@@ -277,7 +293,7 @@
                                     </li>
                                 </ul>
                                 <ion-item>
-                                    <ion-label position="floating">City</ion-label>
+                                    <ion-label position="floating">City<span *ngIf="storeInfoFormGroup.get('storeCity').invalid" class="required">*</span></ion-label>
                                     <ion-input [(ngModel)]="selectedStore.city" formControlName="storeCity"></ion-input>
                                 </ion-item>
                                 <ul class="error"

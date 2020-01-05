@@ -134,29 +134,31 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
 
   loadMoreComments(event) {
     this.referInfiniteScroll = event;
-    setTimeout(() => {
-      if (this.maximumPages > this.currentPageNumber) {
-        this.currentPageNumber++;
-        this.appendListOfCommentsByArticleSubscription = this.articleControllerService.getPublicArticleComments(
-            this.publicArticleUid,
-            this.currentPageNumber,
-            this.currentPageSize
-        ).subscribe(resp => {
-          if (resp.code === 200) {
-            for (const tempComment of resp.data) {
-              this.listOfCommentsOfSelectedPublicArticle.push(tempComment);
+    if (this.selectedPublicArticle.commentcount > 0) {
+      setTimeout(() => {
+        if (this.maximumPages > this.currentPageNumber) {
+          this.currentPageNumber++;
+          this.appendListOfCommentsByArticleSubscription = this.articleControllerService.getPublicArticleComments(
+              this.publicArticleUid,
+              this.currentPageNumber,
+              this.currentPageSize
+          ).subscribe(resp => {
+            if (resp.code === 200) {
+              for (const tempComment of resp.data) {
+                this.listOfCommentsOfSelectedPublicArticle.push(tempComment);
+              }
             }
-          }
-          this.referInfiniteScroll.target.complete();
-        }, error => {
-          console.log('API Error while retrieving list of comments');
-          this.referInfiniteScroll.target.complete();
-        });
-      }
-      if (this.totalResult === this.listOfCommentsOfSelectedPublicArticle.length) {
-        this.referInfiniteScroll.target.disabled = true;
-      }
-    }, 500);
+            this.referInfiniteScroll.target.complete();
+          }, error => {
+            console.log('API Error while retrieving list of comments');
+            this.referInfiniteScroll.target.complete();
+          });
+        }
+        if (this.totalResult === this.listOfCommentsOfSelectedPublicArticle.length) {
+          this.referInfiniteScroll.target.disabled = true;
+        }
+      }, 500);
+    }
   }
 
   closeViewSelectedArticleModal() {

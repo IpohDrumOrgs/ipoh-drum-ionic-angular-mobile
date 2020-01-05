@@ -45,7 +45,7 @@
               <ion-col size="12">
                 <ion-list style="padding-top:0;padding-bottom:0;">
                   <ion-item>
-                    <ion-label position="floating">Promotion Name</ion-label>
+                    <ion-label position="floating">Promotion Name<span *ngIf="promotionPlanFormGroup.get('promotionPlanName').invalid" class="required">*</span></ion-label>
                     <ion-input [(ngModel)]="selectedProductPromotion.name" formControlName="promotionPlanName"></ion-input>
                   </ion-item>
                   <ul class="error"
@@ -58,7 +58,7 @@
                     </li>
                   </ul>
                   <ion-item>
-                    <ion-label position="floating">Description</ion-label>
+                    <ion-label position="floating">Description<span *ngIf="promotionPlanFormGroup.get('promotionPlanDescription').invalid" class="required">*</span></ion-label>
                     <ion-textarea [(ngModel)]="selectedProductPromotion.desc" formControlName="promotionPlanDescription"></ion-textarea>
                   </ion-item>
                   <ul class="error"
@@ -71,7 +71,7 @@
                     </li>
                   </ul>
                   <ion-item>
-                    <ion-label position="floating">Limited Quantity</ion-label>
+                    <ion-label position="floating">Limited Quantity<span *ngIf="promotionPlanFormGroup.get('promotionPlanLimitedQuantity').invalid" class="required">*</span></ion-label>
                     <ion-input [(ngModel)]="selectedProductPromotion.qty" formControlName="promotionPlanLimitedQuantity"></ion-input>
                   </ion-item>
                   <ul class="error"
@@ -101,7 +101,7 @@
                     </ion-row>
                   </ion-item>
                   <ion-item>
-                    <ion-label position="floating">Discounted Price</ion-label>
+                    <ion-label position="floating">Discounted Price<span *ngIf="promotionPlanFormGroup.get('promotionPlanDiscountedPrice').invalid" class="required">*</span></ion-label>
                     <ion-input [(ngModel)]="selectedProductPromotion.disc" formControlName="promotionPlanDiscountedPrice"></ion-input>
                   </ion-item>
                   <ul class="error"
@@ -114,7 +114,7 @@
                     </li>
                   </ul>
                   <ion-item>
-                    <ion-label position="floating">Discounted Percentage</ion-label>
+                    <ion-label position="floating">Discounted Percentage<span *ngIf="promotionPlanFormGroup.get('promotionPlanDiscountedPercentage').invalid" class="required">*</span></ion-label>
                     <ion-input [(ngModel)]="selectedProductPromotion.discpctg" formControlName="promotionPlanDiscountedPercentage"></ion-input>
                   </ion-item>
                   <ul class="error"
@@ -127,13 +127,13 @@
                     </li>
                   </ul>
                   <ion-item>
-                    <ion-label position="floating">Start Date</ion-label>
+                    <ion-label position="floating">Start Date<span *ngIf="promotionPlanFormGroup.get('promotionPlanStartDate').invalid" class="required">*</span></ion-label>
                     <ion-datetime placeholder="Select Start Date" formControlName="promotionPlanStartDate"
                                   [(ngModel)]="selectedProductPromotion.promostartdate">
                     </ion-datetime>
                   </ion-item>
                   <ion-item>
-                    <ion-label position="floating">End Date</ion-label>
+                    <ion-label position="floating">End Date<span *ngIf="promotionPlanFormGroup.get('promotionPlanEndDate').invalid" class="required">*</span></ion-label>
                     <ion-datetime placeholder="Select End Date" formControlName="promotionPlanEndDate" [min]="selectedProductPromotion.promostartdate"
                                   [(ngModel)]="selectedProductPromotion.promoenddate">
                     </ion-datetime>

@@ -283,8 +283,26 @@ export class EditChannelModalPage implements OnInit, OnDestroy {
     }
   }
 
+  resetUploadedTempPhoto() {
+    this.globalFunctionService.presentAlertConfirm(
+        'Warning',
+        'Are you sure you want to reset the uploaded Channel photo?',
+        'Cancel',
+        'Confirm',
+        undefined,
+        () => this.resetChannelPhoto());
+  }
+
+  resetChannelPhoto() {
+    this.loadingService.present();
+    setTimeout(() => {
+      this.temporaryChannelImageURL = null;
+      this.channelImageAsBlobArray = [];
+      this.loadingService.dismiss();
+    }, 500);
+  }
+
   updateChannel() {
-    console.log('update channel');
     if (this.channelInfoFormGroup.valid) {
       this.loadingService.present();
       this.updateChannelSubscription = this.channelControllerService.updateChannelByUid(
@@ -296,6 +314,7 @@ export class EditChannelModalPage implements OnInit, OnDestroy {
           this.selectedChannel.desc,
           this.selectedChannel.email,
           this.selectedChannel.tel1,
+          'PUT',
           this.channelImageAsBlobArray[0] !== undefined || this.channelImageAsBlobArray[0] !== null ? this.channelImageAsBlobArray : null
       ).subscribe(resp => {
         console.log(resp);

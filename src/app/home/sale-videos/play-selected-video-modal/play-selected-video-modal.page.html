@@ -109,12 +109,82 @@
                 </div>
             </ion-col>
         </ion-row>
-        <ion-row *ngIf="selectedPublicVideo?.free !== 1">
+        <ion-row *ngIf="selectedPublicVideo?.free !== 1" style="border-bottom:1px solid #e6e6e6;">
             <ion-col size="12">
                 <ion-button expand="full" color="primary" (click)="openPaymentInfoModal()">
                     Buy Video
                 </ion-button>
             </ion-col>
         </ion-row>
+        <ion-row>
+            <ion-col size="12">
+                <textarea class="form-control" rows="3" cols="20" placeholder="Write a Comment..."></textarea>
+            </ion-col>
+            <ion-col size="12" style="text-align:right;">
+                <ion-button fill="outline">Comment</ion-button>
+            </ion-col>
+        </ion-row>
+        <ion-row style="border-bottom:1px solid #e6e6e6;">
+            <ion-col size="12">
+                <h5 style="font-weight:bold;padding-left:10px;margin-bottom:0;margin-top:10px;">
+                    {{selectedPublicVideo?.commentcount}}&nbsp;comment<span *ngIf="selectedPublicVideo?.commentcount > 1">s</span>
+                </h5>
+            </ion-col>
+        </ion-row>
+        <ion-list>
+            <ion-item *ngFor="let comment of listOfCommentsForSelectedVideo;let i = index;">
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="12">
+                        <div>
+                            {{comment?.text}}
+                        </div>
+                    </ion-col>
+                    <ion-col size="12">
+                        <span style="color:grey;font-size:15px;">
+                          <ion-icon name="thumbs-up"></ion-icon>&nbsp;{{comment?.like}}
+                        </span>
+                        &nbsp;&nbsp;
+                        <span style="color:grey;font-size:15px;">
+                          <ion-icon name="thumbs-down"></ion-icon>&nbsp;{{comment?.dislike}}
+                        </span>
+                        <ng-container *ngIf="comment?.secondcomments?.length > 0">
+                            &nbsp;&nbsp;
+                            <span style="width:100%;text-align:right;">
+                                <a data-toggle="collapse" [href]="'#collapse_'+i" role="button" aria-expanded="false" [attr.aria-controls]="'collapse_'+i">
+                                  Show More
+                                </a>
+                            </span>
+                            <div [id]="'collapse_'+i" class="collapse" style="margin-left:20px;">
+                                <ion-list>
+                                    <ion-item *ngFor="let secondcomment of comment.secondcomments">
+                                        <ion-row>
+                                            <ion-col size="12">
+                                                <div>
+                                                    {{secondcomment?.text}}
+                                                </div>
+                                            </ion-col>
+                                            <ion-col size="12">
+                        <span style="color:grey;font-size:15px;">
+                          <ion-icon name="thumbs-up"></ion-icon>&nbsp;{{secondcomment?.like}}
+                        </span>
+                                                &nbsp;&nbsp;
+                                                <span style="color:grey;font-size:15px;">
+                          <ion-icon name="thumbs-down"></ion-icon>&nbsp;{{secondcomment?.dislike}}
+                        </span>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-item>
+                                </ion-list>
+                            </div>
+                        </ng-container>
+                    </ion-col>
+                </ion-row>
+            </ion-item>
+            <ion-infinite-scroll threshold="10px" (ionInfinite)="loadMoreComments($event)">
+                <ion-infinite-scroll-content
+                        loadingSpinner="crescent">
+                </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+        </ion-list>
     </ng-template>
 </ion-content>

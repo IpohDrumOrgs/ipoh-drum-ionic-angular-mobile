@@ -19,6 +19,8 @@
       <input type="file" multiple="false" style="display:none;" #channelImageContainer
              accept=".jpg, .jpeg, .png" (change)="uploadChannelImage($event)">
       <ng-container *ngIf="!temporaryChannelImageURL else uploadedChannelImage">
+        <span *ngIf="!temporaryChannelImageURL"
+              class="required">&nbsp;*</span>
         <div style="border:1px dashed #4285F4;text-align:center;color:rgba(66,133,244,0.4);"
              (click)="openChannelImageFilePicker()">
           <ion-icon name="images" style="font-size:8rem;"></ion-icon>
@@ -27,17 +29,17 @@
       </ng-container>
       <ng-template #uploadedChannelImage>
         <ion-row class="ion-align-items-center">
-          <ion-col size="12" style="border:2px dashed #4285F4;border-radius:5px;">
-            <ion-slides pager="false" class="no-swipe" [options]="articleImageSliderOptions" style="margin:1px;height:50vw;">
-              <ion-slide style="height:100% !important;">
-                <ion-row class="ion-align-items-center">
-                  <ion-col size="12">
-                    <img [src]="temporaryChannelImageURL" alt="store_image" (click)="openChannelImageFilePicker()" style="height:50vw;"
-                         class="rounded">
-                  </ion-col>
-                </ion-row>
-              </ion-slide>
-            </ion-slides>
+          <ion-col size="12">
+            <div style="border:1px dashed #4285F4;text-align:center;color:rgba(66,133,244,0.4);padding:10px;">
+              <img [src]="temporaryChannelImageURL" style="object-fit:cover;" class="rounded">
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12" style="text-align:center;">
+            <ion-button color="warning" (click)="openChannelImageFilePicker()">
+              Change Photo
+            </ion-button>
           </ion-col>
         </ion-row>
       </ng-template>
@@ -53,7 +55,8 @@
         <div [formGroup]="channelInfoFormGroup">
           <ion-row class="ion-align-items-center">
             <ion-col size="4">
-              Name
+              <b>Name<span *ngIf="channelInfoFormGroup.get('channelName').invalid"
+                           class="required">&nbsp;*</span></b>
             </ion-col>
             <ion-col size="8">
               <input type="text" class="form-control"
@@ -73,7 +76,8 @@
           </ion-row>
           <ion-row class="ion-align-items-center">
             <ion-col size="4">
-              Description
+              <b>Description<span *ngIf="channelInfoFormGroup.get('channelDescription').invalid"
+                                  class="required">&nbsp;*</span></b>
             </ion-col>
             <ion-col size="8">
               <textarea rows="3" cols="20" class="form-control"
@@ -93,7 +97,8 @@
           </ion-row>
           <ion-row class="ion-align-items-center">
             <ion-col size="4">
-              Contact Num
+              <b>Contact Num<span *ngIf="channelInfoFormGroup.get('channelContactNum').invalid"
+                                  class="required">&nbsp;*</span></b>
             </ion-col>
             <ion-col size="8">
               <input type="text" class="form-control"
@@ -116,7 +121,8 @@
           </ion-row>
           <ion-row class="ion-align-items-center">
             <ion-col size="4">
-              Email
+              <b>Email<span *ngIf="channelInfoFormGroup.get('channelEmail').invalid"
+                            class="required">&nbsp;*</span></b>
             </ion-col>
             <ion-col size="8">
               <input type="text" class="form-control"
@@ -148,7 +154,8 @@
           <div style="border-radius:5px;border:1px solid #e6e6e6;width:100%;">
             <ion-row class="ion-align-items-center" *ngIf="selectedChannelBelongsToCompanyFlag">
               <ion-col size="5">
-                <b>Company</b>
+                <b>Company<span *ngIf="!selectedCompany"
+                                class="required">&nbsp;*</span></b>
               </ion-col>
               <ion-col size="7">
                 <ionic-selectable

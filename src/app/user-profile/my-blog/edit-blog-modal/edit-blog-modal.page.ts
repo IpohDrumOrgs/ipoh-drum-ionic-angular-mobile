@@ -165,6 +165,25 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
     }
   }
 
+  resetUploadedTempPhoto() {
+    this.globalFunctionService.presentAlertConfirm(
+        'Warning',
+        'Are you sure you want to reset the uploaded photo?',
+        'Cancel',
+        'Confirm',
+        undefined,
+        () => this.resetPhoto());
+  }
+
+  resetPhoto() {
+    this.loadingService.present();
+    setTimeout(() => {
+      this.temporaryBlogImageUrl = null;
+      this.bloggerImageAsBlobArray = [];
+      this.loadingService.dismiss();
+    }, 500);
+  }
+
   filterCompanies(companyList: Company[], text: string) {
     return companyList.filter(company => {
       return company.name.toLowerCase().indexOf(text) !== -1;
@@ -288,6 +307,7 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
           this.selectedBlogger.desc,
           this.selectedBlogger.email,
           null,
+          'PUT',
           this.bloggerImageAsBlobArray[0] !== undefined || this.bloggerImageAsBlobArray[0] !== null ? this.bloggerImageAsBlobArray : null
       ).subscribe(resp => {
         console.log(resp);

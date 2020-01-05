@@ -1,8 +1,9 @@
-import {ChangeDetectorRef, Component, NgZone, OnInit} from '@angular/core';
-import {Video, VideoControllerServiceService} from '../../../../_dal/ipohdrum';
+import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {Comment, Video, VideoControllerServiceService} from '../../../../_dal/ipohdrum';
 import {LoadingService} from '../../../../_dal/common/services/loading.service';
 import {ModalController} from '@ionic/angular';
 import {GlobalfunctionService} from '../../../../_dal/common/services/globalfunction.service';
+import {EditVideoModalPage} from '../edit-video-modal/edit-video-modal.page';
 
 @Component({
   selector: 'app-view-video-modal',
@@ -10,7 +11,7 @@ import {GlobalfunctionService} from '../../../../_dal/common/services/globalfunc
   styleUrls: ['./view-video-modal.page.scss'],
 })
 
-export class ViewVideoModalPage implements OnInit {
+export class ViewVideoModalPage implements OnInit, OnDestroy {
 
   // Strings
   constructorName = '[' + this.constructor.name + ']';
@@ -97,6 +98,22 @@ export class ViewVideoModalPage implements OnInit {
 
   closeViewVideoModal() {
     this.modalController.dismiss();
+  }
+
+  async openEditVideoModal() {
+    const modal = await this.modalController.create({
+      component: EditVideoModalPage,
+      componentProps: {
+        selectedVideoUid: this.selectedVideoUid,
+        selectedChannelId: this.selectedChannelId
+      }
+    });
+    modal.onDidDismiss().then((returnFromEditingVideo) => {
+      if (returnFromEditingVideo.data) {
+        this.retrieveSelectedVideoByUid();
+      }
+    });
+    return await modal.present();
   }
 
   deleteVideo() {
