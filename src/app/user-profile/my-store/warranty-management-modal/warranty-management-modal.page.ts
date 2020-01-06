@@ -1,7 +1,7 @@
 import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {AddWarrantyModalPage} from './add-warranty-modal/add-warranty-modal.page';
-import {StoreControllerServiceService, WarrantyControllerServiceService} from '../../../_dal/ipohdrum';
+import {StoreControllerServiceService, Warranty, WarrantyControllerServiceService} from '../../../_dal/ipohdrum';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {EditWarrantyModalPage} from './edit-warranty-modal/edit-warranty-modal.page';
@@ -26,7 +26,7 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
     totalResult: number;
 
     // Arrays
-    listOfWarrantiesByStoreUid: Array<any> = [];
+    listOfWarrantiesByStoreUid: Array<Warranty> = [];
 
     // Objects
     referInfiniteScroll: any;

@@ -37,13 +37,19 @@
           </h4>
           <ion-row class="ion-align-items-center ion-justify-content-center">
             <ion-col size="6" *ngFor="let warranty of listOfWarrantiesByStoreUid" style="text-align:center;">
-              <ion-button fill="outline" (click)="openEditWarrantyModal(warranty.uid, !!warranty.store_id)"
-                          style="width:100%;white-space:normal;word-wrap:break-word;"
-                          [color]="warranty.store_id ? 'primary' : 'warning'">
-                {{warranty?.name}}
-              </ion-button>
+              <ion-card (click)="openEditWarrantyModal(warranty.uid, !!warranty.store_id)">
+                <ion-card-header>
+                  <ion-label [color]="warranty.store_id ? 'primary' : 'warning'"
+                            style="white-space:normal;word-wrap:break-word;text-align:left;font-weight:bold;">
+                  {{warranty?.name}}
+                  </ion-label>
+                </ion-card-header>
+                <ion-card-content>
+                  <b>{{warranty?.period}}</b>&nbsp;months
+                </ion-card-content>
+              </ion-card>
             </ion-col>
-            <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreWarranties($event)">
+            <ion-infinite-scroll (ionInfinite)="loadMoreWarranties($event)">
               <ion-infinite-scroll-content
                       loadingSpinner="crescent">
               </ion-infinite-scroll-content>

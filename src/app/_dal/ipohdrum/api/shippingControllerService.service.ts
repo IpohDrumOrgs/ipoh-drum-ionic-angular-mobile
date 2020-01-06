@@ -162,13 +162,14 @@ export class ShippingControllerServiceService {
      * @param fromdate From Date for filter
      * @param todate To date for filter
      * @param status status for filter
+     * @param store_id store id for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterShippings(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterShippings(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterShippings(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterShippings(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterShippings(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, store_id?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public filterShippings(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, store_id?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public filterShippings(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, store_id?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public filterShippings(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, store_id?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (page_number !== undefined && page_number !== null) {
@@ -188,6 +189,9 @@ export class ShippingControllerServiceService {
         }
         if (status !== undefined && status !== null) {
             queryParameters = queryParameters.set('status', <any>status);
+        }
+        if (store_id !== undefined && store_id !== null) {
+            queryParameters = queryParameters.set('store_id', <any>store_id);
         }
 
         let headers = this.defaultHeaders;

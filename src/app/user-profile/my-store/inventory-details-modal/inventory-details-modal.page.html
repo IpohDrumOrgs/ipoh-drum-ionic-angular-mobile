@@ -10,7 +10,11 @@
                     <b>Modify Inventory Details</b>
                 </ion-col>
                 <ion-col size="2" style="text-align:right;">
-                    <ion-button fill="clear" (click)="updateInventory()" [disabled]="inventoryInfoFormGroup.invalid || selectedInventory?.inventoryfamilies?.length <= 0">
+                    <ion-button fill="clear" (click)="updateInventory()" [disabled]="inventoryInfoFormGroup.invalid
+                    || selectedInventory?.inventoryfamilies?.length <= 0
+                    || isLoadingPromotionInfo
+                    || isLoadingWarrantyInfo
+                    || isLoadingShippingInfo">
                         <ion-icon name="checkmark" style="font-size:25px;"></ion-icon>
                     </ion-button>
                 </ion-col>
@@ -264,99 +268,135 @@
                     </ion-col>
                 </ion-row>
             </ion-card>
-            <ion-card style="margin:10px;padding:5px;">
-                <ion-card-header style="border-bottom:1px solid #f2f2f2;">
-                    Promotion Details
-                </ion-card-header>
-                <ion-card-content style="padding:0 5px 5px 5px;">
+            <ng-container *ngIf="isLoadingPromotionInfo else finishedLoadingPromotionInfo">
+                <ion-card>
                     <ion-row class="ion-align-items-center">
-                        <ion-col size="4">
-                            <b>Promotion Plans</b>
-                        </ion-col>
-                        <ion-col size="8">
-<!--                            (onInfiniteScroll)="retrieveMoreCompanies($event)"-->
-<!--                            [hasInfiniteScroll]="true"
-                            (onSearch)="searchForPromotions($event)"-->
-                            <ionic-selectable
-                                    [(ngModel)]="selectedProductPromotionPlan"
-                                    [items]="listOfStorePromotions"
-                                    [canSearch]="true"
-                                    itemValueField="id"
-                                    itemTextField="name">
-                            </ionic-selectable>
+                        <ion-col size="12" style="text-align:center;height:100%;">
+                            <ion-spinner name="crescent"></ion-spinner>
                         </ion-col>
                     </ion-row>
-                    <ion-row class="ion-align-items-center" *ngIf="selectedProductPromotionPlan && selectedProductPromotionPlan.desc">
-                        <ion-col size="12">
-                            <div class="alert alert-primary" role="alert" style="margin-bottom:0;">
-                                {{selectedProductPromotionPlan?.desc}}
-                            </div>
-                        </ion-col>
-                    </ion-row>
-                </ion-card-content>
-            </ion-card>
-            <ion-card style="margin:10px;padding:5px;" *ngIf="!isLoadingWarrantyInfo">
-                <ion-card-header style="border-bottom:1px solid #f2f2f2;">
-                    Warranty Details
-                </ion-card-header>
-                <ion-card-content style="padding:0 5px 5px 5px;">
+                </ion-card>
+            </ng-container>
+            <ng-template #finishedLoadingPromotionInfo>
+                <ion-card style="margin:10px;padding:5px;">
+                    <ion-card-header style="border-bottom:1px solid #f2f2f2;">
+                        Promotion Details
+                    </ion-card-header>
+                    <ion-card-content style="padding:0 5px 5px 5px;">
+                        <ion-row class="ion-align-items-center">
+                            <ion-col size="4">
+                                <b>Promotion Plans</b>
+                            </ion-col>
+                            <ion-col size="8">
+                                <ionic-selectable
+                                        [placeholder]="'Select Promotion'"
+                                        [(ngModel)]="selectedProductPromotionPlan"
+                                        [items]="listOfStorePromotions"
+                                        [hasInfiniteScroll]="true"
+                                        (onInfiniteScroll)="retrieveMorePromotions($event)"
+                                        (onSearch)="searchForPromotions($event)"
+                                        [canSearch]="true"
+                                        itemValueField="id"
+                                        itemTextField="name">
+                                </ionic-selectable>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row class="ion-align-items-center" *ngIf="selectedProductPromotionPlan && selectedProductPromotionPlan.desc">
+                            <ion-col size="12">
+                                <div class="alert alert-primary" role="alert" style="margin-bottom:0;">
+                                    {{selectedProductPromotionPlan?.desc}}
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-content>
+                </ion-card>
+            </ng-template>
+            <ng-container *ngIf="isLoadingWarrantyInfo else finishedLoadingWarrantyInfo">
+                <ion-card>
                     <ion-row class="ion-align-items-center">
-                        <ion-col size="4">
-                            <b>Warranty Plans</b>
-                        </ion-col>
-                        <ion-col size="8">
-                            <!--[hasInfiniteScroll]="true"
-                            (onInfiniteScroll)="retrieveMoreCompanies($event)"
-                            (onSearch)="searchForCompanies($event)"-->
-                            <ionic-selectable
-                                    [(ngModel)]="selectedWarrantyPlan"
-                                    [items]="listOfStoreWarranties"
-                                    [canSearch]="true"
-                                    itemValueField="id"
-                                    itemTextField="name">
-                            </ionic-selectable>
+                        <ion-col size="12" style="text-align:center;height:100%;">
+                            <ion-spinner name="crescent"></ion-spinner>
                         </ion-col>
                     </ion-row>
-                    <ion-row class="ion-align-items-center" *ngIf="selectedWarrantyPlan && selectedWarrantyPlan.desc">
-                        <ion-col size="12">
-                            <div class="alert alert-success" role="alert" style="margin-bottom:0;">
-                                {{selectedWarrantyPlan?.desc}}
-                            </div>
-                        </ion-col>
-                    </ion-row>
-                </ion-card-content>
-            </ion-card>
-            <ion-card style="margin:10px;padding:5px;" *ngIf="!isLoadingShippingInfo">
-                <ion-card-header style="border-bottom:1px solid #f2f2f2;">
-                    Shipping Details
-                </ion-card-header>
-                <ion-card-content style="padding:0 5px 5px 5px;">
+                </ion-card>
+            </ng-container>
+            <ng-template #finishedLoadingWarrantyInfo>
+                <ion-card style="margin:10px;padding:5px;" *ngIf="!isLoadingWarrantyInfo">
+                    <ion-card-header style="border-bottom:1px solid #f2f2f2;">
+                        Warranty Details
+                    </ion-card-header>
+                    <ion-card-content style="padding:0 5px 5px 5px;">
+                        <ion-row class="ion-align-items-center">
+                            <ion-col size="4">
+                                <b>Warranty Plans</b>
+                            </ion-col>
+                            <ion-col size="8">
+                                <ionic-selectable
+                                        [placeholder]="'Select Warranty'"
+                                        [(ngModel)]="selectedWarrantyPlan"
+                                        [items]="listOfStoreWarranties"
+                                        [hasInfiniteScroll]="true"
+                                        (onInfiniteScroll)="retrieveMoreWarranties($event)"
+                                        (onSearch)="searchForWarranties($event)"
+                                        [canSearch]="true"
+                                        itemValueField="id"
+                                        itemTextField="name">
+                                </ionic-selectable>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row class="ion-align-items-center" *ngIf="selectedWarrantyPlan && selectedWarrantyPlan.desc">
+                            <ion-col size="12">
+                                <div class="alert alert-success" role="alert" style="margin-bottom:0;">
+                                    {{selectedWarrantyPlan?.desc}}
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-content>
+                </ion-card>
+            </ng-template>
+            <ng-container *ngIf="isLoadingShippingInfo else finishedLoadingShippingInfo">
+                <ion-card>
                     <ion-row class="ion-align-items-center">
-                        <ion-col size="4">
-                            <b>Shipping Plans</b>
-                        </ion-col>
-                        <ion-col size="8">
-                            <!--[hasInfiniteScroll]="true"
-                            (onInfiniteScroll)="retrieveMoreCompanies($event)"
-                            (onSearch)="searchForCompanies($event)"-->
-                            <ionic-selectable
-                                    [(ngModel)]="selectedShippingPlan"
-                                    [items]="listOfStoreShippings"
-                                    [canSearch]="true"
-                                    itemValueField="id"
-                                    itemTextField="name">
-                            </ionic-selectable>
+                        <ion-col size="12" style="text-align:center;height:100%;">
+                            <ion-spinner name="crescent"></ion-spinner>
                         </ion-col>
                     </ion-row>
-                    <ion-row class="ion-align-items-center" *ngIf="selectedShippingPlan && selectedShippingPlan.desc">
-                        <ion-col size="12">
-                            <div class="alert alert-info" role="alert" style="margin-bottom:0;">
-                                {{selectedShippingPlan?.desc}}
-                            </div>
-                        </ion-col>
-                    </ion-row>
-                </ion-card-content>
-            </ion-card>
+                </ion-card>
+            </ng-container>
+            <ng-template #finishedLoadingShippingInfo>
+                <ion-card style="margin:10px;padding:5px;" *ngIf="!isLoadingShippingInfo">
+                    <ion-card-header style="border-bottom:1px solid #f2f2f2;">
+                        Shipping Details
+                    </ion-card-header>
+                    <ion-card-content style="padding:0 5px 5px 5px;">
+                        <ion-row class="ion-align-items-center">
+                            <ion-col size="4">
+                                <b>Shipping Plans</b>
+                            </ion-col>
+                            <ion-col size="8">
+                                <ionic-selectable
+                                        [placeholder]="'Select Promotion'"
+                                        [(ngModel)]="selectedShippingPlan"
+                                        [items]="listOfStoreShippings"
+                                        [hasInfiniteScroll]="true"
+                                        (onInfiniteScroll)="retrieveMoreShippings($event)"
+                                        (onSearch)="searchForShippings($event)"
+                                        [canSearch]="true"
+                                        itemValueField="id"
+                                        itemTextField="name">
+                                </ionic-selectable>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row class="ion-align-items-center" *ngIf="selectedShippingPlan && selectedShippingPlan.desc">
+                            <ion-col size="12">
+                                <div class="alert alert-info" role="alert" style="margin-bottom:0;">
+                                    {{selectedShippingPlan?.desc}}
+                                </div>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-content>
+                </ion-card>
+            </ng-template>
             <ion-card style="margin:10px;padding:5px;">
                 <ion-card-header style="border-bottom:1px solid #f2f2f2;">
                     Inventory Families & Patterns
