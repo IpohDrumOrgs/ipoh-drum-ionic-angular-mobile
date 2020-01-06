@@ -106,12 +106,15 @@ export class AddShippingModalPage implements OnInit, OnDestroy {
   createShippingPlan() {
       if (this.shippingPlanFormGroup.valid) {
         this.loadingService.present();
+        if (this.createShippingPlanSubscription) {
+            this.createShippingPlanSubscription.unsubscribe();
+        }
         this.createShippingPlanSubscription = this.shippingControllerService.createShipping(
             this.shippingPlanNameModel,
-            this.selectedStoreId,
             this.shippingPlanPriceModel,
             this.shippingPlanMaxWeightageModel,
             this.shippingPlanMaxDimensionModel,
+            this.selectedStoreId,
             this.shippingPlanDescriptionModel
         ).subscribe(resp => {
           if (resp.code === 200) {
