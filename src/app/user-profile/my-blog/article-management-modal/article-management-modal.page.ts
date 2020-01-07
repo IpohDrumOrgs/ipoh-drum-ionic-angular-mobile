@@ -5,6 +5,7 @@ import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {Article, BloggerControllerServiceService} from '../../../_dal/ipohdrum';
 import {CreateArticleModalPage} from './create-article-modal/create-article-modal.page';
 import {ViewArticleModalPage} from './view-article-modal/view-article-modal.page';
+import {commonConfig} from '../../../_dal/common/commonConfig';
 
 @Component({
     selector: 'app-article-management-modal',
@@ -21,7 +22,7 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
     // Numbers
     selectedBloggerId: number;
     currentPageNumber = 1;
-    currentPageSize = 10;
+    currentPageSize = commonConfig.currentPageSize;
     maximumPages: number;
     totalResult: number;
 

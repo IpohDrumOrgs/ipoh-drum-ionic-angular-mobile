@@ -5,6 +5,7 @@ import {StoreControllerServiceService, Warranty, WarrantyControllerServiceServic
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {EditWarrantyModalPage} from './edit-warranty-modal/edit-warranty-modal.page';
+import {commonConfig} from '../../../_dal/common/commonConfig';
 
 @Component({
     selector: 'app-warranty-management-modal',
@@ -21,7 +22,7 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
     // Numbers
     selectedStoreId: number;
     currentPageNumber = 1;
-    currentPageSize = 10;
+    currentPageSize = commonConfig.currentPageSize;
     maximumPages: number;
     totalResult: number;
 

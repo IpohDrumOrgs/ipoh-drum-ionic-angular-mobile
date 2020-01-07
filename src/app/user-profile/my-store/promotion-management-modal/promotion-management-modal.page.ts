@@ -5,6 +5,7 @@ import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {AddPromotionModalPage} from './add-promotion-modal/add-promotion-modal.page';
 import {EditPromotionModalPage} from './edit-promotion-modal/edit-promotion-modal.page';
+import {commonConfig} from '../../../_dal/common/commonConfig';
 
 @Component({
   selector: 'app-promotion-management-modal',
@@ -21,7 +22,7 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
   // Numbers
   selectedStoreId: number;
   currentPageNumber = 1;
-  currentPageSize = 10;
+  currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 

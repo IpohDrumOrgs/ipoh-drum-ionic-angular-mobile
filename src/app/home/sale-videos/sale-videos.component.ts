@@ -4,6 +4,7 @@ import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.s
 import {ModalController} from '@ionic/angular';
 import {PlaySelectedVideoModalPage} from './play-selected-video-modal/play-selected-video-modal.page';
 import {Video, VideoControllerServiceService} from '../../_dal/ipohdrum';
+import {commonConfig} from '../../_dal/common/commonConfig';
 
 @Component({
     selector: 'app-sale-videos',
@@ -21,7 +22,7 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
 
     // Numbers
     currentPageNumber = 1;
-    currentPageSize = 10;
+    currentPageSize = commonConfig.currentPageSize;
     maximumPages: number;
     totalResult: number;
 

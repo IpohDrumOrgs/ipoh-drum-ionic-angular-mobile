@@ -22,7 +22,7 @@ export class VoucherManagementModalPage implements OnInit, OnDestroy {
   // Number
   selectedStoreId: number;
   currentPageNumber = 1;
-  currentPageSize = 10;
+  currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 

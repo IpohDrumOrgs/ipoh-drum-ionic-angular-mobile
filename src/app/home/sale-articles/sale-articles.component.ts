@@ -4,6 +4,7 @@ import {LoadingService} from '../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
 import {ModalController} from '@ionic/angular';
 import {ViewSelectedArticleModalPage} from './view-selected-article-modal/view-selected-article-modal.page';
+import {commonConfig} from '../../_dal/common/commonConfig';
 
 @Component({
   selector: 'app-sale-articles',
@@ -18,7 +19,7 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
 
   // Numbers
   currentPageNumber = 1;
-  currentPageSize = 10;
+  currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 

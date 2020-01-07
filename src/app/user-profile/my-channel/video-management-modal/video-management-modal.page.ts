@@ -5,6 +5,7 @@ import {GlobalfunctionService} from '../../../_dal/common/services/globalfunctio
 import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {ViewVideoModalPage} from './view-video-modal/view-video-modal.page';
 import {CreateVideoModalPage} from './create-video-modal/create-video-modal.page';
+import {commonConfig} from '../../../_dal/common/commonConfig';
 
 @Component({
   selector: 'app-video-management-modal',
@@ -21,7 +22,7 @@ export class VideoManagementModalPage implements OnInit, OnDestroy {
   // Numbers
   selectedChannelId: number;
   currentPageNumber = 1;
-  currentPageSize = 10;
+  currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 

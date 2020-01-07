@@ -22,7 +22,7 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
 
   // Numbers
   currentPageNumber = 1;
-  currentPageSize = 20;
+  currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   storeNameMinLength = commonConfig.storeNameMinLength;
   storeNameMaxLength = commonConfig.storeNameMaxLength;

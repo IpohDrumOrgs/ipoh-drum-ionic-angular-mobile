@@ -57,7 +57,7 @@ export class AddInventoryPage implements OnInit, OnDestroy {
     maxInventoryPhotoSlider = 5;
 
     // Ionic selectable numbers
-    currentPageSize = 10;
+    currentPageSize = commonConfig.currentPageSize;
 
     currentPromotionPageNumber = 1;
     promotionMaxPages: number;
@@ -100,9 +100,9 @@ export class AddInventoryPage implements OnInit, OnDestroy {
         desc: null,
         name: this.defaultNoPlanSelectedStr
     };
-    selectedPromotionPlan: ProductPromotion = null;
-    selectedWarrantyPlan: Warranty = null;
-    selectedShippingPlan: Shipping = null;
+    selectedPromotionPlan: ProductPromotion = this.defaultSelection;
+    selectedWarrantyPlan: Warranty = this.defaultSelection;
+    selectedShippingPlan: Shipping = this.defaultSelection;
     temporaryInventoryThumbnail: Blob;
 
     // FormGroups
@@ -140,17 +140,7 @@ export class AddInventoryPage implements OnInit, OnDestroy {
         this.ngZone.run(() => {
             this.retrieveListOfPromotions();
             this.retrieveListOfWarranties();
-            this.storeShippingSubscription = this.storeControllerService.getShippingsByStoreUid(
-                this.selectedStoreUid
-            ).subscribe(resp => {
-                if (resp.code === 200) {
-                    this.listOfStoreShippings = resp.data;
-                } else {
-                    this.listOfStoreShippings = [];
-                }
-            }, error => {
-                this.listOfStoreShippings = [];
-            });
+            this.retrieveListOfShippings();
             this.inventoryInfoFormGroup = new FormGroup({
                 inventoryName: new FormControl(null, [
                     Validators.required,
@@ -304,6 +294,42 @@ export class AddInventoryPage implements OnInit, OnDestroy {
         }, error => {
             this.listOfStoreWarranties = [];
             this.isLoadingWarrantyInfo = false;
+            this.ref.detectChanges();
+        });
+    }
+
+    retrieveListOfShippings() {
+        this.loadingService.present();
+        this.isLoadingShippingInfo = true;
+        if (this.storeShippingSubscription) {
+            this.storeShippingSubscription.unsubscribe();
+        }
+        this.storeShippingSubscription = this.shippingControllerService.filterShippings(
+            this.currentShippingPageNumber,
+            this.currentPageSize,
+            '',
+            null,
+            null,
+            'true',
+            this.selectedStoreId
+        ).subscribe(resp => {
+            if (resp.code === 200) {
+                if (resp.data) {
+                    this.listOfStoreShippings.push(this.defaultSelection);
+                    for (const tempShipping of resp.data) {
+                        this.listOfStoreShippings.push(tempShipping);
+                    }
+                } else {
+                    this.listOfStoreShippings = [];
+                }
+            } else {
+                this.listOfStoreShippings = [];
+            }
+            this.isLoadingShippingInfo = false;
+            this.ref.detectChanges();
+        }, error => {
+            this.listOfStoreShippings = [];
+            this.isLoadingShippingInfo = false;
             this.ref.detectChanges();
         });
     }
@@ -721,7 +747,6 @@ export class AddInventoryPage implements OnInit, OnDestroy {
                     'true',
                     this.selectedStoreId
                 ).subscribe(resp => {
-                    console.log('retrievemore warranty');
                     if (resp.code === 200) {
                         for (const warranty of resp.data) {
                             this.listOfStoreWarranties.push(warranty);
@@ -733,6 +758,143 @@ export class AddInventoryPage implements OnInit, OnDestroy {
                     this.ref.detectChanges();
                 }, error => {
                     console.log('API error while retrieving list of Warranties.');
+                    console.log(error);
+                    event.component.endInfiniteScroll();
+                });
+            }
+        }
+    }
+
+    searchForShippings(event: {
+        component: IonicSelectableComponent,
+        text: string
+    }) {
+        const text = event.text.trim().toLowerCase();
+        event.component.startSearch();
+        if (this.searchListOfShippingsSubscription) {
+            this.searchListOfShippingsSubscription.unsubscribe();
+        }
+        this.currentShippingPageNumber = 1;
+        if (!text) {
+            this.listOfStoreShippings = [];
+            if (this.searchListOfShippingsSubscription) {
+                this.searchListOfShippingsSubscription.unsubscribe();
+            }
+            this.searchListOfShippingsSubscription = this.shippingControllerService.filterShippings(
+                this.currentShippingPageNumber,
+                this.currentPageSize,
+                '',
+                null,
+                null,
+                'true',
+                this.selectedStoreId
+            ).subscribe(resp => {
+                if (resp.code === 200) {
+                    if (resp.data) {
+                        this.listOfStoreShippings.push(this.defaultSelection);
+                        for (const tempShipping of resp.data) {
+                            this.listOfStoreShippings.push(tempShipping);
+                        }
+                        this.shippingMaxPages = resp.maximumPages;
+                    } else {
+                        this.listOfStoreShippings = [];
+                        this.shippingMaxPages = 0;
+                    }
+                    event.component.items = this.listOfStoreShippings;
+                } else {
+                    this.listOfStoreShippings = [];
+                    this.shippingMaxPages = 0;
+                }
+                event.component.endSearch();
+                event.component.enableInfiniteScroll();
+                this.ref.detectChanges();
+                this.retrieveMoreShippings(event);
+            }, error => {
+                console.log('API error while retrieving list of Shippings.');
+                console.log(error);
+            });
+            return;
+        }
+        this.searchListOfShippingsSubscription = this.shippingControllerService.filterShippings(
+            this.currentShippingPageNumber,
+            this.currentPageSize,
+            text,
+            null,
+            null,
+            'true',
+            this.selectedStoreId
+        ).subscribe(resp => {
+            if (this.searchListOfShippingsSubscription.closed) {
+                return;
+            }
+            if (resp.code === 200) {
+                if (resp.data) {
+                    this.listOfStoreShippings = this.filterIonicSelectables(resp.data, text);
+                } else {
+                    this.listOfStoreShippings = [];
+                }
+            }
+            event.component.endSearch();
+            event.component.enableInfiniteScroll();
+            this.ref.detectChanges();
+        }, error => {
+            console.log('API Error while retrieving filtered Shippings.');
+            console.log(error);
+        });
+    }
+
+    retrieveMoreShippings(event: {
+        component: IonicSelectableComponent,
+        text: string
+    }) {
+        const text = (event.text || '').trim().toLowerCase();
+        if (this.currentShippingPageNumber > this.shippingMaxPages) {
+            // event.component.disableInfiniteScroll();
+            event.component.endInfiniteScroll();
+            return;
+        } else {
+            this.currentShippingPageNumber++;
+            if (text) {
+                this.appendListOfShippingsSubscription = this.shippingControllerService.filterShippings(
+                    this.currentShippingPageNumber,
+                    this.currentPageSize,
+                    text,
+                    null,
+                    null,
+                    'true',
+                    this.selectedStoreId
+                ).subscribe(resp => {
+                    if (resp.code === 200) {
+                        for (const shipping of resp.data) {
+                            this.listOfStoreShippings.push(shipping);
+                        }
+                    }
+                    event.component.items = this.listOfStoreShippings;
+                    event.component.endInfiniteScroll();
+                    this.ref.detectChanges();
+                }, error => {
+                    event.component.endInfiniteScroll();
+                });
+            } else {
+                this.appendListOfShippingsSubscription = this.shippingControllerService.filterShippings(
+                    this.currentShippingPageNumber,
+                    this.currentPageSize,
+                    '',
+                    null,
+                    null,
+                    'true',
+                    this.selectedStoreId
+                ).subscribe(resp => {
+                    if (resp.code === 200) {
+                        for (const shipping of resp.data) {
+                            this.listOfStoreShippings.push(shipping);
+                        }
+                    }
+                    event.component.items = this.listOfStoreShippings;
+                    event.component.endInfiniteScroll();
+                    this.ref.detectChanges();
+                }, error => {
+                    console.log('API error while retrieving list of Shippings.');
                     console.log(error);
                     event.component.endInfiniteScroll();
                 });

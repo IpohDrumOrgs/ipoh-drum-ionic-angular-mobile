@@ -6,6 +6,7 @@ import {StoreInventoryManagementModalPage} from './store-inventory-management-mo
 import {LoadingService} from '../../_dal/common/services/loading.service';
 import {AddStoreModalPage} from './add-store-modal/add-store-modal.page';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
+import {commonConfig} from '../../_dal/common/commonConfig';
 
 @Component({
     selector: 'app-my-store',
@@ -20,7 +21,7 @@ export class MyStorePage implements OnInit, OnDestroy {
 
     // Numbers
     currentPageNumber = 1;
-    currentPageSize = 10;
+    currentPageSize = commonConfig.currentPageSize;
     maximumPages: number;
     totalResult: number;
 

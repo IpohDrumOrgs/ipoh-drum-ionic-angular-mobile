@@ -22,7 +22,7 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
 
   // Numbers
   currentPageNumber = 1;
-  currentPageSize = 10;
+  currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
   blogNameMinLength = commonConfig.blogNameMinLength;

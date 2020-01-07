@@ -6,6 +6,7 @@ import {ModalController} from '@ionic/angular';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
 import {AddBlogModalPage} from './add-blog-modal/add-blog-modal.page';
 import {MainBlogManagementModalPage} from './main-blog-management-modal/main-blog-management-modal.page';
+import {commonConfig} from '../../_dal/common/commonConfig';
 
 @Component({
     selector: 'app-my-blog',
@@ -20,7 +21,7 @@ export class MyBlogPage implements OnInit, OnDestroy {
 
     // Numbers
     currentPageNumber = 1;
-    currentPageSize = 10;
+    currentPageSize = commonConfig.currentPageSize;
     maximumPages: number;
     totalResult: number;
 

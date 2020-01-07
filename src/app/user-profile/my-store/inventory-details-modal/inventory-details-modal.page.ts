@@ -56,7 +56,7 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
   selectedStoreId: number;
 
   // Ionic selectable numbers
-  currentPageSize = 10;
+  currentPageSize = commonConfig.currentPageSize;
 
   currentPromotionPageNumber = 1;
   promotionMaxPages: number;

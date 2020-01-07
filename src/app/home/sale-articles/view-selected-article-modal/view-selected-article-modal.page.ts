@@ -3,6 +3,7 @@ import {ModalController} from '@ionic/angular';
 import {Article, ArticleControllerServiceService} from '../../../_dal/ipohdrum';
 import {Comment} from '../../../_dal/ipohdrum/model/comment';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
+import {commonConfig} from '../../../_dal/common/commonConfig';
 
 @Component({
   selector: 'app-view-selected-article-modal',
@@ -18,7 +19,7 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
 
   // Numbers
   currentPageNumber = 1;
-  currentPageSize = 10;
+  currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 

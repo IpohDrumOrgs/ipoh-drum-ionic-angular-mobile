@@ -51,5 +51,6 @@ export let commonConfig = {
     videoTitleMaxLength: 100,
     videoLinkMaxLength: 200,
     videoIdMaxLength: 50,
-    videoTotalLengthMaxLength: 50
+    videoTotalLengthMaxLength: 50,
+    currentPageSize: 20
 };
