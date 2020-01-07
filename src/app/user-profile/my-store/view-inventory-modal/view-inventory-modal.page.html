@@ -209,6 +209,18 @@
                   <ion-label position="floating">Stock's Threshold</ion-label>
                   <ion-input [(ngModel)]="selectedInventory.stockthreshold" disabled></ion-input>
                 </ion-item>
+                <ion-item>
+                  <ion-label position="floating">Quantity</ion-label>
+                  <ion-input [(ngModel)]="selectedInventory.qty" disabled></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="floating">Sales Quantity</ion-label>
+                  <ion-input [(ngModel)]="selectedInventory.salesqty" disabled></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label position="floating">Rating</ion-label>
+                  <ion-input [(ngModel)]="selectedInventory.rating" disabled></ion-input>
+                </ion-item>
               </ion-list>
             </ion-col>
           </ion-row>
@@ -300,7 +312,8 @@
                   </tbody>
                   <tbody *ngIf="selectedInventory?.inventoryfamilies?.length > 0"
                          style="background-color:white;border-bottom:1px solid #f2f2f2;border-left:1px solid #f2f2f2;border-right:1px solid #f2f2f2;">
-                  <tr *ngFor="let invFamilyPattern of selectedInventory?.inventoryfamilies;let i = index;">
+                  <tr *ngFor="let invFamilyPattern of selectedInventory?.inventoryfamilies;let i = index;"
+                      (click)="openViewInventoryFamiliesAndPatternsModal(invFamilyPattern)">
                     <td>
                       <span class="badge badge-primary" style="white-space:normal;word-wrap:break-word;text-align:left;">
                           {{invFamilyPattern?.name}}

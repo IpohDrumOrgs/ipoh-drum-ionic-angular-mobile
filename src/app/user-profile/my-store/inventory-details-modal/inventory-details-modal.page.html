@@ -249,7 +249,7 @@
                                 <ion-label position="floating">Stock's Threshold</ion-label>
                                 <ion-input [(ngModel)]="selectedInventory.stockthreshold"
                                            formControlName="inventoryStockThreshold"></ion-input>
-                            </ion-item>
+                           </ion-item>
                             <ul class="error"
                                 *ngIf="inventoryInfoFormGroup.get('inventoryStockThreshold').invalid && inventoryInfoFormGroup.get('inventoryStockThreshold').touched">
                                 <li *ngIf="inventoryInfoFormGroup.get('inventoryStockThreshold').hasError('required') && inventoryInfoFormGroup.get('inventoryStockThreshold').touched">

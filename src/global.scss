@@ -102,6 +102,26 @@ input.ng-dirty.ng-invalid.ng-touched {
     position:fixed;
 }
 
+// Inventory Families and Pattern Viewing
+.inv-family-pattern-modal .modal-wrapper{
+    width:100%;
+    height:80%;
+    border-top-right-radius:5px;
+    border-top-left-radius:5px;
+    bottom:0;
+    position:fixed;
+}
+
+// Inventory Pattern Viewing
+.inv-pattern-modal .modal-wrapper{
+    width:100%;
+    height:80%;
+    border-top-right-radius:5px;
+    border-top-left-radius:5px;
+    bottom:0;
+    position:fixed;
+}
+
 // Custom Error Messages styling for wizard-step
 .error {
     color: #ff1749;

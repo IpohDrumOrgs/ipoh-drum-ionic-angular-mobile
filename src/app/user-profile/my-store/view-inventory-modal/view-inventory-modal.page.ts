@@ -4,6 +4,7 @@ import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {ModalController} from '@ionic/angular';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {InventoryDetailsModalPage} from '../inventory-details-modal/inventory-details-modal.page';
+import {ViewInventoryFamiliesPatternModalPage} from '../view-inventory-families-pattern-modal/view-inventory-families-pattern-modal.page';
 
 @Component({
     selector: 'app-view-inventory-modal',
@@ -139,17 +140,6 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
         });
     }
 
-    // revertUploadedInventoryThumbnail() {
-    //     if (this.temporaryInventoryThumbnail) {
-    //         this.loadingService.present();
-    //         setTimeout(() => {
-    //             this.inventoryThumbnailAsArray[0] = null;
-    //             this.temporaryInventoryThumbnail = null;
-    //             this.loadingService.dismiss();
-    //         }, 500);
-    //     }
-    // }
-
     openThumbnailFilePicker() {
         this.inventoryThumbnailContainer.nativeElement.click();
     }
@@ -244,6 +234,7 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
                     this.globalFunctionService.simpleToast('SUCCESS', 'The sliders image has been updated!', 'success');
                     this.retrieveSelectedInventory();
                 } else {
+                    // tslint:disable-next-line:max-line-length
                     this.globalFunctionService.simpleToast('WARNING', 'Unable to remove the Slider image, please try again later!', 'warning');
                 }
                 this.loadingService.dismiss();
@@ -288,5 +279,16 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to delete the Inventory, please try again later!', 'warning');
             });
         }, 500);
+    }
+
+    async openViewInventoryFamiliesAndPatternsModal(invFamilyPattern: any) {
+        const modal = await this.modalController.create({
+            component: ViewInventoryFamiliesPatternModalPage,
+            cssClass: 'inv-family-pattern-modal',
+            componentProps: {
+                invFamilyPattern
+            }
+        });
+        return await modal.present();
     }
 }

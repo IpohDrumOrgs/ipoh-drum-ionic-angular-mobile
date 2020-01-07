@@ -114,6 +114,10 @@ import {CreateVideoModalPage} from '../user-profile/my-channel/video-management-
 import {CreateVideoModalPageModule} from '../user-profile/my-channel/video-management-modal/create-video-modal/create-video-modal.module';
 import {EditVideoModalPageModule} from '../user-profile/my-channel/video-management-modal/edit-video-modal/edit-video-modal.module';
 import {EditVideoModalPage} from '../user-profile/my-channel/video-management-modal/edit-video-modal/edit-video-modal.page';
+import {ViewInventoryFamiliesPatternModalPageModule} from '../user-profile/my-store/view-inventory-families-pattern-modal/view-inventory-families-pattern-modal.module';
+import {ViewInventoryFamiliesPatternModalPage} from '../user-profile/my-store/view-inventory-families-pattern-modal/view-inventory-families-pattern-modal.page';
+import {ViewInventoryPatternModalPage} from '../user-profile/my-store/view-inventory-pattern-modal/view-inventory-pattern-modal.page';
+import {ViewInventoryPatternModalPageModule} from '../user-profile/my-store/view-inventory-pattern-modal/view-inventory-pattern-modal.module';
 
 const routes: Routes = [
     {
@@ -202,7 +206,9 @@ const routes: Routes = [
         EditChannelModalPageModule,
         ViewVideoModalPageModule,
         CreateVideoModalPageModule,
-        EditVideoModalPageModule
+        EditVideoModalPageModule,
+        ViewInventoryFamiliesPatternModalPageModule,
+        ViewInventoryPatternModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -250,7 +256,9 @@ const routes: Routes = [
         EditChannelModalPage,
         ViewVideoModalPage,
         CreateVideoModalPage,
-        EditVideoModalPage
+        EditVideoModalPage,
+        ViewInventoryFamiliesPatternModalPage,
+        ViewInventoryPatternModalPage
     ]
 })
 
