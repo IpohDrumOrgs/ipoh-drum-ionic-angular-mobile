@@ -37,11 +37,14 @@
           </h4>
           <ion-row class="ion-align-items-center ion-justify-content-center">
             <ion-col size="6" *ngFor="let promo of listOfProductPromotions" style="text-align:center;">
-              <ion-button fill="outline" (click)="openEditPromotionPlanModal(promo.uid, !!promo.store_id)"
-                          style="width:100%;white-space:normal;word-wrap:break-word;"
-                          [color]="promo.store_id ? 'primary' : 'warning'">
-                {{promo?.name}}
-              </ion-button>
+              <ion-card (click)="openEditPromotionPlanModal(promo.uid, !!promo.store_id)">
+                <ion-card-header>
+                  <ion-label [color]="promo.store_id ? 'primary' : 'warning'"
+                             style="white-space:normal;word-wrap:break-word;text-align:left;font-weight:bold;">
+                    {{promo?.name}}
+                  </ion-label>
+                </ion-card-header>
+              </ion-card>
             </ion-col>
             <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreProductPromotions($event)">
               <ion-infinite-scroll-content

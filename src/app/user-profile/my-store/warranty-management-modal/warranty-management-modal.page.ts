@@ -114,7 +114,11 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
         });
         modal.onDidDismiss().then((returnedFromCreatingWarranty) => {
             if (returnedFromCreatingWarranty.data) {
+                this.currentPageNumber = 1;
                 this.retrieveListOfWarrantiesByStoreUid();
+                if (this.referInfiniteScroll) {
+                    this.referInfiniteScroll.target.disabled = false;
+                }
             }
         });
         return await modal.present();

@@ -418,24 +418,23 @@
                                                         <b>Promotion Plan</b>
                                                     </ion-col>
                                                     <ion-col size="8">
-                                                        <ion-select interface="popover"
-                                                                    [placeholder]="defaultNoPlanSelectedStr"
-                                                                    [(ngModel)]="selectedPromotionPlan">
-                                                            <ion-select-option selected="true" [value]="null">
-                                                                {{defaultNoPlanSelectedStr}}
-                                                            </ion-select-option>
-                                                            <ion-select-option
-                                                                    *ngFor="let promotionPlan of listOfStorePromotions"
-                                                                    [value]="promotionPlan">
-                                                                {{promotionPlan?.name}}
-                                                            </ion-select-option>
-                                                        </ion-select>
+                                                        <ionic-selectable
+                                                                [placeholder]="'Select Promotion'"
+                                                                [(ngModel)]="selectedPromotionPlan"
+                                                                [items]="listOfStorePromotions"
+                                                                [hasInfiniteScroll]="true"
+                                                                (onInfiniteScroll)="retrieveMorePromotions($event)"
+                                                                (onSearch)="searchForPromotions($event)"
+                                                                [canSearch]="true"
+                                                                itemValueField="id"
+                                                                itemTextField="name">
+                                                        </ionic-selectable>
                                                     </ion-col>
                                                 </ion-row>
                                                 <ion-row class="ion-align-items-center"
-                                                         *ngIf="selectedPromotionPlan">
+                                                         *ngIf="selectedPromotionPlan && selectedPromotionPlan.desc">
                                                     <ion-col size="12">
-                                                        <div class="alert alert-primary" role="alert">
+                                                        <div class="alert alert-primary" role="alert" style="margin-bottom:0;">
                                                             {{selectedPromotionPlan?.desc}}
                                                         </div>
                                                     </ion-col>
@@ -460,24 +459,23 @@
                                                         <b>Warranty Plan</b>
                                                     </ion-col>
                                                     <ion-col size="8">
-                                                        <ion-select interface="popover"
-                                                                    [placeholder]="defaultNoPlanSelectedStr"
-                                                                    [(ngModel)]="selectedWarrantyPlan">
-                                                            <ion-select-option selected [value]="null">
-                                                                {{defaultNoPlanSelectedStr}}
-                                                            </ion-select-option>
-                                                            <ion-select-option
-                                                                    *ngFor="let warrantyPlan of listOfStoreWarranties;"
-                                                                    [value]="warrantyPlan">
-                                                                {{warrantyPlan?.name}}
-                                                            </ion-select-option>
-                                                        </ion-select>
+                                                        <ionic-selectable
+                                                                [placeholder]="'Select Warranty'"
+                                                                [(ngModel)]="selectedWarrantyPlan"
+                                                                [items]="listOfStoreWarranties"
+                                                                [hasInfiniteScroll]="true"
+                                                                (onInfiniteScroll)="retrieveMoreWarranties($event)"
+                                                                (onSearch)="searchForWarranties($event)"
+                                                                [canSearch]="true"
+                                                                itemValueField="id"
+                                                                itemTextField="name">
+                                                        </ionic-selectable>
                                                     </ion-col>
                                                 </ion-row>
                                                 <ion-row class="ion-align-items-center"
-                                                         *ngIf="selectedWarrantyPlan">
+                                                         *ngIf="selectedWarrantyPlan && selectedWarrantyPlan.desc">
                                                     <ion-col size="12">
-                                                        <div class="alert alert-success" role="alert">
+                                                        <div class="alert alert-success" role="alert" style="margin-bottom:0;">
                                                             {{selectedWarrantyPlan?.desc}}
                                                         </div>
                                                     </ion-col>

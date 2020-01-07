@@ -83,6 +83,8 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
     ).subscribe(resp => {
       if (resp.code === 200) {
         this.listOfProductPromotions = resp.data;
+        this.maximumPages = resp.maximumPages;
+        this.totalResult = resp.totalResult;
       } else {
         // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Promotion Plans, please try again later!', 'warning');
@@ -111,16 +113,18 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
     });
     modal.onDidDismiss().then((returnedFromCreatingPromo) => {
       if (returnedFromCreatingPromo.data) {
-        this.retrieveListOfProductPromotionsByStoreUid();
+        this.currentPageNumber = 1;
         if (this.referInfiniteScroll) {
           this.referInfiniteScroll.target.disabled = false;
         }
+        this.retrieveListOfProductPromotionsByStoreUid();
       }
     });
     return await modal.present();
   }
 
   loadMoreProductPromotions(event) {
+    console.log('load more');
     this.referInfiniteScroll = event;
     setTimeout(() => {
       if (this.maximumPages > this.currentPageNumber) {
@@ -130,6 +134,8 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
             this.currentPageNumber,
             this.currentPageSize
         ).subscribe(resp => {
+          console.log('load more ok');
+          console.log(resp);
           if (resp.code === 200) {
             for (const tempPromo of resp.data) {
               this.listOfProductPromotions.push(tempPromo);

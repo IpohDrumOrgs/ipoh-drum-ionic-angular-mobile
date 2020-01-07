@@ -42,17 +42,17 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
   isLoadingShippingInfo = true;
 
   // Numbers
-  inventoryNameMinLength = 5;
-  inventoryNameMaxLength = 50;
-  inventoryCodeMinLength = 2;
-  inventoryCodeMaxLength = 50;
-  inventorySKUMinLength = 2;
-  inventorySKUMaxLength = 30;
-  inventoryDescMinLength = 5;
-  inventoryDescMaxLength = 50;
-  inventoryCostMaxLength = 10;
-  inventorySellingPriceMaxLength = 10;
-  inventoryStockThresholdMaxLength = 3;
+  inventoryNameMinLength = commonConfig.inventoryNameMinLength;
+  inventoryNameMaxLength = commonConfig.inventoryNameMaxLength;
+  inventoryCodeMinLength = commonConfig.inventoryCodeMinLength;
+  inventoryCodeMaxLength = commonConfig.inventoryCodeMaxLength;
+  inventorySKUMinLength = commonConfig.inventorySKUMinLength;
+  inventorySKUMaxLength = commonConfig.inventorySKUMaxLength;
+  inventoryDescMinLength = commonConfig.inventoryDescMinLength;
+  inventoryDescMaxLength = commonConfig.inventoryDescMaxLength;
+  inventoryCostMaxLength = commonConfig.inventoryCostMaxLength;
+  inventorySellingPriceMaxLength = commonConfig.inventorySellingPriceMaxLength;
+  inventoryStockThresholdMaxLength = commonConfig.inventoryStockThresholdMaxLength;
   selectedStoreId: number;
 
   // Ionic selectable numbers
@@ -472,9 +472,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
       return;
     } else {
       this.currentPromotionPageNumber++;
-      if (this.appendListOfPromotionsSubscription) {
-        this.appendListOfPromotionsSubscription.unsubscribe();
-      }
       if (text) {
         this.appendListOfPromotionsSubscription = this.productPromotionControllerService.filterProductPromotions(
             this.currentPromotionPageNumber,
@@ -658,9 +655,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
       return;
     } else {
       this.currentWarrantyPageNumber++;
-      if (this.appendListOfWarrantiesSubscription) {
-        this.appendListOfWarrantiesSubscription.unsubscribe();
-      }
       if (text) {
         this.appendListOfWarrantiesSubscription = this.warrantyControllerService.filterWarranties(
             this.currentWarrantyPageNumber,
@@ -838,9 +832,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
       return;
     } else {
       this.currentShippingPageNumber++;
-      if (this.appendListOfShippingsSubscription) {
-        this.appendListOfShippingsSubscription.unsubscribe();
-      }
       if (text) {
         this.appendListOfShippingsSubscription = this.shippingControllerService.filterShippings(
             this.currentShippingPageNumber,

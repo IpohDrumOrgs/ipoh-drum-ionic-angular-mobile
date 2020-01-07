@@ -1,11 +1,11 @@
-import {Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {
     InventoryControllerServiceService,
-    ProductPromotion,
-    Shipping,
+    ProductPromotion, ProductPromotionControllerServiceService,
+    Shipping, ShippingControllerServiceService,
     StoreControllerServiceService,
-    Warranty
+    Warranty, WarrantyControllerServiceService
 } from '../../../_dal/ipohdrum';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -13,6 +13,7 @@ import {ModalController} from '@ionic/angular';
 import {InvFamilyPatternModalPage} from './inv-family-pattern-modal/inv-family-pattern-modal.page';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {commonConfig} from '../../../_dal/common/commonConfig';
+import {IonicSelectableComponent} from 'ionic-selectable';
 
 @Component({
     selector: 'app-add-inventory',
@@ -37,29 +38,43 @@ export class AddInventoryPage implements OnInit, OnDestroy {
     inventoryStockThresholdModel: number;
 
     // Regex
-    alphaNumericOnlyRegex = '^[a-zA-Z0-9_]+$';
     priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
     numericOnlyRegex = commonConfig.numericOnlyRegex;
 
     // Number
     selectedStoreId: number;
-    inventoryNameMinLength = 5;
-    inventoryNameMaxLength = 50;
-    inventoryCodeMinLength = 2;
-    inventoryCodeMaxLength = 50;
-    inventorySKUMinLength = 2;
-    inventorySKUMaxLength = 30;
-    inventoryDescMinLength = 5;
-    inventoryDescMaxLength = 50;
-    inventoryCostMaxLength = 10;
-    inventorySellingPriceMaxLength = 10;
-    inventoryStockThresholdMaxLength = 3;
+    inventoryNameMinLength = commonConfig.inventoryNameMinLength;
+    inventoryNameMaxLength = commonConfig.inventoryNameMaxLength;
+    inventoryCodeMinLength = commonConfig.inventoryCodeMinLength;
+    inventoryCodeMaxLength = commonConfig.inventoryCodeMaxLength;
+    inventorySKUMinLength = commonConfig.inventorySKUMinLength;
+    inventorySKUMaxLength = commonConfig.inventorySKUMaxLength;
+    inventoryDescMinLength = commonConfig.inventoryDescMinLength;
+    inventoryDescMaxLength = commonConfig.inventoryDescMaxLength;
+    inventoryCostMaxLength = commonConfig.inventoryCostMaxLength;
+    inventorySellingPriceMaxLength = commonConfig.inventorySellingPriceMaxLength;
+    inventoryStockThresholdMaxLength = commonConfig.inventoryStockThresholdMaxLength;
     maxInventoryPhotoSlider = 5;
+
+    // Ionic selectable numbers
+    currentPageSize = 10;
+
+    currentPromotionPageNumber = 1;
+    promotionMaxPages: number;
+
+    currentWarrantyPageNumber = 1;
+    warrantyMaxPages: number;
+
+    currentShippingPageNumber = 1;
+    shippingMaxPages: number;
 
     // Booleans
     showFirstPage = true;
     showSecondPage = false;
     showThirdPage = false;
+    isLoadingPromotionInfo = true;
+    isLoadingWarrantyInfo = true;
+    isLoadingShippingInfo = true;
 
     // ViewChild
     @ViewChild('inventoryThumbnailContainer', {static: false}) inventoryThumbnailContainer: ElementRef;
@@ -73,17 +88,17 @@ export class AddInventoryPage implements OnInit, OnDestroy {
     inventoryThumbnailAsArray: Array<Blob> = [];
     temporaryInventorySliders: Array<Blob> = [];
     inventorySlidersAsArray: Array<Blob> = [];
-    ionSliderOptions = {
-        autoHeight: true,
-        initialSlide: 0,
-        speed: 400
-    };
 
     // Objects
     inventoryImageSliderOptions = {
         autoHeight: true,
         initialSlide: 0,
         speed: 400
+    };
+    defaultSelection = {
+        id: null,
+        desc: null,
+        name: this.defaultNoPlanSelectedStr
     };
     selectedPromotionPlan: ProductPromotion = null;
     selectedWarrantyPlan: Warranty = null;
@@ -98,43 +113,33 @@ export class AddInventoryPage implements OnInit, OnDestroy {
     storeWarrantySubscription: any;
     storeShippingSubscription: any;
     createInventorySubscription: any;
+    searchListOfWarrantiesSubscription: any;
+    appendListOfWarrantiesSubscription: any;
+    searchListOfPromotionsSubscription: any;
+    appendListOfPromotionsSubscription: any;
+    searchListOfShippingsSubscription: any;
+    appendListOfShippingsSubscription: any;
 
     constructor(
+        private ref: ChangeDetectorRef,
         private ngZone: NgZone,
         private router: Router,
         private storeControllerService: StoreControllerServiceService,
         private globalFunctionService: GlobalfunctionService,
         private inventoryControllerService: InventoryControllerServiceService,
         private modalController: ModalController,
-        private loadingService: LoadingService
+        private loadingService: LoadingService,
+        private productPromotionControllerService: ProductPromotionControllerServiceService,
+        private warrantyControllerService: WarrantyControllerServiceService,
+        private shippingControllerService: ShippingControllerServiceService
     ) {
         console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
         this.ngZone.run(() => {
-            this.storePromotionsSubscription = this.storeControllerService.getPromotionsByStoreUid(
-                this.selectedStoreUid
-            ).subscribe(resp => {
-                if (resp.code === 200) {
-                    this.listOfStorePromotions = resp.data;
-                } else {
-                    this.listOfStorePromotions = [];
-                }
-            }, error => {
-                this.listOfStorePromotions = [];
-            });
-            this.storeWarrantySubscription = this.storeControllerService.getWarrantiesByStoreUid(
-                this.selectedStoreUid
-            ).subscribe(resp => {
-                if (resp.code === 200) {
-                    this.listOfStoreWarranties = resp.data;
-                } else {
-                    this.listOfStoreWarranties = [];
-                }
-            }, error => {
-                this.listOfStoreWarranties = [];
-            });
+            this.retrieveListOfPromotions();
+            this.retrieveListOfWarranties();
             this.storeShippingSubscription = this.storeControllerService.getShippingsByStoreUid(
                 this.selectedStoreUid
             ).subscribe(resp => {
@@ -210,6 +215,96 @@ export class AddInventoryPage implements OnInit, OnDestroy {
             if (this.createInventorySubscription) {
                 this.createInventorySubscription.unsubscribe();
             }
+            if (this.searchListOfWarrantiesSubscription) {
+                this.searchListOfWarrantiesSubscription.unsubscribe();
+            }
+            if (this.appendListOfWarrantiesSubscription) {
+                this.appendListOfWarrantiesSubscription.unsubscribe();
+            }
+            if (this.searchListOfPromotionsSubscription) {
+                this.searchListOfPromotionsSubscription.unsubscribe();
+            }
+            if (this.appendListOfPromotionsSubscription) {
+                this.appendListOfPromotionsSubscription.unsubscribe();
+            }
+            if (this.searchListOfShippingsSubscription) {
+                this.searchListOfShippingsSubscription.unsubscribe();
+            }
+            if (this.appendListOfShippingsSubscription) {
+                this.appendListOfShippingsSubscription.unsubscribe();
+            }
+        });
+    }
+
+    retrieveListOfPromotions() {
+        this.loadingService.present();
+        this.isLoadingPromotionInfo = true;
+        if (this.storePromotionsSubscription) {
+            this.storePromotionsSubscription.unsubscribe();
+        }
+        this.storePromotionsSubscription = this.productPromotionControllerService.filterProductPromotions(
+            this.currentPromotionPageNumber,
+            this.currentPageSize,
+            '',
+            null,
+            null,
+            'true',
+            this.selectedStoreId
+        ).subscribe(resp => {
+            if (resp.code === 200) {
+                if (resp.data) {
+                    this.listOfStorePromotions.push(this.defaultSelection);
+                    for (const tempPromotion of resp.data) {
+                        this.listOfStorePromotions.push(tempPromotion);
+                    }
+                } else {
+                    this.listOfStorePromotions = [];
+                }
+            } else {
+                this.listOfStorePromotions = [];
+            }
+            this.isLoadingPromotionInfo = false;
+            this.ref.detectChanges();
+        }, error => {
+            this.listOfStorePromotions = [];
+            this.isLoadingPromotionInfo = false;
+            this.ref.detectChanges();
+        });
+    }
+
+    retrieveListOfWarranties() {
+        this.loadingService.present();
+        this.isLoadingWarrantyInfo = true;
+        if (this.storeWarrantySubscription) {
+            this.storeWarrantySubscription.unsubscribe();
+        }
+        this.storeWarrantySubscription = this.warrantyControllerService.filterWarranties(
+            this.currentWarrantyPageNumber,
+            this.currentPageSize,
+            '',
+            null,
+            null,
+            'true',
+            this.selectedStoreId
+        ).subscribe(resp => {
+            if (resp.code === 200) {
+                if (resp.data) {
+                    this.listOfStoreWarranties.push(this.defaultSelection);
+                    for (const tempWarranty of resp.data) {
+                        this.listOfStoreWarranties.push(tempWarranty);
+                    }
+                } else {
+                    this.listOfStoreWarranties = [];
+                }
+            } else {
+                this.listOfStoreWarranties = [];
+            }
+            this.isLoadingWarrantyInfo = false;
+            this.ref.detectChanges();
+        }, error => {
+            this.listOfStoreWarranties = [];
+            this.isLoadingWarrantyInfo = false;
+            this.ref.detectChanges();
         });
     }
 
@@ -367,5 +462,287 @@ export class AddInventoryPage implements OnInit, OnDestroy {
                 this.showThirdPage = true;
                 break;
         }
+    }
+
+    searchForPromotions(event: {
+        component: IonicSelectableComponent,
+        text: string
+    }) {
+        const text = event.text.trim().toLowerCase();
+        event.component.startSearch();
+        if (this.searchListOfPromotionsSubscription) {
+            this.searchListOfPromotionsSubscription.unsubscribe();
+        }
+        this.currentPromotionPageNumber = 1;
+        if (!text) {
+            this.listOfStorePromotions = [];
+            if (this.searchListOfPromotionsSubscription) {
+                this.searchListOfPromotionsSubscription.unsubscribe();
+            }
+            this.searchListOfPromotionsSubscription = this.productPromotionControllerService.filterProductPromotions(
+                this.currentPromotionPageNumber,
+                this.currentPageSize,
+                '',
+                null,
+                null,
+                'true',
+                this.selectedStoreId
+            ).subscribe(resp => {
+                if (resp.code === 200) {
+                    if (resp.data) {
+                        this.listOfStorePromotions.push(this.defaultSelection);
+                        for (const tempPromotion of resp.data) {
+                            this.listOfStorePromotions.push(tempPromotion);
+                        }
+                        this.promotionMaxPages = resp.maximumPages;
+                    } else {
+                        this.listOfStorePromotions = [];
+                        this.promotionMaxPages = 0;
+                    }
+                    event.component.items = this.listOfStorePromotions;
+                } else {
+                    this.listOfStorePromotions = [];
+                    this.promotionMaxPages = 0;
+                }
+                event.component.endSearch();
+                event.component.enableInfiniteScroll();
+                this.ref.detectChanges();
+                this.retrieveMorePromotions(event);
+            }, error => {
+                console.log('API error while retrieving list of Product Promotions.');
+                console.log(error);
+            });
+            return;
+        }
+        this.searchListOfPromotionsSubscription = this.productPromotionControllerService.filterProductPromotions(
+            this.currentPromotionPageNumber,
+            this.currentPageSize,
+            text,
+            null,
+            null,
+            'true',
+            this.selectedStoreId
+        ).subscribe(resp => {
+            if (this.searchListOfPromotionsSubscription.closed) {
+                return;
+            }
+            if (resp.code === 200) {
+                if (resp.data) {
+                    this.listOfStorePromotions = this.filterIonicSelectables(resp.data, text);
+                } else {
+                    this.listOfStorePromotions = [];
+                }
+            }
+            event.component.endSearch();
+            event.component.enableInfiniteScroll();
+            this.ref.detectChanges();
+        }, error => {
+            console.log('API Error while retrieving filtered Product Promotions.');
+            console.log(error);
+        });
+    }
+
+    retrieveMorePromotions(event: {
+        component: IonicSelectableComponent,
+        text: string
+    }) {
+        const text = (event.text || '').trim().toLowerCase();
+        if (this.currentPromotionPageNumber > this.promotionMaxPages) {
+            // event.component.disableInfiniteScroll();
+            event.component.endInfiniteScroll();
+            return;
+        } else {
+            this.currentPromotionPageNumber++;
+            if (text) {
+                this.appendListOfPromotionsSubscription = this.productPromotionControllerService.filterProductPromotions(
+                    this.currentPromotionPageNumber,
+                    this.currentPageSize,
+                    text,
+                    null,
+                    null,
+                    'true',
+                    this.selectedStoreId
+                ).subscribe(resp => {
+                    if (resp.code === 200) {
+                        for (const promotion of resp.data) {
+                            this.listOfStorePromotions.push(promotion);
+                        }
+                    }
+                    event.component.items = this.listOfStorePromotions;
+                    event.component.endInfiniteScroll();
+                    this.ref.detectChanges();
+                }, error => {
+                    event.component.endInfiniteScroll();
+                });
+            } else {
+                this.appendListOfPromotionsSubscription = this.productPromotionControllerService.filterProductPromotions(
+                    this.currentPromotionPageNumber,
+                    this.currentPageSize,
+                    '',
+                    null,
+                    null,
+                    'true',
+                    this.selectedStoreId
+                ).subscribe(resp => {
+                    if (resp.code === 200) {
+                        for (const promotion of resp.data) {
+                            this.listOfStorePromotions.push(promotion);
+                        }
+                    }
+                    event.component.items = this.listOfStorePromotions;
+                    event.component.endInfiniteScroll();
+                    this.ref.detectChanges();
+                }, error => {
+                    console.log('API error while retrieving list of Product Promotions.');
+                    console.log(error);
+                    event.component.endInfiniteScroll();
+                });
+            }
+        }
+    }
+
+    searchForWarranties(event: {
+        component: IonicSelectableComponent,
+        text: string
+    }) {
+        const text = event.text.trim().toLowerCase();
+        event.component.startSearch();
+        if (this.searchListOfWarrantiesSubscription) {
+            this.searchListOfWarrantiesSubscription.unsubscribe();
+        }
+        this.currentWarrantyPageNumber = 1;
+        if (!text) {
+            this.listOfStoreWarranties = [];
+            if (this.searchListOfWarrantiesSubscription) {
+                this.searchListOfWarrantiesSubscription.unsubscribe();
+            }
+            this.searchListOfWarrantiesSubscription = this.warrantyControllerService.filterWarranties(
+                this.currentWarrantyPageNumber,
+                this.currentPageSize,
+                '',
+                null,
+                null,
+                'true',
+                this.selectedStoreId
+            ).subscribe(resp => {
+                if (resp.code === 200) {
+                    if (resp.data) {
+                        this.listOfStoreWarranties.push(this.defaultSelection);
+                        for (const tempWarranty of resp.data) {
+                            this.listOfStoreWarranties.push(tempWarranty);
+                        }
+                        this.warrantyMaxPages = resp.maximumPages;
+                    } else {
+                        this.listOfStoreWarranties = [];
+                        this.warrantyMaxPages = 0;
+                    }
+                    event.component.items = this.listOfStoreWarranties;
+                } else {
+                    this.listOfStoreWarranties = [];
+                    this.warrantyMaxPages = 0;
+                }
+                event.component.endSearch();
+                event.component.enableInfiniteScroll();
+                this.retrieveMoreWarranties(event);
+                this.ref.detectChanges();
+            }, error => {
+                console.log('API error while retrieving list of Warranties.');
+                console.log(error);
+            });
+            return;
+        }
+        this.searchListOfWarrantiesSubscription = this.warrantyControllerService.filterWarranties(
+            this.currentWarrantyPageNumber,
+            this.currentPageSize,
+            text,
+            null,
+            null,
+            'true',
+            this.selectedStoreId
+        ).subscribe(resp => {
+            if (this.searchListOfWarrantiesSubscription.closed) {
+                return;
+            }
+            if (resp.code === 200) {
+                if (resp.data) {
+                    this.listOfStoreWarranties = this.filterIonicSelectables(resp.data, text);
+                } else {
+                    this.listOfStoreWarranties = [];
+                }
+            }
+            event.component.endSearch();
+            event.component.enableInfiniteScroll();
+            this.ref.detectChanges();
+        }, error => {
+            console.log('API Error while retrieving filtered Warranties.');
+            console.log(error);
+        });
+    }
+
+    retrieveMoreWarranties(event: {
+        component: IonicSelectableComponent,
+        text: string
+    }) {
+        const text = (event.text || '').trim().toLowerCase();
+        if (this.currentWarrantyPageNumber > this.warrantyMaxPages) {
+            // event.component.disableInfiniteScroll();
+            event.component.endInfiniteScroll();
+            return;
+        } else {
+            this.currentWarrantyPageNumber++;
+            if (text) {
+                this.appendListOfWarrantiesSubscription = this.warrantyControllerService.filterWarranties(
+                    this.currentWarrantyPageNumber,
+                    this.currentPageSize,
+                    text,
+                    null,
+                    null,
+                    'true',
+                    this.selectedStoreId
+                ).subscribe(resp => {
+                    if (resp.code === 200) {
+                        for (const warranty of resp.data) {
+                            this.listOfStoreWarranties.push(warranty);
+                        }
+                    }
+                    event.component.items = this.listOfStoreWarranties;
+                    event.component.endInfiniteScroll();
+                    this.ref.detectChanges();
+                }, error => {
+                    event.component.endInfiniteScroll();
+                });
+            } else {
+                this.appendListOfWarrantiesSubscription = this.warrantyControllerService.filterWarranties(
+                    this.currentWarrantyPageNumber,
+                    this.currentPageSize,
+                    '',
+                    null,
+                    null,
+                    'true',
+                    this.selectedStoreId
+                ).subscribe(resp => {
+                    console.log('retrievemore warranty');
+                    if (resp.code === 200) {
+                        for (const warranty of resp.data) {
+                            this.listOfStoreWarranties.push(warranty);
+                        }
+                    }
+                    console.log(this.listOfStoreWarranties);
+                    event.component.items = this.listOfStoreWarranties;
+                    event.component.endInfiniteScroll();
+                    this.ref.detectChanges();
+                }, error => {
+                    console.log('API error while retrieving list of Warranties.');
+                    console.log(error);
+                    event.component.endInfiniteScroll();
+                });
+            }
+        }
+    }
+
+    filterIonicSelectables(objectList: any[], text: string) {
+        return objectList.filter(anyObj => {
+            return anyObj.name.toLowerCase().indexOf(text) !== -1;
+        });
     }
 }
