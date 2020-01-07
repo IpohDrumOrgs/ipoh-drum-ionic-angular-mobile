@@ -9,6 +9,7 @@ export let commonConfig = {
     minLengthOfPhoneNumber: 11,
     maxLengthOfPhoneNumber: 14,
     phoneNumberRegex: '^[6][0][1][0-9]{8,10}$',
+
     inventoryNameMinLength: 5,
     inventoryNameMaxLength: 50,
     inventoryCodeMinLength: 2,
@@ -20,7 +21,9 @@ export let commonConfig = {
     inventoryCostMaxLength: 10,
     inventorySellingPriceMaxLength: 10,
     inventoryStockThresholdMaxLength: 3,
+
     nullSelectedInventoryPatternId: 9999,
+
     storeNameMinLength: 2,
     storeNameMaxLength: 40,
     storeContactNumMinLength: 11,
@@ -33,24 +36,48 @@ export let commonConfig = {
     storeCountryMaxLength: 30,
     storeStateMaxLength: 30,
     storeCityMaxLength: 30,
+
     numericOnlyRegex: '^[0-9]+$',
     percentageRegex: '^[0-9]{1,3}$',
+
     blogNameMinLength: 2,
     blogNameMaxLength: 40,
     blogDescriptionMinLength: 5,
     blogDescriptionMaxLength: 500,
+
     articleTitleMaxLength: 200,
     articleDescriptionMaxLength: 1500,
     maxArticleImageNumbers: 5,
+
     channelNameMinLength: 2,
     channelNameMaxLength: 40,
     channelDescriptionMinLength: 5,
     channelDescriptionMaxLength: 1500,
     channelContactNumMinLength: 11,
     channelContactNumMaxLength: 14,
+
     videoTitleMaxLength: 100,
     videoLinkMaxLength: 200,
     videoIdMaxLength: 50,
+
     videoTotalLengthMaxLength: 50,
-    currentPageSize: 20
+    currentPageSize: 20,
+
+    inventoryFamilyNameMaxLength: 50,
+    inventoryFamilyCodeMinLength: 2,
+    inventoryFamilyCodeMaxLength: 30,
+    inventoryFamilySKUMinLength: 2,
+    inventoryFamilySKUMaxLength: 30,
+    inventoryFamilyDescMinLength: 5,
+    inventoryFamilyDescMaxLength: 500,
+    inventoryFamilyCostMaxLength: 10,
+    inventoryFamilySellingPriceMaxLength: 10,
+    inventoryFamilyStockQuantityMaxLength: 3,
+
+    inventoryPatternNameMaxLength: 50,
+    inventoryPatternDescMinLength: 5,
+    inventoryPatternDescMaxLength: 500,
+    inventoryPatternCostMaxLength: 10,
+    inventoryPatternSellingPriceMaxLength: 10,
+    inventoryPatternStockQuantityMaxLength: 3
 };

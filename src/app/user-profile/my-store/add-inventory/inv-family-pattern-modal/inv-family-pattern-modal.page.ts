@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {ModalController} from '@ionic/angular';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -32,16 +32,16 @@ export class InvFamilyPatternModalPage implements OnInit {
   selectedFamilyOnSaleToggle = true;
 
   // Numbers
-  inventoryFamilyNameMaxLength = 50;
-  inventoryFamilyCodeMinLength = 2;
-  inventoryFamilyCodeMaxLength = 30;
-  inventoryFamilySKUMinLength = 2;
-  inventoryFamilySKUMaxLength = 30;
-  inventoryFamilyDescMinLength = 5;
-  inventoryFamilyDescMaxLength = 50;
-  inventoryFamilyCostMaxLength = 10;
-  inventoryFamilySellingPriceMaxLength = 10;
-  inventoryFamilyStockQuantityMaxLength = 3;
+  inventoryFamilyNameMaxLength = commonConfig.inventoryFamilyNameMaxLength;
+  inventoryFamilyCodeMinLength = commonConfig.inventoryFamilyCodeMinLength;
+  inventoryFamilyCodeMaxLength = commonConfig.inventoryFamilyCodeMaxLength;
+  inventoryFamilySKUMinLength = commonConfig.inventoryFamilySKUMinLength;
+  inventoryFamilySKUMaxLength = commonConfig.inventoryFamilySKUMaxLength;
+  inventoryFamilyDescMinLength = commonConfig.inventoryFamilyDescMinLength;
+  inventoryFamilyDescMaxLength = commonConfig.inventoryFamilyDescMaxLength;
+  inventoryFamilyCostMaxLength = commonConfig.inventoryFamilyCostMaxLength;
+  inventoryFamilySellingPriceMaxLength = commonConfig.inventoryFamilySellingPriceMaxLength;
+  inventoryFamilyStockQuantityMaxLength = commonConfig.inventoryFamilyStockQuantityMaxLength;
 
   // Arrays
   listOfInventoryPatterns: any[] = [];
@@ -53,6 +53,7 @@ export class InvFamilyPatternModalPage implements OnInit {
   inventoryFamilyFormGroup: FormGroup;
 
   constructor(
+      private ngZone: NgZone,
       private router: Router,
       private modalController: ModalController,
       private globalFunctionService: GlobalfunctionService
@@ -61,43 +62,45 @@ export class InvFamilyPatternModalPage implements OnInit {
   }
 
   ngOnInit() {
-    this.inventoryFamilyFormGroup = new FormGroup({
-      inventoryFamilyName: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(this.inventoryFamilyNameMaxLength)
-      ]),
-      inventoryFamilyCode: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(this.inventoryFamilyCodeMinLength),
-        Validators.maxLength(this.inventoryFamilyCodeMaxLength)
-        // Validators.pattern(this.alphaNumericOnlyRegex)
-      ]),
-      inventoryFamilySKU: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(this.inventoryFamilySKUMinLength),
-        Validators.maxLength(this.inventoryFamilySKUMaxLength)
-        // Validators.pattern(this.alphaNumericOnlyRegex)
-      ]),
-      inventoryFamilyDescription: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(this.inventoryFamilyDescMinLength),
-        Validators.maxLength(this.inventoryFamilyDescMaxLength)
-      ]),
-      inventoryFamilyCost: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(this.inventoryFamilyCostMaxLength),
-        Validators.pattern(this.priceRegex)
-      ]),
-      inventoryFamilySellingPrice: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(this.inventoryFamilySellingPriceMaxLength),
-        Validators.pattern(this.priceRegex)
-      ]),
-      inventoryFamilyStockQuantity: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(this.inventoryFamilyStockQuantityMaxLength),
-        Validators.pattern(this.numericOnlyRegex)
-      ])
+    this.ngZone.run(() => {
+      this.inventoryFamilyFormGroup = new FormGroup({
+        inventoryFamilyName: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(this.inventoryFamilyNameMaxLength)
+        ]),
+        inventoryFamilyCode: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(this.inventoryFamilyCodeMinLength),
+          Validators.maxLength(this.inventoryFamilyCodeMaxLength)
+          // Validators.pattern(this.alphaNumericOnlyRegex)
+        ]),
+        inventoryFamilySKU: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(this.inventoryFamilySKUMinLength),
+          Validators.maxLength(this.inventoryFamilySKUMaxLength)
+          // Validators.pattern(this.alphaNumericOnlyRegex)
+        ]),
+        inventoryFamilyDescription: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(this.inventoryFamilyDescMinLength),
+          Validators.maxLength(this.inventoryFamilyDescMaxLength)
+        ]),
+        inventoryFamilyCost: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(this.inventoryFamilyCostMaxLength),
+          Validators.pattern(this.priceRegex)
+        ]),
+        inventoryFamilySellingPrice: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(this.inventoryFamilySellingPriceMaxLength),
+          Validators.pattern(this.priceRegex)
+        ]),
+        inventoryFamilyStockQuantity: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(this.inventoryFamilyStockQuantityMaxLength),
+          Validators.pattern(this.numericOnlyRegex)
+        ])
+      });
     });
   }
 

@@ -227,7 +227,6 @@ export class AddInventoryPage implements OnInit, OnDestroy {
     }
 
     retrieveListOfPromotions() {
-        this.loadingService.present();
         this.isLoadingPromotionInfo = true;
         if (this.storePromotionsSubscription) {
             this.storePromotionsSubscription.unsubscribe();
@@ -263,7 +262,6 @@ export class AddInventoryPage implements OnInit, OnDestroy {
     }
 
     retrieveListOfWarranties() {
-        this.loadingService.present();
         this.isLoadingWarrantyInfo = true;
         if (this.storeWarrantySubscription) {
             this.storeWarrantySubscription.unsubscribe();
@@ -299,7 +297,6 @@ export class AddInventoryPage implements OnInit, OnDestroy {
     }
 
     retrieveListOfShippings() {
-        this.loadingService.present();
         this.isLoadingShippingInfo = true;
         if (this.storeShippingSubscription) {
             this.storeShippingSubscription.unsubscribe();

@@ -118,6 +118,8 @@ import {ViewInventoryFamiliesPatternModalPageModule} from '../user-profile/my-st
 import {ViewInventoryFamiliesPatternModalPage} from '../user-profile/my-store/view-inventory-families-pattern-modal/view-inventory-families-pattern-modal.page';
 import {ViewInventoryPatternModalPage} from '../user-profile/my-store/view-inventory-pattern-modal/view-inventory-pattern-modal.page';
 import {ViewInventoryPatternModalPageModule} from '../user-profile/my-store/view-inventory-pattern-modal/view-inventory-pattern-modal.module';
+import {EditInventoryPatternsPageModule} from '../user-profile/my-store/edit-inventory-patterns/edit-inventory-patterns.module';
+import {EditInventoryPatternsPage} from '../user-profile/my-store/edit-inventory-patterns/edit-inventory-patterns.page';
 
 const routes: Routes = [
     {
@@ -208,7 +210,8 @@ const routes: Routes = [
         CreateVideoModalPageModule,
         EditVideoModalPageModule,
         ViewInventoryFamiliesPatternModalPageModule,
-        ViewInventoryPatternModalPageModule
+        ViewInventoryPatternModalPageModule,
+        EditInventoryPatternsPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -258,7 +261,8 @@ const routes: Routes = [
         CreateVideoModalPage,
         EditVideoModalPage,
         ViewInventoryFamiliesPatternModalPage,
-        ViewInventoryPatternModalPage
+        ViewInventoryPatternModalPage,
+        EditInventoryPatternsPage
     ]
 })
 

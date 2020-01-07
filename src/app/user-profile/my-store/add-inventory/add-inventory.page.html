@@ -413,32 +413,41 @@
                                         <tbody>
                                         <tr>
                                             <td style="padding-bottom:0;">
-                                                <ion-row class="ion-align-items-center">
-                                                    <ion-col size="4">
-                                                        <b>Promotion Plan</b>
-                                                    </ion-col>
-                                                    <ion-col size="8">
-                                                        <ionic-selectable
-                                                                [placeholder]="'Select Promotion'"
-                                                                [(ngModel)]="selectedPromotionPlan"
-                                                                [items]="listOfStorePromotions"
-                                                                [hasInfiniteScroll]="true"
-                                                                (onInfiniteScroll)="retrieveMorePromotions($event)"
-                                                                (onSearch)="searchForPromotions($event)"
-                                                                [canSearch]="true"
-                                                                itemValueField="id"
-                                                                itemTextField="name">
-                                                        </ionic-selectable>
-                                                    </ion-col>
-                                                </ion-row>
-                                                <ion-row class="ion-align-items-center"
-                                                         *ngIf="selectedPromotionPlan && selectedPromotionPlan.desc">
-                                                    <ion-col size="12">
-                                                        <div class="alert alert-primary" role="alert" style="margin-bottom:0;">
-                                                            {{selectedPromotionPlan?.desc}}
-                                                        </div>
-                                                    </ion-col>
-                                                </ion-row>
+                                                <ng-container *ngIf="isLoadingPromotionInfo else finishedLoadingPromotionInfo">
+                                                    <ion-row class="ion-align-items-center">
+                                                        <ion-col size="12" style="text-align:center;">
+                                                            <ion-spinner name="crescent"></ion-spinner>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                </ng-container>
+                                                <ng-template #finishedLoadingPromotionInfo>
+                                                    <ion-row class="ion-align-items-center">
+                                                        <ion-col size="4">
+                                                            <b>Promotion Plan</b>
+                                                        </ion-col>
+                                                        <ion-col size="8">
+                                                            <ionic-selectable
+                                                                    [placeholder]="'Select Promotion'"
+                                                                    [(ngModel)]="selectedPromotionPlan"
+                                                                    [items]="listOfStorePromotions"
+                                                                    [hasInfiniteScroll]="true"
+                                                                    (onInfiniteScroll)="retrieveMorePromotions($event)"
+                                                                    (onSearch)="searchForPromotions($event)"
+                                                                    [canSearch]="true"
+                                                                    itemValueField="id"
+                                                                    itemTextField="name">
+                                                            </ionic-selectable>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                    <ion-row class="ion-align-items-center"
+                                                             *ngIf="selectedPromotionPlan && selectedPromotionPlan.desc">
+                                                        <ion-col size="12">
+                                                            <div class="alert alert-primary" role="alert" style="margin-bottom:0;">
+                                                                {{selectedPromotionPlan?.desc}}
+                                                            </div>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                </ng-template>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -454,32 +463,41 @@
                                         <tbody>
                                         <tr>
                                             <td style="padding-bottom:0;">
-                                                <ion-row class="ion-align-items-center">
-                                                    <ion-col size="4">
-                                                        <b>Warranty Plan</b>
-                                                    </ion-col>
-                                                    <ion-col size="8">
-                                                        <ionic-selectable
-                                                                [placeholder]="'Select Warranty'"
-                                                                [(ngModel)]="selectedWarrantyPlan"
-                                                                [items]="listOfStoreWarranties"
-                                                                [hasInfiniteScroll]="true"
-                                                                (onInfiniteScroll)="retrieveMoreWarranties($event)"
-                                                                (onSearch)="searchForWarranties($event)"
-                                                                [canSearch]="true"
-                                                                itemValueField="id"
-                                                                itemTextField="name">
-                                                        </ionic-selectable>
-                                                    </ion-col>
-                                                </ion-row>
-                                                <ion-row class="ion-align-items-center"
-                                                         *ngIf="selectedWarrantyPlan && selectedWarrantyPlan.desc">
-                                                    <ion-col size="12">
-                                                        <div class="alert alert-success" role="alert" style="margin-bottom:0;">
-                                                            {{selectedWarrantyPlan?.desc}}
-                                                        </div>
-                                                    </ion-col>
-                                                </ion-row>
+                                                <ng-container *ngIf="isLoadingWarrantyInfo else finishedLoadingWarrantyInfo">
+                                                    <ion-row class="ion-align-items-center">
+                                                        <ion-col size="12" style="text-align:center;">
+                                                            <ion-spinner name="crescent"></ion-spinner>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                </ng-container>
+                                                <ng-template #finishedLoadingWarrantyInfo>
+                                                    <ion-row class="ion-align-items-center">
+                                                        <ion-col size="4">
+                                                            <b>Warranty Plan</b>
+                                                        </ion-col>
+                                                        <ion-col size="8">
+                                                            <ionic-selectable
+                                                                    [placeholder]="'Select Warranty'"
+                                                                    [(ngModel)]="selectedWarrantyPlan"
+                                                                    [items]="listOfStoreWarranties"
+                                                                    [hasInfiniteScroll]="true"
+                                                                    (onInfiniteScroll)="retrieveMoreWarranties($event)"
+                                                                    (onSearch)="searchForWarranties($event)"
+                                                                    [canSearch]="true"
+                                                                    itemValueField="id"
+                                                                    itemTextField="name">
+                                                            </ionic-selectable>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                    <ion-row class="ion-align-items-center"
+                                                             *ngIf="selectedWarrantyPlan && selectedWarrantyPlan.desc">
+                                                        <ion-col size="12">
+                                                            <div class="alert alert-success" role="alert" style="margin-bottom:0;">
+                                                                {{selectedWarrantyPlan?.desc}}
+                                                            </div>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                </ng-template>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -495,32 +513,41 @@
                                         <tbody>
                                         <tr>
                                             <td style="padding-bottom:0;">
-                                                <ion-row class="ion-align-items-center">
-                                                    <ion-col size="4">
-                                                        <b>Shipping Plan</b>
-                                                    </ion-col>
-                                                    <ion-col size="8">
-                                                        <ionic-selectable
-                                                                [placeholder]="'Select Shipping'"
-                                                                [(ngModel)]="selectedShippingPlan"
-                                                                [items]="listOfStoreShippings"
-                                                                [hasInfiniteScroll]="true"
-                                                                (onInfiniteScroll)="retrieveMoreShippings($event)"
-                                                                (onSearch)="searchForShippings($event)"
-                                                                [canSearch]="true"
-                                                                itemValueField="id"
-                                                                itemTextField="name">
-                                                        </ionic-selectable>
-                                                    </ion-col>
-                                                </ion-row>
-                                                <ion-row class="ion-align-items-center">
-                                                    <ion-col size="12">
-                                                        <div *ngIf="selectedShippingPlan && selectedShippingPlan.desc" class="alert alert-info"
-                                                             role="alert">
-                                                            {{selectedShippingPlan?.desc}}
-                                                        </div>
-                                                    </ion-col>
-                                                </ion-row>
+                                                <ng-container *ngIf="isLoadingShippingInfo else finishedLoadingShippingInfo">
+                                                    <ion-row class="ion-align-items-center">
+                                                        <ion-col size="12" style="text-align:center;">
+                                                            <ion-spinner name="crescent"></ion-spinner>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                </ng-container>
+                                                <ng-template #finishedLoadingShippingInfo>
+                                                    <ion-row class="ion-align-items-center">
+                                                        <ion-col size="4">
+                                                            <b>Shipping Plan</b>
+                                                        </ion-col>
+                                                        <ion-col size="8">
+                                                            <ionic-selectable
+                                                                    [placeholder]="'Select Shipping'"
+                                                                    [(ngModel)]="selectedShippingPlan"
+                                                                    [items]="listOfStoreShippings"
+                                                                    [hasInfiniteScroll]="true"
+                                                                    (onInfiniteScroll)="retrieveMoreShippings($event)"
+                                                                    (onSearch)="searchForShippings($event)"
+                                                                    [canSearch]="true"
+                                                                    itemValueField="id"
+                                                                    itemTextField="name">
+                                                            </ionic-selectable>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                    <ion-row class="ion-align-items-center">
+                                                        <ion-col size="12">
+                                                            <div *ngIf="selectedShippingPlan && selectedShippingPlan.desc" class="alert alert-info"
+                                                                 role="alert">
+                                                                {{selectedShippingPlan?.desc}}
+                                                            </div>
+                                                        </ion-col>
+                                                    </ion-row>
+                                                </ng-template>
                                             </td>
                                         </tr>
                                         </tbody>

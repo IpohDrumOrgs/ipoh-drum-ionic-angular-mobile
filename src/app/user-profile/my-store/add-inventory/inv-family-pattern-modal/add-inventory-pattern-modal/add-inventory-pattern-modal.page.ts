@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, NgZone, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {commonConfig} from '../../../../../_dal/common/commonConfig';
@@ -27,48 +27,51 @@ export class AddInventoryPatternModalPage implements OnInit {
   selectedPatternOnSaleToggle = true;
 
   // Numbers
-  inventoryPatternNameMaxLength = 50;
-  inventoryPatternDescMinLength = 5;
-  inventoryPatternDescMaxLength = 50;
-  inventoryPatternCostMaxLength = 10;
-  inventoryPatternSellingPriceMaxLength = 10;
-  inventoryPatternStockQuantityMaxLength = 3;
+  inventoryPatternNameMaxLength = commonConfig.inventoryPatternNameMaxLength;
+  inventoryPatternDescMinLength = commonConfig.inventoryPatternDescMinLength;
+  inventoryPatternDescMaxLength = commonConfig.inventoryPatternDescMaxLength;
+  inventoryPatternCostMaxLength = commonConfig.inventoryPatternCostMaxLength;
+  inventoryPatternSellingPriceMaxLength = commonConfig.inventoryPatternSellingPriceMaxLength;
+  inventoryPatternStockQuantityMaxLength = commonConfig.inventoryPatternStockQuantityMaxLength;
 
   // FormGroups
   inventoryPatternFormGroup: FormGroup;
 
   constructor(
+      private ngZone: NgZone,
       private modalController: ModalController
   ) {
     console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {
-    this.inventoryPatternFormGroup = new FormGroup({
-      inventoryPatternName: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(this.inventoryPatternNameMaxLength)
-      ]),
-      inventoryPatternDescription: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(this.inventoryPatternDescMinLength),
-        Validators.maxLength(this.inventoryPatternDescMaxLength)
-      ]),
-      inventoryPatternCost: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(this.inventoryPatternCostMaxLength),
-        Validators.pattern(this.priceRegex)
-      ]),
-      inventoryPatternSellingPrice: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(this.inventoryPatternSellingPriceMaxLength),
-        Validators.pattern(this.priceRegex)
-      ]),
-      inventoryPatternStockQuantity: new FormControl(null, [
-        Validators.required,
-        Validators.maxLength(this.inventoryPatternStockQuantityMaxLength),
-        Validators.pattern(this.numericOnlyRegex)
-      ])
+    this.ngZone.run(() => {
+      this.inventoryPatternFormGroup = new FormGroup({
+        inventoryPatternName: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(this.inventoryPatternNameMaxLength)
+        ]),
+        inventoryPatternDescription: new FormControl(null, [
+          Validators.required,
+          Validators.minLength(this.inventoryPatternDescMinLength),
+          Validators.maxLength(this.inventoryPatternDescMaxLength)
+        ]),
+        inventoryPatternCost: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(this.inventoryPatternCostMaxLength),
+          Validators.pattern(this.priceRegex)
+        ]),
+        inventoryPatternSellingPrice: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(this.inventoryPatternSellingPriceMaxLength),
+          Validators.pattern(this.priceRegex)
+        ]),
+        inventoryPatternStockQuantity: new FormControl(null, [
+          Validators.required,
+          Validators.maxLength(this.inventoryPatternStockQuantityMaxLength),
+          Validators.pattern(this.numericOnlyRegex)
+        ])
+      });
     });
   }
 
