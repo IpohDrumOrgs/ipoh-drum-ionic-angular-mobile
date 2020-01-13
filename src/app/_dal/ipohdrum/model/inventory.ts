@@ -37,6 +37,9 @@ export interface Inventory {
     price?: number;
     qty?: number;
     promoendqty?: number;
+    promopctg?: number;
+    promoprice?: string;
+    totalproductreview?: number;
     salesqty?: number;
     stockthreshold?: number;
     status?: number;

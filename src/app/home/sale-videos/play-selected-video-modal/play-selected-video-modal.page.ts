@@ -87,6 +87,7 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
         this.getVideoByIdSubscription = this.videoControllerService.getPublicVideoByUid(
             this.publicVideoUid
         ).subscribe(resp => {
+            console.log('get video by id');
             console.log(resp);
             if (resp.code === 200) {
                 this.selectedPublicVideo = resp.data;

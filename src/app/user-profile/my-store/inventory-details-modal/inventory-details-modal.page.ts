@@ -309,6 +309,7 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
 
   updateInventory() {
     console.log(this.selectedInventory);
+    console.log(this.selectedInventory.inventoryfamilies);
     if (this.inventoryInfoFormGroup.valid
         && this.selectedInventory.inventoryfamilies.length > 0) {
       this.loadingService.present();

@@ -11,12 +11,16 @@ import {commonConfig} from '../_dal/common/commonConfig';
 
 export class ShoppingCartPage implements OnInit {
 
+  // Strings
   constructorName = '[' + this.constructor.name + ']';
 
+  // Numbers
   nullSelectedInventoryPatternId = commonConfig.nullSelectedInventoryPatternId;
 
+  // Arrays
   listOfInventoriesInCart: Array<any> = [];
 
+  // Subscriptions
   inventoriesInCartSubscription: any;
 
   constructor(
@@ -37,6 +41,16 @@ export class ShoppingCartPage implements OnInit {
   }
 
   clearShoppingCart() {
+    this.globalFunctionService.presentAlertConfirm(
+        'Clear Cart',
+        'Are you sure you want to clear your shopping cart?',
+        'Cancel',
+        'Yes',
+        undefined,
+        () => this.actuallyClearShoppingCart());
+  }
+
+  actuallyClearShoppingCart() {
     this.sharedService.clearShoppingCart();
   }
 

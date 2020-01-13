@@ -4,7 +4,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { MyStorePage } from './my-store.page';
-import {NgSelect2Module} from 'ng-select2';
 
 const routes: Routes = [
   {
@@ -19,7 +18,6 @@ const routes: Routes = [
         FormsModule,
         IonicModule,
         RouterModule.forChild(routes),
-        NgSelect2Module,
         ReactiveFormsModule,
     ],
   declarations: [

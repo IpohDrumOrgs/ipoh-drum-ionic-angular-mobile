@@ -93,6 +93,7 @@ import {MainBlogManagementModalPageModule} from '../user-profile/my-blog/main-bl
 import {ArticleManagementModalPageModule} from '../user-profile/my-blog/article-management-modal/article-management-modal.module';
 import {ArticleManagementModalPage} from '../user-profile/my-blog/article-management-modal/article-management-modal.page';
 import {CreateArticleModalPage} from '../user-profile/my-blog/article-management-modal/create-article-modal/create-article-modal.page';
+// tslint:disable-next-line:max-line-length
 import {CreateArticleModalPageModule} from '../user-profile/my-blog/article-management-modal/create-article-modal/create-article-modal.module';
 import {ViewArticleModalPage} from '../user-profile/my-blog/article-management-modal/view-article-modal/view-article-modal.page';
 import {ViewArticleModalPageModule} from '../user-profile/my-blog/article-management-modal/view-article-modal/view-article-modal.module';
@@ -100,6 +101,7 @@ import {EditArticleModalPageModule} from '../user-profile/my-blog/article-manage
 import {EditArticleModalPage} from '../user-profile/my-blog/article-management-modal/edit-article-modal/edit-article-modal.page';
 import {AddChannelModalPage} from '../user-profile/my-channel/add-channel-modal/add-channel-modal.page';
 import {AddChannelModalPageModule} from '../user-profile/my-channel/add-channel-modal/add-channel-modal.module';
+// tslint:disable-next-line:max-line-length
 import {MainChannelManagementModalPageModule} from '../user-profile/my-channel/main-channel-management-modal/main-channel-management-modal.module';
 import {MainChannelManagementModalPage} from '../user-profile/my-channel/main-channel-management-modal/main-channel-management-modal.page';
 import {ViewChannelModalPage} from '../user-profile/my-channel/view-channel-modal/view-channel-modal.page';
@@ -114,9 +116,12 @@ import {CreateVideoModalPage} from '../user-profile/my-channel/video-management-
 import {CreateVideoModalPageModule} from '../user-profile/my-channel/video-management-modal/create-video-modal/create-video-modal.module';
 import {EditVideoModalPageModule} from '../user-profile/my-channel/video-management-modal/edit-video-modal/edit-video-modal.module';
 import {EditVideoModalPage} from '../user-profile/my-channel/video-management-modal/edit-video-modal/edit-video-modal.page';
+// tslint:disable-next-line:max-line-length
 import {ViewInventoryFamiliesPatternModalPageModule} from '../user-profile/my-store/view-inventory-families-pattern-modal/view-inventory-families-pattern-modal.module';
+// tslint:disable-next-line:max-line-length
 import {ViewInventoryFamiliesPatternModalPage} from '../user-profile/my-store/view-inventory-families-pattern-modal/view-inventory-families-pattern-modal.page';
 import {ViewInventoryPatternModalPage} from '../user-profile/my-store/view-inventory-pattern-modal/view-inventory-pattern-modal.page';
+// tslint:disable-next-line:max-line-length
 import {ViewInventoryPatternModalPageModule} from '../user-profile/my-store/view-inventory-pattern-modal/view-inventory-pattern-modal.module';
 import {EditInventoryPatternsPageModule} from '../user-profile/my-store/edit-inventory-patterns/edit-inventory-patterns.module';
 import {EditInventoryPatternsPage} from '../user-profile/my-store/edit-inventory-patterns/edit-inventory-patterns.page';

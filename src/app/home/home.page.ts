@@ -20,7 +20,6 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   selectedTab(tab: string) {
@@ -28,11 +27,11 @@ export class HomePage implements OnInit {
     this.isShowingVideosTab = tab === 'videos';
   }
 
-  ionViewDidLeave() {
+/*  ionViewDidLeave() {
     console.log(this.constructorName + 'left view');
   }
 
   ionViewDidEnter() {
     console.log(this.constructorName + 'entered view');
-  }
+  }*/
 }

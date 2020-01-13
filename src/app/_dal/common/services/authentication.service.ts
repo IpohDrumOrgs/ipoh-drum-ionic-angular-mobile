@@ -58,12 +58,12 @@ export class AuthenticationService {
         this.laravelPassport.loginWithEmailAndPassword(data.email, data.password).subscribe(res => {
             localStorage.setItem('access_token', res.access_token);
             this.storage.set('access_token', res.access_token);
-            this.loadingService.dismiss();
             this.globalFunctionService.simpleToast('SUCCESS!', 'You are logged in!', 'primary');
             this.router.navigate(['/ipoh-drum/home']);
-        }, err => {
             this.loadingService.dismiss();
+        }, err => {
             this.globalFunctionService.simpleToast('WARNING!', 'Email and Password mismatched!', 'danger');
+            this.loadingService.dismiss();
         });
     }
 

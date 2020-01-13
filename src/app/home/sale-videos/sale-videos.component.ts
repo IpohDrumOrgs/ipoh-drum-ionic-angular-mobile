@@ -80,7 +80,6 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
             this.currentPageNumber,
             this.currentPageSize
         ).subscribe(resp => {
-            console.log(resp.data);
             if (resp.code === 200) {
                 this.listOfPublicVideos = resp.data;
                 this.maximumPages = resp.maximumPages;

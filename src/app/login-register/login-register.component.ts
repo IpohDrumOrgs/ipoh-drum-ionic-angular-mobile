@@ -1,10 +1,11 @@
-import {Component, OnInit, NgZone} from '@angular/core';
+import {Component, OnInit, NgZone, OnDestroy} from '@angular/core';
 import {AuthenticationService} from '../_dal/common/services/authentication.service';
 import {User, UserControllerServiceService} from '../_dal/ipohdrum';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {commonConfig} from '../_dal/common/commonConfig';
 import {NavController} from '@ionic/angular';
 import {GlobalfunctionService} from '../_dal/common/services/globalfunction.service';
+import {LoadingService} from '../_dal/common/services/loading.service';
 
 @Component({
     selector: 'app-login-register',
@@ -12,7 +13,7 @@ import {GlobalfunctionService} from '../_dal/common/services/globalfunction.serv
     styleUrls: ['./login-register.component.scss'],
 })
 
-export class LoginRegisterComponent implements OnInit {
+export class LoginRegisterComponent implements OnInit, OnDestroy {
 
     constructorName = '[' + this.constructor.name + ']';
     userEmailLogin: string;
@@ -44,7 +45,7 @@ export class LoginRegisterComponent implements OnInit {
         private ngZone: NgZone,
         private globalFunctionService: GlobalfunctionService,
         private userControllerService: UserControllerServiceService,
-        private navController: NavController
+        private loadingService: LoadingService
     ) {
         console.log(this.constructorName + 'Initializing component');
     }
@@ -86,16 +87,20 @@ export class LoginRegisterComponent implements OnInit {
         });
     }
 
+    ngOnDestroy() {
+        this.ngZone.run(() => {
+            if (this.userRegisterSubscription) {
+                this.userRegisterSubscription.unsubscribe();
+            }
+        });
+    }
+
     ionViewWillEnter() {
         this.userLoginFormGroup.reset();
         this.userRegisterFormGroup.reset();
         this.userToLogin = {} as User;
         this.userToRegister = {} as User;
         this.changeToUserLoginCard();
-        if (this.authenticationService.isUserLoggedIn()) {
-            this.globalFunctionService.simpleToast(undefined, 'Logged in! Navigating to Home page..', 'primary');
-            this.navController.navigateRoot('/ipoh-drum/home');
-        }
     }
 
     ionViewDidLeave() {
@@ -105,31 +110,33 @@ export class LoginRegisterComponent implements OnInit {
     }
 
     loginUser() {
-        this.ngZone.run(() => {
-            this.userToLogin.email = this.userEmailLogin;
-            this.userToLogin.password = this.userPasswordLogin;
-            this.authenticationService.login(this.userToLogin);
-        });
+        this.userToLogin.email = this.userEmailLogin;
+        this.userToLogin.password = this.userPasswordLogin;
+        this.authenticationService.login(this.userToLogin);
     }
 
     registerUser() {
-        this.ngZone.run(() => {
-            this.userRegisterSubscription = this.userControllerService.createUserWithoutAuthorization(
-                this.userToRegister.name,
-                this.userToRegister.email,
-                this.passwordRegister,
-                this.confirmPasswordRegister
-            ).subscribe(resp => {
-                if (resp.code === 200) {
-                    this.globalFunctionService.simpleToast('SUCCESS!', 'You are registered.', 'success');
-                    this.userToRegister.password = this.passwordRegister;
-                    this.authenticationService.login(this.userToRegister);
-                } else {
-                    this.globalFunctionService.simpleToast('ERROR!', this.apiErrorMessage, 'danger');
-                }
-            }, error => {
+        this.loadingService.present();
+        if (this.userRegisterSubscription) {
+            this.userRegisterSubscription.unsubscribe();
+        }
+        this.userRegisterSubscription = this.userControllerService.createUserWithoutAuthorization(
+            this.userToRegister.name,
+            this.userToRegister.email,
+            this.passwordRegister,
+            this.confirmPasswordRegister
+        ).subscribe(resp => {
+            if (resp.code === 200) {
+                this.globalFunctionService.simpleToast('SUCCESS!', 'You are registered.', 'success');
+                this.userToRegister.password = this.passwordRegister;
+                this.authenticationService.login(this.userToRegister);
+            } else {
                 this.globalFunctionService.simpleToast('ERROR!', this.apiErrorMessage, 'danger');
-            });
+            }
+            this.loadingService.dismiss();
+        }, error => {
+            this.globalFunctionService.simpleToast('ERROR!', this.apiErrorMessage, 'danger');
+            this.loadingService.dismiss();
         });
     }
 

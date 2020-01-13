@@ -25,6 +25,7 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
 
   // Booleans
   isLoadingSelectedArticleByUid = true;
+  isLoadingCommentsBySelectedArticle = true;
 
   // Objects
   selectedPublicArticle: Article;
@@ -108,6 +109,7 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
   }
 
   retrieveListOfCommentsByArticle() {
+    this.isLoadingCommentsBySelectedArticle = true;
     if (this.getListOfCommentsByArticleSubscription) {
       this.getListOfCommentsByArticleSubscription.unsubscribe();
     }
@@ -127,15 +129,18 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
         this.totalResult = 0;
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Comments, please revisit the page later.', 'warning');
       }
+      this.isLoadingCommentsBySelectedArticle = false;
     }, error => {
       console.log('API Error while retrieving list of comments by Article');
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Comments, please revisit the page later.', 'warning');
+      this.isLoadingCommentsBySelectedArticle = false;
     });
   }
 
   loadMoreComments(event) {
     this.referInfiniteScroll = event;
     if (this.selectedPublicArticle.commentcount > 0) {
+      console.log('got comment count');
       setTimeout(() => {
         if (this.maximumPages > this.currentPageNumber) {
           this.currentPageNumber++;
