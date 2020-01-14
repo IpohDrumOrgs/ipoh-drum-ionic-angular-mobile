@@ -27,7 +27,7 @@ import { Configuration }                                     from '../configurat
 })
 export class VerificationCodeControllerServiceService {
 
-    protected basePath = 'http://localhost:8000';
+    protected basePath = 'http://172.104.45.205';
     public defaultHeaders = new HttpHeaders();
     public configuration = new Configuration();
     public encoder: HttpParameterCodec;
