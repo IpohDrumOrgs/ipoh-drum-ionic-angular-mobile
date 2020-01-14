@@ -49,6 +49,8 @@ export class ShopPage implements OnInit, OnDestroy {
             title: 'Kitty'
         }
     ];
+    // Objects
+    referInfiniteScroll: any;
 
     // Subscriptions
     inventorySubscription: any;
@@ -144,10 +146,10 @@ export class ShopPage implements OnInit, OnDestroy {
             1,
             6
         ).subscribe(resp => {
-            console.log(resp);
+            // console.log(resp);
             if (resp.code === 200) {
                 this.listOfProducts.push(resp.data);
-                console.log(this.listOfProducts);
+                // console.log(this.listOfProducts);
             } else {
                 this.listOfProducts.push(null);
             }
@@ -182,6 +184,16 @@ export class ShopPage implements OnInit, OnDestroy {
             this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of Inventories, please try again later.', 'warning', 'top');
             this.router.navigate(['/ipoh-drum/home']);
         });
+    }
+
+    ionRefresh(event) {
+        if (this.referInfiniteScroll) {
+            this.referInfiniteScroll.target.disabled = false;
+        }
+        this.getListOfProductFeatures();
+        setTimeout(() => {
+            event.target.complete();
+        }, 500);
     }
 
 /*    // TODO
