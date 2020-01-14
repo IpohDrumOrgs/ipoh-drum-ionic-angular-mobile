@@ -16,25 +16,31 @@ import {NavController} from '@ionic/angular';
 
 export class MyProfilePage implements OnInit, OnDestroy {
 
+  // Strings
   constructorName = '[' + this.constructor.name + ']';
   userNameRegex = commonConfig.userNameRegex;
   icNoRegex = commonConfig.icNoRegex;
   phoneNumberRegex = commonConfig.phoneNumberRegex;
   apiErrorMessage = commonConfig.apiErrorMessage;
 
+  // Numbers
   minLengthOfUsername = commonConfig.minLengthOfUsername;
   maxLengthOfUsername = commonConfig.maxLengthOfUsername;
   minLengthOfIc = commonConfig.minLengthOfIc;
   minLengthOfPhoneNumber = commonConfig.minLengthOfPhoneNumber;
   maxLengthOfPhoneNumber = commonConfig.maxLengthOfPhoneNumber;
 
+  // Booleans
   editUserInformationPanelMode = false;
 
+  // Objects
   loggedInUser: User;
   editingUserInformation: User;
 
+  // FormGroups
   editingUserFormGroup: FormGroup;
 
+  // Subscriptions
   updateUserInfoSubscription: any;
 
   constructor(
@@ -50,7 +56,6 @@ export class MyProfilePage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log(this.constructorName + 'ngOnInit');
     this.ngZone.run(() => {
       this.editingUserFormGroup = new FormGroup({
         userNameFc: new FormControl(null, [
@@ -87,7 +92,7 @@ export class MyProfilePage implements OnInit, OnDestroy {
     console.log(this.constructorName + 'ngOnDestroy');
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     console.log(this.constructorName + 'IonViewDidEnter');
     if (this.editUserInformationPanelMode) {
       this.enableEditingUser();
@@ -99,11 +104,15 @@ export class MyProfilePage implements OnInit, OnDestroy {
   }
 
   enableEditingUser() {
-    this.editUserInformationPanelMode = !this.editUserInformationPanelMode;
-    if (this.editUserInformationPanelMode) {
-      this.editingUserFormGroup.reset();
-      this.editingUserInformation = Object.assign({}, this.loggedInUser);
-    }
+    this.loadingService.present();
+    setTimeout(() => {
+      this.editUserInformationPanelMode = !this.editUserInformationPanelMode;
+      if (this.editUserInformationPanelMode) {
+        this.editingUserFormGroup.reset();
+        this.editingUserInformation = Object.assign({}, this.loggedInUser);
+      }
+      this.loadingService.dismiss();
+    }, 500);
   }
 
   initializeUserInfo() {
@@ -128,41 +137,35 @@ export class MyProfilePage implements OnInit, OnDestroy {
   }
 
   updateUserInfo() {
-    // TODO: Add last_updated date here
     this.ngZone.run(() => {
       this.loadingService.present();
-      this.updateUserInfoSubscription = this.userControllerServicesService.updateUserByUid(
-          this.editingUserInformation.uid.toString(),
-          this.editingUserInformation.name,
-          this.editingUserInformation.email,
-          this.editingUserInformation.country,
-          this.editingUserInformation.tel1,
-          this.editingUserInformation.address1,
-          this.editingUserInformation.city,
-          this.editingUserInformation.postcode,
-          this.editingUserInformation.state,
-          this.editingUserInformation.icno
-      ).subscribe(resp => {
-        if (resp.code === 200) {
-          this.initializeUserInfo();
-          this.enableEditingUser();
-          this.globalFunctionService.simpleToast('SUCCESS!', 'Your profile has been updated.', 'success');
-        } else {
-          this.globalFunctionService.simpleToast('ERROR!', 'Updated failed, please try again later.', 'danger');
-        }
-      }, error => {
-        this.globalFunctionService.simpleToast('ERROR!', this.apiErrorMessage, 'dark');
-        this.loadingService.dismiss();
-      }, () => {
-        this.loadingService.dismiss();
-      });
+      setTimeout(() => {
+        this.updateUserInfoSubscription = this.userControllerServicesService.updateUserByUid(
+            this.editingUserInformation.uid.toString(),
+            this.editingUserInformation.name,
+            this.editingUserInformation.email,
+            this.editingUserInformation.country,
+            this.editingUserInformation.tel1,
+            this.editingUserInformation.address1,
+            this.editingUserInformation.city,
+            this.editingUserInformation.postcode,
+            this.editingUserInformation.state,
+            this.editingUserInformation.icno
+        ).subscribe(resp => {
+          if (resp.code === 200) {
+            this.initializeUserInfo();
+            this.enableEditingUser();
+            this.globalFunctionService.simpleToast('SUCCESS!', 'Your profile has been updated.', 'success');
+          } else {
+            this.globalFunctionService.simpleToast('WARNING!', 'Updated to update profile, please try again later!', 'danger');
+          }
+          this.loadingService.dismiss();
+        }, error => {
+          this.globalFunctionService.simpleToast('WARNING!', 'Updated to update profile, please try again later!', 'danger');
+          this.loadingService.dismiss();
+        });
+      }, 500);
     });
-  }
-
-  logoutUser() {
-    this.authenticationService.logoutUser();
-    this.globalFunctionService.simpleToast('SUCCESS!', 'You have been logged out.', 'primary');
-    this.navController.navigateRoot('/login');
   }
 }
 

@@ -3,9 +3,9 @@ import {AuthenticationService} from '../_dal/common/services/authentication.serv
 import {User, UserControllerServiceService} from '../_dal/ipohdrum';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {commonConfig} from '../_dal/common/commonConfig';
-import {NavController} from '@ionic/angular';
 import {GlobalfunctionService} from '../_dal/common/services/globalfunction.service';
 import {LoadingService} from '../_dal/common/services/loading.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-login-register',
@@ -41,6 +41,7 @@ export class LoginRegisterComponent implements OnInit, OnDestroy {
     userRegisterSubscription: any;
 
     constructor(
+        private router: Router,
         private authenticationService: AuthenticationService,
         private ngZone: NgZone,
         private globalFunctionService: GlobalfunctionService,
@@ -141,11 +142,19 @@ export class LoginRegisterComponent implements OnInit, OnDestroy {
     }
 
     changeToUserRegistrationCard() {
-        this.showHideLoginAndRegisterCards(false, true);
+        this.loadingService.present();
+        setTimeout(() => {
+            this.showHideLoginAndRegisterCards(false, true);
+            this.loadingService.dismiss();
+        }, 500);
     }
 
     changeToUserLoginCard() {
-        this.showHideLoginAndRegisterCards(true, false);
+        this.loadingService.present();
+        setTimeout(() => {
+            this.showHideLoginAndRegisterCards(true, false);
+            this.loadingService.dismiss();
+        }, 500);
     }
 
     showHideLoginAndRegisterCards(loginFlag: boolean, registerFlag: boolean) {
@@ -153,5 +162,15 @@ export class LoginRegisterComponent implements OnInit, OnDestroy {
         this.showRegisterCard = registerFlag;
         this.userLoginFormGroup.reset();
         this.userRegisterFormGroup.reset();
+    }
+
+    navigateToHomePage() {
+        this.loadingService.present();
+        setTimeout(() => {
+            this.router.navigate(['ipoh-drum/home']).catch(reason => {
+               console.log('Unable to navigate to Home page.');
+            });
+            this.loadingService.dismiss();
+        }, 500);
     }
 }

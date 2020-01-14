@@ -1,10 +1,10 @@
 <ion-content>
-  <ion-card class="backgroundColor">
+  <ion-card>
     <ion-row>
       <ion-col size="12">
         <ion-row>
-          <ion-col size="12">
-            <ion-searchbar [placeholder]="'Search..'"></ion-searchbar>
+          <ion-col size="12" style="padding:0;">
+            <ion-searchbar style="padding:5px;" [placeholder]="'Search..'"></ion-searchbar>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -120,12 +120,12 @@
             <ion-col size="12">
               <ion-row class="ion-align-items-center">
                 <ion-col size="6">
-              <span style="text-align:left;font-size:20px;color:white;white-space:normal;word-wrap:break-word;">
-                <b>{{productFeatures?.name}}</b>
-              </span>
+                  <span style="text-align:left;font-size:20px;white-space:normal;word-wrap:break-word;">
+                    <b>{{productFeatures?.name}}</b>
+                  </span>
                 </ion-col>
-                <ion-col size="6" style="text-align:right;color:white;">
-                  <ion-button fill="clear" (click)="showMore(productFeatures.uid)" style="color:white;">
+                <ion-col size="6" style="text-align:right;">
+                  <ion-button fill="clear" (click)="showMore(productFeatures.uid)">
                     Show More&nbsp;<ion-icon name="arrow-forward"></ion-icon>
                   </ion-button>
                 </ion-col>

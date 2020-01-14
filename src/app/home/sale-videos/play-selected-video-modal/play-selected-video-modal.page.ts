@@ -53,7 +53,7 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
     ngOnInit() {
         this.ngZone.run(() => {
             this.retrieveSelectedPublicVideoByUid();
-            this.retrieveListOfCommentsBySelectedVideo();
+            // this.retrieveListOfCommentsBySelectedVideo();
         });
     }
 
@@ -106,7 +106,7 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
         });
     }
 
-    retrieveListOfCommentsBySelectedVideo() {
+/*    retrieveListOfCommentsBySelectedVideo() {
         if (this.getListOfCommentsBySelectedVideoSubscription) {
             this.getListOfCommentsBySelectedVideoSubscription.unsubscribe();
         }
@@ -130,7 +130,7 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
             console.log(error);
             this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Comments, please revisit the page later.', 'warning');
         });
-    }
+    }*/
 
     closePlaySelectedVideoModal() {
         this.modalController.dismiss();

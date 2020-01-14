@@ -73,6 +73,7 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
   }
 
   retrieveListOfShippingsByStoreUid() {
+    console.log('list of ship');
     this.loadingService.present();
     if (this.getListOfShippingsByStoreUidSubscription) {
       this.getListOfShippingsByStoreUidSubscription.unsubscribe();
@@ -82,6 +83,7 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
         this.currentPageNumber,
         this.currentPageSize
     ).subscribe(resp => {
+      console.log(resp);
       if (resp.code === 200) {
         this.listOfShippingsByStoreUid = resp.data;
       } else {

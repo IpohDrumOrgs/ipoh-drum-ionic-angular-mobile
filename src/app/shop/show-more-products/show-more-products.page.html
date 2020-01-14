@@ -6,6 +6,9 @@
           <ion-icon (click)="backToShopPage()" name="arrow-back" style="font-size:25px;" *ngIf="!isLoadingListOfInventoriesByProductFeatureUid"></ion-icon>
           <ion-spinner name="crescent" *ngIf="isLoadingListOfInventoriesByProductFeatureUid"></ion-spinner>
         </ion-col>
+        <ion-col size="10" style="text-align:left;white-space:normal;word-wrap:break-word;padding:0;font-weight:bold;">
+          {{productFeatureTitle}}
+        </ion-col>
       </ion-row>
     </ion-title>
   </ion-toolbar>

@@ -62,79 +62,42 @@ export class PaymentControllerServiceService {
 
     /**
      * Creates a payment.
-     * @param name Paymentname
-     * @param store_id Store ID
-     * @param paymentfamilies Payment Families
-     * @param cost Product Cost
-     * @param price Product Base Price
-     * @param product_promotion_id Promotion ID
-     * @param warranty_id Warranty ID
-     * @param shipping_id Shipping ID
-     * @param code Code
-     * @param sku Sku
-     * @param desc Product Description
-     * @param stockthreshold Stock Threshold
-     * @param img Image
-     * @param sliders Sliders Image
+     * @param token Stripe token
+     * @param email Email
+     * @param contact Contact Person
+     * @param selectedstores Involved Store
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createPayment(name: string, store_id: number, paymentfamilies: string, cost: number, price: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createPayment(name: string, store_id: number, paymentfamilies: string, cost: number, price: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createPayment(name: string, store_id: number, paymentfamilies: string, cost: number, price: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createPayment(name: string, store_id: number, paymentfamilies: string, cost: number, price: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, img?: Array<Blob>, sliders?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling createPayment.');
+    public createPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createPayment(token: string, email: string, contact: string, selectedstores: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (token === null || token === undefined) {
+            throw new Error('Required parameter token was null or undefined when calling createPayment.');
         }
-        if (store_id === null || store_id === undefined) {
-            throw new Error('Required parameter store_id was null or undefined when calling createPayment.');
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling createPayment.');
         }
-        if (paymentfamilies === null || paymentfamilies === undefined) {
-            throw new Error('Required parameter paymentfamilies was null or undefined when calling createPayment.');
+        if (contact === null || contact === undefined) {
+            throw new Error('Required parameter contact was null or undefined when calling createPayment.');
         }
-        if (cost === null || cost === undefined) {
-            throw new Error('Required parameter cost was null or undefined when calling createPayment.');
-        }
-        if (price === null || price === undefined) {
-            throw new Error('Required parameter price was null or undefined when calling createPayment.');
+        if (selectedstores === null || selectedstores === undefined) {
+            throw new Error('Required parameter selectedstores was null or undefined when calling createPayment.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
+        if (token !== undefined && token !== null) {
+            queryParameters = queryParameters.set('token', <any>token);
         }
-        if (store_id !== undefined && store_id !== null) {
-            queryParameters = queryParameters.set('store_id', <any>store_id);
+        if (email !== undefined && email !== null) {
+            queryParameters = queryParameters.set('email', <any>email);
         }
-        if (product_promotion_id !== undefined && product_promotion_id !== null) {
-            queryParameters = queryParameters.set('product_promotion_id', <any>product_promotion_id);
+        if (contact !== undefined && contact !== null) {
+            queryParameters = queryParameters.set('contact', <any>contact);
         }
-        if (warranty_id !== undefined && warranty_id !== null) {
-            queryParameters = queryParameters.set('warranty_id', <any>warranty_id);
-        }
-        if (shipping_id !== undefined && shipping_id !== null) {
-            queryParameters = queryParameters.set('shipping_id', <any>shipping_id);
-        }
-        if (paymentfamilies !== undefined && paymentfamilies !== null) {
-            queryParameters = queryParameters.set('paymentfamilies', <any>paymentfamilies);
-        }
-        if (code !== undefined && code !== null) {
-            queryParameters = queryParameters.set('code', <any>code);
-        }
-        if (sku !== undefined && sku !== null) {
-            queryParameters = queryParameters.set('sku', <any>sku);
-        }
-        if (desc !== undefined && desc !== null) {
-            queryParameters = queryParameters.set('desc', <any>desc);
-        }
-        if (cost !== undefined && cost !== null) {
-            queryParameters = queryParameters.set('cost', <any>cost);
-        }
-        if (price !== undefined && price !== null) {
-            queryParameters = queryParameters.set('price', <any>price);
-        }
-        if (stockthreshold !== undefined && stockthreshold !== null) {
-            queryParameters = queryParameters.set('stockthreshold', <any>stockthreshold);
+        if (selectedstores !== undefined && selectedstores !== null) {
+            queryParameters = queryParameters.set('selectedstores', <any>selectedstores);
         }
 
         let headers = this.defaultHeaders;
@@ -147,49 +110,9 @@ export class PaymentControllerServiceService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'multipart/form-data'
-        ];
-
-        const canConsumeForm = this.canConsumeForm(consumes);
-
-        let formParams: { append(param: string, value: any): any; };
-        let useForm = false;
-        let convertFormParamsToString = false;
-        // use FormData to transmit files using content-type "multipart/form-data"
-        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
-        useForm = canConsumeForm;
-        // use FormData to transmit files using content-type "multipart/form-data"
-        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
-        useForm = canConsumeForm;
-        if (useForm) {
-            formParams = new FormData();
-        } else {
-            formParams = new HttpParams({encoder: this.encoder});
-        }
-
-        if (img) {
-            if (useForm) {
-                img.forEach((element) => {
-                    formParams = formParams.append('img', <any>element) as any || formParams;
-            })
-            } else {
-                formParams = formParams.append('img', img.join(COLLECTION_FORMATS['csv'])) as any || formParams;
-            }
-        }
-        if (sliders) {
-            if (useForm) {
-                sliders.forEach((element) => {
-                    formParams = formParams.append('sliders[]', <any>element) as any || formParams;
-            })
-            } else {
-                formParams = formParams.append('sliders[]', sliders.join(COLLECTION_FORMATS['csv'])) as any || formParams;
-            }
-        }
 
         return this.httpClient.post<any>(`${this.configuration.basePath}/api/payment`,
-            convertFormParamsToString ? formParams.toString() : formParams,
+            null,
             {
                 params: queryParameters,
                 withCredentials: this.configuration.withCredentials,

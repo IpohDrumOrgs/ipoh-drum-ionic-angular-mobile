@@ -37,11 +37,17 @@
           </h4>
           <ion-row class="ion-align-items-center ion-justify-content-center">
             <ion-col size="6" *ngFor="let shipping of listOfShippingsByStoreUid" style="text-align:center;">
-              <ion-button fill="outline" (click)="openEditShippingModal(shipping.uid, !!shipping.store_id)"
-                          style="width:100%;white-space:normal;word-wrap:break-word;"
-                          [color]="shipping.store_id ? 'primary' : 'warning'">
-                {{shipping?.name}}
-              </ion-button>
+              <ion-card (click)="openEditShippingModal(shipping.uid, !!shipping.store_id)">
+                <ion-card-header>
+                  <ion-label [color]="shipping.store_id ? 'primary' : 'warning'"
+                             style="white-space:normal;word-wrap:break-word;text-align:left;font-weight:bold;">
+                    {{shipping?.name}}
+                  </ion-label>
+                </ion-card-header>
+                <ion-card-content>
+                  <b>{{shipping?.price | myCurrency}}</b>
+                </ion-card-content>
+              </ion-card>
             </ion-col>
             <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreShippings($event)">
               <ion-infinite-scroll-content

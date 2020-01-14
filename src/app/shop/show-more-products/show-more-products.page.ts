@@ -18,6 +18,7 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
   // Strings
   constructorName = '[' + this.constructor.name + ']';
   productFeatureUid: string;
+  productFeatureTitle: string;
 
   // Numbers
   currentPageNumber = 1;
@@ -36,6 +37,7 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
 
   // Subscriptions
   getListOfProductsByProductFeatureUidSubscription: any;
+  getProductFeatureTitleSubscription: any;
   appendListOfProductsByProductFeatureUidSubscription: any;
 
   constructor(
@@ -53,7 +55,11 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.ngZone.run(() => {
-      this.retrieveListOfInventoriesByProductFeatureUid();
+      this.route.params.subscribe(params => {
+        this.productFeatureUid = params.uid;
+        this.retrieveListOfInventoriesByProductFeatureUid();
+        this.retrieveProductFeatureTitle();
+      });
     });
   }
 
@@ -70,36 +76,56 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
       if (this.getListOfProductsByProductFeatureUidSubscription) {
         this.getListOfProductsByProductFeatureUidSubscription.unsubscribe();
       }
+      if (this.getProductFeatureTitleSubscription) {
+        this.getProductFeatureTitleSubscription.unsubscribe();
+      }
+      if (this.appendListOfProductsByProductFeatureUidSubscription) {
+        this.appendListOfProductsByProductFeatureUidSubscription.unsubscribe();
+      }
     });
   }
 
   retrieveListOfInventoriesByProductFeatureUid() {
     this.isLoadingListOfInventoriesByProductFeatureUid = true;
-    this.route.params.subscribe(params => {
-      this.productFeatureUid = params.uid;
-      if (this.getListOfProductsByProductFeatureUidSubscription) {
-        this.getListOfProductsByProductFeatureUidSubscription.unsubscribe();
+    if (this.getListOfProductsByProductFeatureUidSubscription) {
+      this.getListOfProductsByProductFeatureUidSubscription.unsubscribe();
+    }
+    this.getListOfProductsByProductFeatureUidSubscription = this.productFeatureControllerService.getFeaturedProductListByUid(
+        this.productFeatureUid,
+        this.currentPageNumber,
+        this.currentPageSize
+    ).subscribe(resp => {
+      console.log(resp);
+      if (resp.code === 200) {
+        this.listOfProductsByProductFeatureUid = resp.data;
+        this.maximumPages = resp.maximumPages;
+        this.totalResult = resp.totalResult;
+      } else {
+        this.listOfProductsByProductFeatureUid = [];
+        this.maximumPages = 0;
+        this.totalResult = 0;
       }
-      this.getListOfProductsByProductFeatureUidSubscription = this.productFeatureControllerService.getFeaturedProductListByUid(
-          this.productFeatureUid,
-          this.currentPageNumber,
-          this.currentPageSize
-      ).subscribe(resp => {
-        console.log(resp);
-        if (resp.code === 200) {
-          this.listOfProductsByProductFeatureUid = resp.data;
-          this.maximumPages = resp.maximumPages;
-          this.totalResult = resp.totalResult;
-        } else {
-          this.listOfProductsByProductFeatureUid = [];
-          this.maximumPages = 0;
-          this.totalResult = 0;
-        }
-        this.isLoadingListOfInventoriesByProductFeatureUid = false;
-      }, error => {
-        console.log('API Error while retrieving list of products by product feature uid.');
-        this.isLoadingListOfInventoriesByProductFeatureUid = false;
-      });
+      this.isLoadingListOfInventoriesByProductFeatureUid = false;
+    }, error => {
+      console.log('API Error while retrieving list of products by product feature uid.');
+      this.isLoadingListOfInventoriesByProductFeatureUid = false;
+    });
+  }
+
+  retrieveProductFeatureTitle() {
+    if (this.getProductFeatureTitleSubscription) {
+      this.getProductFeatureTitleSubscription.unsubscribe();
+    }
+    this.getProductFeatureTitleSubscription = this.productFeatureControllerService.getProductFeatureByUid(
+        this.productFeatureUid
+    ).subscribe(resp => {
+      if (resp.code === 200) {
+        this.productFeatureTitle = resp.data.name;
+      } else {
+        this.productFeatureTitle = '';
+      }
+    }, error => {
+      console.log('API Error while retrieving Product Feature by uid.');
     });
   }
 

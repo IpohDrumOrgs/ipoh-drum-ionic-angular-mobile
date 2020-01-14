@@ -64,15 +64,14 @@ export class ShopPage implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private typeControllerService: TypeControllerServiceService,
         private productFeatureControllerService: ProductFeatureControllerServiceService,
-        private globalFunctionService: GlobalfunctionService,
-        private modalController: ModalController
+        private globalFunctionService: GlobalfunctionService
     ) {
         console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
         this.ngZone.run(() => {
-            this.getListOfCategories();
+            // this.getListOfCategories();
             this.getListOfProductFeatures();
         });
     }
@@ -101,6 +100,9 @@ export class ShopPage implements OnInit, OnDestroy {
 
     getListOfCategories() {
         this.isLoadingCategories = true;
+        if (this.typeSubscription) {
+            this.typeSubscription.unsubscribe();
+        }
         this.typeSubscription = this.typeControllerService.getTypes().subscribe(resp => {
             if (resp.code === 200) {
                 this.listOfCategories = resp.data;
@@ -117,6 +119,9 @@ export class ShopPage implements OnInit, OnDestroy {
 
     getListOfProductFeatures() {
         this.isLoadingProductFeaturesAndProductInventories = true;
+        if (this.productFeaturesSubscription) {
+            this.productFeaturesSubscription.unsubscribe();
+        }
         this.productFeaturesSubscription = this.productFeatureControllerService.getProductFeatures().subscribe(resp => {
             if (resp.code === 200) {
                 this.listOfProductFeatures = resp.data;
@@ -175,12 +180,12 @@ export class ShopPage implements OnInit, OnDestroy {
             console.log('Routing navigation failed');
             // tslint:disable-next-line:max-line-length
             this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of Inventories, please try again later.', 'warning', 'top');
-            this.router.navigate(['/home']);
+            this.router.navigate(['/ipoh-drum/home']);
         });
     }
 
-    // TODO
+/*    // TODO
     selectCategory(selectedCategoryUid: string) {
         console.log('selected ' + selectedCategoryUid);
-    }
+    }*/
 }

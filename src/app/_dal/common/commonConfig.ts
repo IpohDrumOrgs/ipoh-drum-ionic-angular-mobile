@@ -3,7 +3,7 @@ export let commonConfig = {
     apiErrorMessage: 'Something went wrong, please try again later.',
     minLengthOfUsername: 2,
     maxLengthOfUsername: 20,
-    userNameRegex: '^[a-zA-Z ]*$',
+    userNameRegex: '^[a-zA-Z0-9 ]*$',
     minLengthOfIc: 14,
     icNoRegex: '^[0-9]{6}-[0-9]{2}-[0-9]{4}',
     minLengthOfPhoneNumber: 11,

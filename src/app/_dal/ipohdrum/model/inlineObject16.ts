@@ -13,7 +13,7 @@
 
 export interface InlineObject16 { 
     /**
-     * Image
+     * Video Cover Image
      */
     img?: Array<Blob>;
 }

@@ -5,7 +5,6 @@ import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.s
 import {ChannelControllerServiceService} from '../../_dal/ipohdrum';
 import {Channel} from '../../_dal/ipohdrum/model/channel';
 import {AddChannelModalPage} from './add-channel-modal/add-channel-modal.page';
-import {MainBlogManagementModalPage} from '../my-blog/main-blog-management-modal/main-blog-management-modal.page';
 import {MainChannelManagementModalPage} from './main-channel-management-modal/main-channel-management-modal.page';
 import {commonConfig} from '../../_dal/common/commonConfig';
 

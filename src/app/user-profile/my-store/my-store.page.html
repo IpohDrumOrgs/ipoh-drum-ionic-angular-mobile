@@ -6,10 +6,10 @@
     </ion-refresher-content>
   </ion-refresher>
   <ng-container *ngIf="listOfCurrentUsersStores?.length > 0 else noStoresCreated">
-    <ion-card class="backgroundColor">
+    <ion-card style="height:100%;">
       <ion-buttons slot="start" style="padding:5px;">
         <ion-menu-button style="border:1px solid #ebebeb;border-radius:5px;color:black;background:white;"></ion-menu-button>
-        <h3 style="width:100%;margin-left:10px;color:white;">
+        <h3 style="width:100%;margin-left:10px;">
           <b>My Store</b>
         </h3>
       </ion-buttons>
@@ -63,7 +63,7 @@
             <br>
             No Stores yet! <br>Start opening Stores now!
             <br>
-            <ion-button fill="outline" style="margin-top:10px;">
+            <ion-button fill="outline" style="margin-top:10px;" (click)="openCreateStoreModal()">
               Add Store&nbsp;&nbsp;<ion-icon name="add"></ion-icon>
             </ion-button>
           </h3>

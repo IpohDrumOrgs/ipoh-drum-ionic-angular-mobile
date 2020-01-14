@@ -66,7 +66,7 @@ export class UserProfilePage implements OnInit {
 
   logoutUser() {
     this.authenticationService.logoutUser();
-    this.globalFunctionService.simpleToast('SUCCESS!', 'You have been logged out.', 'primary');
+    this.globalFunctionService.simpleToast('SUCCESS!', 'You have been logged out.', 'success');
     this.navController.navigateRoot('/login');
   }
 }
