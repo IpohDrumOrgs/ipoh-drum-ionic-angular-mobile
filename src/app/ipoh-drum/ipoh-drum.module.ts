@@ -125,6 +125,7 @@ import {ViewInventoryPatternModalPage} from '../user-profile/my-store/view-inven
 import {ViewInventoryPatternModalPageModule} from '../user-profile/my-store/view-inventory-pattern-modal/view-inventory-pattern-modal.module';
 import {EditInventoryPatternsPageModule} from '../user-profile/my-store/edit-inventory-patterns/edit-inventory-patterns.module';
 import {EditInventoryPatternsPage} from '../user-profile/my-store/edit-inventory-patterns/edit-inventory-patterns.page';
+import { DeviceDetectorModule } from 'ngx-device-detector';
 
 const routes: Routes = [
     {
@@ -166,6 +167,7 @@ const routes: Routes = [
         FormWizardModule,
         IonicSelectableModule,
         RouterModule.forChild(routes),
+        DeviceDetectorModule.forRoot(),
         VgCoreModule,
         VgControlsModule,
         VgOverlayPlayModule,

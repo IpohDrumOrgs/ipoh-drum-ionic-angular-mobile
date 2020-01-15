@@ -1,5 +1,5 @@
 export let commonConfig = {
-    baseLink: 'http://localhost:8000/api',
+    baseLink: 'http://172.104.45.205/api',
     apiErrorMessage: 'Something went wrong, please try again later.',
     minLengthOfUsername: 2,
     maxLengthOfUsername: 20,

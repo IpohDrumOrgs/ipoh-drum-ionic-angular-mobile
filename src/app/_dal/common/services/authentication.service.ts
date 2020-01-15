@@ -6,6 +6,7 @@ import axios from 'axios';
 import {Storage} from '@ionic/storage';
 import {Router} from '@angular/router';
 import {LoadingService} from './loading.service';
+import {DeviceDetectorService} from 'ngx-device-detector';
 
 @Injectable({
     providedIn: 'root'
@@ -23,21 +24,36 @@ export class AuthenticationService {
         private globalFunctionService: GlobalfunctionService,
         private storage: Storage,
         private router: Router,
-        private loadingService: LoadingService
+        private loadingService: LoadingService,
+        private deviceService: DeviceDetectorService
     ) {
         console.log(this.constructorName + 'Initializing component');
         this.baseLink = commonConfig.baseLink;
     }
 
     async authenticate() {
-        this.loadingService.present();
-        this.requestConfig = {
-            headers: {
-                Accept: 'application/json',
-                Authorization: 'Bearer ' + localStorage.getItem('access_token')
-            }
-        };
+        await this.loadingService.present();
         try {
+            if (this.deviceService.isDesktop()) {
+                this.requestConfig = {
+                    headers: {
+                        Accept: 'application/json',
+                        Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                    }
+                };
+            } else {
+                let deviceStorageAccessToken = '';
+                await this.storage.get('access_token').then((val) => {
+                    deviceStorageAccessToken = val;
+                    this.requestConfig = {
+                        headers: {
+                            Accept: 'application/json',
+                            Authorization: 'Bearer ' + deviceStorageAccessToken
+                        }
+                    };
+                    return this.requestConfig;
+                });
+            }
             return await axios.post(this.baseLink + '/authentication', null,
                 this.requestConfig
             ).then((res) => {
@@ -48,7 +64,7 @@ export class AuthenticationService {
                 return JSON.parse(JSON.stringify(err));
             });
         } catch (error) {
-            this.loadingService.dismiss();
+            await this.loadingService.dismiss();
             return error.response;
         }
     }
