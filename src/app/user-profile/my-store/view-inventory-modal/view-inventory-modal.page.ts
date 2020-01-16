@@ -180,6 +180,7 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
     }
 
     uploadInventorySliders(event) {
+        event.preventDefault();
         this.loadingService.present();
         setTimeout(() => {
             const files = event.target.files;
@@ -205,7 +206,12 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
                         console.log(error);
                         this.loadingService.dismiss();
                     });
+                } else {
+                    this.globalFunctionService.simpleToast('ERROR!', 'Invalid file selected! Please select .jpeg, .jpg or .png files.', 'danger');
+                    this.loadingService.dismiss();
                 }
+            } else {
+                this.loadingService.dismiss();
             }
         }, 500);
     }

@@ -79,7 +79,6 @@
                                                             Thumbnail
                                                         </label>
                                                         <input type="file" id="thumbnailUpload" multiple="false"
-                                                               accept=".jpg, .jpeg, .png"
                                                                (change)="uploadInventoryThumbnail($event)">
                                                     </ion-col>
                                                 </ion-row>
@@ -91,7 +90,6 @@
                                                     <h3>Click here to upload Inventory's Thumbnail</h3>
                                                     <input type="file" multiple="false" style="display:none;"
                                                            #inventoryThumbnailContainer
-                                                           accept=".jpg, .jpeg, .png"
                                                            (change)="uploadInventoryThumbnail($event)">
                                                 </div>
                                             </ng-template>
@@ -138,7 +136,6 @@
                                                         </ion-button>
                                                         <input type="file" multiple="true" style="display:none;"
                                                                #inventorySlidersContainer
-                                                               accept=".jpg, .jpeg, .png"
                                                                (change)="uploadInventorySliders($event)">
                                                     </ion-col>
                                                 </ion-row>
@@ -151,7 +148,6 @@
                                                         (Max {{maxInventoryPhotoSlider}} images)</h5>
                                                     <input type="file" multiple="true" style="display:none;"
                                                            #inventorySlidersContainer
-                                                           accept=".jpg, .jpeg, .png"
                                                            (change)="uploadInventorySliders($event)">
                                                 </div>
                                             </ng-template>

@@ -132,19 +132,29 @@ export class AddChannelModalPage implements OnInit, OnDestroy {
   }
 
   uploadChannelImage(event) {
-    const files = event.target.files;
-    if (files.length) {
-      if (files[0].type.toString().includes('image')) {
-        // Actual Blob File
-        this.channelImageAsBlobArray[0] = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = (e: any) => {
-          // Some URL for displaying purpose only
-          this.temporaryChannelImageURL = e.target.result;
-        };
-        reader.readAsDataURL(files[0]);
+    event.preventDefault();
+    this.loadingService.present();
+    setTimeout(() => {
+      const files = event.target.files;
+      if (files.length) {
+        if (files[0].type.toString().includes('image')) {
+          // Actual Blob File
+          this.channelImageAsBlobArray[0] = event.target.files[0];
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            // Some URL for displaying purpose only
+            this.temporaryChannelImageURL = e.target.result;
+            this.loadingService.dismiss();
+          };
+          reader.readAsDataURL(files[0]);
+        } else {
+          this.globalFunctionService.simpleToast('ERROR!', 'Invalid file selected! Please select .jpeg, .jpg or .png files.', 'danger');
+          this.loadingService.dismiss();
+        }
+      } else {
+        this.loadingService.dismiss();
       }
-    }
+    }, 500);
   }
 
   toggleBelongsToCompanyFlag() {

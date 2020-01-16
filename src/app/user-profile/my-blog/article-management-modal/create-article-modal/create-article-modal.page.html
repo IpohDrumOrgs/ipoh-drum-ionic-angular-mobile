@@ -42,12 +42,12 @@
             </ion-button>
             <input type="file" multiple="true" style="display:none;"
                    #articleSlidersContainer
-                   accept=".jpg, .jpeg, .png"
                    (change)="uploadArticleSliders($event)">
           </ion-col>
         </ion-row>
       </ng-container>
       <ng-template #noSlidersSelected>
+        <span class="required">*</span>
         <div style="border:1px dashed #4285F4;text-align:center;color:rgba(66,133,244,0.4);"
              (click)="openSlidersFilePicker()">
           <ion-icon name="images" style="font-size:8rem;"></ion-icon>
@@ -55,7 +55,6 @@
             (Max {{maxArticleImageNumbers}} images)</h5>
           <input type="file" multiple="true" style="display:none;"
                  #articleSlidersContainer
-                 accept=".jpg, .jpeg, .png"
                  (change)="uploadArticleSliders($event)">
         </div>
       </ng-template>

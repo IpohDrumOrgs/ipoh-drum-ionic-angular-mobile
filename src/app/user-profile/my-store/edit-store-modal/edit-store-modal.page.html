@@ -93,8 +93,7 @@
                     <ion-button fill="outline" (click)="openStoreImageFilePicker()">
                         Change Photo
                     </ion-button>
-                    <input type="file" multiple="false" style="display:none;" #storeImageContainer
-                           accept=".jpg, .jpeg, .png" (change)="uploadStoreImage($event)">
+                    <input type="file" multiple="false" style="display:none;" #storeImageContainer (change)="uploadStoreImage($event)">
                 </ion-col>
             </ng-container>
             <ng-template #uploadedTemporaryPhoto>
@@ -107,8 +106,7 @@
                     <ion-button fill="outline" (click)="openStoreImageFilePicker()">
                         Change Photo
                     </ion-button>
-                    <input type="file" multiple="false" style="display:none;" #storeImageContainer
-                           accept=".jpg, .jpeg, .png" (change)="uploadStoreImage($event)">
+                    <input type="file" multiple="false" style="display:none;" #storeImageContainer (change)="uploadStoreImage($event)">
                 </ion-col>
             </ng-template>
         </ion-row>

@@ -17,8 +17,7 @@
 
   <ion-row style="margin:10px;">
     <ion-col size="12">
-      <input type="file" multiple="false" style="display:none;" #videoImageContainer
-             accept=".jpg, .jpeg, .png" (change)="uploadVideoImage($event)">
+      <input type="file" multiple="false" style="display:none;" #videoImageContainer (change)="uploadVideoImage($event)">
       <ng-container *ngIf="!temporaryVideoImageURL else uploadedVideoImage">
         <span *ngIf="!temporaryVideoImageURL" class="required" style="text-align:center;font-size:17px;">*</span>
         <div style="border:1px dashed #4285F4;text-align:center;color:rgba(66,133,244,0.4);"

@@ -186,6 +186,7 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
     }
 
     uploadArticleSliders(event) {
+        event.preventDefault();
         this.loadingService.present();
         setTimeout(() => {
           const files = event.target.files;
@@ -211,7 +212,13 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
                 console.log(error);
                 this.loadingService.dismiss();
               });
+            } else {
+                // tslint:disable-next-line:max-line-length
+                this.globalFunctionService.simpleToast('ERROR!', 'Invalid file selected! Please select .jpeg, .jpg or .png files.', 'danger');
+                this.loadingService.dismiss();
             }
+          } else {
+              this.loadingService.dismiss();
           }
         }, 500);
     }

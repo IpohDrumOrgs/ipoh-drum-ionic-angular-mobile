@@ -93,8 +93,7 @@
                     <ion-button fill="outline" (click)="openVideoImageFilePicker()">
                         Change Photo
                     </ion-button>
-                    <input type="file" multiple="false" style="display:none;" #videoImageContainer
-                           accept=".jpg, .jpeg, .png" (change)="uploadVideoImage($event)">
+                    <input type="file" multiple="false" style="display:none;" #videoImageContainer (change)="uploadVideoImage($event)">
                 </ion-col>
             </ng-container>
             <ng-template #uploadedTemporaryPhoto>
@@ -107,8 +106,7 @@
                     <ion-button fill="outline" (click)="openVideoImageFilePicker()">
                         Change Photo
                     </ion-button>
-                    <input type="file" multiple="false" style="display:none;" #videoImageContainer
-                           accept=".jpg, .jpeg, .png" (change)="uploadVideoImage($event)">
+                    <input type="file" multiple="false" style="display:none;" #videoImageContainer (change)="uploadVideoImage($event)">
                 </ion-col>
             </ng-template>
         </ion-row>

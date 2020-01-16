@@ -16,8 +16,7 @@
 <ion-content>
   <ion-row style="margin:10px;">
     <ion-col size="12">
-      <input type="file" multiple="false" style="display:none;" #channelImageContainer
-             accept=".jpg, .jpeg, .png" (change)="uploadChannelImage($event)">
+      <input type="file" multiple="false" style="display:none;" #channelImageContainer (change)="uploadChannelImage($event)">
       <ng-container *ngIf="!temporaryChannelImageURL else uploadedChannelImage">
         <span *ngIf="!temporaryChannelImageURL"
               class="required">&nbsp;*</span>

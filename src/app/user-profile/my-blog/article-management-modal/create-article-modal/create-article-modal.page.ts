@@ -116,28 +116,37 @@ export class CreateArticleModalPage implements OnInit, OnDestroy {
     }
 
     uploadArticleSliders(event) {
-        const files = event.target.files;
-        // tslint:disable-next-line:max-line-length
-        if (this.temporaryArticleSliders.length < this.maxArticleImageNumbers && (files.length + this.temporaryArticleSliders.length <= this.maxArticleImageNumbers)) {
-            if (files) {
-                for (const file of files) {
-                    if (file.type.toString().includes('image')) {
-                        this.articleSlidersAsArray.push(file);
-                        const reader = new FileReader();
-                        reader.onload = (e: any) => {
-                            this.temporaryArticleSliders.push(e.target.result);
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        // tslint:disable-next-line:max-line-length
-                        this.globalFunctionService.simpleToast('ERROR', 'You may have selected an invalid file! Please try again.', 'danger', 'top');
-                        break;
+        event.preventDefault();
+        this.loadingService.present();
+        setTimeout(() => {
+            const files = event.target.files;
+            // tslint:disable-next-line:max-line-length
+            if (this.temporaryArticleSliders.length < this.maxArticleImageNumbers && (files.length + this.temporaryArticleSliders.length <= this.maxArticleImageNumbers)) {
+                if (files) {
+                    for (const file of files) {
+                        if (file.type.toString().includes('image')) {
+                            this.articleSlidersAsArray.push(file);
+                            const reader = new FileReader();
+                            reader.onload = (e: any) => {
+                                this.temporaryArticleSliders.push(e.target.result);
+                                this.loadingService.dismiss();
+                            };
+                            reader.readAsDataURL(file);
+                        } else {
+                            // tslint:disable-next-line:max-line-length
+                            this.globalFunctionService.simpleToast('ERROR!', 'Invalid file selected! Please select .jpeg, .jpg or .png files.', 'danger');
+                            this.loadingService.dismiss();
+                            break;
+                        }
                     }
+                } else {
+                    this.loadingService.dismiss();
                 }
+            } else {
+                this.globalFunctionService.simpleToast('WARNING', 'You have reached the max number of uploaded photos!', 'warning', 'top');
+                this.loadingService.dismiss();
             }
-        } else {
-            this.globalFunctionService.simpleToast('WARNING', 'You have reached the max number of uploaded photos!', 'warning', 'top');
-        }
+        }, 500);
     }
 
     createArticle() {
