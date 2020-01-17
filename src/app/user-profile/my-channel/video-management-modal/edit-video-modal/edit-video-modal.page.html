@@ -203,6 +203,7 @@
                                             </ion-col>
                                             <ion-col size="3">
                                                 <ion-toggle color="success"
+                                                            (ionChange)="toggleVideoIsFreeFlag()"
                                                             [checked]="videoIsFreeFlagModel"
                                                             [(ngModel)]="videoIsFreeFlagModel"
                                                             formControlName="videoIsFreeFlag"></ion-toggle>
@@ -257,6 +258,9 @@
                                                 <li *ngIf="videoNotFreeFormGroup.get('videoDiscountedPrice').hasError('pattern')">
                                                     Invalid format for Discounted Price(RM).
                                                 </li>
+                                                <li *ngIf="videoNotFreeFormGroup.get('videoDiscountedPrice').hasError('min')">
+                                                    Discounted Price(RM) must be larger than RM0.
+                                                </li>
                                             </ul>
                                         </ng-container>
                                         <ng-container *ngIf="!videoDiscountedByPriceFlagModel">
@@ -273,6 +277,9 @@
                                                 </li>
                                                 <li *ngIf="videoNotFreeFormGroup.get('videoDiscountedPercentage').hasError('pattern')">
                                                     Invalid format for Discounted Percentage(%).
+                                                </li>
+                                                <li *ngIf="videoNotFreeFormGroup.get('videoDiscountedPercentage').hasError('min') || videoNotFreeFormGroup.get('videoDiscountedPercentage').hasError('max')">
+                                                    Discounted Percentage(%) must be between 1 - 100.
                                                 </li>
                                             </ul>
                                         </ng-container>

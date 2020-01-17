@@ -176,6 +176,7 @@ export class EditVideoModalPage implements OnInit, OnDestroy {
                         // Some URL for displaying purpose only
                         this.temporaryVideoImageURL = e.target.result;
                         this.loadingService.dismiss();
+                        this.ref.detectChanges();
                     };
                     reader.readAsDataURL(files[0]);
                 } else {
@@ -204,24 +205,31 @@ export class EditVideoModalPage implements OnInit, OnDestroy {
             this.temporaryVideoImageURL = null;
             this.videoImageAsBlobArray = [];
             this.loadingService.dismiss();
+            this.ref.detectChanges();
         }, 500);
     }
 
     toggleVideoDiscountedByPrice() {
         this.enableDisableDiscountedPriceAndPercentage();
+        this.ref.detectChanges();
     }
 
     enableDisableDiscountedPriceAndPercentage() {
         if (this.videoDiscountedByPriceFlagModel) {
             this.videoNotFreeFormGroup.controls.videoDiscountedPrice.setValidators([
-                Validators.required, Validators.pattern(this.priceRegex)
+                Validators.required,
+                Validators.pattern(this.priceRegex),
+                Validators.min(0.01)
             ]);
             this.videoNotFreeFormGroup.get('videoDiscountedPrice').enable();
             this.videoNotFreeFormGroup.get('videoDiscountedPercentage').disable();
             this.videoNotFreeFormGroup.get('videoDiscountedPercentage').setValue(0.00);
         } else {
             this.videoNotFreeFormGroup.controls.videoDiscountedPercentage.setValidators([
-                Validators.required, Validators.pattern(this.percentageRegex), Validators.max(this.maxPercentageValue), Validators.min(0)
+                Validators.required,
+                Validators.pattern(this.percentageRegex),
+                Validators.min(1),
+                Validators.max(this.maxPercentageValue)
             ]);
             this.videoNotFreeFormGroup.get('videoDiscountedPrice').disable();
             this.videoNotFreeFormGroup.get('videoDiscountedPercentage').enable();
@@ -261,12 +269,18 @@ export class EditVideoModalPage implements OnInit, OnDestroy {
                     this.globalFunctionService.simpleToast('ERROR', 'Unable to update Video, please try again later!', 'danger');
                 }
                 this.loadingService.dismiss();
+                this.ref.detectChanges();
             }, error => {
                 console.log('API Error while updating Video');
                 console.log(error);
                 this.loadingService.dismiss();
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to update Video, please try again later!', 'danger');
+                this.ref.detectChanges();
             });
         }
+    }
+
+    toggleVideoIsFreeFlag() {
+        this.ref.detectChanges();
     }
 }
