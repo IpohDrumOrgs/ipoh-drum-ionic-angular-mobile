@@ -116,9 +116,16 @@
                                         {{video?.price | myCurrency}}
                                     </span>
                                     &nbsp;
-                                    <ion-chip color="primary" style="font-size:18px;">
-                                        -{{video?.promopctg}}%
-                                    </ion-chip>
+                                    <ng-container *ngIf="video?.discbyprice === 1 else discountedByPercentage">
+                                        <ion-chip color="primary" style="font-size:18px;">
+                                            -{{video?.disc | myCurrency}}%
+                                        </ion-chip>
+                                    </ng-container>
+                                    <ng-template #discountedByPercentage>
+                                        <ion-chip color="primary" style="font-size:18px;">
+                                            -{{video?.promopctg}}%
+                                        </ion-chip>
+                                    </ng-template>
                                 </ion-col>
                             </ion-row>
                             <span class="badge badge-primary" style="font-size:18px;">

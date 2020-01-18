@@ -43,7 +43,7 @@
             <ion-col size="12">
                 <vg-player>
                   <vg-buffering></vg-buffering>
-                    <video [vgMedia]="media" #media [id]="'publicVideo_'+publicVideoUid" preload="auto" controls>
+                    <video [vgMaster]="" [vgMedia]="media" #media [id]="'publicVideo_'+publicVideoUid" preload="auto" controls>
                         <source [src]="selectedPublicVideo?.videopath | videoUrlSanitizer" type="video/mp4">
                     </video>
                 </vg-player>
