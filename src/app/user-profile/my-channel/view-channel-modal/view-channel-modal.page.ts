@@ -1,8 +1,7 @@
 import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
-import {Blogger, BloggerControllerServiceService, Channel, ChannelControllerServiceService} from '../../../_dal/ipohdrum';
+import {Channel, ChannelControllerServiceService} from '../../../_dal/ipohdrum';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
 import {ModalController} from '@ionic/angular';
-import {EditBlogModalPage} from '../../my-blog/edit-blog-modal/edit-blog-modal.page';
 import {EditChannelModalPage} from '../edit-channel-modal/edit-channel-modal.page';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
 
@@ -21,6 +20,7 @@ export class ViewChannelModalPage implements OnInit, OnDestroy {
   // Booleans
   isLoadingChannelInfo = true;
   companyBelongingsFlag = false;
+  editChannelModalOpen = false;
 
   // Objects
   selectedChannel: Channel;
@@ -95,18 +95,22 @@ export class ViewChannelModalPage implements OnInit, OnDestroy {
   }
 
   async openEditChannelModal() {
-    const modal = await this.modalController.create({
-      component: EditChannelModalPage,
-      componentProps: {
-        selectedChannelUid: this.selectedChannelUid
-      }
-    });
-    modal.onDidDismiss().then((returnFromEditingChannel) => {
-      if (returnFromEditingChannel.data) {
-        this.retrieveSelectedChannelByUid();
-      }
-    });
-    return await modal.present();
+    if (!this.editChannelModalOpen) {
+      this.editChannelModalOpen = true;
+      const modal = await this.modalController.create({
+        component: EditChannelModalPage,
+        componentProps: {
+          selectedChannelUid: this.selectedChannelUid
+        }
+      });
+      modal.onDidDismiss().then((returnFromEditingChannel) => {
+        this.editChannelModalOpen = false;
+        if (returnFromEditingChannel.data) {
+          this.retrieveSelectedChannelByUid();
+        }
+      });
+      return await modal.present();
+    }
   }
 
   deleteChannel() {

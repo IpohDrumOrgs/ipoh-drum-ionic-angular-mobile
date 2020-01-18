@@ -27,6 +27,7 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
 
     // Boolean
     isLoadingSelectedVideo = true;
+    paymentModalOpen = false;
 
     // Arrays
     listOfCommentsForSelectedVideo: Array<Comment> = [];
@@ -87,8 +88,6 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
         this.getVideoByIdSubscription = this.videoControllerService.getPublicVideoByUid(
             this.publicVideoUid
         ).subscribe(resp => {
-            console.log('get video by id');
-            console.log(resp);
             if (resp.code === 200) {
                 this.selectedPublicVideo = resp.data;
                 this.videoUrl = this.selectedPublicVideo.videopath;
@@ -137,10 +136,16 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
     }
 
     async openPaymentInfoModal() {
-        const modal = await this.modalController.create({
-            component: PaymentInfoModalPage
-        });
-        return await modal.present();
+        if (!this.paymentModalOpen) {
+            this.paymentModalOpen = true;
+            const modal = await this.modalController.create({
+                component: PaymentInfoModalPage
+            });
+            modal.onDidDismiss().then(() => {
+                this.paymentModalOpen = false;
+            });
+            return await modal.present();
+        }
     }
 
     loadMoreComments(event) {

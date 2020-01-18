@@ -25,6 +25,10 @@ export class MyChannelPage implements OnInit, OnDestroy {
     maximumPages: number;
     totalResult: number;
 
+    // Booleans
+    mainChannelManagementModalOpen = false;
+    createChannelModalOpen = false;
+
     // Arrays
     listOfCurrentUsersChannels: Array<Channel> = [];
 
@@ -108,38 +112,46 @@ export class MyChannelPage implements OnInit, OnDestroy {
     }
 
     async openCreateChannelModal() {
-        const modal = await this.modalController.create({
-            component: AddChannelModalPage
-        });
-        modal.onDidDismiss().then((returnFromCreatingChannel) => {
-            if (returnFromCreatingChannel.data) {
-                this.retrieveListOfChannelsOfCurrentUser();
-                if (this.referInfiniteScroll) {
-                    this.referInfiniteScroll.target.disabled = false;
+        if (!this.createChannelModalOpen) {
+            this.createChannelModalOpen = true;
+            const modal = await this.modalController.create({
+                component: AddChannelModalPage
+            });
+            modal.onDidDismiss().then((returnFromCreatingChannel) => {
+                this.createChannelModalOpen = false;
+                if (returnFromCreatingChannel.data) {
+                    this.retrieveListOfChannelsOfCurrentUser();
+                    if (this.referInfiniteScroll) {
+                        this.referInfiniteScroll.target.disabled = false;
+                    }
                 }
-            }
-        });
-        return await modal.present();
+            });
+            return await modal.present();
+        }
     }
 
     async openMainChannelManagementModal(selectedChannelId: number, selectedChannelUid: string) {
-        const modal = await this.modalController.create({
-            component: MainChannelManagementModalPage,
-            cssClass: 'channel-management-modal',
-            componentProps: {
-                selectedChannelId,
-                selectedChannelUid
-            }
-        });
-        modal.onDidDismiss().then((refreshPageFlag) => {
-            if (refreshPageFlag.data) {
-                this.retrieveListOfChannelsOfCurrentUser();
-                if (this.referInfiniteScroll) {
-                    this.referInfiniteScroll.target.disabled = false;
+        if (!this.mainChannelManagementModalOpen) {
+            this.mainChannelManagementModalOpen = true;
+            const modal = await this.modalController.create({
+                component: MainChannelManagementModalPage,
+                cssClass: 'channel-management-modal',
+                componentProps: {
+                    selectedChannelId,
+                    selectedChannelUid
                 }
-            }
-        });
-        return await modal.present();
+            });
+            modal.onDidDismiss().then((refreshPageFlag) => {
+                this.mainChannelManagementModalOpen = false;
+                if (refreshPageFlag.data) {
+                    this.retrieveListOfChannelsOfCurrentUser();
+                    if (this.referInfiniteScroll) {
+                        this.referInfiniteScroll.target.disabled = false;
+                    }
+                }
+            });
+            return await modal.present();
+        }
     }
 
     loadMoreChannels(event) {

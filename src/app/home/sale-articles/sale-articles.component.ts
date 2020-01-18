@@ -25,6 +25,7 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
 
   // Booleans
   isLoadingListOfPublicArticles = true;
+  viewArticleModalOpen = false;
 
   // Arrays
   listOfPublicArticles: Array<Article> = [];
@@ -80,7 +81,6 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
         this.currentPageNumber,
         this.currentPageSize
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.listOfPublicArticles = resp.data;
         this.maximumPages = resp.maximumPages;
@@ -157,12 +157,18 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
   }
 
   async openSelectedArticleInModal(publicArticleUid: string) {
-    const modal = await this.modalController.create({
-      component: ViewSelectedArticleModalPage,
-      componentProps: {
-        publicArticleUid
-      }
-    });
-    return await modal.present();
+    if (!this.viewArticleModalOpen) {
+      this.viewArticleModalOpen = true;
+      const modal = await this.modalController.create({
+        component: ViewSelectedArticleModalPage,
+        componentProps: {
+          publicArticleUid
+        }
+      });
+      modal.onDidDismiss().then(() => {
+        this.viewArticleModalOpen = false;
+      });
+      return await modal.present();
+    }
   }
 }

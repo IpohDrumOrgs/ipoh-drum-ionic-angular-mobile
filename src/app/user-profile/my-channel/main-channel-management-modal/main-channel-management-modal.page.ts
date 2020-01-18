@@ -18,6 +18,10 @@ export class MainChannelManagementModalPage implements OnInit {
   // Numbers
   selectedChannelId: number;
 
+  // Booleans
+  videoManagementModalOpen = false;
+  viewChannelModalOpen = false;
+
   constructor(
       private modalController: ModalController
   ) {
@@ -28,23 +32,35 @@ export class MainChannelManagementModalPage implements OnInit {
   }
 
   async openViewSelectedChannelModal() {
-    const modal = await this.modalController.create({
-      component: ViewChannelModalPage,
-      componentProps: {
-        selectedChannelUid: this.selectedChannelUid
-      }
-    });
-    return await modal.present();
+    if (!this.viewChannelModalOpen) {
+      this.viewChannelModalOpen = true;
+      const modal = await this.modalController.create({
+        component: ViewChannelModalPage,
+        componentProps: {
+          selectedChannelUid: this.selectedChannelUid
+        }
+      });
+      modal.onDidDismiss().then(() => {
+        this.viewChannelModalOpen = false;
+      });
+      return await modal.present();
+    }
   }
 
   async openVideoManagementModal() {
-    const modal = await this.modalController.create({
-      component: VideoManagementModalPage,
-      componentProps: {
-        selectedChannelUid: this.selectedChannelUid,
-        selectedChannelId: this.selectedChannelId
-      }
-    });
-    return await modal.present();
+    if (!this.videoManagementModalOpen) {
+      this.videoManagementModalOpen = true;
+      const modal = await this.modalController.create({
+        component: VideoManagementModalPage,
+        componentProps: {
+          selectedChannelUid: this.selectedChannelUid,
+          selectedChannelId: this.selectedChannelId
+        }
+      });
+      modal.onDidDismiss().then(() => {
+        this.videoManagementModalOpen = false;
+      });
+      return await modal.present();
+    }
   }
 }

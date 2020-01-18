@@ -1,24 +1,123 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title style="padding:0 0 0 10px;">
-      <ion-row class="ion-align-items-center">
-        <ion-col size="2" style="text-align:left;padding:0;">
-          <ion-icon name="arrow-back" style="font-size:25px;" (click)="closePaymentInfoModal()"></ion-icon>
-        </ion-col>
-        <ion-col size="10" style="text-align:left;">
-          <b>Payment Info</b>
-        </ion-col>
-      </ion-row>
-    </ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title style="padding:0 0 0 10px;">
+            <ion-row class="ion-align-items-center">
+                <ion-col size="2" style="text-align:left;padding:0;">
+                    <ion-icon name="arrow-back" style="font-size:25px;" (click)="closePaymentInfoModal()"></ion-icon>
+                </ion-col>
+                <ion-col size="10" style="text-align:left;">
+                    <b>Payment Info</b>
+                </ion-col>
+            </ion-row>
+        </ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-content padding>
-    <ion-input [(ngModel)]="cardinfo.number" placeholder="card number"></ion-input>
-    <ion-input [(ngModel)]="cardinfo.expMonth" placeholder="expiry month"></ion-input>
-    <ion-input [(ngModel)]="cardinfo.expYear" placeholder="expiry year"></ion-input>
-    <ion-input [(ngModel)]="cardinfo.cvc" placeholder="cvc"></ion-input>
-    <ion-button (click)="pay()"> Pay Now </ion-button>
-  </ion-content>
+    <ion-row>
+        <ion-col size="12">
+            <div class="wrapper">
+                <div class="card-form" [formGroup]="cardInfoFormGroup">
+                    <div class="card-list">
+                        <div class="card-item">
+                            <div class="card-item__side -front">
+                                <div class="card-item__wrapper">
+                                    <div class="card-item__top">
+                                        <img src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/chip.png"
+                                             class="card-item__chip">
+                                    </div>
+                                    <label for="cardNumber" class="card-item__number" ref="cardNumber">
+                                        {{cardNumberFirstPart ? cardNumberFirstPart : 'XXXX'}}&nbsp;{{cardNumberSecondPart ? cardNumberSecondPart : 'XXXX'}}&nbsp;{{cardNumberThirdPart ? cardNumberThirdPart : 'XXXX'}}&nbsp;{{cardNumberFourthPart ? cardNumberFourthPart : 'XXXX'}}
+                                    </label>
+                                    <div class="card-item__content">
+                                        <div class="card-item__date" ref="cardDate">
+                                            <label class="card-item__dateTitle">
+                                                Expires
+                                            </label>
+                                            {{expiryMonthModel ? expiryMonthModel : 'X'}}
+                                            /{{expiryYearModel ? expiryYearModel : 'X'}}
+                                        </div>
+                                        <div class="card-item__date" ref="cardDate">
+                                            <label class="card-item__dateTitle">
+                                                CVV
+                                            </label>
+                                            {{cvvModel ? cvvModel : 'XXX'}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-form__inner">
+                        <div class="card-input">
+                            <label for="cardNumber" class="card-input__label">Card Number</label>
+                            <input type="text" [(ngModel)]="cardNumberModel" formControlName="cardNumber" (ngModelChange)="cardNumberChange()"
+                                   class="form-control card-input__input" autocomplete="off" id="cardNumber" maxlength="16">
+                            <ul class="error"
+                                *ngIf="cardInfoFormGroup.get('cardNumber').invalid && cardInfoFormGroup.get('cardNumber').touched">
+                                <li *ngIf="cardInfoFormGroup.get('cardNumber').hasError('required')">
+                                    Card Number is required.
+                                </li>
+                                <li *ngIf="cardInfoFormGroup.get('cardNumber').hasError('minlength')">
+                                    Card Number must contain at least {{cardNumberMinLength}} numbers.
+                                </li>
+                                <li *ngIf="cardInfoFormGroup.get('cardNumber').hasError('pattern')">
+                                    Card Number can only contain numbers.
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-form__row">
+                            <div class="card-form__col">
+                                <div class="card-form__group">
+                                    <label class="card-input__label">
+                                        Expiration Date
+                                    </label>
+                                    <ion-item style="width:100%;">
+                                        <ionic-selectable
+                                                formControlName="cardExpiryMonth"
+                                                [placeholder]="'Month'"
+                                                [(ngModel)]="expiryMonthModel"
+                                                [items]="listOfMonths" [canSearch]="true">
+                                        </ionic-selectable>
+                                    </ion-item>
+                                    <ion-item style="width:100%;">
+                                        <ionic-selectable
+                                                formControlName="cardExpiryYear"
+                                                [placeholder]="'Year'"
+                                                [(ngModel)]="expiryYearModel"
+                                                [items]="listOfYears" [canSearch]="true">
+                                        </ionic-selectable>
+                                    </ion-item>
+                                </div>
+                            </div>
+                            <div class="card-form__col -cvv">
+                                <div class="card-input">
+                                    <label for="cardCvv" class="card-input__label">CVV</label>
+                                    <input type="text" [(ngModel)]="cvvModel" formControlName="cardCvv" class="form-control card-input__input"
+                                           id="cardCvv"
+                                           autocomplete="off" maxlength="3">
+                                    <ul class="error"
+                                        *ngIf="cardInfoFormGroup.get('cardCvv').invalid && cardInfoFormGroup.get('cardCvv').touched">
+                                        <li *ngIf="cardInfoFormGroup.get('cardCvv').hasError('required')">
+                                            CVV is required.
+                                        </li>
+                                        <li *ngIf="cardInfoFormGroup.get('cardCvv').hasError('minlength')">
+                                            CVV must contain at least {{cardCvvMinLength}} numbers.
+                                        </li>
+                                        <li *ngIf="cardInfoFormGroup.get('cardCvv').hasError('pattern')">
+                                            CVV can only contain numbers.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <ion-button color="primary" (click)="cardInfoFormGroup.invalid ? undefined : pay()"
+                                    expand="full" [disabled]="cardInfoFormGroup.invalid">
+                            Submit
+                        </ion-button>
+                    </div>
+                </div>
+            </div>
+        </ion-col>
+    </ion-row>
 </ion-content>

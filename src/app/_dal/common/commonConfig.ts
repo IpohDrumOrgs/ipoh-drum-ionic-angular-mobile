@@ -1,5 +1,9 @@
 export let commonConfig = {
     baseLink: 'http://172.104.45.205/api',
+    stripePublishableKey: 'pk_test_mU2xWRsOVeUQYUXLWVyHGM6z00PJ5ZvmOe',
+    stripePaymentLink: 'http://172.104.45.205/api/payment',
+    cardNumberMinLength: 16,
+    cardSvvMinLength: 3,
     apiErrorMessage: 'Something went wrong, please try again later.',
     minLengthOfUsername: 2,
     maxLengthOfUsername: 20,

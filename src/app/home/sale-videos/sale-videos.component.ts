@@ -19,6 +19,7 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
 
     // Booleans
     isLoadingListOfPublicVideos = true;
+    playSelectedVideoModalOpen = false;
 
     // Numbers
     currentPageNumber = 1;
@@ -72,7 +73,6 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
     }
 
     getListOfVideos() {
-        console.log('list of videos');
         this.isLoadingListOfPublicVideos = true;
         if (this.getListOfVideosSubscription) {
             this.getListOfVideosSubscription.unsubscribe();
@@ -81,7 +81,6 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
             this.currentPageNumber,
             this.currentPageSize
         ).subscribe(resp => {
-            console.log(resp);
             if (resp.code === 200) {
                 this.listOfPublicVideos = resp.data;
                 this.maximumPages = resp.maximumPages;
@@ -101,13 +100,19 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
     }
 
     async openModalToPlaySelectedVideo(publicVideoUid) {
-        const modal = await this.modalController.create({
-            component: PlaySelectedVideoModalPage,
-            componentProps: {
-                publicVideoUid
-            }
-        });
-        return await modal.present();
+        if (!this.playSelectedVideoModalOpen) {
+            this.playSelectedVideoModalOpen = true;
+            const modal = await this.modalController.create({
+                component: PlaySelectedVideoModalPage,
+                componentProps: {
+                    publicVideoUid
+                }
+            });
+            modal.onDidDismiss().then(() => {
+                this.playSelectedVideoModalOpen = false;
+            });
+            return await modal.present();
+        }
     }
 
     ionRefresh(event) {

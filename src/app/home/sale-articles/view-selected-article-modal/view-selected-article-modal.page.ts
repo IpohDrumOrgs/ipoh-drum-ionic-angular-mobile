@@ -92,7 +92,6 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
     this.getSelectedPublicArticleByUidSubscription = this.articleControllerService.getPublicArticleByUid(
         this.publicArticleUid
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.selectedPublicArticle = resp.data;
       } else {
@@ -118,7 +117,6 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
         this.currentPageNumber,
         this.currentPageSize
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.listOfCommentsOfSelectedPublicArticle = resp.data;
         this.maximumPages = resp.maximumPages;
@@ -140,7 +138,6 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
   loadMoreComments(event) {
     this.referInfiniteScroll = event;
     if (this.selectedPublicArticle.commentcount > 0) {
-      console.log('got comment count');
       setTimeout(() => {
         if (this.maximumPages > this.currentPageNumber) {
           this.currentPageNumber++;
