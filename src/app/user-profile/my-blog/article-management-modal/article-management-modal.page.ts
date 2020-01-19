@@ -117,6 +117,7 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
         if (this.getListOfArticlesByBloggerUidSubscription) {
             this.getListOfArticlesByBloggerUidSubscription.unsubscribe();
         }
+        this.currentPageNumber = 1;
         this.getListOfArticlesByBloggerUidSubscription = this.bloggerControllerService.getArticlesByBloggerUid(
             this.selectedBloggerUid,
             this.currentPageNumber,
@@ -133,51 +134,17 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
                 this.totalResult = 0;
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Articles, please try again later!', 'warning', 'top');
-                this.closeArticleManagementModal();
             }
             this.loadingService.dismiss();
             this.ref.detectChanges();
         }, error => {
             console.log('API Error while retrieving list of Articles by Blogger Uid.');
             console.log(error);
+            this.listOfArticlesByBloggerUid = [];
             this.loadingService.dismiss();
             // tslint:disable-next-line:max-line-length
             this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Articles, please try again later!', 'warning', 'top');
-            this.closeArticleManagementModal();
             this.ref.detectChanges();
-        });
-    }
-
-    ionRefresh(event) {
-        if (this.referInfiniteScroll) {
-            this.referInfiniteScroll.target.disabled = false;
-        }
-        if (this.getListOfArticlesByBloggerUidSubscription) {
-            this.getListOfArticlesByBloggerUidSubscription.unsubscribe();
-        }
-        this.currentPageNumber = 1;
-        this.getListOfArticlesByBloggerUidSubscription = this.bloggerControllerService.getArticlesByBloggerUid(
-            this.selectedBloggerUid,
-            this.currentPageNumber,
-            this.currentPageSize
-        ).subscribe(resp => {
-            if (resp.code === 200) {
-                this.listOfArticlesByBloggerUid = resp.data;
-                this.maximumPages = resp.maximumPages;
-                this.totalResult = resp.totalResult;
-            } else {
-                // tslint:disable-next-line:max-line-length
-                this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Articles, please try again later!', 'warning', 'top');
-                this.closeArticleManagementModal();
-            }
-            this.ref.detectChanges();
-            event.target.complete();
-        }, error => {
-            console.log('API Error while retrieving list of Articles by blogger uid.');
-            // tslint:disable-next-line:max-line-length
-            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Articles, please try again later!', 'warning', 'top');
-            this.closeArticleManagementModal();
-            event.target.complete();
         });
     }
 
@@ -208,5 +175,38 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
                 this.referInfiniteScroll.target.disabled = true;
             }
         }, 500);
+    }
+
+    ionRefresh(event) {
+        if (this.referInfiniteScroll) {
+            this.referInfiniteScroll.target.disabled = false;
+        }
+        if (this.getListOfArticlesByBloggerUidSubscription) {
+            this.getListOfArticlesByBloggerUidSubscription.unsubscribe();
+        }
+        this.currentPageNumber = 1;
+        this.getListOfArticlesByBloggerUidSubscription = this.bloggerControllerService.getArticlesByBloggerUid(
+            this.selectedBloggerUid,
+            this.currentPageNumber,
+            this.currentPageSize
+        ).subscribe(resp => {
+            if (resp.code === 200) {
+                this.listOfArticlesByBloggerUid = resp.data;
+                this.maximumPages = resp.maximumPages;
+                this.totalResult = resp.totalResult;
+            } else {
+                // tslint:disable-next-line:max-line-length
+                this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Articles, please try again later!', 'warning', 'top');
+                this.listOfArticlesByBloggerUid = [];
+            }
+            this.ref.detectChanges();
+            event.target.complete();
+        }, error => {
+            console.log('API Error while retrieving list of Articles by blogger uid.');
+            // tslint:disable-next-line:max-line-length
+            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Articles, please try again later!', 'warning', 'top');
+            this.listOfArticlesByBloggerUid = [];
+            event.target.complete();
+        });
     }
 }

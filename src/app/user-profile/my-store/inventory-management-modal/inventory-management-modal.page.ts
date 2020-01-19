@@ -100,14 +100,14 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
       } else {
         // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Inventories, please try again later!', 'warning', 'top');
-        this.closeInventoryManagementModal();
+        this.listOfInventoriesFromSelectedStore = [];
       }
       this.loadingService.dismiss();
     }, error => {
       console.log('API Error while retrieving list of inventories by store uid.');
       // tslint:disable-next-line:max-line-length
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Inventories, please try again later!', 'warning', 'top');
-      this.closeInventoryManagementModal();
+      this.listOfInventoriesFromSelectedStore = [];
       this.loadingService.dismiss();
     });
   }
@@ -126,6 +126,27 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
     });
     modal.onDidDismiss().then((returnedFromCreatingInventory) => {
       if (returnedFromCreatingInventory.data) {
+        this.retrieveListOfInventoriesByStoreUid();
+        if (this.referInfiniteScroll) {
+          this.referInfiniteScroll.target.disabled = false;
+        }
+      }
+    });
+    return await modal.present();
+  }
+
+  async openViewInventoryModal(selectedInventoryUid, selectedInventoryId) {
+    const modal = await this.modalController.create({
+      component: ViewInventoryModalPage,
+      componentProps: {
+        selectedInventoryUid,
+        selectedInventoryId,
+        selectedStoreUid: this.selectedStoreUid,
+        selectedStoreId: this.selectedStoreId,
+      }
+    });
+    modal.onDidDismiss().then((returnedFromEditingInventory) => {
+      if (returnedFromEditingInventory.data) {
         this.retrieveListOfInventoriesByStoreUid();
         if (this.referInfiniteScroll) {
           this.referInfiniteScroll.target.disabled = false;
@@ -162,27 +183,6 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
     }, 500);
   }
 
-  async openViewInventoryModal(selectedInventoryUid, selectedInventoryId) {
-    const modal = await this.modalController.create({
-      component: ViewInventoryModalPage,
-      componentProps: {
-        selectedInventoryUid,
-        selectedInventoryId,
-        selectedStoreUid: this.selectedStoreUid,
-        selectedStoreId: this.selectedStoreId,
-      }
-    });
-    modal.onDidDismiss().then((returnedFromEditingInventory) => {
-      if (returnedFromEditingInventory.data) {
-        this.retrieveListOfInventoriesByStoreUid();
-        if (this.referInfiniteScroll) {
-          this.referInfiniteScroll.target.disabled = false;
-        }
-      }
-    });
-    return await modal.present();
-  }
-
   ionRefresh(event) {
     if (this.referInfiniteScroll) {
       this.referInfiniteScroll.target.disabled = false;
@@ -203,14 +203,14 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
       } else {
         // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Inventories, please try again later!', 'warning', 'top');
-        this.closeInventoryManagementModal();
+        this.listOfInventoriesFromSelectedStore = [];
       }
       event.target.complete();
     }, error => {
       console.log('API Error while retrieving list of inventories by store uid.');
       // tslint:disable-next-line:max-line-length
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Inventories, please try again later!', 'warning', 'top');
-      this.closeInventoryManagementModal();
+      this.listOfInventoriesFromSelectedStore = [];
       event.target.complete();
     });
   }

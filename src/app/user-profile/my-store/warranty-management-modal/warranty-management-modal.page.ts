@@ -77,12 +77,12 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
         if (this.getListOfWarrantiesByStoreUidSubscription) {
             this.getListOfWarrantiesByStoreUidSubscription.unsubscribe();
         }
+        this.currentPageNumber = 1;
         this.getListOfWarrantiesByStoreUidSubscription = this.storeControllerService.getWarrantiesByStoreUid(
             this.selectedStoreUid,
             this.currentPageNumber,
             this.currentPageSize
         ).subscribe(resp => {
-            console.log(resp);
             if (resp.code === 200) {
                 this.listOfWarrantiesByStoreUid = resp.data;
                 this.maximumPages = resp.maximumPages;
@@ -90,13 +90,13 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
             } else {
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Warranty list, please try again later!', 'warning');
-                this.closeWarrantyManagementModal();
+                this.listOfWarrantiesByStoreUid = [];
             }
             this.loadingService.dismiss();
         }, error => {
             console.log('API Error while retrieving list of warranties by store uid.');
             this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Warranty list, please try again later!', 'warning');
-            this.closeWarrantyManagementModal();
+            this.listOfWarrantiesByStoreUid = [];
             this.loadingService.dismiss();
         });
     }
@@ -191,11 +191,13 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
             } else {
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Warranty list, please try again later!', 'warning');
+                this.listOfWarrantiesByStoreUid = [];
             }
             event.target.complete();
         }, error => {
             console.log('API Error while retrieving list of warranties by store uid.');
             this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Warranty list, please try again later!', 'warning');
+            this.listOfWarrantiesByStoreUid = [];
             event.target.complete();
         });
     }

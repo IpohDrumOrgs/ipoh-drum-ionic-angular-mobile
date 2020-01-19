@@ -109,12 +109,12 @@ export class VideoManagementModalPage implements OnInit, OnDestroy {
     if (this.getListOfVideosByChannelUidSubscription) {
       this.getListOfVideosByChannelUidSubscription.unsubscribe();
     }
+    this.currentPageNumber = 1;
     this.getListOfVideosByChannelUidSubscription = this.channelControllerService.getVideosByChannelUid(
         this.selectedChannelUid,
         this.currentPageNumber,
         this.currentPageSize
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.listOfVideosByChannelUid = resp.data;
         this.maximumPages = resp.maximumPages;
@@ -125,7 +125,6 @@ export class VideoManagementModalPage implements OnInit, OnDestroy {
         this.totalResult = 0;
         // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Videos, please try again later!', 'warning', 'top');
-        this.closeVideoManagementModal();
       }
       this.loadingService.dismiss();
       this.ref.detectChanges();
@@ -133,9 +132,9 @@ export class VideoManagementModalPage implements OnInit, OnDestroy {
       console.log('API Error while retrieving list of Videos by Channel Uid.');
       console.log(error);
       this.loadingService.dismiss();
+      this.listOfVideosByChannelUid = [];
       // tslint:disable-next-line:max-line-length
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Videos, please try again later!', 'warning', 'top');
-      this.closeVideoManagementModal();
       this.ref.detectChanges();
     });
   }
@@ -160,7 +159,7 @@ export class VideoManagementModalPage implements OnInit, OnDestroy {
       } else {
         // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Videos, please try again later!', 'warning', 'top');
-        this.closeVideoManagementModal();
+        this.listOfVideosByChannelUid = [];
       }
       this.ref.detectChanges();
       event.target.complete();
@@ -168,7 +167,7 @@ export class VideoManagementModalPage implements OnInit, OnDestroy {
       console.log('API Error while retrieving list of Videos by Channel uid.');
       // tslint:disable-next-line:max-line-length
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Videos, please try again later!', 'warning', 'top');
-      this.closeVideoManagementModal();
+      this.listOfVideosByChannelUid = [];
       event.target.complete();
     });
   }

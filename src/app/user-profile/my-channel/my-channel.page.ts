@@ -76,7 +76,6 @@ export class MyChannelPage implements OnInit, OnDestroy {
     }
 
     retrieveListOfChannelsOfCurrentUser() {
-        console.log('channel list');
         this.loadingService.present();
         if (this.getListOfChannelsOfCurrentUserSubscription) {
             this.getListOfChannelsOfCurrentUserSubscription.unsubscribe();

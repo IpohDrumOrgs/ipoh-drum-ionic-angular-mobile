@@ -29,6 +29,9 @@ export class VoucherManagementModalPage implements OnInit, OnDestroy {
   // Arrays
   listOfVouchersByStoreUid: Array<Voucher> = [];
 
+  // Objects
+  referInfiniteScroll: any;
+
   // Subscriptions
   getListOfVouchersByStoreUidSubscription: any;
   appendListOfVouchersByStoreUidSubscription: any;
@@ -73,6 +76,7 @@ export class VoucherManagementModalPage implements OnInit, OnDestroy {
     if (this.getListOfVouchersByStoreUidSubscription) {
       this.getListOfVouchersByStoreUidSubscription.unsubscribe();
     }
+    this.currentPageNumber = 1;
     this.getListOfVouchersByStoreUidSubscription = this.storeControllerService.getVouchersByStoreUid(
         this.selectedStoreUid,
         this.currentPageNumber,
@@ -84,12 +88,12 @@ export class VoucherManagementModalPage implements OnInit, OnDestroy {
         this.totalResult = resp.totalResult;
       } else {
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Vouchers, please try again later!' , 'warning');
-        this.closeVoucherManagementModal();
+        this.listOfVouchersByStoreUid = [];
       }
       this.loadingService.dismiss();
     }, error => {
       console.log('API Error while retrieving list of vouchers of this storeuid.');
-      this.closeVoucherManagementModal();
+      this.listOfVouchersByStoreUid = [];
       this.loadingService.dismiss();
     });
   }
@@ -109,6 +113,9 @@ export class VoucherManagementModalPage implements OnInit, OnDestroy {
     modal.onDidDismiss().then((returnedFromCreatingVoucher) => {
       if (returnedFromCreatingVoucher.data) {
         this.retrieveListOfVouchersByStoreUid();
+        if (this.referInfiniteScroll) {
+          this.referInfiniteScroll.target.disabled = false;
+        }
       }
     });
     return await modal.present();
@@ -131,6 +138,7 @@ export class VoucherManagementModalPage implements OnInit, OnDestroy {
   }
 
   loadMoreVouchers(event) {
+    this.referInfiniteScroll = event;
     setTimeout(() => {
       if (this.maximumPages > this.currentPageNumber) {
         this.currentPageNumber++;
@@ -144,19 +152,22 @@ export class VoucherManagementModalPage implements OnInit, OnDestroy {
               this.listOfVouchersByStoreUid.push(tempVouchers);
             }
           }
-          event.target.complete();
+          this.referInfiniteScroll.target.complete();
         }, error => {
           console.log('API Error while retrieving list of Vouchers of current storeuid.');
-          event.target.complete();
+          this.referInfiniteScroll.target.complete();
         });
       }
       if (this.totalResult === this.listOfVouchersByStoreUid.length) {
-        event.target.disabled = true;
+        this.referInfiniteScroll.target.disabled = true;
       }
     }, 500);
   }
 
   ionRefresh(event) {
+    if (this.referInfiniteScroll) {
+      this.referInfiniteScroll.target.disabled = false;
+    }
     if (this.getListOfVouchersByStoreUidSubscription) {
       this.getListOfVouchersByStoreUidSubscription.unsubscribe();
     }
@@ -168,14 +179,16 @@ export class VoucherManagementModalPage implements OnInit, OnDestroy {
     ).subscribe(resp => {
       if (resp.code === 200) {
         this.listOfVouchersByStoreUid = resp.data;
+        this.maximumPages = resp.maximumPages;
+        this.totalResult = resp.totalResult;
       } else {
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Vouchers, please try again later!' , 'warning');
-        this.closeVoucherManagementModal();
+        this.listOfVouchersByStoreUid = [];
       }
       event.target.complete();
     }, error => {
       console.log('API Error while retrieving list of vouchers of this storeuid.');
-      this.closeVoucherManagementModal();
+      this.listOfVouchersByStoreUid = [];
       event.target.complete();
     });
   }

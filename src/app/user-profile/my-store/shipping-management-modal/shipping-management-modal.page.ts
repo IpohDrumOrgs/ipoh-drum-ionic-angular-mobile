@@ -73,28 +73,29 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
   }
 
   retrieveListOfShippingsByStoreUid() {
-    console.log('list of ship');
     this.loadingService.present();
     if (this.getListOfShippingsByStoreUidSubscription) {
       this.getListOfShippingsByStoreUidSubscription.unsubscribe();
     }
+    this.currentPageNumber = 1;
     this.getListOfShippingsByStoreUidSubscription = this.storeControllerService.getShippingsByStoreUid(
         this.selectedStoreUid,
         this.currentPageNumber,
         this.currentPageSize
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.listOfShippingsByStoreUid = resp.data;
+        this.maximumPages = resp.maximumPages;
+        this.totalResult = resp.totalResult;
       } else {
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Shippings, please try again later!', 'warning');
-        this.closeShippingManagementModal();
+        this.listOfShippingsByStoreUid = [];
       }
       this.loadingService.dismiss();
     }, error => {
       console.log('API Error while retrieving list of shippings by storeuid.');
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Shippings, please try again later!', 'warning');
-      this.closeShippingManagementModal();
+      this.listOfShippingsByStoreUid = [];
       this.loadingService.dismiss();
     });
   }
@@ -176,13 +177,17 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
     ).subscribe(resp => {
       if (resp.code === 200) {
         this.listOfShippingsByStoreUid = resp.data;
+        this.maximumPages = resp.maximumPages;
+        this.totalResult = resp.totalResult;
       } else {
+        this.listOfShippingsByStoreUid = [];
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Shippings, please try again later!', 'warning');
       }
       event.target.complete();
     }, error => {
       console.log('API Error while retrieving list of shippings by storeuid.');
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Shippings, please try again later!', 'warning');
+      this.listOfShippingsByStoreUid = [];
       event.target.complete();
     });
   }

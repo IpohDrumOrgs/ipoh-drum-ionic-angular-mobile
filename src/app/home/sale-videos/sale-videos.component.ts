@@ -77,6 +77,7 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
         if (this.getListOfVideosSubscription) {
             this.getListOfVideosSubscription.unsubscribe();
         }
+        this.currentPageNumber = 1;
         this.getListOfVideosSubscription = this.videoControllerService.getPublicVideos(
             this.currentPageNumber,
             this.currentPageSize
@@ -87,11 +88,14 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
                 this.totalResult = resp.totalResult;
             } else {
                 this.listOfPublicVideos = [];
+                this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Videos, please try again later!', 'warning', 'top');
             }
             this.isLoadingListOfPublicVideos = false;
         }, error => {
             console.log('API Error while retrieving list of Public Videos');
+            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Videos, please try again later!', 'warning', 'top');
             this.isLoadingListOfPublicVideos = false;
+            this.listOfPublicVideos = [];
         });
     }
 

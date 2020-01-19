@@ -77,6 +77,7 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
     if (this.getListOfProductPromotionsByStoreUidSubscription) {
       this.getListOfProductPromotionsByStoreUidSubscription.unsubscribe();
     }
+    this.currentPageNumber = 1;
     this.getListOfProductPromotionsByStoreUidSubscription = this.storeControllerService.getPromotionsByStoreUid(
         this.selectedStoreUid,
         this.currentPageNumber,
@@ -89,14 +90,14 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
       } else {
         // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Promotion Plans, please try again later!', 'warning');
-        // this.closePromotionManagementModal();
+        this.listOfProductPromotions = [];
       }
       this.loadingService.dismiss();
     }, error => {
       console.log('API Error while retrieving list of productpromotion by store uid.');
       this.loadingService.dismiss();
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Promotion Plans, please try again later!', 'warning');
-      // this.closePromotionManagementModal();
+      this.listOfProductPromotions = [];
     });
   }
 
@@ -125,7 +126,6 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
   }
 
   loadMoreProductPromotions(event) {
-    console.log('load more');
     this.referInfiniteScroll = event;
     setTimeout(() => {
       if (this.maximumPages > this.currentPageNumber) {
@@ -135,8 +135,6 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
             this.currentPageNumber,
             this.currentPageSize
         ).subscribe(resp => {
-          console.log('load more ok');
-          console.log(resp);
           if (resp.code === 200) {
             for (const tempPromo of resp.data) {
               this.listOfProductPromotions.push(tempPromo);
@@ -185,14 +183,18 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
     ).subscribe(resp => {
       if (resp.code === 200) {
         this.listOfProductPromotions = resp.data;
+        this.maximumPages = resp.maximumPages;
+        this.totalResult = resp.totalResult;
       } else {
         // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Promotion Plans, please try again later!', 'warning');
+        this.listOfProductPromotions = [];
       }
       event.target.complete();
     }, error => {
       console.log('API Error while retrieving list of productpromotion by store uid.');
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Promotion Plans, please try again later!', 'warning');
+      this.listOfProductPromotions = [];
       event.target.complete();
     });
   }

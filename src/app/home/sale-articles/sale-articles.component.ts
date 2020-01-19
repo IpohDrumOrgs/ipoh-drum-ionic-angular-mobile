@@ -77,6 +77,7 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
     if (this.getListOfArticlesSubscription) {
       this.getListOfArticlesSubscription.unsubscribe();
     }
+    this.currentPageNumber = 1;
     this.getListOfArticlesSubscription = this.articleControllerService.getPublicArticles(
         this.currentPageNumber,
         this.currentPageSize
@@ -89,10 +90,12 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
         this.listOfPublicArticles = [];
         this.maximumPages = 0;
         this.totalResult = 0;
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Articles, please try again later!', 'warning', 'top');
       }
       this.isLoadingListOfPublicArticles = false;
     }, error => {
       console.log('API Error while retrieving list of public articles');
+      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Articles, please try again later!', 'warning', 'top');
       this.isLoadingListOfPublicArticles = false;
       this.listOfPublicArticles = [];
     });

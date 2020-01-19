@@ -90,6 +90,7 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
     if (this.getListOfProductsByProductFeatureUidSubscription) {
       this.getListOfProductsByProductFeatureUidSubscription.unsubscribe();
     }
+    this.currentPageNumber = 1;
     this.getListOfProductsByProductFeatureUidSubscription = this.productFeatureControllerService.getFeaturedProductListByUid(
         this.productFeatureUid,
         this.currentPageNumber,
@@ -104,10 +105,15 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
         this.listOfProductsByProductFeatureUid = [];
         this.maximumPages = 0;
         this.totalResult = 0;
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve inventories, please try again later!', 'warning', 'top');
       }
       this.isLoadingListOfInventoriesByProductFeatureUid = false;
     }, error => {
       console.log('API Error while retrieving list of products by product feature uid.');
+      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve inventories, please try again later!', 'warning', 'top');
+      this.listOfProductsByProductFeatureUid = [];
+      this.maximumPages = 0;
+      this.totalResult = 0;
       this.isLoadingListOfInventoriesByProductFeatureUid = false;
     });
   }
