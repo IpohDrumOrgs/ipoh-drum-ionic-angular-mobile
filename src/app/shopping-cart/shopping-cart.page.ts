@@ -30,12 +30,17 @@ export class ShoppingCartPage implements OnInit {
   ) {
     console.log(this.constructorName + 'Initializing component');
     this.listOfInventoriesInCart = this.sharedService.returnSelectedInventoriesInCart();
+
+    console.log('cart');
+    console.log(this.listOfInventoriesInCart);
   }
 
   ngOnInit() {
     this.ngZone.run(() => {
       this.inventoriesInCartSubscription = this.sharedService.emitSelectedInventoryToCart$.subscribe(data => {
         this.listOfInventoriesInCart = data;
+        console.log('new cart');
+        console.log(this.listOfInventoriesInCart);
       });
     });
   }

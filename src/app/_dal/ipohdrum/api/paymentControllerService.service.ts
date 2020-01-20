@@ -61,29 +61,33 @@ export class PaymentControllerServiceService {
 
 
     /**
-     * Creates a payment.
-     * @param token Stripe token
+     * Creates an inventory payment.
+     * @param token Stripe token id
      * @param email Email
      * @param contact Contact Person
      * @param selectedstores Involved Store
+     * @param user_id User Id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createPayment(token: string, email: string, contact: string, selectedstores: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (token === null || token === undefined) {
-            throw new Error('Required parameter token was null or undefined when calling createPayment.');
+            throw new Error('Required parameter token was null or undefined when calling createInventoryPayment.');
         }
         if (email === null || email === undefined) {
-            throw new Error('Required parameter email was null or undefined when calling createPayment.');
+            throw new Error('Required parameter email was null or undefined when calling createInventoryPayment.');
         }
         if (contact === null || contact === undefined) {
-            throw new Error('Required parameter contact was null or undefined when calling createPayment.');
+            throw new Error('Required parameter contact was null or undefined when calling createInventoryPayment.');
         }
         if (selectedstores === null || selectedstores === undefined) {
-            throw new Error('Required parameter selectedstores was null or undefined when calling createPayment.');
+            throw new Error('Required parameter selectedstores was null or undefined when calling createInventoryPayment.');
+        }
+        if (user_id === null || user_id === undefined) {
+            throw new Error('Required parameter user_id was null or undefined when calling createInventoryPayment.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -96,6 +100,51 @@ export class PaymentControllerServiceService {
         if (contact !== undefined && contact !== null) {
             queryParameters = queryParameters.set('contact', <any>contact);
         }
+        if (selectedstores !== undefined && selectedstores !== null) {
+            queryParameters = queryParameters.set('selectedstores', <any>selectedstores);
+        }
+        if (user_id !== undefined && user_id !== null) {
+            queryParameters = queryParameters.set('user_id', <any>user_id);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/inventorypayment`,
+            null,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Creates a payment.
+     * @param selectedstores Involved Store
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createPayment(selectedstores: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createPayment(selectedstores: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createPayment(selectedstores: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createPayment(selectedstores: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (selectedstores === null || selectedstores === undefined) {
+            throw new Error('Required parameter selectedstores was null or undefined when calling createPayment.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
         if (selectedstores !== undefined && selectedstores !== null) {
             queryParameters = queryParameters.set('selectedstores', <any>selectedstores);
         }
@@ -213,41 +262,6 @@ export class PaymentControllerServiceService {
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/payment`,
             {
                 params: queryParameters,
-                withCredentials: this.configuration.withCredentials,
-                headers: headers,
-                observe: observe,
-                reportProgress: reportProgress
-            }
-        );
-    }
-
-    /**
-     * Retrieves onsale payment by Uid.
-     * @param uid Payment_ID, NOT \&#39;ID\&#39;.
-     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
-     * @param reportProgress flag to report request and response progress.
-     */
-    public getOnSalePaymentByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getOnSalePaymentByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getOnSalePaymentByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getOnSalePaymentByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
-        if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getOnSalePaymentByUid.');
-        }
-
-        let headers = this.defaultHeaders;
-
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
-        if (httpHeaderAcceptSelected !== undefined) {
-            headers = headers.set('Accept', httpHeaderAcceptSelected);
-        }
-
-
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/payment/${encodeURIComponent(String(uid))}/onsale`,
-            {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

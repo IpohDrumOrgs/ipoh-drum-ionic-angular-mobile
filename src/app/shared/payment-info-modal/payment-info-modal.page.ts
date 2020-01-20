@@ -4,6 +4,7 @@ import {Stripe} from '@ionic-native/stripe/ngx';
 import {ModalController} from '@ionic/angular';
 import {commonConfig} from '../../_dal/common/commonConfig';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {PaymentControllerServiceService} from '../../_dal/ipohdrum';
 
 @Component({
     selector: 'app-payment-info-modal',
@@ -53,11 +54,15 @@ export class PaymentInfoModalPage implements OnInit {
     // FormGroups
     cardInfoFormGroup: FormGroup;
 
+    // Subscriptions
+    makePaymentSubscription: any;
+
     constructor(
         private ngZone: NgZone,
         private modalController: ModalController,
         private httpClient: HttpClient,
-        private stripe: Stripe
+        private stripe: Stripe,
+        private paymentControllerService: PaymentControllerServiceService
     ) {
         console.log(this.constructorName + 'Initializing component');
     }
@@ -152,6 +157,7 @@ export class PaymentInfoModalPage implements OnInit {
     }
 
     pay() {
+        console.log('pay');
         this.cardInfo.number = this.cardNumberModel;
         this.cardInfo.expMonth = this.expiryMonthModel;
         this.cardInfo.expYear = this.expiryYearModel;
@@ -160,17 +166,18 @@ export class PaymentInfoModalPage implements OnInit {
         this.stripe.setPublishableKey(this.stripePublishableKey);
         this.stripe.createCardToken(this.cardInfo).then((token) => {
             data = {
-                token,
-                amount: 50,
-                provider: 'payment',
+                token
             };
             console.log(data);
-            this.httpClient.post(this.stripePaymentLink, data,
-                {
-                    headers: {'Content-Type': 'application/json'}
-                }).subscribe(res => {
-                console.log(res);
-            });
+            // this.makePaymentSubscription = this.paymentControllerService.createInventoryPayment(
+            //     token.toString()
+            // )
+            // this.httpClient.post(this.stripePaymentLink, data,
+            //     {
+            //         headers: {'Content-Type': 'application/json'}
+            //     }).subscribe(res => {
+            //     console.log(res);
+            // });
         });
     }
 }

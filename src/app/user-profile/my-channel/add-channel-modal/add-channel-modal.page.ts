@@ -274,7 +274,6 @@ export class AddChannelModalPage implements OnInit, OnDestroy {
   }
 
   createChannel() {
-    console.log('create channel');
     if (this.channelInfoFormGroup.valid) {
       this.loadingService.present();
       this.createNewChannelSubscription = this.channelControllerService.createChannel(
