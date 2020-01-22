@@ -50,7 +50,6 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
       private globalFunctionService: GlobalfunctionService,
       private productFeatureControllerService: ProductFeatureControllerServiceService
   ) {
-    console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {
@@ -96,7 +95,6 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
         this.currentPageNumber,
         this.currentPageSize
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.listOfProductsByProductFeatureUid = resp.data;
         this.maximumPages = resp.maximumPages;
@@ -109,7 +107,6 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
       }
       this.isLoadingListOfInventoriesByProductFeatureUid = false;
     }, error => {
-      console.log('API Error while retrieving list of products by product feature uid.');
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve inventories, please try again later!', 'warning', 'top');
       this.listOfProductsByProductFeatureUid = [];
       this.maximumPages = 0;
@@ -131,7 +128,6 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
         this.productFeatureTitle = '';
       }
     }, error => {
-      console.log('API Error while retrieving Product Feature by uid.');
     });
   }
 
@@ -156,7 +152,6 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
           }
           this.referInfiniteScroll.target.complete();
         }, error => {
-          console.log('API Error while retrieving list of inventories by product feature uid.');
           this.referInfiniteScroll.target.complete();
         });
       }

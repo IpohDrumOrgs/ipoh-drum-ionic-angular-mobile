@@ -6,6 +6,8 @@ import {LoadingService} from '../_dal/common/services/loading.service';
 import {ModalController} from '@ionic/angular';
 import {PaymentInfoModalPage} from '../shared/payment-info-modal/payment-info-modal.page';
 import {Stripe} from '@ionic-native/stripe/ngx';
+import {AuthenticationService} from '../_dal/common/services/authentication.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-shopping-cart',
@@ -33,9 +35,11 @@ export class ShoppingCartPage implements OnInit {
     constructor(
         private stripe: Stripe,
         private ngZone: NgZone,
+        private router: Router,
         private sharedService: SharedService,
         private loadingService: LoadingService,
         private modalController: ModalController,
+        private authenticationService: AuthenticationService,
         private globalFunctionService: GlobalfunctionService
     ) {
         this.listOfInventoriesInCart = this.sharedService.returnSelectedInventoriesInCart();
@@ -88,55 +92,70 @@ export class ShoppingCartPage implements OnInit {
     }
 
     checkout() {
-        this.loadingService.present();
-        setTimeout(() => {
-            this.selectedInventoryStoreIds = [];
-            // tslint:disable-next-line:prefer-for-of
-            for (let i = 0; i < this.listOfInventoriesInCart.length; i++) {
-                // Get all the store ids of the selected inventories
-                this.selectedInventoryStoreIds.push(this.listOfInventoriesInCart[i].store.id);
-            }
-            // Copy the list of unique store ids into this array
-            this.uniqueSelectedInventoryStoreIds = Object.assign([], Array.from(new Set(this.selectedInventoryStoreIds)));
-            this.finalSaleInventory = [];
-            // Hold current unique store id
-            // tslint:disable-next-line:prefer-for-of
-            for (let j = 0; j < this.uniqueSelectedInventoryStoreIds.length; j++) {
-                let saleItems = [];
-                let inven = {};
-                // Loop through each inventory
+        if (this.authenticationService.isUserLoggedIn()) {
+            this.loadingService.present();
+            setTimeout(() => {
+                this.selectedInventoryStoreIds = [];
                 // tslint:disable-next-line:prefer-for-of
-                for (let k = 0; k < this.listOfInventoriesInCart.length; k++) {
-                    if (this.uniqueSelectedInventoryStoreIds[j] === this.listOfInventoriesInCart[k].store.id) {
-                        let invenFam = {};
-                        let invenPattern = {};
-                        if (this.listOfInventoriesInCart[k].selectedInventoryPattern.id !== 9999) {
-                            invenPattern = {
-                                pattern_id: this.listOfInventoriesInCart[k].selectedInventoryPattern.id,
-                                type: 'pattern',
-                                qty: this.listOfInventoriesInCart[k].selectedQuantity
-                            };
-                            saleItems.push(invenPattern);
-                        } else {
-                            invenFam = {
-                                inventory_family_id: this.listOfInventoriesInCart[k].selectedInventoryFamily.id,
-                                type: 'inventoryfamily',
-                                qty: this.listOfInventoriesInCart[k].selectedQuantity
-                            };
-                            saleItems.push(invenFam);
+                for (let i = 0; i < this.listOfInventoriesInCart.length; i++) {
+                    // Get all the store ids of the selected inventories
+                    this.selectedInventoryStoreIds.push(this.listOfInventoriesInCart[i].store.id);
+                }
+                // Copy the list of unique store ids into this array
+                this.uniqueSelectedInventoryStoreIds = Object.assign([], Array.from(new Set(this.selectedInventoryStoreIds)));
+                this.finalSaleInventory = [];
+                // Hold current unique store id
+                // tslint:disable-next-line:prefer-for-of
+                for (let j = 0; j < this.uniqueSelectedInventoryStoreIds.length; j++) {
+                    let saleItems = [];
+                    let inven = {};
+                    // Loop through each inventory
+                    // tslint:disable-next-line:prefer-for-of
+                    for (let k = 0; k < this.listOfInventoriesInCart.length; k++) {
+                        if (this.uniqueSelectedInventoryStoreIds[j] === this.listOfInventoriesInCart[k].store.id) {
+                            let invenFam = {};
+                            let invenPattern = {};
+                            if (this.listOfInventoriesInCart[k].selectedInventoryPattern.id !== 9999) {
+                                invenPattern = {
+                                    pattern_id: this.listOfInventoriesInCart[k].selectedInventoryPattern.id,
+                                    type: 'pattern',
+                                    qty: this.listOfInventoriesInCart[k].selectedQuantity
+                                };
+                                saleItems.push(invenPattern);
+                            } else {
+                                invenFam = {
+                                    inventory_family_id: this.listOfInventoriesInCart[k].selectedInventoryFamily.id,
+                                    type: 'inventoryfamily',
+                                    qty: this.listOfInventoriesInCart[k].selectedQuantity
+                                };
+                                saleItems.push(invenFam);
+                            }
                         }
                     }
+                    // Store Id
+                    inven = {
+                        store_id: this.uniqueSelectedInventoryStoreIds[j],
+                        saleitems: saleItems
+                    };
+                    this.finalSaleInventory.push(inven);
                 }
-                // Store Id
-                inven = {
-                    store_id: this.uniqueSelectedInventoryStoreIds[j],
-                    saleitems: saleItems
-                };
-                this.finalSaleInventory.push(inven);
-            }
-            this.openPaymentInfoModal();
-            this.loadingService.dismiss();
-        }, 500);
+                this.openPaymentInfoModal();
+                this.loadingService.dismiss();
+            }, 500);
+        } else {
+            this.globalFunctionService.presentAlertConfirm(
+                'WARNING',
+                'Please login first before proceeding to make any transactions.',
+                'Cancel',
+                'Login',
+                undefined,
+                () => this.actuallyRouteToLoginPage()
+            );
+        }
+    }
+
+    actuallyRouteToLoginPage() {
+        this.router.navigate(['login']);
     }
 
     async openPaymentInfoModal() {
