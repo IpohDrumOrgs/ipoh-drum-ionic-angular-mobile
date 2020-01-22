@@ -5,34 +5,48 @@
                 <ion-icon name="close" (click)="closeModal()" style="font-size:25px;"></ion-icon>
             </ion-col>
         </ion-row>
-        <ion-row style="border-bottom:1px solid #f2f2f2;">
+        <ion-row style="border-bottom:1px solid #f2f2f2;" class="ion-align-items-center">
             <ion-col size="6">
                 <img [src]="selectedInventory?.imgpath" alt="product_image" class="smallProductImage">
             </ion-col>
             <ion-col size="6" style="padding-left:0;padding-right:0;">
-                <div style="font-size:20px;">
-                    <ng-container *ngIf="selectedInventory?.promotion else noPromoPrice">
-                        <ion-label style="text-decoration:line-through;color:#e3e3e3;">
-                            {{selectedInventory?.price | myCurrency}}
-                        </ion-label>
-                        <ion-chip color="primary" style="margin-left:5px;">
-                            -{{selectedInventory?.promotion.discpctg}}%
-                        </ion-chip>
-                        <br>
-                        <ion-label>
-                            <b>{{selectedInventory?.promoprice | myCurrency}}</b>
-                        </ion-label>
+                <ng-container *ngIf="priceToDisplay === undefined || priceToDisplay === null else gotPriceToDisplay">
+                    <div style="color:#a8a8a8;font-weight:bold;text-align:left;white-space:normal;word-wrap:break-word;">
+                        <h4>
+                            Select variation below for Price
+                        </h4>
+                    </div>
+                </ng-container>
+                <ng-template #gotPriceToDisplay>
+                    <ng-container *ngIf="promotionsObject else noPromotionsObject">
+                        <h5 style="text-decoration:line-through;color:#e6e6e6;margin:0;">
+                            <ng-container *ngIf="selectedInventoryFamily">
+                                <ng-container *ngIf="selectedInventoryFamily.patterns.length > 0 && selectedInventoryPattern else showInventoryFamilyPrice">
+                                    {{selectedInventoryPattern?.price | myCurrency}}
+                                </ng-container>
+                                <ng-template #showInventoryFamilyPrice>
+                                    {{selectedInventoryFamily?.price | myCurrency}}
+                                </ng-template>
+                            </ng-container>
+                        </h5>
+                        <ng-container *ngIf="promotionsObject.discbyprice === 1 else discountByPercentage">
+                            -{{promotionsObject?.disc | myCurrency}}
+                        </ng-container>
+                        <ng-template #discountByPercentage>
+                            <ion-chip color="primary">
+                                -{{promotionsObject?.discpctg}}%
+                            </ion-chip>
+                        </ng-template>
+                        <div style="font-size:20px;">
+                            {{(priceToDisplay * quantitiesToAdd) | myCurrency}}
+                        </div>
                     </ng-container>
-                    <ng-template #noPromoPrice>
-                        <ion-label style="font-size:30px;">
-                            <b>{{selectedInventory?.price | myCurrency}}</b>
+                    <ng-template #noPromotionsObject>
+                        <ion-label style="font-size:25px;font-weight:bold;">
+                            {{(priceToDisplay * quantitiesToAdd) | myCurrency}}
                         </ion-label>
                     </ng-template>
-                    <br>
-                    <span style="color:lightgrey;font-size:17px;">
-            {{selectedInventory?.qty}} stock<span *ngIf="selectedInventory?.qty > 1">s</span> left
-          </span>
-                </div>
+                </ng-template>
             </ion-col>
         </ion-row>
         <ion-row style="border-bottom:1px solid #f2f2f2;">

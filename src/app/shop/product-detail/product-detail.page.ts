@@ -5,6 +5,7 @@ import {ProductVariationModalPage} from './product-variation-modal/product-varia
 import {ModalController} from '@ionic/angular';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
 import {Location} from '@angular/common';
+import {LoadingService} from '../../_dal/common/services/loading.service';
 
 @Component({
     selector: 'app-product-detail',
@@ -31,7 +32,6 @@ export class ProductDetailPage implements OnInit, OnDestroy {
 
     // Subscriptions
     currentInventorySubscription: any;
-    routerEventsSubscription: any;
 
     constructor(
         private location: Location,
@@ -40,7 +40,8 @@ export class ProductDetailPage implements OnInit, OnDestroy {
         private ngZone: NgZone,
         private modalController: ModalController,
         private inventoryControllerService: InventoryControllerServiceService,
-        private globalFunctionService: GlobalfunctionService
+        private globalFunctionService: GlobalfunctionService,
+        private loadingService: LoadingService
     ) {
         console.log(this.constructorName + 'Initializing component');
     }
@@ -64,13 +65,11 @@ export class ProductDetailPage implements OnInit, OnDestroy {
             if (this.currentInventorySubscription) {
                 this.currentInventorySubscription.unsubscribe();
             }
-            if (this.routerEventsSubscription) {
-                this.routerEventsSubscription.unsubscribe();
-            }
         });
     }
 
     retrieveSelectedInventoryInfo() {
+        this.loadingService.present();
         this.isLoadingInventory = true;
         this.route.params.subscribe(params => {
             this.inventoryUID = params.uid;
@@ -88,12 +87,14 @@ export class ProductDetailPage implements OnInit, OnDestroy {
                     this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the selected Inventory info, please try again later!', 'danger');
                     this.backToShopPage();
                 }
+                this.loadingService.dismiss();
                 this.isLoadingInventory = false;
             }, error => {
                 console.log('cannot get item');
                 this.isLoadingInventory = false;
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the selected Inventory info, please try again later!', 'danger');
+                this.loadingService.dismiss();
                 this.backToShopPage();
             });
         });
@@ -104,6 +105,7 @@ export class ProductDetailPage implements OnInit, OnDestroy {
     }
 
     async openProductVariationsModal() {
+        this.retrieveSelectedInventoryInfo();
         const modal = await this.modalController.create({
             component: ProductVariationModalPage,
             cssClass: 'dialog-modal',

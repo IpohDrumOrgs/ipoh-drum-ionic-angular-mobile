@@ -5,6 +5,8 @@ import {ModalController} from '@ionic/angular';
 import {commonConfig} from '../../_dal/common/commonConfig';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {PaymentControllerServiceService} from '../../_dal/ipohdrum';
+import { environment } from '../../../environments/environment';
+import {AuthenticationService} from '../../_dal/common/services/authentication.service';
 
 @Component({
     selector: 'app-payment-info-modal',
@@ -29,8 +31,10 @@ export class PaymentInfoModalPage implements OnInit {
     expiryMonthModel = 1;
     expiryYearModel: number;
     cvvModel: number;
+    contactNumModel: string;
 
     // Numbers
+    userId: string;
     currentYear = (new Date()).getFullYear();
     endYear: number;
     yearSubtraction = 20;
@@ -42,6 +46,7 @@ export class PaymentInfoModalPage implements OnInit {
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
     ];
     listOfYears: Array<number> = [];
+    finalSaleInventory: Array<any>;
 
     // Objects
     cardInfo: any = {
@@ -53,15 +58,19 @@ export class PaymentInfoModalPage implements OnInit {
 
     // FormGroups
     cardInfoFormGroup: FormGroup;
+    contactNumFormGroup: FormGroup;
 
     // Subscriptions
     makePaymentSubscription: any;
+
+    handler: any;
 
     constructor(
         private ngZone: NgZone,
         private modalController: ModalController,
         private httpClient: HttpClient,
         private stripe: Stripe,
+        private authenticationService: AuthenticationService,
         private paymentControllerService: PaymentControllerServiceService
     ) {
         console.log(this.constructorName + 'Initializing component');
@@ -69,6 +78,10 @@ export class PaymentInfoModalPage implements OnInit {
 
     ngOnInit() {
         this.ngZone.run(() => {
+            this.initializeUserInfo();
+            this.contactNumFormGroup = new FormGroup({
+
+            });
             this.cardInfoFormGroup = new FormGroup({
                 cardNumber: new FormControl(null, [
                     Validators.required,
@@ -86,6 +99,57 @@ export class PaymentInfoModalPage implements OnInit {
             this.expiryYearModel = this.currentYear;
             this.endYear = this.currentYear + this.yearSubtraction;
             this.generateListOfYears();
+
+            console.log('passed in inventory items:');
+            console.log(this.finalSaleInventory);
+        });
+        this.handler = StripeCheckout.configure({
+            key: environment.stripeKey,
+            locale: 'auto',
+            token: token => {
+                console.log('got token');
+                console.log(token.id);
+                console.log(token.email);
+                console.log(this.contactNumModel);
+                console.log(JSON.stringify(this.finalSaleInventory));
+                console.log(this.userId);
+                if (this.makePaymentSubscription) {
+                    this.makePaymentSubscription.unsubscribe();
+                }
+                this.makePaymentSubscription = this.paymentControllerService.createInventoryPayment(
+                    token.id.toString(),
+                    token.email.toString(),
+                    this.contactNumModel,
+                    JSON.stringify(this.finalSaleInventory),
+                    this.userId ? this.userId : null
+                ).subscribe(resp => {
+                   console.log('make payment');
+                   console.log(resp);
+                }, error => {
+                    console.log('error make payment');
+                    console.log(error);
+                });
+            }
+        });
+    }
+
+    initializeUserInfo() {
+        this.authenticationService.authenticate().then(resp => {
+            if (resp.status) {
+                if (resp.status === 200) {
+                    this.userId = resp.data.id;
+                }
+            } else {
+                if (resp.name === 'Error') {
+                    this.userId = null;
+                    // this.globalFunctionService.simpleToast('ERROR!', 'You are not authenticated, please login first!', 'danger');
+                    // this.router.navigate(['/login']);
+                }
+            }
+        }, error => {
+            this.userId = null;
+            // this.globalFunctionService.simpleToast('ERROR!', 'You are not authenticated, please login first!', 'danger');
+            // this.router.navigate(['/login']);
         });
     }
 
@@ -157,27 +221,9 @@ export class PaymentInfoModalPage implements OnInit {
     }
 
     pay() {
-        console.log('pay');
-        this.cardInfo.number = this.cardNumberModel;
-        this.cardInfo.expMonth = this.expiryMonthModel;
-        this.cardInfo.expYear = this.expiryYearModel;
-        this.cardInfo.cvc = this.cvvModel;
-        let data = {};
-        this.stripe.setPublishableKey(this.stripePublishableKey);
-        this.stripe.createCardToken(this.cardInfo).then((token) => {
-            data = {
-                token
-            };
-            console.log(data);
-            // this.makePaymentSubscription = this.paymentControllerService.createInventoryPayment(
-            //     token.toString()
-            // )
-            // this.httpClient.post(this.stripePaymentLink, data,
-            //     {
-            //         headers: {'Content-Type': 'application/json'}
-            //     }).subscribe(res => {
-            //     console.log(res);
-            // });
+        this.handler.open({
+            name: 'IpohDrum',
+            description: 'Payment Information'
         });
     }
 }

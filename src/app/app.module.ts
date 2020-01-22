@@ -33,7 +33,7 @@ import {Stripe} from '@ionic-native/stripe/ngx';
         AppRoutingModule,
         IonicStorageModule.forRoot(),
         LaravelPassportModule.forRoot(
-            {apiRoot: 'http://172.104.45.205', clientId: 2, clientSecret: 'jbde4CWgJoMl3REe4rVCXo6RWy99roO1jK2BwyBQ'}
+            {apiRoot: 'http://172.104.45.205', clientId: 2, clientSecret: '2wVl2R67dWAH4ujjKO6b6VJAO3dmKaU31x8XEoaG'}
         ),
         IpohDrumPageModule
     ],

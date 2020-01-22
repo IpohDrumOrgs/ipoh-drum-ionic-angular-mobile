@@ -61,12 +61,19 @@ export class UserProfilePage implements OnInit {
       case 6:
         this.logoutUser();
         break;
+      case 7:
+        this.navController.navigateRoot('login');
+        break;
     }
   }
 
   logoutUser() {
     this.authenticationService.logoutUser();
     this.globalFunctionService.simpleToast('SUCCESS!', 'You have been logged out.', 'success');
-    this.navController.navigateRoot('/login');
+    this.navController.navigateRoot('login');
+  }
+
+  isUserLoggedIn() {
+    return this.authenticationService.isUserLoggedIn();
   }
 }

@@ -127,7 +127,6 @@ import {EditInventoryPatternsPageModule} from '../user-profile/my-store/edit-inv
 import {EditInventoryPatternsPage} from '../user-profile/my-store/edit-inventory-patterns/edit-inventory-patterns.page';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 
-
 const routes: Routes = [
     {
         path: '',
