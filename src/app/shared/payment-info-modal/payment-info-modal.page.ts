@@ -7,6 +7,8 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {PaymentControllerServiceService} from '../../_dal/ipohdrum';
 import { environment } from '../../../environments/environment';
 import {AuthenticationService} from '../../_dal/common/services/authentication.service';
+import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
+import {LoadingService} from '../../_dal/common/services/loading.service';
 
 @Component({
     selector: 'app-payment-info-modal',
@@ -18,118 +20,123 @@ export class PaymentInfoModalPage implements OnInit {
 
     // Strings
     constructorName = '[' + this.constructor.name + ']';
-    stripePublishableKey = commonConfig.stripePublishableKey;
-    stripePaymentLink = commonConfig.stripePaymentLink;
-    numericOnlyRegex = commonConfig.numericOnlyRegex;
-    cardNumberFirstPart: string;
-    cardNumberSecondPart: string;
-    cardNumberThirdPart: string;
-    cardNumberFourthPart: string;
+    phoneNumberRegex = commonConfig.phoneNumberRegex;
+    userId: string;
+    // numericOnlyRegex = commonConfig.numericOnlyRegex;
+    // cardNumberFirstPart: string;
+    // cardNumberSecondPart: string;
+    // cardNumberThirdPart: string;
+    // cardNumberFourthPart: string;
 
     // NgModels
-    cardNumberModel: number;
-    expiryMonthModel = 1;
-    expiryYearModel: number;
-    cvvModel: number;
+    // cardNumberModel: number;
+    // expiryMonthModel = 1;
+    // expiryYearModel: number;
+    // cvvModel: number;
     contactNumModel: string;
 
     // Numbers
-    userId: string;
-    currentYear = (new Date()).getFullYear();
-    endYear: number;
-    yearSubtraction = 20;
-    cardNumberMinLength = commonConfig.cardNumberMinLength;
-    cardCvvMinLength = commonConfig.cardSvvMinLength;
+    minLengthOfPhoneNumber = commonConfig.minLengthOfPhoneNumber;
+    maxLengthOfPhoneNumber = commonConfig.maxLengthOfPhoneNumber;
+    // currentYear = (new Date()).getFullYear();
+    // endYear: number;
+    // yearSubtraction = 20;
+    // cardNumberMinLength = commonConfig.cardNumberMinLength;
+    // cardCvvMinLength = commonConfig.cardSvvMinLength;
 
     // Arrays
-    listOfMonths = [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
-    ];
-    listOfYears: Array<number> = [];
+    // listOfMonths = [
+    //     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+    // ];
+    // listOfYears: Array<number> = [];
     finalSaleInventory: Array<any>;
 
     // Objects
-    cardInfo: any = {
-        number: '',
-        expMonth: '',
-        expYear: '',
-        cvc: ''
-    };
+    stripeHandler: any;
+    // cardInfo: any = {
+    //     number: '',
+    //     expMonth: '',
+    //     expYear: '',
+    //     cvc: ''
+    // };
 
     // FormGroups
-    cardInfoFormGroup: FormGroup;
+    // cardInfoFormGroup: FormGroup;
     contactNumFormGroup: FormGroup;
 
     // Subscriptions
     makePaymentSubscription: any;
-
-    handler: any;
 
     constructor(
         private ngZone: NgZone,
         private modalController: ModalController,
         private httpClient: HttpClient,
         private stripe: Stripe,
+        private loadingService: LoadingService,
         private authenticationService: AuthenticationService,
+        private globalFunctionService: GlobalfunctionService,
         private paymentControllerService: PaymentControllerServiceService
     ) {
-        console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
         this.ngZone.run(() => {
             this.initializeUserInfo();
             this.contactNumFormGroup = new FormGroup({
-
-            });
-            this.cardInfoFormGroup = new FormGroup({
-                cardNumber: new FormControl(null, [
-                    Validators.required,
-                    Validators.minLength(this.cardNumberMinLength),
-                    Validators.pattern(this.numericOnlyRegex)
-                ]),
-                cardExpiryMonth: new FormControl(),
-                cardExpiryYear: new FormControl(),
-                cardCvv: new FormControl(null, [
-                    Validators.required,
-                    Validators.minLength(this.cardCvvMinLength),
-                    Validators.pattern(this.numericOnlyRegex)
+                contactNum: new FormControl(null, [
+                   Validators.required,
+                    Validators.minLength(this.minLengthOfPhoneNumber),
+                    Validators.maxLength(this.maxLengthOfPhoneNumber),
+                   Validators.pattern(this.phoneNumberRegex)
                 ])
             });
-            this.expiryYearModel = this.currentYear;
-            this.endYear = this.currentYear + this.yearSubtraction;
-            this.generateListOfYears();
-
-            console.log('passed in inventory items:');
-            console.log(this.finalSaleInventory);
-        });
-        this.handler = StripeCheckout.configure({
-            key: environment.stripeKey,
-            locale: 'auto',
-            token: token => {
-                console.log('got token');
-                console.log(token.id);
-                console.log(token.email);
-                console.log(this.contactNumModel);
-                console.log(JSON.stringify(this.finalSaleInventory));
-                console.log(this.userId);
-                if (this.makePaymentSubscription) {
-                    this.makePaymentSubscription.unsubscribe();
+            this.stripeHandler = StripeCheckout.configure({
+                key: environment.stripeKey,
+                locale: 'auto',
+                token: token => {
+                    this.loadingService.present();
+                    if (this.makePaymentSubscription) {
+                        this.makePaymentSubscription.unsubscribe();
+                    }
+                    this.makePaymentSubscription = this.paymentControllerService.createInventoryPayment(
+                        token.id.toString(),
+                        token.email.toString(),
+                        this.contactNumModel,
+                        JSON.stringify(this.finalSaleInventory),
+                        this.userId ? this.userId : null
+                    ).subscribe(resp => {
+                        if (resp.code === 200) {
+                            this.globalFunctionService.simpleToast('SUCCESS', 'Payment has been successfully made!', 'success');
+                            this.closePaymentInfoModal(true);
+                        } else {
+                            this.globalFunctionService.simpleToast('ERROR', 'Transaction failed, please try again later!', 'danger');
+                            this.closePaymentInfoModal(false);
+                        }
+                        this.loadingService.dismiss();
+                    }, error => {
+                        this.globalFunctionService.simpleToast('ERROR', 'Transaction failed, please try again later!', 'danger');
+                        this.closePaymentInfoModal(false);
+                        this.loadingService.dismiss();
+                    });
                 }
-                this.makePaymentSubscription = this.paymentControllerService.createInventoryPayment(
-                    token.id.toString(),
-                    token.email.toString(),
-                    this.contactNumModel,
-                    JSON.stringify(this.finalSaleInventory),
-                    this.userId ? this.userId : null
-                ).subscribe(resp => {
-                   console.log('make payment');
-                   console.log(resp);
-                }, error => {
-                    console.log('error make payment');
-                    console.log(error);
-                });
-            }
+            });
+            // this.cardInfoFormGroup = new FormGroup({
+            //     cardNumber: new FormControl(null, [
+            //         Validators.required,
+            //         Validators.minLength(this.cardNumberMinLength),
+            //         Validators.pattern(this.numericOnlyRegex)
+            //     ]),
+            //     cardExpiryMonth: new FormControl(),
+            //     cardExpiryYear: new FormControl(),
+            //     cardCvv: new FormControl(null, [
+            //         Validators.required,
+            //         Validators.minLength(this.cardCvvMinLength),
+            //         Validators.pattern(this.numericOnlyRegex)
+            //     ])
+            // });
+            // this.expiryYearModel = this.currentYear;
+            // this.endYear = this.currentYear + this.yearSubtraction;
+            // this.generateListOfYears();
         });
     }
 
@@ -153,77 +160,77 @@ export class PaymentInfoModalPage implements OnInit {
         });
     }
 
-    generateListOfYears() {
-        for (let i = this.endYear; i >= this.currentYear - this.yearSubtraction; i--) {
-            this.listOfYears.push(i);
-        }
-    }
-
-    cardNumberChange() {
-        // First Part
-        if (this.cardNumberModel) {
-            if (this.cardNumberModel.toString().length > 3) {
-                this.cardNumberFirstPart = this.cardNumberModel.toString().substr(0, 4);
-            } else {
-                this.cardNumberFirstPart = '';
-                for (let i = 0; i < 4; i++) {
-                    if (this.cardNumberModel.toString().substr(i, 1)) {
-                        this.cardNumberFirstPart += this.cardNumberModel.toString().charAt(i);
-                    } else {
-                        this.cardNumberFirstPart += 'X';
-                    }
-                }
-            }
-            // Second Part
-            if (this.cardNumberModel.toString().length > 7) {
-                this.cardNumberSecondPart = this.cardNumberModel.toString().substr(4, 4);
-            } else {
-                this.cardNumberSecondPart = '';
-                for (let i = 4; i < 8; i++) {
-                    if (this.cardNumberModel.toString().substr(i, 1)) {
-                        this.cardNumberSecondPart += this.cardNumberModel.toString().charAt(i);
-                    } else {
-                        this.cardNumberSecondPart += 'X';
-                    }
-                }
-            }
-            // Third Part
-            if (this.cardNumberModel.toString().length > 11) {
-                this.cardNumberThirdPart = this.cardNumberModel.toString().substr(8, 4);
-            } else {
-                this.cardNumberThirdPart = '';
-                for (let i = 8; i < 12; i++) {
-                    if (this.cardNumberModel.toString().substr(i, 1)) {
-                        this.cardNumberThirdPart += this.cardNumberModel.toString().charAt(i);
-                    } else {
-                        this.cardNumberThirdPart += 'X';
-                    }
-                }
-            }
-            // Fourth Part
-            if (this.cardNumberModel.toString().length > 15) {
-                this.cardNumberFourthPart = this.cardNumberModel.toString().substr(12, 4);
-            } else {
-                this.cardNumberFourthPart = '';
-                for (let i = 12; i < 16; i++) {
-                    if (this.cardNumberModel.toString().substr(i, 1)) {
-                        this.cardNumberFourthPart += this.cardNumberModel.toString().charAt(i);
-                    } else {
-                        this.cardNumberFourthPart += 'X';
-                    }
-                }
-            }
-        }
-    }
-
-    closePaymentInfoModal() {
-        this.modalController.dismiss();
-    }
-
     pay() {
-        this.handler.open({
+        this.stripeHandler.open({
             name: 'IpohDrum',
             description: 'Payment Information'
         });
     }
+
+    closePaymentInfoModal(returnFromSuccessfulPayment: boolean) {
+        this.modalController.dismiss(returnFromSuccessfulPayment);
+    }
+
+    // generateListOfYears() {
+    //     for (let i = this.endYear; i >= this.currentYear - this.yearSubtraction; i--) {
+    //         this.listOfYears.push(i);
+    //     }
+    // }
+
+    // cardNumberChange() {
+    //     // First Part
+    //     if (this.cardNumberModel) {
+    //         if (this.cardNumberModel.toString().length > 3) {
+    //             this.cardNumberFirstPart = this.cardNumberModel.toString().substr(0, 4);
+    //         } else {
+    //             this.cardNumberFirstPart = '';
+    //             for (let i = 0; i < 4; i++) {
+    //                 if (this.cardNumberModel.toString().substr(i, 1)) {
+    //                     this.cardNumberFirstPart += this.cardNumberModel.toString().charAt(i);
+    //                 } else {
+    //                     this.cardNumberFirstPart += 'X';
+    //                 }
+    //             }
+    //         }
+    //         // Second Part
+    //         if (this.cardNumberModel.toString().length > 7) {
+    //             this.cardNumberSecondPart = this.cardNumberModel.toString().substr(4, 4);
+    //         } else {
+    //             this.cardNumberSecondPart = '';
+    //             for (let i = 4; i < 8; i++) {
+    //                 if (this.cardNumberModel.toString().substr(i, 1)) {
+    //                     this.cardNumberSecondPart += this.cardNumberModel.toString().charAt(i);
+    //                 } else {
+    //                     this.cardNumberSecondPart += 'X';
+    //                 }
+    //             }
+    //         }
+    //         // Third Part
+    //         if (this.cardNumberModel.toString().length > 11) {
+    //             this.cardNumberThirdPart = this.cardNumberModel.toString().substr(8, 4);
+    //         } else {
+    //             this.cardNumberThirdPart = '';
+    //             for (let i = 8; i < 12; i++) {
+    //                 if (this.cardNumberModel.toString().substr(i, 1)) {
+    //                     this.cardNumberThirdPart += this.cardNumberModel.toString().charAt(i);
+    //                 } else {
+    //                     this.cardNumberThirdPart += 'X';
+    //                 }
+    //             }
+    //         }
+    //         // Fourth Part
+    //         if (this.cardNumberModel.toString().length > 15) {
+    //             this.cardNumberFourthPart = this.cardNumberModel.toString().substr(12, 4);
+    //         } else {
+    //             this.cardNumberFourthPart = '';
+    //             for (let i = 12; i < 16; i++) {
+    //                 if (this.cardNumberModel.toString().substr(i, 1)) {
+    //                     this.cardNumberFourthPart += this.cardNumberModel.toString().charAt(i);
+    //                 } else {
+    //                     this.cardNumberFourthPart += 'X';
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 }

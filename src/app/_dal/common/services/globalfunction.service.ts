@@ -19,7 +19,7 @@ export class GlobalfunctionService {
       duration: 3000,
       color,
       position: (position !== undefined && position !== null) ? position : 'top',
-      showCloseButton: false
+      showCloseButton: true
     });
     toast.present();
   }

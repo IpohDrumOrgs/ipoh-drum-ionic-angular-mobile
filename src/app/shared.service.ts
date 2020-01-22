@@ -85,6 +85,12 @@ export class SharedService {
     this.emitNumberOfSelectedInventoriesInCart();
   }
 
+  clearShoppingCartWithoutToast() {
+    this.selectedInventoryToCart = [];
+    this.emitSelectedInventoryToCartSubject.next(this.selectedInventoryToCart);
+    this.emitNumberOfSelectedInventoriesInCart();
+  }
+
   removeSpecificInventoryFromCart(inventory: any, indexInCart: number) {
     // Filter the array by 'uid', can be used in the future
     // this.selectedInventoryToCart = this.selectedInventoryToCart.filter(inventoryInCart => inventoryInCart.uid !== inventory.uid);

@@ -33,7 +33,6 @@ export class ProductVariationModalPage implements OnInit {
       private sharedService: SharedService,
       private loadingService: LoadingService
   ) {
-    console.log(this.constructorName + 'initializing component');
   }
 
   ngOnInit() {

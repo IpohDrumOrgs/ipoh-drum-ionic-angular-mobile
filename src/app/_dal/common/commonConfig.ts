@@ -1,8 +1,6 @@
 export let commonConfig = {
     baseLink: 'http://172.104.45.205/api',
-    stripePaymentLink: 'http://172.104.45.205/api/payment',
     // baseLink: 'http://localhost:8000/api',
-    // stripePaymentLink: 'http://localhost:8000/api/payment',
     stripePublishableKey: 'pk_test_mU2xWRsOVeUQYUXLWVyHGM6z00PJ5ZvmOe',
     cardNumberMinLength: 16,
     cardSvvMinLength: 3,

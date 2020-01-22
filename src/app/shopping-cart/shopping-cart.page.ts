@@ -38,19 +38,13 @@ export class ShoppingCartPage implements OnInit {
         private modalController: ModalController,
         private globalFunctionService: GlobalfunctionService
     ) {
-        console.log(this.constructorName + 'Initializing component');
         this.listOfInventoriesInCart = this.sharedService.returnSelectedInventoriesInCart();
-
-        console.log(this.listOfInventoriesInCart);
     }
 
     ngOnInit() {
-        console.log(this.constructorName + 'NgOnInit');
         this.ngZone.run(() => {
             this.inventoriesInCartSubscription = this.sharedService.emitSelectedInventoryToCart$.subscribe(data => {
                 this.listOfInventoriesInCart = data;
-                console.log('new cart');
-                console.log(this.listOfInventoriesInCart);
             });
         });
     }
@@ -140,8 +134,6 @@ export class ShoppingCartPage implements OnInit {
                 };
                 this.finalSaleInventory.push(inven);
             }
-            console.log('finalSaleInventory');
-            console.log(this.finalSaleInventory);
             this.openPaymentInfoModal();
             this.loadingService.dismiss();
         }, 500);
@@ -150,8 +142,14 @@ export class ShoppingCartPage implements OnInit {
     async openPaymentInfoModal() {
         const modal = await this.modalController.create({
             component: PaymentInfoModalPage,
+            cssClass: 'payment-info-modal',
             componentProps: {
                 finalSaleInventory: this.finalSaleInventory
+            }
+        });
+        modal.onDidDismiss().then((returnFromSuccessfulPayment) => {
+            if (returnFromSuccessfulPayment.data) {
+                this.sharedService.clearShoppingCartWithoutToast();
             }
         });
         return await modal.present();

@@ -9,7 +9,7 @@
                   </span>
             </ion-col>
             <ion-col size="6" style="text-align:right;">
-                <ion-button (click)="clearShoppingCart()" style="font-weight:bold;"
+                <ion-button (click)="clearShoppingCart()" style="font-weight:bold;" color="warning"
                             [disabled]="listOfInventoriesInCart === undefined
                             || listOfInventoriesInCart === null
                             || listOfInventoriesInCart?.length === 0">
@@ -121,8 +121,10 @@
         </ion-card-content>
       </ion-card>
     </section>
-    <section>
-      <ion-button expand="full" (click)="checkout()" color="warning">Checkout</ion-button>
+    <section style="text-align:center;">
+      <ion-button (click)="checkout()" color="warning" style="width:80%;">
+        Checkout
+      </ion-button>
     </section>
   </ng-container>
   <ng-template #noInventoriesInCart>
