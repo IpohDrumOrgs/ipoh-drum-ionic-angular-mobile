@@ -163,7 +163,9 @@ export class ShoppingCartPage implements OnInit {
             component: PaymentInfoModalPage,
             cssClass: 'payment-info-modal',
             componentProps: {
-                finalSaleInventory: this.finalSaleInventory
+                finalSaleInventory: this.finalSaleInventory,
+                buyInventoryFlag: true,
+                buyVideoFlag: false
             }
         });
         modal.onDidDismiss().then((returnFromSuccessfulPayment) => {

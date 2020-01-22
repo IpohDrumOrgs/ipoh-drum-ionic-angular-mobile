@@ -1,11 +1,11 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Stripe} from '@ionic-native/stripe/ngx';
 import {ModalController} from '@ionic/angular';
 import {commonConfig} from '../../_dal/common/commonConfig';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {PaymentControllerServiceService} from '../../_dal/ipohdrum';
-import { environment } from '../../../environments/environment';
+import {PaymentControllerServiceService, VideoControllerServiceService} from '../../_dal/ipohdrum';
+import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../_dal/common/services/authentication.service';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
 import {LoadingService} from '../../_dal/common/services/loading.service';
@@ -16,12 +16,11 @@ import {LoadingService} from '../../_dal/common/services/loading.service';
     styleUrls: ['./payment-info-modal.page.scss'],
 })
 
-export class PaymentInfoModalPage implements OnInit {
+export class PaymentInfoModalPage implements OnInit, OnDestroy {
 
     // Strings
     constructorName = '[' + this.constructor.name + ']';
     phoneNumberRegex = commonConfig.phoneNumberRegex;
-    userId: string;
     // numericOnlyRegex = commonConfig.numericOnlyRegex;
     // cardNumberFirstPart: string;
     // cardNumberSecondPart: string;
@@ -38,11 +37,17 @@ export class PaymentInfoModalPage implements OnInit {
     // Numbers
     minLengthOfPhoneNumber = commonConfig.minLengthOfPhoneNumber;
     maxLengthOfPhoneNumber = commonConfig.maxLengthOfPhoneNumber;
+    userId: number;
+    videoId: number;
     // currentYear = (new Date()).getFullYear();
     // endYear: number;
     // yearSubtraction = 20;
     // cardNumberMinLength = commonConfig.cardNumberMinLength;
     // cardCvvMinLength = commonConfig.cardSvvMinLength;
+
+    // Booleans
+    buyInventoryFlag = false;
+    buyVideoFlag = false;
 
     // Arrays
     // listOfMonths = [
@@ -65,7 +70,8 @@ export class PaymentInfoModalPage implements OnInit {
     contactNumFormGroup: FormGroup;
 
     // Subscriptions
-    makePaymentSubscription: any;
+    makeInventoryPaymentSubscription: any;
+    makeVideoPaymentSubscription: any;
 
     constructor(
         private ngZone: NgZone,
@@ -84,10 +90,10 @@ export class PaymentInfoModalPage implements OnInit {
             this.initializeUserInfo();
             this.contactNumFormGroup = new FormGroup({
                 contactNum: new FormControl(null, [
-                   Validators.required,
+                    Validators.required,
                     Validators.minLength(this.minLengthOfPhoneNumber),
                     Validators.maxLength(this.maxLengthOfPhoneNumber),
-                   Validators.pattern(this.phoneNumberRegex)
+                    Validators.pattern(this.phoneNumberRegex)
                 ])
             });
             this.stripeHandler = StripeCheckout.configure({
@@ -95,29 +101,55 @@ export class PaymentInfoModalPage implements OnInit {
                 locale: 'auto',
                 token: token => {
                     this.loadingService.present();
-                    if (this.makePaymentSubscription) {
-                        this.makePaymentSubscription.unsubscribe();
-                    }
-                    this.makePaymentSubscription = this.paymentControllerService.createInventoryPayment(
-                        token.id.toString(),
-                        token.email.toString(),
-                        this.contactNumModel,
-                        JSON.stringify(this.finalSaleInventory),
-                        this.userId ? this.userId : null
-                    ).subscribe(resp => {
-                        if (resp.code === 200) {
-                            this.globalFunctionService.simpleToast('SUCCESS', 'Payment has been successfully made!', 'success');
-                            this.closePaymentInfoModal(true);
-                        } else {
+                    if (this.buyInventoryFlag) {
+                        if (this.makeInventoryPaymentSubscription) {
+                            this.makeInventoryPaymentSubscription.unsubscribe();
+                        }
+                        this.makeInventoryPaymentSubscription = this.paymentControllerService.createInventoryPayment(
+                            token.id.toString(),
+                            token.email.toString(),
+                            this.contactNumModel,
+                            JSON.stringify(this.finalSaleInventory),
+                            this.userId
+                        ).subscribe(resp => {
+                            if (resp.code === 200) {
+                                this.globalFunctionService.simpleToast('SUCCESS', 'Payment has been successfully made!', 'success');
+                                this.closePaymentInfoModal(true);
+                            } else {
+                                this.globalFunctionService.simpleToast('ERROR', 'Transaction failed, please try again later!', 'danger');
+                                this.closePaymentInfoModal(false);
+                            }
+                            this.loadingService.dismiss();
+                        }, error => {
                             this.globalFunctionService.simpleToast('ERROR', 'Transaction failed, please try again later!', 'danger');
                             this.closePaymentInfoModal(false);
+                            this.loadingService.dismiss();
+                        });
+                    }
+                    if (this.buyVideoFlag) {
+                        if (this.makeVideoPaymentSubscription) {
+                            this.makeVideoPaymentSubscription.unsubscribe();
                         }
-                        this.loadingService.dismiss();
-                    }, error => {
-                        this.globalFunctionService.simpleToast('ERROR', 'Transaction failed, please try again later!', 'danger');
-                        this.closePaymentInfoModal(false);
-                        this.loadingService.dismiss();
-                    });
+                        this.makeVideoPaymentSubscription = this.paymentControllerService.createVideoPayment(
+                            token.id,
+                            token.email.toString(),
+                            this.videoId,
+                            this.userId
+                        ).subscribe(resp => {
+                            if (resp.code === 200) {
+                                this.globalFunctionService.simpleToast('SUCCESS', 'Payment has been successfully made!', 'success');
+                                this.closePaymentInfoModal(true);
+                            } else {
+                                this.globalFunctionService.simpleToast('ERROR', 'Transaction failed, please try again later!', 'danger');
+                                this.closePaymentInfoModal(false);
+                            }
+                            this.loadingService.dismiss();
+                        }, error => {
+                            this.globalFunctionService.simpleToast('ERROR', 'Transaction failed, please try again later!', 'danger');
+                            this.closePaymentInfoModal(false);
+                            this.loadingService.dismiss();
+                        });
+                    }
                 }
             });
             // this.cardInfoFormGroup = new FormGroup({
@@ -137,6 +169,25 @@ export class PaymentInfoModalPage implements OnInit {
             // this.expiryYearModel = this.currentYear;
             // this.endYear = this.currentYear + this.yearSubtraction;
             // this.generateListOfYears();
+        });
+    }
+
+    ngOnDestroy() {
+        this.unsubscribeSubscriptions();
+    }
+
+    ionViewDidLeave() {
+        this.unsubscribeSubscriptions();
+    }
+
+    unsubscribeSubscriptions() {
+        this.ngZone.run(() => {
+            if (this.makeInventoryPaymentSubscription) {
+                this.makeInventoryPaymentSubscription.unsubscribe();
+            }
+            if (this.makeVideoPaymentSubscription) {
+                this.makeVideoPaymentSubscription.unsubscribe();
+            }
         });
     }
 

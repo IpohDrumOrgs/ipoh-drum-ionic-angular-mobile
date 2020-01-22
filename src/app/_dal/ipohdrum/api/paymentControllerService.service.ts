@@ -70,10 +70,10 @@ export class PaymentControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (token === null || token === undefined) {
             throw new Error('Required parameter token was null or undefined when calling createInventoryPayment.');
         }
@@ -161,6 +161,118 @@ export class PaymentControllerServiceService {
 
 
         return this.httpClient.post<any>(`${this.configuration.basePath}/api/payment`,
+            null,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Creates a test payment.
+     * @param token Stripe token id
+     * @param email Email
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createTestPayment(token: string, email: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createTestPayment(token: string, email: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createTestPayment(token: string, email: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createTestPayment(token: string, email: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (token === null || token === undefined) {
+            throw new Error('Required parameter token was null or undefined when calling createTestPayment.');
+        }
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling createTestPayment.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (token !== undefined && token !== null) {
+            queryParameters = queryParameters.set('token', <any>token);
+        }
+        if (email !== undefined && email !== null) {
+            queryParameters = queryParameters.set('email', <any>email);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/testpayment`,
+            null,
+            {
+                params: queryParameters,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Creates a video payment.
+     * @param token Stripe token id
+     * @param email Email
+     * @param video_id Involved video
+     * @param user_id User Id
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public createVideoPayment(token: string, email: string, video_id: number, user_id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createVideoPayment(token: string, email: string, video_id: number, user_id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createVideoPayment(token: string, email: string, video_id: number, user_id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createVideoPayment(token: string, email: string, video_id: number, user_id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+        if (token === null || token === undefined) {
+            throw new Error('Required parameter token was null or undefined when calling createVideoPayment.');
+        }
+        if (email === null || email === undefined) {
+            throw new Error('Required parameter email was null or undefined when calling createVideoPayment.');
+        }
+        if (video_id === null || video_id === undefined) {
+            throw new Error('Required parameter video_id was null or undefined when calling createVideoPayment.');
+        }
+        if (user_id === null || user_id === undefined) {
+            throw new Error('Required parameter user_id was null or undefined when calling createVideoPayment.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (token !== undefined && token !== null) {
+            queryParameters = queryParameters.set('token', <any>token);
+        }
+        if (email !== undefined && email !== null) {
+            queryParameters = queryParameters.set('email', <any>email);
+        }
+        if (video_id !== undefined && video_id !== null) {
+            queryParameters = queryParameters.set('video_id', <any>video_id);
+        }
+        if (user_id !== undefined && user_id !== null) {
+            queryParameters = queryParameters.set('user_id', <any>user_id);
+        }
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/videopayment`,
             null,
             {
                 params: queryParameters,

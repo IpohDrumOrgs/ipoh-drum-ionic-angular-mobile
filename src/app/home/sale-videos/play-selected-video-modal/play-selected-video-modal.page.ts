@@ -5,6 +5,7 @@ import {ModalController} from '@ionic/angular';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {PaymentInfoModalPage} from '../../../shared/payment-info-modal/payment-info-modal.page';
 import {commonConfig} from '../../../_dal/common/commonConfig';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-play-selected-video-modal',
@@ -42,13 +43,13 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
     appendListOfCommentsBySelectedVideoSubscription: any;
 
     constructor(
+        private router: Router,
         private ngZone: NgZone,
         private loadingService: LoadingService,
         private videoControllerService: VideoControllerServiceService,
         private globalFunctionService: GlobalfunctionService,
         private modalController: ModalController
     ) {
-        console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
@@ -92,13 +93,11 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
                 this.selectedPublicVideo = resp.data;
                 this.videoUrl = this.selectedPublicVideo.videopath;
             } else {
-                console.log('API Error while retrieving the selected public video by uid.');
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the selected Video, please try again later!', 'danger');
                 this.closePlaySelectedVideoModal();
             }
             this.isLoadingSelectedVideo = false;
         }, error => {
-            console.log('API Error while retrieving the selected public video by uid.');
             this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the selected Video, please try again later!', 'danger');
             this.closePlaySelectedVideoModal();
             this.isLoadingSelectedVideo = false;
@@ -125,8 +124,6 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Comments, please revisit the page later.', 'warning');
             }
         }, error => {
-            console.log('API Error while retrieving list of Comments by selected Video');
-            console.log(error);
             this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Comments, please revisit the page later.', 'warning');
         });
     }*/
@@ -139,16 +136,26 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
         if (!this.paymentModalOpen) {
             this.paymentModalOpen = true;
             const modal = await this.modalController.create({
-                component: PaymentInfoModalPage
+                component: PaymentInfoModalPage,
+                cssClass: 'payment-info-modal',
+                componentProps: {
+                    buyInventoryFlag: false,
+                    buyVideoFlag: true,
+                    videoId: this.selectedPublicVideo.id
+                }
             });
-            modal.onDidDismiss().then(() => {
-                this.paymentModalOpen = false;
+            modal.onDidDismiss().then((returnFromSuccessfulPayment) => {
+                if (returnFromSuccessfulPayment.data) {
+                    setTimeout(() => {
+                        this.closePlaySelectedVideoModal();
+                    }, 500);
+                }
             });
             return await modal.present();
         }
     }
 
-    loadMoreComments(event) {
+/*    loadMoreComments(event) {
         this.referInfiniteScroll = event;
         if (this.selectedPublicVideo.commentcount > 0) {
             setTimeout(() => {
@@ -166,7 +173,6 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
                         }
                         this.referInfiniteScroll.target.complete();
                     }, error => {
-                        console.log('API Error while retrieving list of comments');
                         this.referInfiniteScroll.target.complete();
                     });
                 }
@@ -175,5 +181,5 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
                 }
             }, 500);
         }
-    }
+    }*/
 }
