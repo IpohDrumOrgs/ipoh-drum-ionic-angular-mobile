@@ -37,14 +37,10 @@ export class ViewOrderDetailsModalPage implements OnInit, OnDestroy {
       private modalController: ModalController,
       private globalFunctionService: GlobalfunctionService,
       private saleControllerService: SaleControllerServiceService
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
-      console.log('selectedOrderId: ' + this.selectedOrderId);
-      console.log('selectedOrderUid: ' + this.selectedOrderUid);
       this.retrieveUserOrderByOrderUid();
     });
   }
@@ -77,7 +73,6 @@ export class ViewOrderDetailsModalPage implements OnInit, OnDestroy {
     this.getUserOrderByOrderUidSubscription = this.saleControllerService.getSaleByUid(
         this.selectedOrderUid
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.selectedUserOrder = resp.data;
         this.storeObject = this.selectedUserOrder.store;
@@ -89,7 +84,6 @@ export class ViewOrderDetailsModalPage implements OnInit, OnDestroy {
       this.isLoadingOrderInfo = false;
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving order by UID.');
       this.selectedUserOrder = null;
       this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Order info, please try again later!', 'danger');
       this.closeViewOrderDetailsModal();

@@ -182,7 +182,7 @@ export class ShopPage implements OnInit, OnDestroy {
         this.router.navigate(['show-more-products', productFeatureUid], {relativeTo: this.route}).catch(reason => {
             console.log('Routing navigation failed');
             // tslint:disable-next-line:max-line-length
-            this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of Inventories, please try again later.', 'warning', 'top');
+            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Inventories, please try again later.', 'warning', 'top');
             this.router.navigate(['/ipoh-drum/home']);
         });
     }

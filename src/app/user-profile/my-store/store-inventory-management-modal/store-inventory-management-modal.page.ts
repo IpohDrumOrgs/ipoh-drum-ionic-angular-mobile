@@ -6,6 +6,7 @@ import {WarrantyManagementModalPage} from '../warranty-management-modal/warranty
 import {ShippingManagementModalPage} from '../shipping-management-modal/shipping-management-modal.page';
 import {VoucherManagementModalPage} from '../voucher-management-modal/voucher-management-modal.page';
 import {ViewStoreModalPage} from '../view-store-modal/view-store-modal.page';
+import {SalesOrderManagementModalPage} from '../sales-order-management-modal/sales-order-management-modal.page';
 
 @Component({
   selector: 'app-store-inventory-management-modal',
@@ -60,6 +61,17 @@ export class StoreInventoryManagementModalPage implements OnInit {
   async openVoucherManagementModal() {
     const modal = await this.modalController.create({
       component: VoucherManagementModalPage,
+      componentProps: {
+        selectedStoreUid: this.selectedStoreUid,
+        selectedStoreId: this.selectedStoreId
+      }
+    });
+    return await modal.present();
+  }
+
+  async openSalesOrderManagementModal() {
+    const modal = await this.modalController.create({
+      component: SalesOrderManagementModalPage,
       componentProps: {
         selectedStoreUid: this.selectedStoreUid,
         selectedStoreId: this.selectedStoreId

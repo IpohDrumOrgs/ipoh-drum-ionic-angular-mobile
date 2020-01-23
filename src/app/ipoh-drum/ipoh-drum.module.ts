@@ -128,6 +128,10 @@ import {EditInventoryPatternsPage} from '../user-profile/my-store/edit-inventory
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import {ViewOrderDetailsModalPage} from '../user-profile/my-orders/view-order-details-modal/view-order-details-modal.page';
 import {ViewOrderDetailsModalPageModule} from '../user-profile/my-orders/view-order-details-modal/view-order-details-modal.module';
+import {SalesOrderManagementModalPage} from '../user-profile/my-store/sales-order-management-modal/sales-order-management-modal.page';
+import {SalesOrderManagementModalPageModule} from '../user-profile/my-store/sales-order-management-modal/sales-order-management-modal.module';
+import {ViewSalesOrderModalPageModule} from '../user-profile/my-store/view-sales-order-modal/view-sales-order-modal.module';
+import {ViewSalesOrderModalPage} from '../user-profile/my-store/view-sales-order-modal/view-sales-order-modal.page';
 
 const routes: Routes = [
     {
@@ -221,7 +225,9 @@ const routes: Routes = [
         ViewInventoryFamiliesPatternModalPageModule,
         ViewInventoryPatternModalPageModule,
         EditInventoryPatternsPageModule,
-        ViewOrderDetailsModalPageModule
+        ViewOrderDetailsModalPageModule,
+        SalesOrderManagementModalPageModule,
+        ViewSalesOrderModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -273,7 +279,9 @@ const routes: Routes = [
         ViewInventoryFamiliesPatternModalPage,
         ViewInventoryPatternModalPage,
         EditInventoryPatternsPage,
-        ViewOrderDetailsModalPage
+        ViewOrderDetailsModalPage,
+        SalesOrderManagementModalPage,
+        ViewSalesOrderModalPage
     ]
 })
 

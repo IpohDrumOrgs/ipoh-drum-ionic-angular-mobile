@@ -41,9 +41,7 @@ export class MyOrdersPage implements OnInit, OnDestroy {
         private loadingService: LoadingService,
         private globalFunctionService: GlobalfunctionService,
         private saleControllerService: SaleControllerServiceService
-    ) {
-        console.log(this.constructorName + 'Initializing component');
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -79,7 +77,6 @@ export class MyOrdersPage implements OnInit, OnDestroy {
             this.currentPageNumber,
             this.currentPageSize
         ).subscribe(resp => {
-            console.log(resp);
             if (resp.code === 200) {
                 this.listOfUsersOrders = resp.data;
                 this.maximumPages = resp.maximumPages;
@@ -92,7 +89,6 @@ export class MyOrdersPage implements OnInit, OnDestroy {
             }
             this.loadingService.dismiss();
         }, error => {
-            console.log('API Error while retrieving list of users orders.');
             this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Orders, please try again later!', 'danger');
             this.listOfUsersOrders = [];
             this.maximumPages = 0;
@@ -163,7 +159,6 @@ export class MyOrdersPage implements OnInit, OnDestroy {
                     this.ref.detectChanges();
                     this.referInfiniteScroll.target.complete();
                 }, error => {
-                    console.log('API Error while retrieving list of User Orders of current User');
                     this.referInfiniteScroll.target.complete();
                 });
             }
