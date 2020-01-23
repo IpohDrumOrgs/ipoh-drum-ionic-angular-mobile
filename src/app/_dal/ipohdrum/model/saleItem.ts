@@ -9,35 +9,29 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { SaleItem } from './saleItem';
-import { User } from './user';
-import { Store } from './store';
 
 
-export interface Sale { 
+export interface SaleItem { 
     id?: number;
-    user_id?: number;
-    store_id?: number;
-    voucher_id?: number;
+    sale_id?: number;
+    inventory_id?: number;
+    inventory_family_id?: number;
+    pattern_id?: number;
+    ticket_id?: number;
     uid?: string;
-    sono?: string;
-    email?: string;
-    contact?: string;
+    name?: string;
+    trackingcode?: string;
     qty?: number;
+    desc?: string;
+    cost?: number;
+    price?: number;
     disc?: number;
-    totalcost?: number;
     totalprice?: number;
-    charge?: number;
-    net?: number;
+    totalcost?: number;
     grandtotal?: number;
-    salestatus?: string;
     status?: string;
-    remark?: string;
-    pos?: number;
+    type?: string;
     created_at?: string;
     updated_at?: string;
-    user?: User;
-    saleitems?: Array<SaleItem>;
-    store?: Store;
 }
 

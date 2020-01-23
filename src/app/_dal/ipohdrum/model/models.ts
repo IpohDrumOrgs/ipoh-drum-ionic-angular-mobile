@@ -31,6 +31,7 @@ export * from './productFeature';
 export * from './productPromotion';
 export * from './productReview';
 export * from './sale';
+export * from './saleItem';
 export * from './shipping';
 export * from './store';
 export * from './type';

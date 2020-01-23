@@ -126,6 +126,8 @@ import {ViewInventoryPatternModalPageModule} from '../user-profile/my-store/view
 import {EditInventoryPatternsPageModule} from '../user-profile/my-store/edit-inventory-patterns/edit-inventory-patterns.module';
 import {EditInventoryPatternsPage} from '../user-profile/my-store/edit-inventory-patterns/edit-inventory-patterns.page';
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import {ViewOrderDetailsModalPage} from '../user-profile/my-orders/view-order-details-modal/view-order-details-modal.page';
+import {ViewOrderDetailsModalPageModule} from '../user-profile/my-orders/view-order-details-modal/view-order-details-modal.module';
 
 const routes: Routes = [
     {
@@ -218,7 +220,8 @@ const routes: Routes = [
         EditVideoModalPageModule,
         ViewInventoryFamiliesPatternModalPageModule,
         ViewInventoryPatternModalPageModule,
-        EditInventoryPatternsPageModule
+        EditInventoryPatternsPageModule,
+        ViewOrderDetailsModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -269,7 +272,8 @@ const routes: Routes = [
         EditVideoModalPage,
         ViewInventoryFamiliesPatternModalPage,
         ViewInventoryPatternModalPage,
-        EditInventoryPatternsPage
+        EditInventoryPatternsPage,
+        ViewOrderDetailsModalPage
     ]
 })
 
