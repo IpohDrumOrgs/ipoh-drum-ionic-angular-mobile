@@ -145,7 +145,7 @@ export class ShoppingCartPage implements OnInit {
         } else {
             this.globalFunctionService.presentAlertConfirm(
                 'WARNING',
-                'Please login first before proceeding to make any transactions.',
+                'Please login first before proceeding to make any transaction-related actions.',
                 'Cancel',
                 'Login',
                 undefined,

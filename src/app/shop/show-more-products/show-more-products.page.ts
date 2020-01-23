@@ -132,7 +132,12 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
   }
 
   backToShopPage() {
-    this.location.back();
+    this.router.navigate(['ipoh-drum/shop']).catch(reason => {
+      console.log('Routing navigation failed');
+      // tslint:disable-next-line:max-line-length
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to view Inventory\'s details, please try again later.', 'warning', 'top');
+      this.router.navigate(['/home']);
+    });
   }
 
   loadMoreInventories(event) {
@@ -162,6 +167,8 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
   }
 
   viewProductDetail(inventoryUID: string) {
+    inventoryUID += '&0';
+    inventoryUID += '&' + this.productFeatureUid;
     this.router.navigate(['ipoh-drum/shop/product-detail', inventoryUID]).catch(reason => {
       console.log('Routing navigation failed');
       // tslint:disable-next-line:max-line-length

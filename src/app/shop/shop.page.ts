@@ -162,6 +162,7 @@ export class ShopPage implements OnInit, OnDestroy {
     }
 
     viewProductDetail(inventoryUID: string) {
+        inventoryUID += '&1';
         this.router.navigate(['product-detail', inventoryUID], {relativeTo: this.route}).catch(reason => {
             console.log('Routing navigation failed');
             // tslint:disable-next-line:max-line-length

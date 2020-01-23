@@ -18,9 +18,11 @@ export class ProductDetailPage implements OnInit, OnDestroy {
     // Strings
     constructorName = '[' + this.constructor.name + ']';
     inventoryUID: string;
+    productFeatureTitleUid: string;
 
     // Booleans
     isLoadingInventory = true;
+    comeFromShopPage = '';
 
     // Objects
     currentInventory: Inventory;
@@ -72,7 +74,15 @@ export class ProductDetailPage implements OnInit, OnDestroy {
         this.loadingService.present();
         this.isLoadingInventory = true;
         this.route.params.subscribe(params => {
-            this.inventoryUID = params.uid;
+            console.log(params);
+            let newParams = params.uid.toString().split('&');
+            this.inventoryUID = newParams[0];
+            if (newParams[1]) {
+                this.comeFromShopPage = newParams[1];
+            }
+            if (newParams[2]) {
+                this.productFeatureTitleUid = newParams[2];
+            }
             if (this.currentInventorySubscription) {
                 this.currentInventorySubscription.unsubscribe();
             }
@@ -101,7 +111,18 @@ export class ProductDetailPage implements OnInit, OnDestroy {
     }
 
     backToShopPage() {
-        this.location.back();
+        console.log(this.comeFromShopPage);
+        if (this.comeFromShopPage === '1') {
+            console.log('come from shop page');
+            this.router.navigate(['ipoh-drum/shop']);
+        } else {
+            this.router.navigate(['ipoh-drum/shop/show-more-products', this.productFeatureTitleUid]).catch(reason => {
+                console.log('Routing navigation failed');
+                // tslint:disable-next-line:max-line-length
+                this.globalFunctionService.simpleToast('DANGER', 'Something went wrong, please try again later.', 'warning', 'top');
+                this.router.navigate(['/ipoh-drum/home']);
+            });
+        }
     }
 
     async openProductVariationsModal() {

@@ -6,6 +6,7 @@ import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {PaymentInfoModalPage} from '../../../shared/payment-info-modal/payment-info-modal.page';
 import {commonConfig} from '../../../_dal/common/commonConfig';
 import {Router} from '@angular/router';
+import {AuthenticationService} from '../../../_dal/common/services/authentication.service';
 
 @Component({
     selector: 'app-play-selected-video-modal',
@@ -46,6 +47,7 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
         private router: Router,
         private ngZone: NgZone,
         private loadingService: LoadingService,
+        private authenticationService: AuthenticationService,
         private videoControllerService: VideoControllerServiceService,
         private globalFunctionService: GlobalfunctionService,
         private modalController: ModalController
@@ -133,26 +135,42 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
     }
 
     async openPaymentInfoModal() {
-        if (!this.paymentModalOpen) {
-            this.paymentModalOpen = true;
-            const modal = await this.modalController.create({
-                component: PaymentInfoModalPage,
-                cssClass: 'payment-info-modal',
-                componentProps: {
-                    buyInventoryFlag: false,
-                    buyVideoFlag: true,
-                    videoId: this.selectedPublicVideo.id
-                }
-            });
-            modal.onDidDismiss().then((returnFromSuccessfulPayment) => {
-                if (returnFromSuccessfulPayment.data) {
-                    setTimeout(() => {
-                        this.closePlaySelectedVideoModal();
-                    }, 500);
-                }
-            });
-            return await modal.present();
+        if (this.authenticationService.isUserLoggedIn()) {
+            if (!this.paymentModalOpen) {
+                this.paymentModalOpen = true;
+                const modal = await this.modalController.create({
+                    component: PaymentInfoModalPage,
+                    cssClass: 'payment-info-modal',
+                    componentProps: {
+                        buyInventoryFlag: false,
+                        buyVideoFlag: true,
+                        videoId: this.selectedPublicVideo.id
+                    }
+                });
+                modal.onDidDismiss().then((returnFromSuccessfulPayment) => {
+                    if (returnFromSuccessfulPayment.data) {
+                        setTimeout(() => {
+                            this.closePlaySelectedVideoModal();
+                        }, 500);
+                    }
+                });
+                return await modal.present();
+            }
+        } else {
+            this.globalFunctionService.presentAlertConfirm(
+                'WARNING',
+                'Please login first before proceeding to make any transaction-related actions.',
+                'Cancel',
+                'Login',
+                undefined,
+                () => this.actuallyRouteToLoginPage()
+            );
         }
+    }
+
+    actuallyRouteToLoginPage() {
+        this.closePlaySelectedVideoModal();
+        this.router.navigate(['login']);
     }
 
 /*    loadMoreComments(event) {
