@@ -81,7 +81,7 @@
           {{selectedSalesOrder?.uid}}
         </ion-label>
       </ion-card-header>
-      <ion-card-content style="padding:0 5px 15px 5px;">
+      <ion-card-content style="padding:0 5px 5px 5px;">
         <ion-row class="ion-align-items-center">
           <ion-col size="3" style="text-align:center !important;padding:5px 0 5px 0;">
             <img [src]="storeObject?.imgpath ? storeObject?.imgpath : '../../../../assets/images/default_product.png'"
@@ -107,7 +107,7 @@
                        style="object-fit:cover;">
                 </ion-col>
                 <ion-col size="7" class="align-items-center">
-                  <div style="font-weight:bold;">
+                  <div style="font-weight:bold;text-align:right;">
                     <ng-container *ngIf="soldInventory?.name.split(':')[1]">
                       <span class="badge badge-primary" style="white-space:normal;word-wrap:break-word;font-size:15px;text-align:left;margin-bottom:5px;">
                           {{soldInventory?.name.split(':')[1]}}
@@ -120,19 +120,71 @@
                     </ng-container>
                   </div>
                   <div style="text-align:right;">
-                    {{soldInventory?.price | myCurrency}}&nbsp;x{{soldInventory?.qty}}
+                    <b style="text-decoration:line-through;color:grey;">
+                      {{soldInventory?.price | myCurrency}}
+                    </b>
+                    &nbsp;
+                    <span style="font-size:20px;font-weight:bold;">
+                      {{soldInventory?.discountedprice | myCurrency}}
+                    </span>
                   </div>
                   <div style="text-align:right;">
-                    Total Price:&nbsp;{{(soldInventory?.price * soldInventory?.qty) | myCurrency}}&nbsp;&nbsp;
+                    x{{soldInventory?.qty}}
                   </div>
                 </ion-col>
                 <ion-col size="12" style="border-top:1px solid #e6e6e6;">
                   <div style="text-align:right;font-size:18px;font-weight:bold;">
-                    Grand Total:&nbsp;{{((soldInventory?.price * soldInventory?.qty) - soldInventory?.disc) | myCurrency}}
+                    Total Price:&nbsp;
+                    {{(soldInventory?.discountedprice * soldInventory?.qty) | myCurrency}}
                   </div>
                 </ion-col>
               </ion-row>
             </ion-card>
+          </ion-col>
+        </ion-row>
+        <ion-row style="border-top:1px solid #e6e6e6;">
+          <ion-col size="12" style="padding:10px 0 0 0;">
+            <div style="border:1px solid #e6e6e6;border-radius:5px;padding:15px;">
+              <h2 style="margin-bottom:15px;">
+                Customer Information&nbsp; <ion-icon name="person"></ion-icon>
+              </h2>
+              <table>
+                <tbody>
+                <tr style="border-bottom:1px solid #e6e6e6;">
+                  <td style="font-weight:bold;color:black;">
+                    Email
+                  </td>
+                  <td style="white-space:normal;word-wrap:break-word;">
+                    &nbsp;&nbsp;{{selectedSalesOrder?.email}}
+                  </td>
+                </tr>
+                <tr style="border-bottom:1px solid #e6e6e6;">
+                  <td style="font-weight:bold;color:black;">
+                    Contact Number
+                  </td>
+                  <td style="white-space:normal;word-wrap:break-word;">
+                    &nbsp;&nbsp;{{selectedSalesOrder?.contact}}
+                  </td>
+                </tr>
+                <tr style="border-bottom:1px solid #e6e6e6;">
+                  <td style="font-weight:bold;color:black;">
+                    Total Quantities Bought
+                  </td>
+                  <td style="white-space:normal;word-wrap:break-word;">
+                    &nbsp;&nbsp;{{selectedSalesOrder?.qty}}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="font-weight:bold;color:black;">
+                    Payment Date
+                  </td>
+                  <td style="white-space:normal;word-wrap:break-word;">
+                    &nbsp;&nbsp;{{selectedSalesOrder?.created_at}}
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
           </ion-col>
         </ion-row>
       </ion-card-content>
