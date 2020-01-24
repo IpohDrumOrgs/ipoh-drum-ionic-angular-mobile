@@ -22,12 +22,14 @@ export class ShoppingCartPage implements OnInit {
 
     // Numbers
     nullSelectedInventoryPatternId = commonConfig.nullSelectedInventoryPatternId;
+    totalPriceInCart = 0;
 
     // Arrays
     listOfInventoriesInCart: Array<any> = [];
     selectedInventoryStoreIds: Array<number> = [];
     uniqueSelectedInventoryStoreIds: Array<number> = [];
     finalSaleInventory: Array<any> = [];
+    eachItemPriceToPay: Array<number> = [];
 
     // Subscriptions
     inventoriesInCartSubscription: any;
@@ -43,12 +45,14 @@ export class ShoppingCartPage implements OnInit {
         private globalFunctionService: GlobalfunctionService
     ) {
         this.listOfInventoriesInCart = this.sharedService.returnSelectedInventoriesInCart();
+        this.countTotalPriceToPay();
     }
 
     ngOnInit() {
         this.ngZone.run(() => {
             this.inventoriesInCartSubscription = this.sharedService.emitSelectedInventoryToCart$.subscribe(data => {
                 this.listOfInventoriesInCart = data;
+                this.countTotalPriceToPay();
             });
         });
     }
@@ -70,6 +74,7 @@ export class ShoppingCartPage implements OnInit {
     increaseInventoryQuantity(inventoryInCart: any) {
         if (inventoryInCart.qty > inventoryInCart.selectedQuantity) {
             inventoryInCart.selectedQuantity++;
+            this.countTotalPriceToPay();
         }
     }
 
@@ -85,6 +90,7 @@ export class ShoppingCartPage implements OnInit {
                 undefined,
                 () => this.removeInventoryFromCart(inventoryInCart, indexInCart));
         }
+        this.countTotalPriceToPay();
     }
 
     removeInventoryFromCart(inventory: any, indexInCart: number) {
@@ -107,7 +113,7 @@ export class ShoppingCartPage implements OnInit {
                 // Hold current unique store id
                 // tslint:disable-next-line:prefer-for-of
                 for (let j = 0; j < this.uniqueSelectedInventoryStoreIds.length; j++) {
-                    let saleItems = [];
+                    const saleItems = [];
                     let inven = {};
                     // Loop through each inventory
                     // tslint:disable-next-line:prefer-for-of
@@ -139,6 +145,7 @@ export class ShoppingCartPage implements OnInit {
                     };
                     this.finalSaleInventory.push(inven);
                 }
+                this.countTotalPriceToPay();
                 this.openPaymentInfoModal();
                 this.loadingService.dismiss();
             }, 500);
@@ -154,6 +161,49 @@ export class ShoppingCartPage implements OnInit {
         }
     }
 
+    countTotalPriceToPay() {
+        this.eachItemPriceToPay = [];
+        this.totalPriceInCart = 0;
+        // tslint:disable-next-line:prefer-for-of
+        for (let c = 0 ; c < this.listOfInventoriesInCart.length ; c++) {
+            if (this.listOfInventoriesInCart[c].promotion) {
+                // If select only InventoryFamily
+                if (this.listOfInventoriesInCart[c].selectedInventoryPattern.id === 9999) {
+                    // If discount by price
+                    if (this.listOfInventoriesInCart[c].promotion.discbyprice === 1) {
+                        // tslint:disable-next-line:max-line-length
+                        this.eachItemPriceToPay.push((this.listOfInventoriesInCart[c].selectedInventoryFamily.price - this.listOfInventoriesInCart[c].promotion.disc) * this.listOfInventoriesInCart[c].selectedQuantity);
+                    } else {
+                        // If discount by percentage
+                        // tslint:disable-next-line:max-line-length
+                        this.eachItemPriceToPay.push((this.listOfInventoriesInCart[c].selectedInventoryFamily.price - (this.listOfInventoriesInCart[c].selectedInventoryFamily.price * (this.listOfInventoriesInCart[c].promotion.discpctg / 100))) * this.listOfInventoriesInCart[c].selectedQuantity);
+                    }
+                } else {
+                    // If select InventoryPattern
+                    // If discount by price
+                    if (this.listOfInventoriesInCart[c].promotion.discbyprice === 1) {
+                        // tslint:disable-next-line:max-line-length
+                        this.eachItemPriceToPay.push((this.listOfInventoriesInCart[c].selectedInventoryPattern.price - this.listOfInventoriesInCart[c].promotion.disc) * this.listOfInventoriesInCart[c].selectedQuantity);
+                    } else {
+                        // tslint:disable-next-line:max-line-length
+                        this.eachItemPriceToPay.push((this.listOfInventoriesInCart[c].selectedInventoryPattern.price - (this.listOfInventoriesInCart[c].selectedInventoryPattern.price * (this.listOfInventoriesInCart[c].promotion.discpctg / 100))) * this.listOfInventoriesInCart[c].selectedQuantity);
+                    }
+                }
+            } else {
+                // If no promotion
+                // If selects only family
+                if (this.listOfInventoriesInCart[c].selectedInventoryPattern.id === 9999) {
+                    this.eachItemPriceToPay.push(this.listOfInventoriesInCart[c].selectedInventoryPattern.price);
+                } else {
+                    this.eachItemPriceToPay.push(this.listOfInventoriesInCart[c].selectedInventoryFamily.price);
+                }
+            }
+        }
+        for (let d = 0 ; d < this.eachItemPriceToPay.length ; d++) {
+            this.totalPriceInCart += this.eachItemPriceToPay[d];
+        }
+    }
+
     actuallyRouteToLoginPage() {
         this.router.navigate(['login']);
     }
@@ -164,6 +214,7 @@ export class ShoppingCartPage implements OnInit {
             cssClass: 'payment-info-modal',
             componentProps: {
                 finalSaleInventory: this.finalSaleInventory,
+                totalPriceInCart: this.totalPriceInCart,
                 buyInventoryFlag: true,
                 buyVideoFlag: false
             }
