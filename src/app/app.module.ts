@@ -7,7 +7,6 @@ import {StatusBar} from '@ionic-native/status-bar/ngx';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './app-routing.module';
 import {LaravelPassportModule} from 'laravel-passport';
-import {UserControllerServiceService} from './_dal/ipohdrum';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthzInterceptor} from './_dal/common/services/authz-interceptor';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -18,6 +17,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {SharedService} from './shared.service';
 import {IpohDrumPageModule} from './ipoh-drum/ipoh-drum.module';
 import {Stripe} from '@ionic-native/stripe/ngx';
+import {UserControllerServiceService} from './_dal/ipohdrum';
 
 @NgModule({
     declarations: [
