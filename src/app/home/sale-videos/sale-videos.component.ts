@@ -73,6 +73,7 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
     }
 
     getListOfVideos() {
+        this.loadingService.present();
         this.isLoadingListOfPublicVideos = true;
         if (this.getListOfVideosSubscription) {
             this.getListOfVideosSubscription.unsubscribe();
@@ -90,11 +91,13 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
                 this.listOfPublicVideos = [];
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Videos, please try again later!', 'warning', 'top');
             }
+            this.loadingService.dismiss();
             this.isLoadingListOfPublicVideos = false;
         }, error => {
             console.log('API Error while retrieving list of Public Videos');
             this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Videos, please try again later!', 'warning', 'top');
             this.isLoadingListOfPublicVideos = false;
+            this.loadingService.dismiss();
             this.listOfPublicVideos = [];
         });
     }

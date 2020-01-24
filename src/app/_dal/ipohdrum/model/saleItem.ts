@@ -33,5 +33,6 @@ export interface SaleItem {
     type?: string;
     created_at?: string;
     updated_at?: string;
+    discountedprice?: number;
 }
 

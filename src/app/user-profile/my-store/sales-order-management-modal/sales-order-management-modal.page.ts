@@ -1,5 +1,5 @@
 import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
-import {SaleControllerServiceService, SaleItem} from '../../../_dal/ipohdrum';
+import {Sale, SaleControllerServiceService, SaleItem} from '../../../_dal/ipohdrum';
 import {LoadingService} from '../../../_dal/common/services/loading.service';
 import {commonConfig} from '../../../_dal/common/commonConfig';
 import {GlobalfunctionService} from '../../../_dal/common/services/globalfunction.service';
@@ -24,7 +24,7 @@ export class SalesOrderManagementModalPage implements OnInit, OnDestroy {
   totalResult: number;
 
   // Arrays
-  listOfSalesOrders: Array<SaleItem> = [];
+  listOfSalesOrders: Array<Sale> = [];
 
   // Objects
   referInfiniteScroll: any;
@@ -75,6 +75,7 @@ export class SalesOrderManagementModalPage implements OnInit, OnDestroy {
         this.currentPageNumber,
         this.currentPageSize
     ).subscribe(resp => {
+      console.log(resp);
       if (resp.code === 200) {
         this.listOfSalesOrders = resp.data;
         this.maximumPages = resp.maximumPages;

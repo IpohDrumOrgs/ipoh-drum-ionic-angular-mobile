@@ -17,7 +17,7 @@ export class MyCurrencyPipe implements PipeTransform {
     priceFormat = value.toString().split('.');
     formattedPrice += priceFormat[0] + '.';
     if (priceFormat[1]) {
-      formattedPrice += priceFormat[1];
+      formattedPrice += priceFormat[1].substr(0, 2);
       if (priceFormat[1].length === 1) {
         formattedPrice += '0';
       }

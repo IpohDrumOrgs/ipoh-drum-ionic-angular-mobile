@@ -74,7 +74,7 @@ export class AuthenticationService {
         this.laravelPassport.loginWithEmailAndPassword(data.email, data.password).subscribe(res => {
             localStorage.setItem('access_token', res.access_token);
             this.storage.set('access_token', res.access_token);
-            this.globalFunctionService.simpleToast('SUCCESS!', 'You are logged in!', 'primary');
+            this.globalFunctionService.simpleToast('SUCCESS!', 'You are logged in!', 'success');
             this.router.navigate(['/ipoh-drum/home']);
             this.loadingService.dismiss();
         }, err => {

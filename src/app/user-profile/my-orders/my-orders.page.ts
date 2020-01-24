@@ -1,11 +1,10 @@
 import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
-import {SaleControllerServiceService} from '../../_dal/ipohdrum';
 import {commonConfig} from '../../_dal/common/commonConfig';
 import {LoadingService} from '../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
-import {MainBlogManagementModalPage} from '../my-blog/main-blog-management-modal/main-blog-management-modal.page';
 import {ModalController} from '@ionic/angular';
 import {ViewOrderDetailsModalPage} from './view-order-details-modal/view-order-details-modal.page';
+import {SaleControllerServiceService} from '../../_dal/ipohdrum';
 
 @Component({
     selector: 'app-my-orders',

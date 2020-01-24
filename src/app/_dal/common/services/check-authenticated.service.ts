@@ -22,7 +22,7 @@ export class CheckAuthenticatedService implements CanActivate {
           'You are not authenticated, please login before proceeding!',
           'Cancel',
           'Login',
-          undefined,
+          () => this.redirectToHomePage(),
           () => this.redirectToLoginPage());
       return false;
     } else {
@@ -32,5 +32,9 @@ export class CheckAuthenticatedService implements CanActivate {
 
   redirectToLoginPage() {
     this.router.navigate(['/login']);
+  }
+
+  redirectToHomePage() {
+    this.router.navigate(['/ipoh-drum/home']);
   }
 }

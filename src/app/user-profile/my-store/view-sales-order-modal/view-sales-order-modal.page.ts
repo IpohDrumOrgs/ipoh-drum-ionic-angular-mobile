@@ -63,6 +63,7 @@ this.retrieveSalesOrderByUid();
   }
 
   retrieveSalesOrderByUid() {
+    console.log('sales order');
     this.isLoadingSalesOrderInfo = true;
     if (this.getSalesOrderByUidSubscription) {
       this.getSalesOrderByUidSubscription.unsubscribe();
@@ -70,6 +71,7 @@ this.retrieveSalesOrderByUid();
     this.getSalesOrderByUidSubscription = this.saleControllerService.getSaleByUid(
         this.selectedSalesOrderUid
     ).subscribe(resp => {
+      console.log(resp);
       if (resp.code === 200) {
         this.selectedSalesOrder = resp.data;
         this.storeObject = this.selectedSalesOrder.store;
