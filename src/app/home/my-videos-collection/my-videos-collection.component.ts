@@ -5,6 +5,8 @@ import {LoadingService} from '../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
 import {ModalController} from '@ionic/angular';
 import {PlaySelectedMyVideoModalPage} from './play-selected-my-video-modal/play-selected-my-video-modal.page';
+import {AuthenticationService} from '../../_dal/common/services/authentication.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-my-videos-collection',
@@ -39,15 +41,21 @@ export class MyVideosCollectionComponent implements OnInit, OnDestroy {
 
   constructor(
       private ngZone: NgZone,
+      private router: Router,
       private loadingService: LoadingService,
       private modalController: ModalController,
+      private authenticationService: AuthenticationService,
       private globalFunctionService: GlobalfunctionService,
       private videoControllerService: VideoControllerServiceService
-  ) {}
+  ) {
+    console.log(this.constructorName + 'Initializing component');
+  }
 
   ngOnInit() {
     this.ngZone.run(() => {
-      this.retrieveListOfMyVideosCollection();
+      if (this.checkIfUserIsLoggedIn()) {
+        this.retrieveListOfMyVideosCollection();
+      }
     });
   }
 
@@ -181,5 +189,15 @@ export class MyVideosCollectionComponent implements OnInit, OnDestroy {
         this.referInfiniteScroll.target.disabled = true;
       }
     }, 500);
+  }
+
+  checkIfUserIsLoggedIn() {
+    return this.authenticationService.isUserLoggedIn();
+  }
+
+  navigateToLoginScreen() {
+    this.router.navigate(['login']).catch(reason => {
+      this.globalFunctionService.simpleToast('ERROR', 'Something went wrong, please try again later!', 'danger');
+    });
   }
 }

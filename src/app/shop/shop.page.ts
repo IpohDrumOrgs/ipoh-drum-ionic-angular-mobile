@@ -84,6 +84,24 @@ export class ShopPage implements OnInit, OnDestroy {
         this.unsubscribeSubscriptions();
     }
 
+    ionViewDidLeave() {
+        this.unsubscribeSubscriptions();
+    }
+
+    unsubscribeSubscriptions() {
+        this.ngZone.run(() => {
+            if (this.inventorySubscription) {
+                this.inventorySubscription.unsubscribe();
+            }
+            if (this.typeSubscription) {
+                this.typeSubscription.unsubscribe();
+            }
+            if (this.productFeaturesSubscription) {
+                this.productFeaturesSubscription.unsubscribe();
+            }
+        });
+    }
+
     ionViewDidEnter() {
         this.subscription = this.platform.backButton.subscribe(() => {
             this.globalFunctionService.presentAlertConfirm(
@@ -105,24 +123,6 @@ export class ShopPage implements OnInit, OnDestroy {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
-    }
-
-    ionViewDidLeave() {
-        this.unsubscribeSubscriptions();
-    }
-
-    unsubscribeSubscriptions() {
-        this.ngZone.run(() => {
-            if (this.inventorySubscription) {
-                this.inventorySubscription.unsubscribe();
-            }
-            if (this.typeSubscription) {
-                this.typeSubscription.unsubscribe();
-            }
-            if (this.productFeaturesSubscription) {
-                this.productFeaturesSubscription.unsubscribe();
-            }
-        });
     }
 
     getListOfCategories() {
