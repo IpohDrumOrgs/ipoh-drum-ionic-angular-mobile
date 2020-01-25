@@ -80,12 +80,12 @@
         <ion-row>
             <ion-col size="12" style="margin-top:10px;text-align:center;">
                 <ng-container *ngIf="temporaryVideoImageURL else showOriginalVideoImage">
-                    <img [src]="temporaryVideoImageURL"
-                         style="border-radius:50%;height:100px;width:100px;object-fit:cover;">
+                    <img [src]="temporaryVideoImageURL" class="rounded"
+                         style="object-fit:cover;height:250px;">
                 </ng-container>
                 <ng-template #showOriginalVideoImage>
-                    <img [src]="selectedVideo?.imgpath ? selectedVideo.imgpath : '../../../../assets/images/default_product.png'"
-                         style="border-radius:50%;height:100px;width:100px;object-fit:cover;">
+                    <img [src]="selectedVideo?.imgpath ? selectedVideo.imgpath : '../../../../assets/images/default_product.png'" class="rounded"
+                         style="object-fit:cover;height:250px;">
                 </ng-template>
             </ion-col>
             <ng-container *ngIf="!temporaryVideoImageURL else uploadedTemporaryPhoto">

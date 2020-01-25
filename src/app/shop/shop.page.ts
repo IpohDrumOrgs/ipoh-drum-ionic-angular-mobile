@@ -5,7 +5,7 @@ import {
     Type,
     ProductFeatureControllerServiceService, ProductFeature, Inventory
 } from '../_dal/ipohdrum';
-import {ModalController, NavController} from '@ionic/angular';
+import {NavController, Platform} from '@ionic/angular';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GlobalfunctionService} from '../_dal/common/services/globalfunction.service';
 
@@ -56,6 +56,7 @@ export class ShopPage implements OnInit, OnDestroy {
     inventorySubscription: any;
     typeSubscription: any;
     productFeaturesSubscription: any;
+    subscription: any;
 
     constructor(
         private inventoryControllerService: InventoryControllerServiceService,
@@ -66,7 +67,8 @@ export class ShopPage implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private typeControllerService: TypeControllerServiceService,
         private productFeatureControllerService: ProductFeatureControllerServiceService,
-        private globalFunctionService: GlobalfunctionService
+        private globalFunctionService: GlobalfunctionService,
+        private platform: Platform
     ) {
         console.log(this.constructorName + 'Initializing component');
     }
@@ -80,6 +82,29 @@ export class ShopPage implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.unsubscribeSubscriptions();
+    }
+
+    ionViewDidEnter() {
+        this.subscription = this.platform.backButton.subscribe(() => {
+            this.globalFunctionService.presentAlertConfirm(
+                'WARNING',
+                'Are you sure you want to exit the app?',
+                'Cancel',
+                'Exit',
+                undefined,
+                () => this.methodToExitApp()
+            );
+        });
+    }
+
+    methodToExitApp() {
+        navigator['app'].exitApp();
+    }
+
+    ionViewWillLeave() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     ionViewDidLeave() {

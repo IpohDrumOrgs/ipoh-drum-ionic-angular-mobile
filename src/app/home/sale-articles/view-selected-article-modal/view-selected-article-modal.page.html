@@ -138,7 +138,7 @@
               <ion-slide *ngFor="let articleImages of selectedPublicArticle.articleimages">
                 <ion-row style="margin-bottom:30px;">
                   <ion-col size="12" style="padding:0;">
-                    <ion-img [src]="articleImages?.imgpath" style="object-fit:cover;"></ion-img>
+                    <img [src]="articleImages?.imgpath" style="object-fit:cover;">
                   </ion-col>
                   <ion-col size="12">
                     {{articleImages?.desc}}

@@ -115,9 +115,9 @@
                                                         <ion-slides pager="true" [options]="inventoryImageSliderOptions"
                                                                     style="margin:1px;">
                                                             <ion-slide *ngFor="let url of temporaryInventorySliders">
-                                                                <ion-img [src]="url" alt="product_image"
+                                                                <img [src]="url" alt="product_image"
                                                                      class="rounded mb-3"
-                                                                     style="height:300px;"></ion-img>
+                                                                     style="height:300px;">
                                                             </ion-slide>
                                                         </ion-slides>
                                                     </ion-col>

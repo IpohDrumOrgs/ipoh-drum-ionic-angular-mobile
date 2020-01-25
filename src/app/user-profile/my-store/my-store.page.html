@@ -25,7 +25,6 @@
           </ion-row>
           <ion-row>
             <ion-col size="6" *ngFor="let store of listOfCurrentUsersStores">
-                {{store?.imgpath}}
               <ion-card (click)="openStoreInventoryManagementModal(store.uid, store.id)" style="margin:0;background:white;">
                 <ion-card-header style="background-color:#ececec;padding:0;">
                   <ng-container *ngIf="store.imgpath else noImageForStore">

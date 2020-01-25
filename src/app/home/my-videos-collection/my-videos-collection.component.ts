@@ -81,11 +81,13 @@ export class MyVideosCollectionComponent implements OnInit, OnDestroy {
         this.currentPageNumber,
         this.currentPageSize
     ).subscribe(resp => {
+      console.log(resp);
       if (resp.code === 200) {
         this.listOfMyVideosCollection = resp.data;
         this.maximumPages = resp.maximumPages;
         this.totalResult = resp.totalResult;
       } else {
+        console.log('error response code');
         this.listOfMyVideosCollection = [];
         this.maximumPages = 0;
         this.totalResult = 0;
@@ -95,6 +97,7 @@ export class MyVideosCollectionComponent implements OnInit, OnDestroy {
       this.loadingService.dismiss();
       this.isLoadingMyVideosCollection = false;
     }, error => {
+      console.log('api error');
       // tslint:disable-next-line:max-line-length
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve My Videos collection, please try again later!', 'warning', 'top');
       this.listOfMyVideosCollection = [];

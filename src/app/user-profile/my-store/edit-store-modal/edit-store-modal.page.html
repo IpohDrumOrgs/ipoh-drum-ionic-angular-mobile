@@ -82,10 +82,10 @@
         <ion-row>
             <ion-col size="12" style="margin-top:10px;text-align:center;">
                 <ng-container *ngIf="temporaryStoreImageURL else showOriginalStoreImage">
-                    <ion-img [src]="temporaryStoreImageURL" style="border-radius:50%;height:100px;width:100px;object-fit:cover;"></ion-img>
+                    <img [src]="temporaryStoreImageURL" style="border-radius:50%;height:100px;width:100px;object-fit:cover;">
                 </ng-container>
                 <ng-template #showOriginalStoreImage>
-                    <ion-img [src]="selectedStore?.imgpath ? selectedStore.imgpath : '../../../../assets/images/default_product.png'" style="border-radius:50%;height:100px;width:100px;object-fit:cover;"></ion-img>
+                    <img [src]="selectedStore?.imgpath ? selectedStore.imgpath : '../../../../assets/images/default_product.png'" style="border-radius:50%;height:100px;width:100px;object-fit:cover;">
                 </ng-template>
             </ion-col>
             <ng-container *ngIf="!temporaryStoreImageURL else uploadedTemporaryPhoto">

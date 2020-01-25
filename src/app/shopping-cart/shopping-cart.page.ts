@@ -3,7 +3,7 @@ import {SharedService} from '../shared.service';
 import {GlobalfunctionService} from '../_dal/common/services/globalfunction.service';
 import {commonConfig} from '../_dal/common/commonConfig';
 import {LoadingService} from '../_dal/common/services/loading.service';
-import {ModalController} from '@ionic/angular';
+import {ModalController, Platform} from '@ionic/angular';
 import {PaymentInfoModalPage} from '../shared/payment-info-modal/payment-info-modal.page';
 import {Stripe} from '@ionic-native/stripe/ngx';
 import {AuthenticationService} from '../_dal/common/services/authentication.service';
@@ -33,6 +33,7 @@ export class ShoppingCartPage implements OnInit {
 
     // Subscriptions
     inventoriesInCartSubscription: any;
+    subscription: any;
 
     constructor(
         private stripe: Stripe,
@@ -42,7 +43,8 @@ export class ShoppingCartPage implements OnInit {
         private loadingService: LoadingService,
         private modalController: ModalController,
         private authenticationService: AuthenticationService,
-        private globalFunctionService: GlobalfunctionService
+        private globalFunctionService: GlobalfunctionService,
+        private platform: Platform
     ) {
         this.listOfInventoriesInCart = this.sharedService.returnSelectedInventoriesInCart();
         this.countTotalPriceToPay();
@@ -55,6 +57,29 @@ export class ShoppingCartPage implements OnInit {
                 this.countTotalPriceToPay();
             });
         });
+    }
+
+    ionViewDidEnter() {
+        this.subscription = this.platform.backButton.subscribe(() => {
+            this.globalFunctionService.presentAlertConfirm(
+                'WARNING',
+                'Are you sure you want to exit the app?',
+                'Cancel',
+                'Exit',
+                undefined,
+                () => this.methodToExitApp()
+            );
+        });
+    }
+
+    methodToExitApp() {
+        navigator['app'].exitApp();
+    }
+
+    ionViewWillLeave() {
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     clearShoppingCart() {

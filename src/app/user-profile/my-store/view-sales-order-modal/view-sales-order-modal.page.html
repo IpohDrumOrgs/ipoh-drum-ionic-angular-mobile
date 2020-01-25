@@ -84,8 +84,8 @@
       <ion-card-content style="padding:0 5px 5px 5px;">
         <ion-row class="ion-align-items-center">
           <ion-col size="3" style="text-align:center !important;padding:5px 0 5px 0;">
-            <ion-img [src]="storeObject?.imgpath ? storeObject?.imgpath : '../../../../assets/images/default_product.png'"
-                 style="border-radius:50%;height:50px;width:50px;object-fit:cover;"></ion-img>
+            <img [src]="storeObject?.imgpath ? storeObject?.imgpath : '../../../../assets/images/default_product.png'"
+                 style="border-radius:50%;height:50px;width:50px;object-fit:cover;">
           </ion-col>
           <ion-col size="9" style="text-align:left;padding:0 0 0 0;">
             <b>{{storeObject?.name}}</b>

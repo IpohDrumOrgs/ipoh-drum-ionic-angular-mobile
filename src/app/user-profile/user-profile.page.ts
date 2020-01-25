@@ -1,5 +1,5 @@
 import {Component, NgZone, OnInit} from '@angular/core';
-import {MenuController, NavController} from '@ionic/angular';
+import {MenuController, NavController, Platform} from '@ionic/angular';
 import {AuthenticationService} from '../_dal/common/services/authentication.service';
 import {GlobalfunctionService} from '../_dal/common/services/globalfunction.service';
 
@@ -13,7 +13,10 @@ export class UserProfilePage implements OnInit {
 
   constructorName = '[' + this.constructor.name + ']';
 
+  subscription: any;
+
   constructor(
+      private platform: Platform,
       private ngZone: NgZone,
       private menuController: MenuController,
       private navController: NavController,
@@ -29,14 +32,28 @@ export class UserProfilePage implements OnInit {
     });
   }
 
-  ionViewWillEnter() {
-    console.log(this.constructorName + 'IonViewWillEnter');
+  ionViewDidEnter() {
+    this.subscription = this.platform.backButton.subscribe(() => {
+      this.globalFunctionService.presentAlertConfirm(
+          'WARNING',
+          'Are you sure you want to exit the app?',
+          'Cancel',
+          'Exit',
+          undefined,
+          () => this.methodToExitApp()
+      );
+    });
   }
 
-  ionViewDidLeave() {
-    console.log(this.constructorName + 'IonViewDidLeave');
+  methodToExitApp() {
+    navigator['app'].exitApp();
   }
 
+  ionViewWillLeave() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   closeSideMenu(page: number) {
     this.menuController.close('userProfileSideBar');
     switch (page) {

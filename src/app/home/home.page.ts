@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {Platform} from '@ionic/angular';
+import {GlobalfunctionService} from '../_dal/common/services/globalfunction.service';
 
 @Component({
   selector: 'app-home',
@@ -16,10 +18,36 @@ export class HomePage implements OnInit {
   isShowingVideosTab = true;
   isShowingArticlesTab = false;
   isShowingMyVideosCollectionTab = false;
+  subscription: any;
 
-  constructor() {
-    console.log(this.constructorName + 'Initializing component');
+  constructor(
+      public platform: Platform,
+      private globalFunctionService: GlobalfunctionService
+  ) {
   }
+
+  /*ionViewDidEnter() {
+    this.subscription = this.platform.backButton.subscribe(() => {
+      this.globalFunctionService.presentAlertConfirm(
+          'WARNING',
+          'Are you sure you want to exit the app?',
+          'Cancel',
+          'Exit',
+          undefined,
+          () => this.methodToExitApp()
+      );
+    });
+  }
+
+  methodToExitApp() {
+    navigator['app'].exitApp();
+  }
+
+  ionViewWillLeave() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }*/
 
   ngOnInit() {
   }
@@ -34,18 +62,10 @@ export class HomePage implements OnInit {
       this.isShowingVideosTab = false;
       this.isShowingArticlesTab = true;
       this.isShowingMyVideosCollectionTab = false;
-    } else if (this.currentTab === 'my-videos-collection') {
+    } else if (this.currentTab === 'my videos') {
       this.isShowingVideosTab = false;
       this.isShowingArticlesTab = false;
       this.isShowingMyVideosCollectionTab = true;
     }
   }
-
-/*  ionViewDidLeave() {
-    console.log(this.constructorName + 'left view');
-  }
-
-  ionViewDidEnter() {
-    console.log(this.constructorName + 'entered view');
-  }*/
 }
