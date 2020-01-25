@@ -7,6 +7,7 @@ import { HomePage } from './home.page';
 import {SaleVideosComponent} from './sale-videos/sale-videos.component';
 import {SaleArticlesComponent} from './sale-articles/sale-articles.component';
 import {SharedModule} from '../shared/shared.module';
+import {MyVideosCollectionComponent} from './my-videos-collection/my-videos-collection.component';
 
 const routes: Routes = [
   {
@@ -23,11 +24,12 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         SharedModule
     ],
-  declarations: [
-      HomePage,
-      SaleVideosComponent,
-      SaleArticlesComponent
-  ]
+    declarations: [
+        HomePage,
+        SaleVideosComponent,
+        SaleArticlesComponent,
+        MyVideosCollectionComponent
+    ]
 })
 
 export class HomePageModule {}

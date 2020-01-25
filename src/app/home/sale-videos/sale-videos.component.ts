@@ -170,7 +170,6 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
                     }
                     this.referInfiniteScroll.target.complete();
                 }, error => {
-                    console.log('API Error while retrieving list of videos');
                     this.referInfiniteScroll.target.complete();
                 });
             }

@@ -1,6 +1,6 @@
 <ng-container *ngIf="isLoadingListOfPublicVideos else finishedLoadingListOfPublicVideos">
     <ion-card style="margin-bottom:10px;margin-top:0;background-color:white !important;">
-        <img src="../../../assets/images/default_product.png" style="object-fit:cover;"/>
+        <ion-img src="../../../assets/images/default_product.png" style="object-fit:cover;"></ion-img>
         <ion-card-header style="padding-top:5px;padding-bottom:0;">
             <ion-label>
                 <ion-skeleton-text animated="true"></ion-skeleton-text>
@@ -30,7 +30,7 @@
         </ion-card-content>
     </ion-card>
     <ion-card style="margin-bottom:10px;background-color:white !important;">
-        <img src="../../../assets/images/default_product.png" style="object-fit:cover;"/>
+        <ion-img src="../../../assets/images/default_product.png" style="object-fit:cover;"></ion-img>
         <ion-card-header style="padding-top:5px;padding-bottom:0;">
             <ion-label>
                 <ion-skeleton-text animated="true"></ion-skeleton-text>
@@ -70,9 +70,9 @@
     <ion-card style="margin-bottom:10px;margin-top:0;background-color:white !important;" *ngFor="let video of listOfPublicVideos;let i = index;"
               (click)="playSelectedVideo(video.uid)">
         <div class="play-button-div">
-            <img [src]="video.imgpath" [alt]="'vid_' + i" *ngIf="video.imgpath" style="object-fit:cover;"/>
-            <img src="../../../assets/images/default_product.png" [alt]="'vid_' + i" *ngIf="!video.imgpath"
-                 style="object-fit:cover;"/>
+            <ion-img [src]="video.imgpath" [alt]="'vid_' + i" *ngIf="video.imgpath" style="object-fit:cover;"></ion-img>
+            <ion-img src="../../../assets/images/default_product.png" [alt]="'vid_' + i" *ngIf="!video.imgpath"
+                 style="object-fit:cover;"></ion-img>
             <ion-icon name="play" class="play-button-icon" style="color:white;font-size:4rem;border:3px solid white;border-radius:50%;"></ion-icon>
         </div>
         <ion-card-header style="padding-top:5px;padding-bottom:0;">

@@ -132,6 +132,8 @@ import {SalesOrderManagementModalPage} from '../user-profile/my-store/sales-orde
 import {SalesOrderManagementModalPageModule} from '../user-profile/my-store/sales-order-management-modal/sales-order-management-modal.module';
 import {ViewSalesOrderModalPageModule} from '../user-profile/my-store/view-sales-order-modal/view-sales-order-modal.module';
 import {ViewSalesOrderModalPage} from '../user-profile/my-store/view-sales-order-modal/view-sales-order-modal.page';
+import {PlaySelectedMyVideoModalPage} from '../home/my-videos-collection/play-selected-my-video-modal/play-selected-my-video-modal.page';
+import {PlaySelectedMyVideoModalPageModule} from '../home/my-videos-collection/play-selected-my-video-modal/play-selected-my-video-modal.module';
 
 const routes: Routes = [
     {
@@ -227,7 +229,8 @@ const routes: Routes = [
         EditInventoryPatternsPageModule,
         ViewOrderDetailsModalPageModule,
         SalesOrderManagementModalPageModule,
-        ViewSalesOrderModalPageModule
+        ViewSalesOrderModalPageModule,
+        PlaySelectedMyVideoModalPageModule
     ],
     declarations: [
         IpohDrumPage,
@@ -281,7 +284,8 @@ const routes: Routes = [
         EditInventoryPatternsPage,
         ViewOrderDetailsModalPage,
         SalesOrderManagementModalPage,
-        ViewSalesOrderModalPage
+        ViewSalesOrderModalPage,
+        PlaySelectedMyVideoModalPage
     ]
 })
 

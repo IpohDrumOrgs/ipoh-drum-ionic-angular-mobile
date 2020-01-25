@@ -3,13 +3,19 @@
         <ion-searchbar color="light" [placeholder]="'Search ' + currentTab + '..'"></ion-searchbar>
     </div>
     <ul class="nav" style="border-bottom:1px solid #f5f5f5;">
-        <li class="nav-item" style="width:50%;">
+        <li class="nav-item">
             <a class="nav-link active" href="#" data-toggle="tab" data-target="#saleVideos" aria-expanded="true" style="text-align:center;"
                (click)="selectedTab('videos')">
                 Videos
             </a>
         </li>
-        <li class="nav-item" style="width:50%;">
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="tab" data-target="#myVideosCollection" aria-expanded="true" style="text-align:center;"
+               (click)="selectedTab('my-videos-collection')">
+                My Videos
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="#" data-toggle="tab" data-target="#saleArticles" aria-expanded="true" style="text-align:center;"
                (click)="selectedTab('articles')">
                 Articles
@@ -18,7 +24,7 @@
     </ul>
 
     <div class="tab-content" style="height:100%;overflow-y:auto;">
-        <ng-container *ngIf="isShowingVideosTab">
+        <ng-container *ngIf="isShowingVideosTab && !isShowingArticlesTab && !isShowingMyVideosCollectionTab">
             <ion-content>
                 <div class="tab-pane lightGreenBackground active" id="saleVideos" role="tabpanel" aria-expanded="false"
                      style="margin-bottom:110px;padding-top:15px;">
@@ -27,11 +33,20 @@
             </ion-content>
         </ng-container>
 
-        <ng-container *ngIf="!isShowingVideosTab">
+        <ng-container *ngIf="isShowingArticlesTab && !isShowingVideosTab && !isShowingMyVideosCollectionTab">
             <ion-content>
                 <div class="tab-pane lightGreenBackground" id="saleArticles" role="tabpanel" aria-expanded="false"
                      style="margin-bottom:110px;padding-top:15px;">
                     <app-sale-articles></app-sale-articles>
+                </div>
+            </ion-content>
+        </ng-container>
+
+        <ng-container *ngIf="isShowingMyVideosCollectionTab && !isShowingVideosTab && !isShowingArticlesTab">
+            <ion-content>
+                <div class="tab-pane lightGreenBackground" id="myVideosCollection" role="tabpanel" aria-expanded="false"
+                     style="margin-bottom:110px;padding-top:15px;">
+                    <app-my-videos-collection></app-my-videos-collection>
                 </div>
             </ion-content>
         </ng-container>

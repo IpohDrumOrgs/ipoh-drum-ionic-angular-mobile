@@ -100,9 +100,9 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
             }
             this.isLoadingSelectedVideo = false;
         }, error => {
+            this.isLoadingSelectedVideo = false;
             this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the selected Video, please try again later!', 'danger');
             this.closePlaySelectedVideoModal();
-            this.isLoadingSelectedVideo = false;
         });
     }
 

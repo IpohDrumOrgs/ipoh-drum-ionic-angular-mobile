@@ -14,6 +14,8 @@ export class HomePage implements OnInit {
 
   // Booleans
   isShowingVideosTab = true;
+  isShowingArticlesTab = false;
+  isShowingMyVideosCollectionTab = false;
 
   constructor() {
     console.log(this.constructorName + 'Initializing component');
@@ -24,7 +26,19 @@ export class HomePage implements OnInit {
 
   selectedTab(tab: string) {
     this.currentTab = tab;
-    this.isShowingVideosTab = tab === 'videos';
+    if (this.currentTab === 'videos') {
+      this.isShowingVideosTab = true;
+      this.isShowingArticlesTab = false;
+      this.isShowingMyVideosCollectionTab = false;
+    } else if (this.currentTab === 'articles') {
+      this.isShowingVideosTab = false;
+      this.isShowingArticlesTab = true;
+      this.isShowingMyVideosCollectionTab = false;
+    } else if (this.currentTab === 'my-videos-collection') {
+      this.isShowingVideosTab = false;
+      this.isShowingArticlesTab = false;
+      this.isShowingMyVideosCollectionTab = true;
+    }
   }
 
 /*  ionViewDidLeave() {
