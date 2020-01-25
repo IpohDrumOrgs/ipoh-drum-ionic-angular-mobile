@@ -15,8 +15,8 @@
   <ng-container *ngIf="isLoadingSelectedMyVideo else finishedLoadingMyVideo">
     <ion-row>
       <ion-col size="12">
-        <img src="../../../../assets/images/default_product.png" alt="video_thumbnail"
-             style="object-fit:cover;">
+        <ion-img src="../../../../assets/images/default_product.png" alt="video_thumbnail"
+             style="object-fit:cover;"></ion-img>
       </ion-col>
     </ion-row>
     <ion-row style="margin:10px 10px 0 10px;">
@@ -83,7 +83,7 @@
           <h3 style="font-weight:bold;margin-top:0;margin-bottom:0;">{{selectedMyVideo?.title}}</h3>
         </ion-col>
         <ion-col size="4" style="text-align:right;">
-          <span class="badge badge-primary" style="font-size:17px;">
+          <span class="badge badge-warning" style="font-size:17px;">
               OWNED
           </span>
         </ion-col>

@@ -29,10 +29,10 @@
               <ion-card (click)="openStoreInventoryManagementModal(store.uid, store.id)" style="margin:0;background:white;">
                 <ion-card-header style="background-color:#ececec;padding:0;">
                   <ng-container *ngIf="store.imgpath else noImageForStore">
-                    <img ng-src="store.imgpath" alt="store_img" class="productImage">
+                    <ion-img [src]="store.imgpath" alt="store_img" class="productImage"></ion-img>
                   </ng-container>
                   <ng-template #noImageForStore>
-                    <img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage">
+                    <ion-img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
                   </ng-template>
                 </ion-card-header>
                 <ion-card-content style="padding-left:3px;">

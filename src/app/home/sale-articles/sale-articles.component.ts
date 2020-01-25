@@ -73,6 +73,7 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
   }
 
   retrieveListOfArticles() {
+    this.loadingService.present();
     this.isLoadingListOfPublicArticles = true;
     if (this.getListOfArticlesSubscription) {
       this.getListOfArticlesSubscription.unsubscribe();
@@ -92,12 +93,14 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
         this.totalResult = 0;
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Articles, please try again later!', 'warning', 'top');
       }
+      this.loadingService.dismiss();
       this.isLoadingListOfPublicArticles = false;
     }, error => {
       console.log('API Error while retrieving list of public articles');
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Articles, please try again later!', 'warning', 'top');
       this.isLoadingListOfPublicArticles = false;
       this.listOfPublicArticles = [];
+      this.loadingService.dismiss();
     });
   }
 

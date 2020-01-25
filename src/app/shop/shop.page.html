@@ -144,10 +144,10 @@
                   <ion-card (click)="viewProductDetail(listOfItems.uid)" style="margin:0;background-color:white;">
                     <ion-card-header style="background-color:#ececec;padding:0;">
                       <ng-container *ngIf="listOfItems.imgpath else noImageForProduct">
-                        <img [src]="listOfItems.imgpath" alt="prod_img" class="productImage">
+                        <ion-img [src]="listOfItems.imgpath" alt="prod_img" class="productImage"></ion-img>
                       </ng-container>
                       <ng-template #noImageForProduct>
-                        <img src="../../assets/images/default_product.png" alt="prod_img" class="productImage">
+                        <ion-img src="../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
                       </ng-template>
                     </ion-card-header>
                     <ion-card-content style="padding:5px;">

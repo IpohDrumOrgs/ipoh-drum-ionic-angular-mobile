@@ -22,7 +22,7 @@
           <ion-col size="6">
             <ion-card>
               <ion-card-header style="background-color:#ececec;padding:0;">
-                <img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage">
+                <ion-img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
               </ion-card-header>
               <ion-card-content style="padding:5px;">
                 <ion-row>
@@ -41,7 +41,7 @@
           <ion-col size="6">
             <ion-card>
               <ion-card-header style="background-color:#ececec;padding:0;">
-                <img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage">
+                <ion-img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
               </ion-card-header>
               <ion-card-content style="padding:5px;">
                 <ion-row>
@@ -60,7 +60,7 @@
           <ion-col size="6">
             <ion-card>
               <ion-card-header style="background-color:#ececec;padding:0;">
-                <img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage">
+                <ion-img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
               </ion-card-header>
               <ion-card-content style="padding:5px;">
                 <ion-row>
@@ -79,7 +79,7 @@
           <ion-col size="6">
             <ion-card>
               <ion-card-header style="background-color:#ececec;padding:0;">
-                <img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage">
+                <ion-img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
               </ion-card-header>
               <ion-card-content style="padding:5px;">
                 <ion-row>
@@ -98,7 +98,7 @@
           <ion-col size="6">
             <ion-card>
               <ion-card-header style="background-color:#ececec;padding:0;">
-                <img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage">
+                <ion-img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
               </ion-card-header>
               <ion-card-content style="padding:5px;">
                 <ion-row>
@@ -117,7 +117,7 @@
           <ion-col size="6">
             <ion-card>
               <ion-card-header style="background-color:#ececec;padding:0;">
-                <img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage">
+                <ion-img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
               </ion-card-header>
               <ion-card-content style="padding:5px;">
                 <ion-row>
@@ -136,7 +136,7 @@
           <ion-col size="6">
             <ion-card>
               <ion-card-header style="background-color:#ececec;padding:0;">
-                <img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage">
+                <ion-img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
               </ion-card-header>
               <ion-card-content style="padding:5px;">
                 <ion-row>
@@ -155,7 +155,7 @@
           <ion-col size="6">
             <ion-card>
               <ion-card-header style="background-color:#ececec;padding:0;">
-                <img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage">
+                <ion-img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
               </ion-card-header>
               <ion-card-content style="padding:5px;">
                 <ion-row>
@@ -174,7 +174,7 @@
           <ion-col size="6">
             <ion-card>
               <ion-card-header style="background-color:#ececec;padding:0;">
-                <img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage">
+                <ion-img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
               </ion-card-header>
               <ion-card-content style="padding:5px;">
                 <ion-row>
@@ -193,7 +193,7 @@
           <ion-col size="6">
             <ion-card>
               <ion-card-header style="background-color:#ececec;padding:0;">
-                <img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage">
+                <ion-img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
               </ion-card-header>
               <ion-card-content style="padding:5px;">
                 <ion-row>
@@ -219,10 +219,10 @@
         <ion-card style="margin:0;" (click)="viewProductDetail(inventories.uid)">
           <ion-card-header style="background-color:#ececec;padding:0;">
             <ng-container *ngIf="inventories?.imgpath">
-              <img [src]="inventories?.imgpath" alt="prod_img" class="productImage">
+              <ion-img [src]="inventories?.imgpath" alt="prod_img" class="productImage"></ion-img>
             </ng-container>
             <ng-container *ngIf="!inventories?.imgpath">
-              <img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage">
+              <ion-img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
             </ng-container>
           </ion-card-header>
           <ion-card-content style="padding:5px;">

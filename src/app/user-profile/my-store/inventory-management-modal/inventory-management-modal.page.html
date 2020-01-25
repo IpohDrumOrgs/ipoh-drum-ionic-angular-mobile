@@ -10,10 +10,10 @@
         </ion-col>
         <ion-col size="3">
           <ng-container *ngIf="selectedStore?.imgpath else noStoreImg">
-            <img [src]="selectedStore?.imgpath" style="border-radius:50%;height:50px;width:50px;object-fit:cover;">
+            <ion-img [src]="selectedStore?.imgpath" style="border-radius:50%;height:50px;width:50px;object-fit:cover;"></ion-img>
           </ng-container>
           <ng-template #noStoreImg>
-            <img src="../../../../assets/images/default_product.png" style="border-radius:50%;height:50px;width:50px;object-fit:cover;">
+            <ion-img src="../../../../assets/images/default_product.png" style="border-radius:50%;height:50px;width:50px;object-fit:cover;"></ion-img>
           </ng-template>
         </ion-col>
       </ion-row>
@@ -42,10 +42,10 @@
         <ion-card style="margin:0;" (click)="openViewInventoryModal(inventory.uid, inventory.id)">
           <ion-card-header style="background-color:#ececec;padding:0;">
             <ng-container *ngIf="inventory.imgpath else noImageForInventory">
-              <img [src]="inventory?.imgpath" alt="inventory_img" class="productImage">
+              <ion-img [src]="inventory?.imgpath" alt="inventory_img" class="productImage"></ion-img>
             </ng-container>
             <ng-template #noImageForInventory>
-              <img src="../../../../assets/images/default_product.png" alt="inventory_img" class="productImage">
+              <ion-img src="../../../../assets/images/default_product.png" alt="inventory_img" class="productImage"></ion-img>
             </ng-template>
           </ion-card-header>
           <ion-card-content style="padding-left:5px;">
