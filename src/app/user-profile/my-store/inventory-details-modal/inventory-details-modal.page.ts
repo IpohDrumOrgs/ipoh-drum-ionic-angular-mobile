@@ -308,8 +308,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
   }
 
   updateInventory() {
-    console.log(this.selectedInventory);
-    console.log(this.selectedInventory.inventoryfamilies);
     if (this.inventoryInfoFormGroup.valid
         && this.selectedInventory.inventoryfamilies.length > 0) {
       this.loadingService.present();
@@ -340,6 +338,7 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
         this.loadingService.dismiss();
       }, error => {
         console.log('API Error while updating Inventory');
+        console.log(error);
         this.loadingService.dismiss();
         this.globalFunctionService.simpleToast('ERROR', 'Unable to update Inventory Info, please try again later!', 'danger');
       });
