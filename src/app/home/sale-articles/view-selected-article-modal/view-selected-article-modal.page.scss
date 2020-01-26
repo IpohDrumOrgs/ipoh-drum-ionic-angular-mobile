@@ -1,10 +1,15 @@
 // Custom bullet color for "ion-swipe"
 ion-slides {
-  --bullet-background: #858585;
-  --bullet-background-active: black;
+  --bullet-background: #cecece;
+  --bullet-background-active: white;
 }
 
 // Unresizable textarea
 textarea {
   resize: none;
+}
+
+// Change background color of ion-content
+ion-content{
+  --ion-background-color:#0b8457;
 }

@@ -66,14 +66,13 @@ export class PaymentControllerServiceService {
      * @param email Email
      * @param contact Contact Person
      * @param selectedstores Involved Store
-     * @param user_id User Id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, user_id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (token === null || token === undefined) {
             throw new Error('Required parameter token was null or undefined when calling createInventoryPayment.');
         }
@@ -85,9 +84,6 @@ export class PaymentControllerServiceService {
         }
         if (selectedstores === null || selectedstores === undefined) {
             throw new Error('Required parameter selectedstores was null or undefined when calling createInventoryPayment.');
-        }
-        if (user_id === null || user_id === undefined) {
-            throw new Error('Required parameter user_id was null or undefined when calling createInventoryPayment.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -102,9 +98,6 @@ export class PaymentControllerServiceService {
         }
         if (selectedstores !== undefined && selectedstores !== null) {
             queryParameters = queryParameters.set('selectedstores', <any>selectedstores);
-        }
-        if (user_id !== undefined && user_id !== null) {
-            queryParameters = queryParameters.set('user_id', <any>user_id);
         }
 
         let headers = this.defaultHeaders;
@@ -226,14 +219,13 @@ export class PaymentControllerServiceService {
      * @param token Stripe token id
      * @param email Email
      * @param video_id Involved video
-     * @param user_id User Id
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createVideoPayment(token: string, email: string, video_id: number, user_id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createVideoPayment(token: string, email: string, video_id: number, user_id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createVideoPayment(token: string, email: string, video_id: number, user_id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createVideoPayment(token: string, email: string, video_id: number, user_id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createVideoPayment(token: string, email: string, video_id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createVideoPayment(token: string, email: string, video_id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createVideoPayment(token: string, email: string, video_id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createVideoPayment(token: string, email: string, video_id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (token === null || token === undefined) {
             throw new Error('Required parameter token was null or undefined when calling createVideoPayment.');
         }
@@ -242,9 +234,6 @@ export class PaymentControllerServiceService {
         }
         if (video_id === null || video_id === undefined) {
             throw new Error('Required parameter video_id was null or undefined when calling createVideoPayment.');
-        }
-        if (user_id === null || user_id === undefined) {
-            throw new Error('Required parameter user_id was null or undefined when calling createVideoPayment.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
@@ -256,9 +245,6 @@ export class PaymentControllerServiceService {
         }
         if (video_id !== undefined && video_id !== null) {
             queryParameters = queryParameters.set('video_id', <any>video_id);
-        }
-        if (user_id !== undefined && user_id !== null) {
-            queryParameters = queryParameters.set('user_id', <any>user_id);
         }
 
         let headers = this.defaultHeaders;

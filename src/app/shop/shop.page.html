@@ -10,7 +10,7 @@
       <ion-col size="12">
         <ion-row>
           <ion-col size="12" style="padding:0;">
-            <ion-searchbar style="padding:5px;" color="light" [placeholder]="'Search..'" animated="true" showCancelButton="true"></ion-searchbar>
+            <ion-searchbar style="padding:5px;" color="light" [placeholder]="'Search..'" animated="true" (click)="searchInventoryClicked()"></ion-searchbar>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -158,7 +158,7 @@
                       </ion-row>
                       <ion-row>
                         <ion-col size="12" style="padding-top:0;padding-bottom:0;">
-                          <ng-container *ngIf="listOfItems?.promotion else noPromotion">
+                          <!--<ng-container *ngIf="listOfItems?.promotion else noPromotion">
                             <small>
                               <b>{{listOfItems?.promoprice | myCurrency}}</b>
                               <span>
@@ -172,18 +172,46 @@
                             <small>
                               <b>{{listOfItems?.price | myCurrency}}</b>
                             </small>
+                          </ng-template>-->
+                          <ng-container *ngIf="listOfItems?.promotion else noPromoPrice">
+                            <ion-row>
+                              <ion-col size="12" style="padding:0;">
+                                <small>
+                                  <span style="text-decoration:line-through;color:grey;">
+                                      {{listOfItems?.price | myCurrency}}
+                                  </span>
+                                  &nbsp;
+                                  <ng-container *ngIf="listOfItems.promotion.discbyprice === 1 else discountedByPercentage">
+                                    <ion-chip color="primary" style="margin:0;font-size:10px;">
+                                      -{{listOfItems?.disc | myCurrency}}
+                                    </ion-chip>
+                                  </ng-container>
+                                  <ng-template #discountedByPercentage>
+                                    <ion-chip color="primary" style="margin:0;font-size:10px;">
+                                      -{{listOfItems?.promopctg}}%
+                                    </ion-chip>
+                                  </ng-template>
+                                </small>
+                              </ion-col>
+                            </ion-row>
+                            {{listOfItems?.promoprice | myCurrency}}
+                          </ng-container>
+                          <ng-template #noPromoPrice>
+                            <small>
+                              <b>{{listOfItems?.price | myCurrency}}</b>
+                            </small>
                           </ng-template>
                         </ion-col>
                       </ion-row>
                       <ion-row>
-                        <ion-col size="12">
+                        <ion-col size="12" style="padding-top:0;padding-bottom:0;">
                           <small>
-                            <ng-container *ngIf="listOfItems.rating && listOfItems.rating > 0 else noItemRating">
+<!--                            <ng-container *ngIf="listOfItems.rating && listOfItems.rating > 0 else noItemRating">
                               <star-rating [value]="listOfItems.rating" checkedcolor="#FFD100" uncheckedcolor="black" readonly="true"></star-rating>
                             </ng-container>
                             <ng-template #noItemRating>
                               No Ratings Yet
-                            </ng-template>
+                            </ng-template>-->
                             ({{listOfItems.salesqty}} sold)
                           </small>
                         </ion-col>

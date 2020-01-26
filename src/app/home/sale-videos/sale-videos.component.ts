@@ -74,32 +74,34 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
 
     getListOfVideos() {
         this.loadingService.present();
-        this.isLoadingListOfPublicVideos = true;
-        if (this.getListOfVideosSubscription) {
-            this.getListOfVideosSubscription.unsubscribe();
-        }
-        this.currentPageNumber = 1;
-        this.getListOfVideosSubscription = this.videoControllerService.getPublicVideos(
-            this.currentPageNumber,
-            this.currentPageSize
-        ).subscribe(resp => {
-            if (resp.code === 200) {
-                this.listOfPublicVideos = resp.data;
-                this.maximumPages = resp.maximumPages;
-                this.totalResult = resp.totalResult;
-            } else {
-                this.listOfPublicVideos = [];
-                this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Videos, please try again later!', 'warning', 'top');
+        setTimeout(() => {
+            this.isLoadingListOfPublicVideos = true;
+            if (this.getListOfVideosSubscription) {
+                this.getListOfVideosSubscription.unsubscribe();
             }
-            this.loadingService.dismiss();
-            this.isLoadingListOfPublicVideos = false;
-        }, error => {
-            console.log('API Error while retrieving list of Public Videos');
-            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Videos, please try again later!', 'warning', 'top');
-            this.isLoadingListOfPublicVideos = false;
-            this.loadingService.dismiss();
-            this.listOfPublicVideos = [];
-        });
+            this.currentPageNumber = 1;
+            this.getListOfVideosSubscription = this.videoControllerService.getPublicVideos(
+                this.currentPageNumber,
+                this.currentPageSize
+            ).subscribe(resp => {
+                if (resp.code === 200) {
+                    this.listOfPublicVideos = resp.data;
+                    this.maximumPages = resp.maximumPages;
+                    this.totalResult = resp.totalResult;
+                } else {
+                    this.listOfPublicVideos = [];
+                    this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Videos, please try again later!', 'warning', 'top');
+                }
+                this.loadingService.dismiss();
+                this.isLoadingListOfPublicVideos = false;
+            }, error => {
+                console.log('API Error while retrieving list of Public Videos');
+                this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Videos, please try again later!', 'warning', 'top');
+                this.isLoadingListOfPublicVideos = false;
+                this.loadingService.dismiss();
+                this.listOfPublicVideos = [];
+            });
+        }, 500);
     }
 
     playSelectedVideo(publicVideoUid: string) {

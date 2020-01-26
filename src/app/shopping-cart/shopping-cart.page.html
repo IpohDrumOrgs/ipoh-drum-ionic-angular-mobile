@@ -34,7 +34,7 @@
             <ion-col size="12" style="padding-top:0;">
               <ion-row>
                 <ion-col size="5" class="align-self-center">
-                  <ion-img [src]="inventory?.imgpath" alt="item_img" class="smallProductImage rounded"></ion-img>
+                  <img [src]="inventory?.imgpath" alt="item_img" class="smallProductImage rounded">
                 </ion-col>
                 <ion-col size="7">
                   <ng-container *ngIf="inventory.selectedInventoryFamily">
@@ -60,16 +60,14 @@
                         </ng-template>
                       </span>
                       <ng-container *ngIf="inventory?.promotion.discbyprice === 1 else showDiscountByPercentage">
-                        <span>
+                        <ion-chip color="primary" style="margin-right:0;margin-bottom:0;font-size:10px;">
                           -{{inventory?.promotion?.disc | myCurrency}}
-                        </span>
+                        </ion-chip>
                       </ng-container>
                       <ng-template #showDiscountByPercentage>
-                        <span class="badge badge-primary" style="margin:3px 0 0 0;">
-                          <span>
-                            -{{inventory?.promotion?.discpctg}}%
-                          </span>
-                        </span>
+                        <ion-chip color="primary" style="margin-right:0;margin-bottom:0;font-size:10px;">
+                          -{{inventory?.promotion?.discpctg}}%
+                        </ion-chip>
                       </ng-template>
                       <div style="font-size:18px;font-weight:bold;">
                         <ng-container *ngIf="inventory?.selectedInventoryPattern?.id === 9999 else showInventoryPatternPrice">

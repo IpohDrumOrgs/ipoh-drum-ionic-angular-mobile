@@ -1,0 +1,15 @@
+.play-button-div {
+  position: relative;
+  display: inline-block;
+}
+
+.play-button-icon {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+ion-content{
+  --ion-background-color: #0b8457;
+}

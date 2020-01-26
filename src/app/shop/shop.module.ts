@@ -9,6 +9,7 @@ import {ProductDetailPage} from './product-detail/product-detail.page';
 import {RatingModule} from 'ng-starrating';
 import {SharedModule} from '../shared/shared.module';
 import {ShowMoreProductsPage} from './show-more-products/show-more-products.page';
+import {SearchInventoryPage} from './search-inventory/search-inventory.page';
 
 const routes: Routes = [
     {
@@ -22,6 +23,10 @@ const routes: Routes = [
     {
         path: 'show-more-products/:uid',
         component: ShowMoreProductsPage
+    },
+    {
+        path: 'search-inventory',
+        component: SearchInventoryPage
     }
 ];
 
@@ -38,7 +43,8 @@ const routes: Routes = [
     declarations: [
         ShopPage,
         ProductDetailPage,
-        ShowMoreProductsPage
+        ShowMoreProductsPage,
+        SearchInventoryPage
     ]
 })
 

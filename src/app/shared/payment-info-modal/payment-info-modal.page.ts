@@ -4,11 +4,12 @@ import {Stripe} from '@ionic-native/stripe/ngx';
 import {ModalController} from '@ionic/angular';
 import {commonConfig} from '../../_dal/common/commonConfig';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {PaymentControllerServiceService, VideoControllerServiceService} from '../../_dal/ipohdrum';
+import {PaymentControllerServiceService} from '../../_dal/ipohdrum';
 import {environment} from '../../../environments/environment';
 import {AuthenticationService} from '../../_dal/common/services/authentication.service';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
 import {LoadingService} from '../../_dal/common/services/loading.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-payment-info-modal',
@@ -37,7 +38,6 @@ export class PaymentInfoModalPage implements OnInit, OnDestroy {
     // Numbers
     minLengthOfPhoneNumber = commonConfig.minLengthOfPhoneNumber;
     maxLengthOfPhoneNumber = commonConfig.maxLengthOfPhoneNumber;
-    userId: number;
     videoId: number;
     // currentYear = (new Date()).getFullYear();
     // endYear: number;
@@ -74,6 +74,7 @@ export class PaymentInfoModalPage implements OnInit, OnDestroy {
     makeVideoPaymentSubscription: any;
 
     constructor(
+        private router: Router,
         private ngZone: NgZone,
         private modalController: ModalController,
         private httpClient: HttpClient,
@@ -87,7 +88,6 @@ export class PaymentInfoModalPage implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.ngZone.run(() => {
-            this.initializeUserInfo();
             this.contactNumFormGroup = new FormGroup({
                 contactNum: new FormControl(null, [
                     Validators.required,
@@ -109,8 +109,7 @@ export class PaymentInfoModalPage implements OnInit, OnDestroy {
                             token.id.toString(),
                             token.email.toString(),
                             this.contactNumModel,
-                            JSON.stringify(this.finalSaleInventory),
-                            this.userId
+                            JSON.stringify(this.finalSaleInventory)
                         ).subscribe(resp => {
                             if (resp.code === 200) {
                                 this.globalFunctionService.simpleToast('SUCCESS', 'Payment has been successfully made!', 'success');
@@ -133,8 +132,7 @@ export class PaymentInfoModalPage implements OnInit, OnDestroy {
                         this.makeVideoPaymentSubscription = this.paymentControllerService.createVideoPayment(
                             token.id,
                             token.email.toString(),
-                            this.videoId,
-                            this.userId
+                            this.videoId
                         ).subscribe(resp => {
                             if (resp.code === 200) {
                                 this.globalFunctionService.simpleToast('SUCCESS', 'Payment has been successfully made!', 'success');
@@ -191,31 +189,27 @@ export class PaymentInfoModalPage implements OnInit, OnDestroy {
         });
     }
 
-    initializeUserInfo() {
-        this.authenticationService.authenticate().then(resp => {
-            if (resp.status) {
-                if (resp.status === 200) {
-                    this.userId = resp.data.id;
-                }
-            } else {
-                if (resp.name === 'Error') {
-                    this.userId = null;
-                    // this.globalFunctionService.simpleToast('ERROR!', 'You are not authenticated, please login first!', 'danger');
-                    // this.router.navigate(['/login']);
-                }
-            }
-        }, error => {
-            this.userId = null;
-            // this.globalFunctionService.simpleToast('ERROR!', 'You are not authenticated, please login first!', 'danger');
-            // this.router.navigate(['/login']);
-        });
+    pay() {
+        if (this.authenticationService.isUserLoggedIn()) {
+            this.stripeHandler.open({
+                name: 'IpohDrum',
+                description: 'Payment Information'
+            });
+        } else {
+            this.globalFunctionService.presentAlertConfirm(
+                'WARNING',
+                'Please login first before proceeding to make any transaction-related actions.',
+                'Cancel',
+                'Login',
+                undefined,
+                () => this.actuallyRouteToLoginPage()
+            );
+        }
     }
 
-    pay() {
-        this.stripeHandler.open({
-            name: 'IpohDrum',
-            description: 'Payment Information'
-        });
+    actuallyRouteToLoginPage() {
+        this.closePaymentInfoModal(false);
+        this.router.navigate(['login']);
     }
 
     closePaymentInfoModal(returnFromSuccessfulPayment: boolean) {

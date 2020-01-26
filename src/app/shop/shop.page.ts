@@ -69,9 +69,8 @@ export class ShopPage implements OnInit, OnDestroy {
         private productFeatureControllerService: ProductFeatureControllerServiceService,
         private globalFunctionService: GlobalfunctionService,
         private platform: Platform
-    ) {
-        console.log(this.constructorName + 'Initializing component');
-    }
+    ) {}
+
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -82,6 +81,24 @@ export class ShopPage implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.unsubscribeSubscriptions();
+    }
+
+    ionViewDidLeave() {
+        this.unsubscribeSubscriptions();
+    }
+
+    unsubscribeSubscriptions() {
+        this.ngZone.run(() => {
+            if (this.inventorySubscription) {
+                this.inventorySubscription.unsubscribe();
+            }
+            if (this.typeSubscription) {
+                this.typeSubscription.unsubscribe();
+            }
+            if (this.productFeaturesSubscription) {
+                this.productFeaturesSubscription.unsubscribe();
+            }
+        });
     }
 
     ionViewDidEnter() {
@@ -107,24 +124,6 @@ export class ShopPage implements OnInit, OnDestroy {
         }
     }
 
-    ionViewDidLeave() {
-        this.unsubscribeSubscriptions();
-    }
-
-    unsubscribeSubscriptions() {
-        this.ngZone.run(() => {
-            if (this.inventorySubscription) {
-                this.inventorySubscription.unsubscribe();
-            }
-            if (this.typeSubscription) {
-                this.typeSubscription.unsubscribe();
-            }
-            if (this.productFeaturesSubscription) {
-                this.productFeaturesSubscription.unsubscribe();
-            }
-        });
-    }
-
     getListOfCategories() {
         this.isLoadingCategories = true;
         if (this.typeSubscription) {
@@ -138,7 +137,6 @@ export class ShopPage implements OnInit, OnDestroy {
             }
             this.isLoadingCategories = false;
         }, error => {
-            console.log('API error while retrieving list of Categories');
             this.isLoadingCategories = false;
             this.showPromptAlertWarning();
         });
@@ -160,7 +158,6 @@ export class ShopPage implements OnInit, OnDestroy {
                 this.showPromptAlertWarning();
             }
         }, error => {
-            console.log('API error while retrieving ProductFeature list.');
             this.showPromptAlertWarning();
         });
     }
@@ -171,16 +168,13 @@ export class ShopPage implements OnInit, OnDestroy {
             1,
             6
         ).subscribe(resp => {
-            // console.log(resp);
             if (resp.code === 200) {
                 this.listOfProducts.push(resp.data);
-                // console.log(this.listOfProducts);
             } else {
                 this.listOfProducts.push(null);
             }
             this.isLoadingProductFeaturesAndProductInventories = false;
         }, error => {
-            console.log('API error while retrieving Inventories based on ProductFeature UID');
             this.isLoadingProductFeaturesAndProductInventories = false;
             this.showPromptAlertWarning();
         });
@@ -189,7 +183,6 @@ export class ShopPage implements OnInit, OnDestroy {
     viewProductDetail(inventoryUID: string) {
         inventoryUID += '&1';
         this.router.navigate(['product-detail', inventoryUID], {relativeTo: this.route}).catch(reason => {
-            console.log('Routing navigation failed');
             // tslint:disable-next-line:max-line-length
             this.globalFunctionService.simpleToast('ERROR', 'Unable to view Inventory\'s details, please try again later.', 'warning', 'top');
             this.router.navigate(['/home']);
@@ -205,7 +198,6 @@ export class ShopPage implements OnInit, OnDestroy {
 
     showMore(productFeatureUid: string) {
         this.router.navigate(['show-more-products', productFeatureUid], {relativeTo: this.route}).catch(reason => {
-            console.log('Routing navigation failed');
             // tslint:disable-next-line:max-line-length
             this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Inventories, please try again later.', 'warning', 'top');
             this.router.navigate(['/ipoh-drum/home']);
@@ -220,6 +212,12 @@ export class ShopPage implements OnInit, OnDestroy {
         setTimeout(() => {
             event.target.complete();
         }, 500);
+    }
+
+    searchInventoryClicked() {
+        this.router.navigate(['ipoh-drum/shop/search-inventory']).catch(reason => {
+            this.globalFunctionService.simpleToast('ERROR', 'Something went wrong, please try again later!', 'danger');
+        });
     }
 
 /*    // TODO

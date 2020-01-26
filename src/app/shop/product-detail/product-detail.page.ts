@@ -44,9 +44,7 @@ export class ProductDetailPage implements OnInit, OnDestroy {
         private inventoryControllerService: InventoryControllerServiceService,
         private globalFunctionService: GlobalfunctionService,
         private loadingService: LoadingService
-    ) {
-        console.log(this.constructorName + 'Initializing component');
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -74,7 +72,6 @@ export class ProductDetailPage implements OnInit, OnDestroy {
         this.loadingService.present();
         this.isLoadingInventory = true;
         this.route.params.subscribe(params => {
-            console.log(params);
             let newParams = params.uid.toString().split('&');
             this.inventoryUID = newParams[0];
             if (newParams[1]) {
@@ -89,7 +86,6 @@ export class ProductDetailPage implements OnInit, OnDestroy {
             this.currentInventorySubscription = this.inventoryControllerService.getOnSaleInventoryByUid(
                 this.inventoryUID.toString()
             ).subscribe(resp => {
-                console.log(resp);
                 if (resp.code === 200) {
                     this.currentInventory = resp.data;
                 } else {
@@ -100,7 +96,6 @@ export class ProductDetailPage implements OnInit, OnDestroy {
                 this.loadingService.dismiss();
                 this.isLoadingInventory = false;
             }, error => {
-                console.log('cannot get item');
                 this.isLoadingInventory = false;
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the selected Inventory info, please try again later!', 'danger');
@@ -111,15 +106,24 @@ export class ProductDetailPage implements OnInit, OnDestroy {
     }
 
     backToShopPage() {
-        console.log(this.comeFromShopPage);
+        // Come from shop page
         if (this.comeFromShopPage === '1') {
-            console.log('come from shop page');
-            this.router.navigate(['ipoh-drum/shop']);
-        } else {
-            this.router.navigate(['ipoh-drum/shop/show-more-products', this.productFeatureTitleUid]).catch(reason => {
-                console.log('Routing navigation failed');
+            this.router.navigate(['ipoh-drum/shop']).catch(reason => {
                 // tslint:disable-next-line:max-line-length
-                this.globalFunctionService.simpleToast('DANGER', 'Something went wrong, please try again later.', 'warning', 'top');
+                this.globalFunctionService.simpleToast('WARNING', 'Something went wrong, please try again later.', 'warning', 'top');
+                this.router.navigate(['/ipoh-drum/home']);
+            });
+        } else if (this.comeFromShopPage === '0') {
+            // Come from show more page
+            this.router.navigate(['ipoh-drum/shop/show-more-products', this.productFeatureTitleUid]).catch(reason => {
+                // tslint:disable-next-line:max-line-length
+                this.globalFunctionService.simpleToast('WARNING', 'Something went wrong, please try again later.', 'warning', 'top');
+                this.router.navigate(['/ipoh-drum/home']);
+            });
+        } else {
+            this.router.navigate(['ipoh-drum/shop/search-inventory']).catch(reason => {
+                // tslint:disable-next-line:max-line-length
+                this.globalFunctionService.simpleToast('WARNING', 'Something went wrong, please try again later.', 'warning', 'top');
                 this.router.navigate(['/ipoh-drum/home']);
             });
         }

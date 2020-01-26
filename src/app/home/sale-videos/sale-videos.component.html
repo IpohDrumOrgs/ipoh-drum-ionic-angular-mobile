@@ -70,9 +70,7 @@
     <ion-card style="margin-bottom:10px;margin-top:0;background-color:white !important;" *ngFor="let video of listOfPublicVideos;let i = index;"
               (click)="playSelectedVideo(video.uid)">
         <div class="play-button-div">
-            <ion-img [src]="video.imgpath" [alt]="'vid_' + i" *ngIf="video.imgpath" style="object-fit:cover;"></ion-img>
-            <ion-img src="../../../assets/images/default_product.png" [alt]="'vid_' + i" *ngIf="!video.imgpath"
-                 style="object-fit:cover;"></ion-img>
+            <ion-img [src]="video.imgpath" [alt]="'vid_' + i" *ngIf="video.imgpath" style="object-fit:cover;height:200px;"></ion-img>
             <ion-icon name="play" class="play-button-icon" style="color:white;font-size:4rem;border:3px solid white;border-radius:50%;"></ion-icon>
         </div>
         <ion-card-header style="padding-top:5px;padding-bottom:0;">
@@ -82,7 +80,7 @@
                 </b>
             </ion-card-title>
         </ion-card-header>
-        <ion-card-content>
+        <ion-card-content style="padding-bottom:5px;">
             <!--<ion-row>
                 <ion-col size="12">
                     <ion-row>
@@ -118,7 +116,7 @@
                                     &nbsp;
                                     <ng-container *ngIf="video?.discbyprice === 1 else discountedByPercentage">
                                         <ion-chip color="primary" style="font-size:18px;">
-                                            -{{video?.disc | myCurrency}}%
+                                            -{{video?.disc | myCurrency}}
                                         </ion-chip>
                                     </ng-container>
                                     <ng-template #discountedByPercentage>

@@ -6,6 +6,7 @@ import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.s
 import {ActivatedRoute, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {commonConfig} from '../../_dal/common/commonConfig';
+import {AuthenticationService} from '../../_dal/common/services/authentication.service';
 
 @Component({
   selector: 'app-show-more-products',
@@ -47,6 +48,7 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
       private ngZone: NgZone,
       private modalController: ModalController,
       private loadingService: LoadingService,
+      private authenticationService: AuthenticationService,
       private globalFunctionService: GlobalfunctionService,
       private productFeatureControllerService: ProductFeatureControllerServiceService
   ) {
@@ -57,7 +59,9 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
       this.route.params.subscribe(params => {
         this.productFeatureUid = params.uid;
         this.retrieveListOfInventoriesByProductFeatureUid();
-        this.retrieveProductFeatureTitle();
+        if (this.authenticationService.isUserLoggedIn()) {
+          this.retrieveProductFeatureTitle();
+        }
       });
     });
   }
@@ -133,7 +137,6 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
 
   backToShopPage() {
     this.router.navigate(['ipoh-drum/shop']).catch(reason => {
-      console.log('Routing navigation failed');
       // tslint:disable-next-line:max-line-length
       this.globalFunctionService.simpleToast('ERROR', 'Unable to view Inventory\'s details, please try again later.', 'warning', 'top');
       this.router.navigate(['/home']);
@@ -170,7 +173,6 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
     inventoryUID += '&0';
     inventoryUID += '&' + this.productFeatureUid;
     this.router.navigate(['ipoh-drum/shop/product-detail', inventoryUID]).catch(reason => {
-      console.log('Routing navigation failed');
       // tslint:disable-next-line:max-line-length
       this.globalFunctionService.simpleToast('ERROR', 'Unable to view Inventory\'s details, please try again later.', 'warning', 'top');
       this.router.navigate(['/home']);
