@@ -30,6 +30,9 @@ export class CreateVideoModalPage implements OnInit, OnDestroy {
     videoDiscountedByPriceFlagModel = true;
     videoDiscountedPriceModel: number;
     videoDiscountedPercentageModel: number;
+    videoTrailerLinkModel: string;
+    videoTrailerTotalLengthModel: string;
+    videoTrailerPublicId: string;
 
     // Numbers
     selectedChannelId: number;
@@ -99,7 +102,18 @@ export class CreateVideoModalPage implements OnInit, OnDestroy {
                 ]),
                 videoDiscountedByPriceFlag: new FormControl(),
                 videoDiscountedPrice: new FormControl(),
-                videoDiscountedPercentage: new FormControl()
+                videoDiscountedPercentage: new FormControl(),
+                videoTrailerLink: new FormControl(null, [
+                    Validators.required,
+                    Validators.maxLength(this.videoLinkMaxLength)
+                ]),
+                videoTrailerTotalLength: new FormControl(null, [
+                    Validators.required,
+                    Validators.maxLength(this.videoTotalLengthMaxLength)
+                ]),
+                videoTrailerPublicId: new FormControl(null, [
+                    Validators.required
+                ])
             });
             this.enableDisableDiscountedPriceAndPercentage();
         });
@@ -146,6 +160,7 @@ export class CreateVideoModalPage implements OnInit, OnDestroy {
                     };
                     reader.readAsDataURL(files[0]);
                 } else {
+                    // tslint:disable-next-line:max-line-length
                     this.globalFunctionService.simpleToast('ERROR!', 'Invalid file selected! Please select .jpeg, .jpg or .png files.', 'danger');
                     this.loadingService.dismiss();
                 }
@@ -188,6 +203,9 @@ export class CreateVideoModalPage implements OnInit, OnDestroy {
             this.videoNotFreeFormGroup.get('videoPrice').reset();
             this.videoNotFreeFormGroup.get('videoDiscountedPrice').reset();
             this.videoNotFreeFormGroup.get('videoDiscountedPercentage').reset();
+            this.videoNotFreeFormGroup.get('videoTrailerLink').reset();
+            this.videoNotFreeFormGroup.get('videoTrailerTotalLength').reset();
+            this.videoNotFreeFormGroup.get('videoTrailerPublicId').reset();
             this.videoDiscountedByPriceFlagModel = true;
         }
     }
@@ -213,6 +231,9 @@ export class CreateVideoModalPage implements OnInit, OnDestroy {
                 this.videoPriceModel,
                 this.videoDiscountedPriceModel,
                 this.videoDiscountedPercentageModel,
+                this.videoTrailerLinkModel,
+                this.videoTrailerPublicId,
+                this.videoTrailerTotalLengthModel,
                 this.videoImageAsBlobArray
             ).subscribe(resp => {
                 if (resp.code === 200) {

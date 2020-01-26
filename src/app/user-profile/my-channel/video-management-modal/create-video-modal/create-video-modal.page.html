@@ -172,6 +172,63 @@
           <div [formGroup]="videoNotFreeFormGroup">
             <ion-row class="ion-align-items-center" style="border-top:1px solid #e6e6e6;">
               <ion-col size="5">
+                <b>Trailer Link<span *ngIf="videoNotFreeFormGroup.get('videoTrailerLink').invalid" class="required">*</span></b>
+              </ion-col>
+              <ion-col size="7">
+                <input type="text" class="form-control"
+                       [(ngModel)]="videoTrailerLinkModel"
+                       formControlName="videoTrailerLink"
+                       [ngClass]="{'is-invalid': videoNotFreeFormGroup.get('videoTrailerLink').invalid && videoNotFreeFormGroup.get('videoTrailerLink').touched, 'is-valid': videoNotFreeFormGroup.get('videoTrailerLink').valid}">
+                <ul class="error"
+                    *ngIf="videoNotFreeFormGroup.get('videoTrailerLink').invalid && videoNotFreeFormGroup.get('videoTrailerLink').touched">
+                  <li *ngIf="videoNotFreeFormGroup.get('videoTrailerLink').hasError('required')">
+                    Trailer Link is required.
+                  </li>
+                  <li *ngIf="videoNotFreeFormGroup.get('videoTrailerLink').hasError('maxlength')">
+                    Trailer Link cannot contain more than {{videoLinkMaxLength}} characters.
+                  </li>
+                </ul>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ion-align-items-center" style="border-top:1px solid #e6e6e6;">
+              <ion-col size="5">
+                <b>Trailer's Public ID<span *ngIf="videoNotFreeFormGroup.get('videoTrailerPublicId').invalid" class="required">*</span></b>
+              </ion-col>
+              <ion-col size="7">
+                <input type="text" class="form-control"
+                       [(ngModel)]="videoTrailerPublicId"
+                       formControlName="videoTrailerPublicId"
+                       [ngClass]="{'is-invalid': videoNotFreeFormGroup.get('videoTrailerPublicId').invalid && videoNotFreeFormGroup.get('videoTrailerPublicId').touched, 'is-valid': videoNotFreeFormGroup.get('videoTrailerPublicId').valid}">
+                <ul class="error"
+                    *ngIf="videoNotFreeFormGroup.get('videoTrailerPublicId').invalid && videoNotFreeFormGroup.get('videoTrailerPublicId').touched">
+                  <li *ngIf="videoNotFreeFormGroup.get('videoTrailerPublicId').hasError('required')">
+                    Trailer's Public ID is required.
+                  </li>
+                </ul>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ion-align-items-center" style="border-top:1px solid #e6e6e6;">
+              <ion-col size="5">
+                <b>Trailer's Total Length<span *ngIf="videoNotFreeFormGroup.get('videoTrailerTotalLength').invalid" class="required">*</span></b>
+              </ion-col>
+              <ion-col size="7">
+                <input type="text" class="form-control"
+                       [(ngModel)]="videoTrailerTotalLengthModel"
+                       formControlName="videoTrailerTotalLength"
+                       [ngClass]="{'is-invalid': videoNotFreeFormGroup.get('videoTrailerTotalLength').invalid && videoNotFreeFormGroup.get('videoTrailerTotalLength').touched, 'is-valid': videoNotFreeFormGroup.get('videoTrailerTotalLength').valid}">
+                <ul class="error"
+                    *ngIf="videoNotFreeFormGroup.get('videoTrailerTotalLength').invalid && videoNotFreeFormGroup.get('videoTrailerTotalLength').touched">
+                  <li *ngIf="videoNotFreeFormGroup.get('videoTrailerTotalLength').hasError('required')">
+                    Trailer's Total Length is required.
+                  </li>
+                  <li *ngIf="videoNotFreeFormGroup.get('videoTrailerTotalLength').hasError('maxlength')">
+                    Trailer's Total Length cannot contain more than {{videoTotalLengthMaxLength}} characters.
+                  </li>
+                </ul>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ion-align-items-center" style="border-top:1px solid #e6e6e6;">
+              <ion-col size="5">
                 <b>Video Price<span *ngIf="videoNotFreeFormGroup.get('videoPrice').invalid" class="required">*</span></b>
               </ion-col>
               <ion-col size="7">

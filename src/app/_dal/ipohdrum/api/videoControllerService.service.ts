@@ -74,14 +74,17 @@ export class VideoControllerServiceService {
      * @param price Video Price
      * @param disc Discount Price
      * @param discpctg Discount Percentage
+     * @param trailervideopath Video Link
+     * @param trailervideopublicid Video Link
+     * @param trailertotallength Length Of Video
      * @param img Video Cover Image
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createVideo(channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createVideo(channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createVideo(channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createVideo(channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createVideo(channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, trailervideopath?: string, trailervideopublicid?: string, trailertotallength?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public createVideo(channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, trailervideopath?: string, trailervideopublicid?: string, trailertotallength?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public createVideo(channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, trailervideopath?: string, trailervideopublicid?: string, trailertotallength?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public createVideo(channel_id: number, title: string, scope: string, videopath: string, videopublicid: string, totallength: string, free: number, discbyprice: number, desc?: string, price?: number, disc?: number, discpctg?: number, trailervideopath?: string, trailervideopublicid?: string, trailertotallength?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (channel_id === null || channel_id === undefined) {
             throw new Error('Required parameter channel_id was null or undefined when calling createVideo.');
         }
@@ -143,6 +146,15 @@ export class VideoControllerServiceService {
         }
         if (discpctg !== undefined && discpctg !== null) {
             queryParameters = queryParameters.set('discpctg', <any>discpctg);
+        }
+        if (trailervideopath !== undefined && trailervideopath !== null) {
+            queryParameters = queryParameters.set('trailervideopath', <any>trailervideopath);
+        }
+        if (trailervideopublicid !== undefined && trailervideopublicid !== null) {
+            queryParameters = queryParameters.set('trailervideopublicid', <any>trailervideopublicid);
+        }
+        if (trailertotallength !== undefined && trailertotallength !== null) {
+            queryParameters = queryParameters.set('trailertotallength', <any>trailertotallength);
         }
 
         let headers = this.defaultHeaders;
@@ -413,15 +425,21 @@ export class VideoControllerServiceService {
     /**
      * Retrieves public video by Uid.
      * @param uid Video ID, NOT \&#39;ID\&#39;.
+     * @param user_id User ID
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPublicVideoByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getPublicVideoByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getPublicVideoByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getPublicVideoByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getPublicVideoByUid(uid: string, user_id?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getPublicVideoByUid(uid: string, user_id?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getPublicVideoByUid(uid: string, user_id?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getPublicVideoByUid(uid: string, user_id?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling getPublicVideoByUid.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (user_id !== undefined && user_id !== null) {
+            queryParameters = queryParameters.set('user_id', <any>user_id);
         }
 
         let headers = this.defaultHeaders;
@@ -437,6 +455,7 @@ export class VideoControllerServiceService {
 
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/public/video/${encodeURIComponent(String(uid))}`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
