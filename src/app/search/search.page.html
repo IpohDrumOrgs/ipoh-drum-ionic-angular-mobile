@@ -13,7 +13,7 @@
                            (ionChange)="searchKeywordChange()"></ion-searchbar>
           </ion-col>
           <ion-col size="3" style="padding:0;">
-            <ion-select interface="popover" (ionChange)="changedSearchItemDropdown($event)" [selectedText]="itemToSearch">
+            <ion-select interface="popover" (ionChange)="changedSearchItemDropdown($event)" [(ngModel)]="itemToSearch" [selectedText]="itemToSearch">
               <ion-select-option value="Videos" [selected]="itemToSearch.toLowerCase() === 'videos'">Videos</ion-select-option>
               <ion-select-option value="Articles" [selected]="itemToSearch.toLowerCase() === 'articles'">Articles</ion-select-option>
               <ion-select-option value="My Videos" [selected]="itemToSearch.toLowerCase() === 'my videos'">My Videos</ion-select-option>
