@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Platform} from '@ionic/angular';
 import {GlobalfunctionService} from '../_dal/common/services/globalfunction.service';
 import {Router} from '@angular/router';
@@ -20,6 +20,9 @@ export class HomePage implements OnInit {
   isShowingVideosTab = true;
   isShowingArticlesTab = false;
   isShowingMyVideosCollectionTab = false;
+
+  // ViewChilds
+  @ViewChild('videosTab', {static: false}) videosTab: ElementRef<HTMLElement>;
 
   // Subscriptions
   subscription: any;
@@ -69,9 +72,20 @@ export class HomePage implements OnInit {
       this.isShowingArticlesTab = true;
       this.isShowingMyVideosCollectionTab = false;
     } else if (this.currentTab === 'my videos') {
-      this.isShowingVideosTab = false;
-      this.isShowingArticlesTab = false;
-      this.isShowingMyVideosCollectionTab = true;
+      if (this.checkIfUserIsLoggedIn()) {
+        this.isShowingVideosTab = false;
+        this.isShowingArticlesTab = false;
+        this.isShowingMyVideosCollectionTab = true;
+      } else {
+        this.globalFunctionService.presentAlertConfirm(
+            'WARNING',
+            'You need to be logged in to access My Video collections.',
+            'Cancel',
+            'Login',
+            () => this.cancelNotToLogin(),
+            () => this.actuallyNavigateToLoginScreen()
+        );
+      }
     }
   }
 
@@ -81,7 +95,7 @@ export class HomePage implements OnInit {
     });
   }
 
-/*  checkIfUserIsLoggedIn() {
+  checkIfUserIsLoggedIn() {
     return this.authenticationService.isUserLoggedIn();
   }
 
@@ -96,9 +110,16 @@ export class HomePage implements OnInit {
     );
   }
 
+  cancelNotToLogin() {
+    const el: HTMLElement = this.videosTab.nativeElement;
+    el.click();
+  }
+
   actuallyNavigateToLoginScreen() {
+    const el: HTMLElement = this.videosTab.nativeElement;
+    el.click();
     this.router.navigate(['login']).catch(reason => {
       this.globalFunctionService.simpleToast('ERROR', 'Something went wrong, please try again later!', 'danger');
     });
-  }*/
+  }
 }
