@@ -84,12 +84,12 @@
                             </ion-label>
                         </ng-template>
                         <br>
-                        <ng-container *ngIf="currentInventory.rating && currentInventory.rating > 0 else noInventoryRating">
+                        <!--<ng-container *ngIf="currentInventory.rating && currentInventory.rating > 0 else noInventoryRating">
                             <star-rating [value]="currentInventory.rating" checkedcolor="#FFD100" uncheckedcolor="black" readonly="true"></star-rating>
                         </ng-container>
                         <ng-template #noInventoryRating>
                             No Ratings Yet&nbsp;&nbsp;|&nbsp;&nbsp;
-                        </ng-template>
+                        </ng-template>-->
                         <ion-chip color="primary">{{currentInventory.salesqty}}</ion-chip>&nbsp;sold
                         <br>
                         <ion-chip color="primary">{{currentInventory.qty}}</ion-chip>&nbsp;stock quantity
@@ -112,7 +112,7 @@
         </h6>
     </section>-->
 
-    <section style="background-color:white;padding:10px;margin-bottom:10px;">
+    <!--<section style="background-color:white;padding:10px;margin-bottom:10px;">
         <ion-row>
             <ion-col size="12" style="padding:0;border-bottom:1px solid #f2f2f2;">
                 <ion-row>
@@ -121,11 +121,11 @@
                             <b>Reviews&nbsp;({{currentInventory?.totalproductreview}})</b>
                         </span>
                     </ion-col>
-<!--                    <ion-col size="6" style="text-align:right !important;">
+&lt;!&ndash;                    <ion-col size="6" style="text-align:right !important;">
                         <span>
                             <small>Show All Reviews</small>
                         </span>
-                    </ion-col>-->
+                    </ion-col>&ndash;&gt;
                 </ion-row>
             </ion-col>
         </ion-row>
@@ -153,6 +153,6 @@
                 </div>
             </ion-col>
         </ion-row>
-    </section>
+    </section>-->
 </ion-content>
 
