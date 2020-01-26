@@ -42,9 +42,7 @@ export class MyStorePage implements OnInit, OnDestroy {
         private storeControllerService: StoreControllerServiceService,
         private loadingService: LoadingService,
         private globalFunctionService: GlobalfunctionService
-    ) {
-        console.log(this.constructorName + 'Initializing component');
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
