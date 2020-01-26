@@ -1,8 +1,10 @@
+/*// Change background color of ion-content
 ion-content{
-  --ion-background-color: #f2f2f2;
-}
+  --ion-background-color:#0b8457;
+}*/
 
-.swiper-pagination-bullet
-{
-  background:white;
+// Custom bullet color for "ion-swipe"
+ion-slides {
+  --bullet-background: #cecece;
+  --bullet-background-active: white;
 }

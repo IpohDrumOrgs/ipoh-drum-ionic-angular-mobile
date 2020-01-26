@@ -123,10 +123,12 @@ export class SearchPage implements OnInit, OnDestroy {
     }
 
     searchKeywordInput() {
+        console.log('keyword input');
         this.showLoadingSpinner = true;
     }
 
     searchKeywordChange() {
+        console.log('keyword change');
         if (this.searchedKeyword && this.searchedKeyword !== '') {
             setTimeout(() => {
                 if (this.itemToSearch.toString().toLowerCase() === 'videos') {
