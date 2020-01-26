@@ -90,6 +90,7 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
                     this.totalResult = resp.totalResult;
                 } else {
                     this.listOfPublicVideos = [];
+                    // tslint:disable-next-line:max-line-length
                     this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Videos, please try again later!', 'warning', 'top');
                 }
                 this.loadingService.dismiss();

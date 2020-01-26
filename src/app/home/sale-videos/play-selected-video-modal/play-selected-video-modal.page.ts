@@ -26,6 +26,7 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
     currentPageSize = commonConfig.currentPageSize;
     maximumPages: number;
     totalResult: number;
+    userId: number;
 
     // Boolean
     isLoadingSelectedVideo = true;
@@ -56,7 +57,10 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.ngZone.run(() => {
-            this.retrieveSelectedPublicVideoByUid();
+            this.initializeUserInfo();
+            setTimeout(() => {
+                this.retrieveSelectedPublicVideoByUid();
+            }, 500);
             // this.retrieveListOfCommentsBySelectedVideo();
         });
     }
@@ -89,7 +93,8 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
             this.getVideoByIdSubscription.unsubscribe();
         }
         this.getVideoByIdSubscription = this.videoControllerService.getPublicVideoByUid(
-            this.publicVideoUid
+            this.publicVideoUid,
+            this.userId ? this.userId : null
         ).subscribe(resp => {
             if (resp.code === 200) {
                 this.selectedPublicVideo = resp.data;
@@ -171,6 +176,22 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
     actuallyRouteToLoginPage() {
         this.closePlaySelectedVideoModal();
         this.router.navigate(['login']);
+    }
+
+    initializeUserInfo() {
+        this.authenticationService.authenticate().then(resp => {
+            if (resp.status) {
+                if (resp.status === 200) {
+                    this.userId = resp.data.id;
+                }
+            } else {
+                if (resp.name === 'Error') {
+                    this.userId = null;
+                }
+            }
+        }, error => {
+            this.userId = null;
+        });
     }
 
 /*    loadMoreComments(event) {
