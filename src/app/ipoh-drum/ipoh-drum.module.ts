@@ -152,7 +152,7 @@ const routes: Routes = [
         children: [
             {path: '', pathMatch: 'full', redirectTo: '/ipoh-drum/home'},
             {path: 'home', loadChildren: '../home/home.module#HomePageModule'},
-            {path: 'search/:item', loadChildren: '../search/search.module#SearchPageModule'},
+            {path: 'search', loadChildren: '../search/search.module#SearchPageModule'},
             {path: 'shop', loadChildren: '../shop/shop.module#ShopPageModule'},
             {path: 'shopping-cart', loadChildren: '../shopping-cart/shopping-cart.module#ShoppingCartPageModule'},
             {path: 'user-profile',

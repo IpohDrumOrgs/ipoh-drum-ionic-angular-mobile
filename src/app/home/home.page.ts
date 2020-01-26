@@ -76,7 +76,7 @@ export class HomePage implements OnInit {
   }
 
   clickedHomeSearchbar() {
-    this.router.navigate(['ipoh-drum/search', this.currentTab]).catch(reason => {
+    this.router.navigate(['ipoh-drum/search']).catch(reason => {
       this.globalFunctionService.simpleToast('ERROR', 'Something went wrong, please try again later!', 'danger');
     });
   }
