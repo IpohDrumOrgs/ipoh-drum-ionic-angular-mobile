@@ -170,6 +170,7 @@ export class ShopPage implements OnInit, OnDestroy {
         ).subscribe(resp => {
             if (resp.code === 200) {
                 this.listOfProducts.push(resp.data);
+                console.log(this.listOfProducts);
             } else {
                 this.listOfProducts.push(null);
             }

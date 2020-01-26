@@ -116,7 +116,7 @@
                                     &nbsp;
                                     <ng-container *ngIf="video?.discbyprice === 1 else discountedByPercentage">
                                         <ion-chip color="primary" style="font-size:18px;">
-                                            -{{video?.disc | myCurrency}}%
+                                            -{{video?.disc | myCurrency}}
                                         </ion-chip>
                                     </ng-container>
                                     <ng-template #discountedByPercentage>

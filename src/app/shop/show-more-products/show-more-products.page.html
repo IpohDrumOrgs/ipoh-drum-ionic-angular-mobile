@@ -215,51 +215,79 @@
   </ng-container>
   <ng-template #finishedLoadingListOfInventoriesByProductFeatureUid>
     <ion-row>
-      <ion-col size="6" *ngFor="let inventories of listOfProductsByProductFeatureUid;let i = index;">
-        <ion-card style="margin:0;" (click)="viewProductDetail(inventories.uid)">
+      <ion-col size="6" *ngFor="let listOfItems of listOfProductsByProductFeatureUid">
+        <ion-card (click)="viewProductDetail(listOfItems.uid)" style="margin:0;background-color:white;">
           <ion-card-header style="background-color:#ececec;padding:0;">
-            <ng-container *ngIf="inventories?.imgpath">
-              <ion-img [src]="inventories?.imgpath" alt="prod_img" class="productImage"></ion-img>
+            <ng-container *ngIf="listOfItems.imgpath else noImageForProduct">
+              <ion-img [src]="listOfItems.imgpath" alt="prod_img" class="productImage"></ion-img>
             </ng-container>
-            <ng-container *ngIf="!inventories?.imgpath">
-              <ion-img src="../../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
-            </ng-container>
+            <ng-template #noImageForProduct>
+              <ion-img src="../../assets/images/default_product.png" alt="prod_img" class="productImage"></ion-img>
+            </ng-template>
           </ion-card-header>
           <ion-card-content style="padding:5px;">
             <ion-row>
               <ion-col size="12" style="white-space:normal;padding-top:0;padding-bottom:0;">
-                <span style="white-space:normal;word-wrap:break-word;">
-                  <b>{{inventories?.name}}</b>
-                </span>
+                <b>{{listOfItems?.name}}</b>
               </ion-col>
             </ion-row>
             <ion-row>
               <ion-col size="12" style="padding-top:0;padding-bottom:0;">
-                <ng-container *ngIf="inventories?.promotion else noPromotion">
+                <!--<ng-container *ngIf="listOfItems?.promotion else noPromotion">
                   <small>
-                    <b>{{inventories?.promoprice | myCurrency}}</b>
+                    <b>{{listOfItems?.promoprice | myCurrency}}</b>
                     <span>
-                      -{{inventories?.promopctg}}%
+                      <ion-chip color="primary" style="font-size:10px;padding:5px;">
+                        -{{listOfItems?.promopctg}}%
+                      </ion-chip>
                     </span>
                   </small>
                 </ng-container>
                 <ng-template #noPromotion>
                   <small>
-                    <b>{{inventories?.price | myCurrency}}</b>
+                    <b>{{listOfItems?.price | myCurrency}}</b>
+                  </small>
+                </ng-template>-->
+                <ng-container *ngIf="listOfItems?.promotion else noPromoPrice">
+                  <ion-row>
+                    <ion-col size="12" style="padding:0;">
+                      <small>
+                                  <span style="text-decoration:line-through;color:grey;">
+                                      {{listOfItems?.price | myCurrency}}
+                                  </span>
+                        &nbsp;
+                        <ng-container *ngIf="listOfItems.promotion.discbyprice === 1 else discountedByPercentage">
+                          <ion-chip color="primary" style="margin:0;font-size:10px;">
+                            -{{listOfItems?.disc | myCurrency}}
+                          </ion-chip>
+                        </ng-container>
+                        <ng-template #discountedByPercentage>
+                          <ion-chip color="primary" style="margin:0;font-size:10px;">
+                            -{{listOfItems?.promopctg}}%
+                          </ion-chip>
+                        </ng-template>
+                      </small>
+                    </ion-col>
+                  </ion-row>
+                  {{listOfItems?.promoprice | myCurrency}}
+                </ng-container>
+                <ng-template #noPromoPrice>
+                  <small>
+                    <b>{{listOfItems?.price | myCurrency}}</b>
                   </small>
                 </ng-template>
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="12">
+              <ion-col size="12" style="padding-top:0;padding-bottom:0;">
                 <small>
-                  <ng-container *ngIf="inventories?.rating && inventories?.rating > 0 else noItemRating">
-                    <star-rating [value]="inventories?.rating" checkedcolor="#FFD100" uncheckedcolor="black" readonly="true"></star-rating>
-                  </ng-container>
-                  <ng-template #noItemRating>
-                    No Ratings Yet
-                  </ng-template>
-                  ({{inventories?.salesqty}} sold)
+                  <!--                            <ng-container *ngIf="listOfItems.rating && listOfItems.rating > 0 else noItemRating">
+                                                <star-rating [value]="listOfItems.rating" checkedcolor="#FFD100" uncheckedcolor="black" readonly="true"></star-rating>
+                                              </ng-container>
+                                              <ng-template #noItemRating>
+                                                No Ratings Yet
+                                              </ng-template>-->
+                  ({{listOfItems.salesqty}} sold)
                 </small>
               </ion-col>
             </ion-row>
