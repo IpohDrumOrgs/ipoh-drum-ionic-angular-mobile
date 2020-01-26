@@ -1,0 +1,94 @@
+<ion-content>
+  <ion-card style="margin:0;background-color:white;position:fixed !important;top:0;z-index:999999;width:100%;">
+    <ion-row class="ion-align-items-center">
+      <ion-col size="12" style="padding:0;">
+        <ion-searchbar autofocus
+                       debounce="1500"
+                       [(ngModel)]="searchedKeyword"
+                       [placeholder]="'Search item..'"
+                       animated="true"
+                       (ionInput)="searchKeywordInput()"
+                       (ionChange)="searchKeywordChange()"></ion-searchbar>
+      </ion-col>
+    </ion-row>
+  </ion-card>
+  <ng-container *ngIf="showLoadingSpinner else notShowingLoadingSpinner">
+    <div style="text-align:center;font-size:10rem;height:100%;">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  </ng-container>
+  <ng-template #notShowingLoadingSpinner>
+    <ng-container *ngIf="listOfInventoriesByKeyword && listOfInventoriesByKeyword.length > 0 else noInventoriesResult">
+      <ion-card style="margin-top:80px;">
+        <ion-row>
+          <ion-col size="6" *ngFor="let inventory of listOfInventoriesByKeyword">
+            <ion-card (click)="viewProductDetail(inventory.uid)" style="margin:0;background-color:white;">
+              <ion-card-header style="background-color:#ececec;padding:0;">
+                <ion-img [src]="inventory.imgpath ? inventory.imgpath : '../../assets/images/default_product.png'"
+                         alt="prod_img"
+                         class="productImage"></ion-img>
+              </ion-card-header>
+              <ion-card-content style="padding:5px;">
+                <ion-row>
+                  <ion-col size="12" style="white-space:normal;padding-top:0;padding-bottom:0;">
+                    <b>{{inventory?.name}}</b>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="12" style="padding-top:0;padding-bottom:0;">
+                    <ng-container *ngIf="inventory?.promotion else noPromotion">
+                      <small>
+                        <b>{{inventory?.promoprice | myCurrency}}</b>
+                        <span>
+                          <ion-chip color="primary" style="font-size:10px;padding:5px;">
+                            -{{inventory?.promopctg}}%
+                          </ion-chip>
+                        </span>
+                      </small>
+                    </ng-container>
+                    <ng-template #noPromotion>
+                      <small>
+                        <b>{{inventory?.price | myCurrency}}</b>
+                      </small>
+                    </ng-template>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col size="12" style="padding-top:0;padding-bottom:0;">
+                    <small>
+<!--                            <ng-container *ngIf="listOfItems.rating && listOfItems.rating > 0 else noItemRating">
+                      <star-rating [value]="listOfItems.rating" checkedcolor="#FFD100" uncheckedcolor="black" readonly="true"></star-rating>
+                    </ng-container>
+                    <ng-template #noItemRating>
+                      No Ratings Yet
+                    </ng-template>-->
+                      ({{inventory.salesqty}} sold)
+                    </small>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+          <ng-container *ngIf="listOfInventoriesByKeyword && listOfInventoriesByKeyword.length > 0">
+            <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreInventoriesByKeyword($event)">
+              <ion-infinite-scroll-content
+                      loadingSpinner="crescent">
+              </ion-infinite-scroll-content>
+            </ion-infinite-scroll>
+          </ng-container>
+        </ion-row>
+      </ion-card>
+    </ng-container>
+    <ng-template #noInventoriesResult>
+      <div style="margin-top:80px;">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12" style="text-align:center;">
+            <h3 style="color:#e6e6e6;">
+              No Results Found!
+            </h3>
+          </ion-col>
+        </ion-row>
+      </div>
+    </ng-template>
+  </ng-template>
+</ion-content>

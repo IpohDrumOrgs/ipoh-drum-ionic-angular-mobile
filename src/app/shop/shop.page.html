@@ -10,7 +10,7 @@
       <ion-col size="12">
         <ion-row>
           <ion-col size="12" style="padding:0;">
-            <ion-searchbar style="padding:5px;" color="light" [placeholder]="'Search..'" animated="true"></ion-searchbar>
+            <ion-searchbar style="padding:5px;" color="light" [placeholder]="'Search..'" animated="true" (click)="searchInventoryClicked()"></ion-searchbar>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -176,14 +176,14 @@
                         </ion-col>
                       </ion-row>
                       <ion-row>
-                        <ion-col size="12">
+                        <ion-col size="12" style="padding-top:0;padding-bottom:0;">
                           <small>
-                            <ng-container *ngIf="listOfItems.rating && listOfItems.rating > 0 else noItemRating">
+<!--                            <ng-container *ngIf="listOfItems.rating && listOfItems.rating > 0 else noItemRating">
                               <star-rating [value]="listOfItems.rating" checkedcolor="#FFD100" uncheckedcolor="black" readonly="true"></star-rating>
                             </ng-container>
                             <ng-template #noItemRating>
                               No Ratings Yet
-                            </ng-template>
+                            </ng-template>-->
                             ({{listOfItems.salesqty}} sold)
                           </small>
                         </ion-col>
