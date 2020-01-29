@@ -4,8 +4,10 @@
 
 export const environment = {
   production: false,
-  stripeKey: 'pk_test_mU2xWRsOVeUQYUXLWVyHGM6z00PJ5ZvmOe'
+  stripeTestKey: 'pk_test_mU2xWRsOVeUQYUXLWVyHGM6z00PJ5ZvmOe',
+  stripeKey: 'pk_live_OTiER79h2sRjUlxIe4C0h0G000OJWwIapX'
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

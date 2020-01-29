@@ -10,15 +10,15 @@
                 <ion-icon name="contact" slot="start"></ion-icon>
                 <ion-label>My Profile</ion-label>
             </ion-item>
-            <ion-item (click)="closeSideMenu(1)">
+            <ion-item (click)="closeSideMenu(1)" *ngIf="currentUsersRoles.length > 0">
                 <ion-icon name="archive" slot="start"></ion-icon>
                 <ion-label>My Store</ion-label>
             </ion-item>
-            <ion-item (click)="closeSideMenu(2)">
+            <ion-item (click)="closeSideMenu(2)" *ngIf="currentUsersRoles.length > 0">
                 <ion-icon name="albums" slot="start"></ion-icon>
                 <ion-label>My Blog</ion-label>
             </ion-item>
-            <ion-item (click)="closeSideMenu(3)">
+            <ion-item (click)="closeSideMenu(3)" *ngIf="currentUsersRoles.length > 0">
                 <ion-icon name="desktop" slot="start"></ion-icon>
                 <ion-label>My Channel</ion-label>
             </ion-item>

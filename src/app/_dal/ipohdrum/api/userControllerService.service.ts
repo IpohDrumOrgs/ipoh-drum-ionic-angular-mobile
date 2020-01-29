@@ -308,6 +308,37 @@ export class UserControllerServiceService {
     }
 
     /**
+     * get current request\&#39;s user role.
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public getCurrentRequestUserRole(observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public getCurrentRequestUserRole(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public getCurrentRequestUserRole(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public getCurrentRequestUserRole(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // to determine the Accept header
+        const httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/userroles`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
      * Retrieves user by Uid.
      * @param uid User_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.

@@ -71,16 +71,18 @@ export class AuthenticationService {
 
     async login(data) {
         this.loadingService.present();
-        this.laravelPassport.loginWithEmailAndPassword(data.email, data.password).subscribe(res => {
-            localStorage.setItem('access_token', res.access_token);
-            this.storage.set('access_token', res.access_token);
-            this.globalFunctionService.simpleToast('SUCCESS!', 'You are logged in!', 'success');
-            this.router.navigate(['/ipoh-drum/home']);
-            this.loadingService.dismiss();
-        }, err => {
-            this.globalFunctionService.simpleToast('WARNING!', 'Email and Password mismatched!', 'danger');
-            this.loadingService.dismiss();
-        });
+        setTimeout(() => {
+            this.laravelPassport.loginWithEmailAndPassword(data.email, data.password).subscribe(res => {
+                localStorage.setItem('access_token', res.access_token);
+                this.storage.set('access_token', res.access_token);
+                this.globalFunctionService.simpleToast('SUCCESS!', 'You are logged in!', 'success');
+                this.router.navigate(['/ipoh-drum/home']);
+                this.loadingService.dismiss();
+            }, err => {
+                this.globalFunctionService.simpleToast('ERROR!', 'Email and Password mismatched!', 'danger');
+                this.loadingService.dismiss();
+            });
+        }, 500);
     }
 
     isUserLoggedIn() {

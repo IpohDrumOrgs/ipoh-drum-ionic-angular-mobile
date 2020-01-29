@@ -6,6 +6,7 @@ import {AuthenticationService} from '../../_dal/common/services/authentication.s
 import {Router} from '@angular/router';
 import {LoadingService} from '../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
+import {NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-my-profile',
@@ -47,10 +48,9 @@ export class MyProfilePage implements OnInit, OnDestroy {
       private router: Router,
       private globalFunctionService: GlobalfunctionService,
       private userControllerServicesService: UserControllerServiceService,
-      private loadingService: LoadingService
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+      private loadingService: LoadingService,
+      private navController: NavController
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -108,22 +108,22 @@ export class MyProfilePage implements OnInit, OnDestroy {
 
   initializeUserInfo() {
     this.authenticationService.authenticate().then(resp => {
-      if (resp.status) {
-        if (resp.status === 200) {
-          this.loggedInUser = resp.data;
-          this.editingUserInformation = Object.assign({}, this.loggedInUser);
-        }
+      if (resp.status === 200) {
+        this.loggedInUser = resp.data;
+        this.editingUserInformation = Object.assign({}, this.loggedInUser);
       } else {
-        if (resp.name === 'Error') {
-          this.loggedInUser = null;
-          this.globalFunctionService.simpleToast('ERROR!', 'You are not authenticated, please login first!', 'danger');
-          this.router.navigate(['login']);
-        }
+        this.loggedInUser = null;
+        this.editingUserInformation = null;
+        this.globalFunctionService.simpleToast('WARNING!', 'You are not authenticated, please login first!', 'warning');
+        // this.authenticationService.logoutUser();
+        // this.navController.navigateRoot('login');
       }
     }, error => {
       this.loggedInUser = null;
+      this.editingUserInformation = null;
       this.globalFunctionService.simpleToast('ERROR!', 'You are not authenticated, please login first!', 'danger');
-      this.router.navigate(['login']);
+      // this.authenticationService.logoutUser();
+      // this.navController.navigateRoot('login');
     });
   }
 
