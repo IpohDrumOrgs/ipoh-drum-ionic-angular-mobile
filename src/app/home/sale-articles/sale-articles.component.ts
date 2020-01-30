@@ -14,26 +14,20 @@ import {commonConfig} from '../../_dal/common/commonConfig';
 
 export class SaleArticlesComponent implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
 
-  // Numbers
   currentPageNumber = 1;
   currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 
-  // Booleans
   isLoadingListOfPublicArticles = true;
   viewArticleModalOpen = false;
 
-  // Arrays
   listOfPublicArticles: Array<Article> = [];
 
-  // Objects
   referInfiniteScroll: any;
 
-  // Subscriptions
   getListOfArticlesSubscription: any;
   appendListOfArticlesSubscription: any;
 
@@ -43,9 +37,7 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
       private loadingService: LoadingService,
       private globalFunctionService: GlobalfunctionService,
       private articleControllerService: ArticleControllerServiceService
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -74,34 +66,35 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
 
   retrieveListOfArticles() {
     this.loadingService.present();
-    this.isLoadingListOfPublicArticles = true;
-    if (this.getListOfArticlesSubscription) {
-      this.getListOfArticlesSubscription.unsubscribe();
-    }
-    this.currentPageNumber = 1;
-    this.getListOfArticlesSubscription = this.articleControllerService.getPublicArticles(
-        this.currentPageNumber,
-        this.currentPageSize
-    ).subscribe(resp => {
-      if (resp.code === 200) {
-        this.listOfPublicArticles = resp.data;
-        this.maximumPages = resp.maximumPages;
-        this.totalResult = resp.totalResult;
-      } else {
-        this.listOfPublicArticles = [];
-        this.maximumPages = 0;
-        this.totalResult = 0;
-        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Articles, please try again later!', 'warning', 'top');
+    setTimeout(() => {
+      this.isLoadingListOfPublicArticles = true;
+      if (this.getListOfArticlesSubscription) {
+        this.getListOfArticlesSubscription.unsubscribe();
       }
-      this.loadingService.dismiss();
-      this.isLoadingListOfPublicArticles = false;
-    }, error => {
-      console.log('API Error while retrieving list of public articles');
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Articles, please try again later!', 'warning', 'top');
-      this.isLoadingListOfPublicArticles = false;
-      this.listOfPublicArticles = [];
-      this.loadingService.dismiss();
-    });
+      this.currentPageNumber = 1;
+      this.getListOfArticlesSubscription = this.articleControllerService.getPublicArticles(
+          this.currentPageNumber,
+          this.currentPageSize
+      ).subscribe(resp => {
+        if (resp.code === 200) {
+          this.listOfPublicArticles = resp.data;
+          this.maximumPages = resp.maximumPages;
+          this.totalResult = resp.totalResult;
+        } else {
+          this.listOfPublicArticles = [];
+          this.maximumPages = 0;
+          this.totalResult = 0;
+          this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Articles, please try again later!', 'warning', 'top');
+        }
+        this.loadingService.dismiss();
+        this.isLoadingListOfPublicArticles = false;
+      }, error => {
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Articles, please try again later!', 'danger', 'top');
+        this.isLoadingListOfPublicArticles = false;
+        this.listOfPublicArticles = [];
+        this.loadingService.dismiss();
+      });
+    }, 500);
   }
 
   ionRefresh(event) {
@@ -124,14 +117,12 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
         this.listOfPublicArticles = [];
         // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Articles, please try again later!', 'warning', 'top');
-        console.log('Unable to retrieve list of Videos.');
       }
       event.target.complete();
     }, error => {
       // tslint:disable-next-line:max-line-length
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Articles, please try again later!', 'warning', 'top');
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Articles, please try again later!', 'danger', 'top');
       this.listOfPublicArticles = [];
-      console.log('API Error while retrieving list of Articles.');
       event.target.complete();
     });
   }
@@ -152,7 +143,6 @@ export class SaleArticlesComponent implements OnInit, OnDestroy {
           }
           this.referInfiniteScroll.target.complete();
         }, error => {
-          console.log('API Error while retrieving list of Articles');
           this.referInfiniteScroll.target.complete();
         });
       }

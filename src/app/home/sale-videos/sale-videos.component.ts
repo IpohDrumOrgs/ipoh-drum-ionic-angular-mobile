@@ -14,26 +14,20 @@ import {commonConfig} from '../../_dal/common/commonConfig';
 
 export class SaleVideosComponent implements OnInit, OnDestroy {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
 
-    // Booleans
     isLoadingListOfPublicVideos = true;
     playSelectedVideoModalOpen = false;
 
-    // Numbers
     currentPageNumber = 1;
     currentPageSize = commonConfig.currentPageSize;
     maximumPages: number;
     totalResult: number;
 
-    // Arrays
     listOfPublicVideos: Array<Video> = [];
 
-    // Objects
     referInfiniteScroll: any;
 
-    // Subscriptions
     getListOfVideosSubscription: any;
     appendListOfVideosSubscription: any;
 
@@ -43,9 +37,7 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
         private globalFunctionService: GlobalfunctionService,
         private modalController: ModalController,
         private videoControllerService: VideoControllerServiceService
-    ) {
-        console.log(this.constructorName + 'Initializing component');
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -97,7 +89,7 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
                 this.isLoadingListOfPublicVideos = false;
             }, error => {
                 console.log('API Error while retrieving list of Public Videos');
-                this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Videos, please try again later!', 'warning', 'top');
+                this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Videos, please try again later!', 'danger', 'top');
                 this.isLoadingListOfPublicVideos = false;
                 this.loadingService.dismiss();
                 this.listOfPublicVideos = [];
@@ -145,14 +137,12 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
                 this.listOfPublicVideos = [];
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Videos, please try again later!', 'warning', 'top');
-                console.log('Unable to retrieve list of Videos.');
             }
             event.target.complete();
         }, error => {
             // tslint:disable-next-line:max-line-length
-            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Videos, please try again later!', 'warning', 'top');
+            this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Videos, please try again later!', 'danger', 'top');
             this.listOfPublicVideos = [];
-            console.log('API Error while retrieving list of Videos.');
             event.target.complete();
         });
     }

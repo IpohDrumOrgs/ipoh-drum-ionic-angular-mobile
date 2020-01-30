@@ -15,16 +15,13 @@ import {LoadingService} from '../../_dal/common/services/loading.service';
 
 export class ProductDetailPage implements OnInit, OnDestroy {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
     inventoryUID: string;
     productFeatureTitleUid: string;
 
-    // Booleans
     isLoadingInventory = true;
     comeFromShopPage = '';
 
-    // Objects
     currentInventory: Inventory;
     ionSliderOptions = {
         autoHeight: true,
@@ -32,7 +29,6 @@ export class ProductDetailPage implements OnInit, OnDestroy {
         speed: 400
     };
 
-    // Subscriptions
     currentInventorySubscription: any;
 
     constructor(
@@ -90,7 +86,7 @@ export class ProductDetailPage implements OnInit, OnDestroy {
                     this.currentInventory = resp.data;
                 } else {
                     // tslint:disable-next-line:max-line-length
-                    this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the selected Inventory info, please try again later!', 'danger');
+                    this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve the selected Inventory info, please try again later!', 'warning');
                     this.backToShopPage();
                 }
                 this.loadingService.dismiss();

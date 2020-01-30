@@ -2,7 +2,7 @@ import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {commonConfig} from '../../_dal/common/commonConfig';
 import {Inventory, InventoryControllerServiceService} from '../../_dal/ipohdrum';
 import {Platform} from '@ionic/angular';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
 
 @Component({
@@ -13,26 +13,20 @@ import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.s
 
 export class SearchInventoryPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   searchedKeyword: string;
 
-  // Numbers
   currentPageNumber = 1;
   currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 
-  // Booleans
   showLoadingSpinner = false;
 
-  // Arrays
   listOfInventoriesByKeyword: Array<Inventory> = [];
 
-  // Objects
   referInfiniteScroll: any;
 
-  // Subscriptions
   getListOfInventoriesByKeywordSubscription: any;
   appendListOfInventoriesByKeywordSubscription: any;
   backButtonSubscription: any;

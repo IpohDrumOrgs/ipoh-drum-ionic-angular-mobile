@@ -12,15 +12,12 @@ import {LoadingService} from '../../../_dal/common/services/loading.service';
 
 export class ProductVariationModalPage implements OnInit {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
 
-  // Numbers
   quantitiesToAdd = 1;
   nullSelectedInventoryPatternId = commonConfig.nullSelectedInventoryPatternId;
   priceToDisplay: number;
 
-  // Objects
   availableInventoryPatterns: any;
   selectedInventory: any;
   selectedInventoryFamily: any;
@@ -32,8 +29,7 @@ export class ProductVariationModalPage implements OnInit {
       private modalController: ModalController,
       private sharedService: SharedService,
       private loadingService: LoadingService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {

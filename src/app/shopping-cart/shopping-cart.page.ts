@@ -17,21 +17,17 @@ import {Router} from '@angular/router';
 
 export class ShoppingCartPage implements OnInit {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
 
-    // Numbers
     nullSelectedInventoryPatternId = commonConfig.nullSelectedInventoryPatternId;
     totalPriceInCart = 0;
 
-    // Arrays
     listOfInventoriesInCart: Array<any> = [];
     selectedInventoryStoreIds: Array<number> = [];
     uniqueSelectedInventoryStoreIds: Array<number> = [];
     finalSaleInventory: Array<any> = [];
     eachItemPriceToPay: Array<number> = [];
 
-    // Subscriptions
     inventoriesInCartSubscription: any;
     subscription: any;
 

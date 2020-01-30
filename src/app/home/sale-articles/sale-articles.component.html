@@ -68,43 +68,56 @@
   </ion-card>
 </ng-container>
 <ng-template #finishedLoadingListOfPublicArticles>
-  <ion-refresher slot="fixed" (ionRefresh)="ionRefresh($event)">
-    <ion-refresher-content
-            pullingText="Pull to Refresh"
-            refreshingSpinner="crescent">
-    </ion-refresher-content>
-  </ion-refresher>
-  <ion-card (click)="openSelectedArticleInModal(article.uid)" style="margin-bottom:10px;margin-top:0;background-color:white !important;" *ngFor="let article of listOfPublicArticles;let i = index;">
-    <ion-card-header style="padding:0;">
-      <ion-img [src]="article?.articleimages[0]?.imgpath" style="object-fit:cover;" *ngIf="article?.articleimages?.length > 0"></ion-img>
-    </ion-card-header>
-    <ion-card-content style="padding:5px;">
-      <ion-row class="ion-align-items-center">
-        <ion-col size="12">
-          <span style="white-space:normal;word-wrap:break-word;font-weight:bold;font-size:17px;">
-            {{article?.title}}
-          </span>
-        </ion-col>
-<!--        <ion-col size="12" style="padding-left:0;">
-          <ion-chip color="primary">
-            <b>{{article?.view}}</b>&nbsp;<ion-icon name="eye"></ion-icon>
-          </ion-chip>
-          <ion-chip color="tertiary">
-            <b>{{article?.commentcount}}</b>&nbsp;<ion-icon name="text"></ion-icon>
-          </ion-chip>
-          <ion-chip color="secondary">
-            <b>{{article?.like}}</b>&nbsp;<ion-icon name="thumbs-up"></ion-icon>
-          </ion-chip>
-          <ion-chip color="dark">
-            <b>{{article?.dislike}}</b>&nbsp;<ion-icon name="thumbs-down"></ion-icon>
-          </ion-chip>
-        </ion-col>-->
-      </ion-row>
-    </ion-card-content>
-  </ion-card>
-  <ion-infinite-scroll threshold="10px" (ionInfinite)="loadMoreArticles($event)">
-    <ion-infinite-scroll-content
-            loadingSpinner="crescent">
-    </ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+  <ng-container *ngIf="listOfPublicArticles && listOfPublicArticles.length > 0 else noPublicArticles">
+    <ion-refresher slot="fixed" (ionRefresh)="ionRefresh($event)">
+      <ion-refresher-content
+              pullingText="Pull to Refresh"
+              refreshingSpinner="crescent">
+      </ion-refresher-content>
+    </ion-refresher>
+    <ion-card (click)="openSelectedArticleInModal(article.uid)" style="margin-bottom:10px;margin-top:0;background-color:white !important;" *ngFor="let article of listOfPublicArticles;let i = index;">
+      <ion-card-header style="padding:0;">
+        <ion-img [src]="article?.articleimages[0]?.imgpath" style="object-fit:cover;" *ngIf="article?.articleimages?.length > 0"></ion-img>
+      </ion-card-header>
+      <ion-card-content style="padding:5px;">
+        <ion-row class="ion-align-items-center">
+          <ion-col size="12">
+            <span style="white-space:normal;word-wrap:break-word;font-weight:bold;font-size:17px;">
+              {{article?.title}}
+            </span>
+          </ion-col>
+  <!--        <ion-col size="12" style="padding-left:0;">
+            <ion-chip color="primary">
+              <b>{{article?.view}}</b>&nbsp;<ion-icon name="eye"></ion-icon>
+            </ion-chip>
+            <ion-chip color="tertiary">
+              <b>{{article?.commentcount}}</b>&nbsp;<ion-icon name="text"></ion-icon>
+            </ion-chip>
+            <ion-chip color="secondary">
+              <b>{{article?.like}}</b>&nbsp;<ion-icon name="thumbs-up"></ion-icon>
+            </ion-chip>
+            <ion-chip color="dark">
+              <b>{{article?.dislike}}</b>&nbsp;<ion-icon name="thumbs-down"></ion-icon>
+            </ion-chip>
+          </ion-col>-->
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    <ion-infinite-scroll threshold="10px" (ionInfinite)="loadMoreArticles($event)">
+      <ion-infinite-scroll-content
+              loadingSpinner="crescent">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ng-container>
+  <ng-template #noPublicArticles>
+    <ion-row style="height:100%;">
+      <ion-col size="12" style="text-align:center;">
+        <h3 style="color:white;">
+          <ion-icon name="document" style="font-size:8rem;"></ion-icon>
+          <br>
+          No Articles yet!
+        </h3>
+      </ion-col>
+    </ion-row>
+  </ng-template>
 </ng-template>

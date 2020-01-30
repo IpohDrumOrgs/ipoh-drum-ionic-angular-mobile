@@ -17,12 +17,10 @@ import {AuthenticationService} from '../_dal/common/services/authentication.serv
 
 export class SearchPage implements OnInit, OnDestroy {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
     itemToSearch = 'Videos';
     searchedKeyword: string;
 
-    // Numbers
     currentPublicVideoPageNumber = 1;
     currentPageSize = commonConfig.currentPageSize;
     publicVideoMaximumPages: number;
@@ -36,23 +34,19 @@ export class SearchPage implements OnInit, OnDestroy {
     userVideoMaximumPages: number;
     userVideoTotalResult: number;
 
-    // Booleans
     showLoadingSpinner = false;
     playSelectedVideoModalOpen = false;
     viewArticleModalOpen = false;
     playSelectedMyVideoModalOpen = false;
 
-    // Arrays
     listOfPublicVideosResult: Array<Video> = [];
     listOfPublicArticlesResult: Array<Article> = [];
     listOfMyVideosResult: Array<Video> = [];
 
-    // Objects
     referInfiniteScrollPublicVideo: any;
     referInfiniteScrollPublicArticle: any;
     referInfiniteScrollUserVideos: any;
 
-    // Subscriptions
     backButtonSubscription: any;
     getListOfPublicVideosSubscription: any;
     getListOfPublicArticlesSubscription: any;
@@ -123,12 +117,10 @@ export class SearchPage implements OnInit, OnDestroy {
     }
 
     searchKeywordInput() {
-        console.log('keyword input');
         this.showLoadingSpinner = true;
     }
 
     searchKeywordChange() {
-        console.log('keyword change');
         if (this.searchedKeyword && this.searchedKeyword !== '') {
             setTimeout(() => {
                 if (this.itemToSearch.toString().toLowerCase() === 'videos') {
@@ -242,7 +234,7 @@ export class SearchPage implements OnInit, OnDestroy {
             }
             this.showLoadingSpinner = false;
         }, error => {
-            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Videos, please try again later!', 'warning');
+            this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of Videos, please try again later!', 'danger');
             this.showLoadingSpinner = false;
             this.resetSearchResult();
         });
@@ -318,7 +310,7 @@ export class SearchPage implements OnInit, OnDestroy {
             }
             this.showLoadingSpinner = false;
         }, error => {
-            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Articles, please try again later!', 'warning');
+            this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of Articles, please try again later!', 'danger');
             this.showLoadingSpinner = false;
             this.resetSearchResult();
         });
@@ -395,7 +387,7 @@ export class SearchPage implements OnInit, OnDestroy {
           this.showLoadingSpinner = false;
       }, error => {
           // tslint:disable-next-line:max-line-length
-          this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of My Video collection, please try again later!', 'warning');
+          this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of My Video collection, please try again later!', 'danger');
           this.showLoadingSpinner = false;
           this.resetSearchResult();
       });

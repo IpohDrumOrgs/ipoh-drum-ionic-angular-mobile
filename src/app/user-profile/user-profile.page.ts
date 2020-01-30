@@ -36,7 +36,7 @@ export class UserProfilePage implements OnInit {
                 this.currentUsersRoles = resp.data;
             } else {
                 this.currentUsersRoles = [];
-                this.globalFunctionService.simpleToast('WARNING', 'Unable to get User\'s Roles, please try again later!', 'danger');
+                this.globalFunctionService.simpleToast('WARNING', 'Unable to get User\'s Roles, please try again later!', 'warning');
             }
         }, error => {
             this.currentUsersRoles = [];

@@ -21,7 +21,7 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         SharedModule
     ],
-  declarations: [SearchInventoryPage]
+  declarations: []
 })
 
 export class SearchInventoryPageModule {}

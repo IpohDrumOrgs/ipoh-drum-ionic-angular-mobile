@@ -16,27 +16,21 @@ import {AuthenticationService} from '../../_dal/common/services/authentication.s
 
 export class ShowMoreProductsPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   productFeatureUid: string;
   productFeatureTitle: string;
 
-  // Numbers
   currentPageNumber = 1;
   currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 
-  // Boolean
   isLoadingListOfInventoriesByProductFeatureUid = true;
 
-  // Arrays
   listOfProductsByProductFeatureUid: Array<Inventory> = [];
 
-  // Objects
   referInfiniteScroll: any;
 
-  // Subscriptions
   getListOfProductsByProductFeatureUidSubscription: any;
   getProductFeatureTitleSubscription: any;
   appendListOfProductsByProductFeatureUidSubscription: any;
@@ -51,8 +45,7 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
       private authenticationService: AuthenticationService,
       private globalFunctionService: GlobalfunctionService,
       private productFeatureControllerService: ProductFeatureControllerServiceService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -111,7 +104,7 @@ export class ShowMoreProductsPage implements OnInit, OnDestroy {
       }
       this.isLoadingListOfInventoriesByProductFeatureUid = false;
     }, error => {
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve inventories, please try again later!', 'warning', 'top');
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve inventories, please try again later!', 'danger', 'top');
       this.listOfProductsByProductFeatureUid = [];
       this.maximumPages = 0;
       this.totalResult = 0;

@@ -6,7 +6,6 @@ import {AuthenticationService} from '../../_dal/common/services/authentication.s
 import {Router} from '@angular/router';
 import {LoadingService} from '../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../_dal/common/services/globalfunction.service';
-import {NavController} from '@ionic/angular';
 
 @Component({
   selector: 'app-my-profile',
@@ -16,30 +15,24 @@ import {NavController} from '@ionic/angular';
 
 export class MyProfilePage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   userNameRegex = commonConfig.userNameRegex;
   icNoRegex = commonConfig.icNoRegex;
   phoneNumberRegex = commonConfig.phoneNumberRegex;
 
-  // Numbers
   minLengthOfUsername = commonConfig.minLengthOfUsername;
   maxLengthOfUsername = commonConfig.maxLengthOfUsername;
   minLengthOfIc = commonConfig.minLengthOfIc;
   minLengthOfPhoneNumber = commonConfig.minLengthOfPhoneNumber;
   maxLengthOfPhoneNumber = commonConfig.maxLengthOfPhoneNumber;
 
-  // Booleans
   editUserInformationPanelMode = false;
 
-  // Objects
   loggedInUser: User;
   editingUserInformation: User;
 
-  // FormGroups
   editingUserFormGroup: FormGroup;
 
-  // Subscriptions
   updateUserInfoSubscription: any;
 
   constructor(
@@ -48,8 +41,7 @@ export class MyProfilePage implements OnInit, OnDestroy {
       private router: Router,
       private globalFunctionService: GlobalfunctionService,
       private userControllerServicesService: UserControllerServiceService,
-      private loadingService: LoadingService,
-      private navController: NavController
+      private loadingService: LoadingService
   ) {}
 
   ngOnInit() {
@@ -115,15 +107,13 @@ export class MyProfilePage implements OnInit, OnDestroy {
         this.loggedInUser = null;
         this.editingUserInformation = null;
         this.globalFunctionService.simpleToast('WARNING!', 'You are not authenticated, please login first!', 'warning');
-        // this.authenticationService.logoutUser();
-        // this.navController.navigateRoot('login');
+        this.router.navigate(['login']);
       }
     }, error => {
       this.loggedInUser = null;
       this.editingUserInformation = null;
       this.globalFunctionService.simpleToast('ERROR!', 'You are not authenticated, please login first!', 'danger');
-      // this.authenticationService.logoutUser();
-      // this.navController.navigateRoot('login');
+      this.router.navigate(['login']);
     });
   }
 
@@ -148,11 +138,11 @@ export class MyProfilePage implements OnInit, OnDestroy {
             this.enableEditingUser();
             this.globalFunctionService.simpleToast('SUCCESS!', 'Your profile has been updated.', 'success');
           } else {
-            this.globalFunctionService.simpleToast('WARNING!', 'Updated to update profile, please try again later!', 'danger');
+            this.globalFunctionService.simpleToast('WARNING!', 'Updated to update profile, please try again later!', 'warning');
           }
           this.loadingService.dismiss();
         }, error => {
-          this.globalFunctionService.simpleToast('WARNING!', 'Updated to update profile, please try again later!', 'danger');
+          this.globalFunctionService.simpleToast('ERROR!', 'Updated to update profile, please try again later!', 'danger');
           this.loadingService.dismiss();
         });
       }, 500);

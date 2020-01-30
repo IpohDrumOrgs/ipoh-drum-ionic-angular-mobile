@@ -16,30 +16,24 @@ import {AuthenticationService} from '../../../_dal/common/services/authenticatio
 
 export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
     publicVideoUid: string;
     videoUrl: string;
 
-    // Numbers
     currentPageNumber = 1;
     currentPageSize = commonConfig.currentPageSize;
     maximumPages: number;
     totalResult: number;
     userId: number;
 
-    // Boolean
     isLoadingSelectedVideo = true;
     paymentModalOpen = false;
 
-    // Arrays
     listOfCommentsForSelectedVideo: Array<Comment> = [];
 
-    // Objects
     selectedPublicVideo: Video;
     referInfiniteScroll: any;
 
-    // Subscriptions
     getVideoByIdSubscription: any;
     getListOfCommentsBySelectedVideoSubscription: any;
     appendListOfCommentsBySelectedVideoSubscription: any;
@@ -52,15 +46,12 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
         private videoControllerService: VideoControllerServiceService,
         private globalFunctionService: GlobalfunctionService,
         private modalController: ModalController
-    ) {
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
             this.initializeUserInfo();
-            setTimeout(() => {
-                this.retrieveSelectedPublicVideoByUid();
-            }, 500);
+            this.retrieveSelectedPublicVideoByUid();
             // this.retrieveListOfCommentsBySelectedVideo();
         });
     }
@@ -89,26 +80,28 @@ export class PlaySelectedVideoModalPage implements OnInit, OnDestroy {
 
     retrieveSelectedPublicVideoByUid() {
         this.isLoadingSelectedVideo = true;
-        if (this.getVideoByIdSubscription) {
-            this.getVideoByIdSubscription.unsubscribe();
-        }
-        this.getVideoByIdSubscription = this.videoControllerService.getPublicVideoByUid(
-            this.publicVideoUid,
-            this.userId ? this.userId : null
-        ).subscribe(resp => {
-            if (resp.code === 200) {
-                this.selectedPublicVideo = resp.data;
-                this.videoUrl = this.selectedPublicVideo.videopath;
-            } else {
+        setTimeout(() => {
+            if (this.getVideoByIdSubscription) {
+                this.getVideoByIdSubscription.unsubscribe();
+            }
+            this.getVideoByIdSubscription = this.videoControllerService.getPublicVideoByUid(
+                this.publicVideoUid,
+                this.userId ? this.userId : null
+            ).subscribe(resp => {
+                if (resp.code === 200) {
+                    this.selectedPublicVideo = resp.data;
+                    this.videoUrl = this.selectedPublicVideo.videopath;
+                } else {
+                    this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve the selected Video, please try again later!', 'warning');
+                    this.closePlaySelectedVideoModal();
+                }
+                this.isLoadingSelectedVideo = false;
+            }, error => {
+                this.isLoadingSelectedVideo = false;
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the selected Video, please try again later!', 'danger');
                 this.closePlaySelectedVideoModal();
-            }
-            this.isLoadingSelectedVideo = false;
-        }, error => {
-            this.isLoadingSelectedVideo = false;
-            this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the selected Video, please try again later!', 'danger');
-            this.closePlaySelectedVideoModal();
-        });
+            });
+        }, 500);
     }
 
 /*    retrieveListOfCommentsBySelectedVideo() {

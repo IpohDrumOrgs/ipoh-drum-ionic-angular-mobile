@@ -47,9 +47,7 @@ export class LoginRegisterComponent implements OnInit, OnDestroy {
         private globalFunctionService: GlobalfunctionService,
         private userControllerService: UserControllerServiceService,
         private loadingService: LoadingService
-    ) {
-        console.log(this.constructorName + 'Initializing component');
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -128,15 +126,15 @@ export class LoginRegisterComponent implements OnInit, OnDestroy {
             this.confirmPasswordRegister
         ).subscribe(resp => {
             if (resp.code === 200) {
-                this.globalFunctionService.simpleToast('SUCCESS!', 'You are registered.', 'success');
+                this.globalFunctionService.simpleToast('SUCCESS!', 'You have been registered!', 'success');
                 this.userToRegister.password = this.passwordRegister;
                 this.authenticationService.login(this.userToRegister);
             } else {
-                this.globalFunctionService.simpleToast('ERROR!', this.apiErrorMessage, 'danger');
+                this.globalFunctionService.simpleToast('WARNING!', 'Unable to perform registration, please try again later!', 'warning');
             }
             this.loadingService.dismiss();
         }, error => {
-            this.globalFunctionService.simpleToast('ERROR!', this.apiErrorMessage, 'danger');
+            this.globalFunctionService.simpleToast('ERROR!', 'Unable to perform registration, please try again later!', 'danger');
             this.loadingService.dismiss();
         });
     }
@@ -168,7 +166,7 @@ export class LoginRegisterComponent implements OnInit, OnDestroy {
         this.loadingService.present();
         setTimeout(() => {
             this.router.navigate(['ipoh-drum/home']).catch(reason => {
-               console.log('Unable to navigate to Home page.');
+                this.globalFunctionService.simpleToast('ERROR', 'Something went wrong, please try again later!', 'danger');
             });
             this.loadingService.dismiss();
         }, 500);

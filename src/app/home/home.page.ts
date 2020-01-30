@@ -12,19 +12,15 @@ import {AuthenticationService} from '../_dal/common/services/authentication.serv
 
 export class HomePage implements OnInit {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   currentTab = 'videos';
 
-  // Booleans
   isShowingVideosTab = true;
   isShowingArticlesTab = false;
   isShowingMyVideosCollectionTab = false;
 
-  // ViewChilds
   @ViewChild('videosTab', {static: false}) videosTab: ElementRef<HTMLElement>;
 
-  // Subscriptions
   subscription: any;
 
   constructor(
@@ -32,8 +28,7 @@ export class HomePage implements OnInit {
       public platform: Platform,
       private authenticationService: AuthenticationService,
       private globalFunctionService: GlobalfunctionService
-  ) {
-  }
+  ) {}
 
   ionViewDidEnter() {
     this.subscription = this.platform.backButton.subscribe(() => {

@@ -16,26 +16,20 @@ import {Router} from '@angular/router';
 
 export class MyVideosCollectionComponent implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
 
-  // Numbers
   currentPageNumber = 1;
   currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 
-  // Booleans
   isLoadingMyVideosCollection = true;
   playSelectedMyVideoModalOpen = false;
 
-  // Arrays
   listOfMyVideosCollection: Array<any> = [];
 
-  // Objects
   referInfiniteScroll: any;
 
-  // Subscription
   getListOfMyVideosCollectionSubscription: any;
   appendListOfMyVideosCollectionSubscription: any;
 
@@ -47,9 +41,7 @@ export class MyVideosCollectionComponent implements OnInit, OnDestroy {
       private authenticationService: AuthenticationService,
       private globalFunctionService: GlobalfunctionService,
       private videoControllerService: VideoControllerServiceService
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -80,40 +72,39 @@ export class MyVideosCollectionComponent implements OnInit, OnDestroy {
 
   retrieveListOfMyVideosCollection() {
     this.loadingService.present();
-    this.isLoadingMyVideosCollection = true;
-    if (this.getListOfMyVideosCollectionSubscription) {
-      this.getListOfMyVideosCollectionSubscription.unsubscribe();
-    }
-    this.currentPageNumber = 1;
-    this.getListOfMyVideosCollectionSubscription = this.videoControllerService.getUserVideos(
-        this.currentPageNumber,
-        this.currentPageSize
-    ).subscribe(resp => {
-      console.log(resp);
-      if (resp.code === 200) {
-        this.listOfMyVideosCollection = resp.data;
-        this.maximumPages = resp.maximumPages;
-        this.totalResult = resp.totalResult;
-      } else {
-        console.log('error response code');
+    setTimeout(() => {
+      this.isLoadingMyVideosCollection = true;
+      if (this.getListOfMyVideosCollectionSubscription) {
+        this.getListOfMyVideosCollectionSubscription.unsubscribe();
+      }
+      this.currentPageNumber = 1;
+      this.getListOfMyVideosCollectionSubscription = this.videoControllerService.getUserVideos(
+          this.currentPageNumber,
+          this.currentPageSize
+      ).subscribe(resp => {
+        if (resp.code === 200) {
+          this.listOfMyVideosCollection = resp.data;
+          this.maximumPages = resp.maximumPages;
+          this.totalResult = resp.totalResult;
+        } else {
+          this.listOfMyVideosCollection = [];
+          this.maximumPages = 0;
+          this.totalResult = 0;
+          // tslint:disable-next-line:max-line-length
+          this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve My Videos collection, please try again later!', 'warning', 'top');
+        }
+        this.loadingService.dismiss();
+        this.isLoadingMyVideosCollection = false;
+      }, error => {
+        // tslint:disable-next-line:max-line-length
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve My Videos collection, please try again later!', 'danger', 'top');
         this.listOfMyVideosCollection = [];
         this.maximumPages = 0;
         this.totalResult = 0;
-        // tslint:disable-next-line:max-line-length
-        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve My Videos collection, please try again later!', 'warning', 'top');
-      }
-      this.loadingService.dismiss();
-      this.isLoadingMyVideosCollection = false;
-    }, error => {
-      console.log('api error');
-      // tslint:disable-next-line:max-line-length
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve My Videos collection, please try again later!', 'warning', 'top');
-      this.listOfMyVideosCollection = [];
-      this.maximumPages = 0;
-      this.totalResult = 0;
-      this.loadingService.dismiss();
-      this.isLoadingMyVideosCollection = false;
-    });
+        this.loadingService.dismiss();
+        this.isLoadingMyVideosCollection = false;
+      });
+    }, 500);
   }
 
   async openModalToPlaySelectedMyVideo(myVideoUid: string) {
@@ -158,7 +149,7 @@ export class MyVideosCollectionComponent implements OnInit, OnDestroy {
       event.target.complete();
     }, error => {
       // tslint:disable-next-line:max-line-length
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve My Videos collection, please try again later!', 'warning', 'top');
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve My Videos collection, please try again later!', 'danger', 'top');
       this.listOfMyVideosCollection = [];
       this.maximumPages = 0;
       this.totalResult = 0;

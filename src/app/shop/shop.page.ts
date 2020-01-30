@@ -17,15 +17,11 @@ import {GlobalfunctionService} from '../_dal/common/services/globalfunction.serv
 
 export class ShopPage implements OnInit, OnDestroy {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
-    keywordToSearchItems = '';
 
-    // Booleans
     isLoadingCategories = true;
     isLoadingProductFeaturesAndProductInventories = true;
 
-    // Arrays
     listOfCategories: Array<Type> = [];
     listOfProductFeatures: Array<ProductFeature> = [];
     listOfProducts: Array<Inventory> = [];
@@ -49,10 +45,8 @@ export class ShopPage implements OnInit, OnDestroy {
             title: 'Kitty'
         }
     ];
-    // Objects
     referInfiniteScroll: any;
 
-    // Subscriptions
     inventorySubscription: any;
     typeSubscription: any;
     productFeaturesSubscription: any;

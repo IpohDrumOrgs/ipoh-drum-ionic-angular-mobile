@@ -13,21 +13,17 @@ import {commonConfig} from '../../../_dal/common/commonConfig';
 
 export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   publicArticleUid: string;
 
-  // Numbers
   currentPageNumber = 1;
   currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 
-  // Booleans
   isLoadingSelectedArticleByUid = true;
   isLoadingCommentsBySelectedArticle = true;
 
-  // Objects
   selectedPublicArticle: Article;
   referInfiniteScroll: any;
   articleImageSliderOptions = {
@@ -36,10 +32,8 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
     speed: 400
   };
 
-  // Arrays
   listOfCommentsOfSelectedPublicArticle: Array<Comment> = [];
 
-  // Subscriptions
   getSelectedPublicArticleByUidSubscription: any;
   getListOfCommentsByArticleSubscription: any;
   appendListOfCommentsByArticleSubscription: any;
@@ -51,14 +45,12 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
       private modalController: ModalController,
       private articleControllerService: ArticleControllerServiceService,
       private globalFunctionService: GlobalfunctionService
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
         this.retrieveSelectedPublicArticleByUid();
-        this.retrieveListOfCommentsByArticle();
+        // this.retrieveListOfCommentsByArticle();
     });
   }
 
@@ -86,28 +78,29 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
 
   retrieveSelectedPublicArticleByUid() {
     this.isLoadingSelectedArticleByUid = true;
-    if (this.getSelectedPublicArticleByUidSubscription) {
-      this.getSelectedPublicArticleByUidSubscription.unsubscribe();
-    }
-    this.getSelectedPublicArticleByUidSubscription = this.articleControllerService.getPublicArticleByUid(
-        this.publicArticleUid
-    ).subscribe(resp => {
-      if (resp.code === 200) {
-        this.selectedPublicArticle = resp.data;
-      } else {
-        this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the Article, please try again later!', 'danger');
-        this.closeViewSelectedArticleModal();
+    setTimeout(() => {
+      if (this.getSelectedPublicArticleByUidSubscription) {
+        this.getSelectedPublicArticleByUidSubscription.unsubscribe();
       }
-      this.isLoadingSelectedArticleByUid = false;
-    }, error => {
-      console.log('API Error while retrieving public article by uid.');
-      this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the Article, please try again later!', 'danger');
-      this.isLoadingSelectedArticleByUid = false;
-      this.closeViewSelectedArticleModal();
-    });
+      this.getSelectedPublicArticleByUidSubscription = this.articleControllerService.getPublicArticleByUid(
+          this.publicArticleUid
+      ).subscribe(resp => {
+        if (resp.code === 200) {
+          this.selectedPublicArticle = resp.data;
+        } else {
+          this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve the Article, please try again later!', 'warning');
+          this.closeViewSelectedArticleModal();
+        }
+        this.isLoadingSelectedArticleByUid = false;
+      }, error => {
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the Article, please try again later!', 'danger');
+        this.isLoadingSelectedArticleByUid = false;
+        this.closeViewSelectedArticleModal();
+      });
+    }, 500);
   }
 
-  retrieveListOfCommentsByArticle() {
+/*  retrieveListOfCommentsByArticle() {
     this.isLoadingCommentsBySelectedArticle = true;
     if (this.getListOfCommentsByArticleSubscription) {
       this.getListOfCommentsByArticleSubscription.unsubscribe();
@@ -129,13 +122,12 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
       }
       this.isLoadingCommentsBySelectedArticle = false;
     }, error => {
-      console.log('API Error while retrieving list of comments by Article');
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Comments, please revisit the page later.', 'warning');
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Comments, please revisit the page later.', 'danger');
       this.isLoadingCommentsBySelectedArticle = false;
     });
-  }
+  }*/
 
-  loadMoreComments(event) {
+/*  loadMoreComments(event) {
     this.referInfiniteScroll = event;
     if (this.selectedPublicArticle.commentcount > 0) {
       setTimeout(() => {
@@ -153,7 +145,6 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
             }
             this.referInfiniteScroll.target.complete();
           }, error => {
-            console.log('API Error while retrieving list of comments');
             this.referInfiniteScroll.target.complete();
           });
         }
@@ -162,7 +153,7 @@ export class ViewSelectedArticleModalPage implements OnInit, OnDestroy {
         }
       }, 500);
     }
-  }
+  }*/
 
   closeViewSelectedArticleModal() {
     this.modalController.dismiss();
