@@ -184,11 +184,6 @@
                                                                     <li *ngIf="inventoryInfoFormGroup.get('inventoryName').hasError('required') && inventoryInfoFormGroup.get('inventoryName').touched">
                                                                         Name is required.
                                                                     </li>
-                                                                    <li *ngIf="inventoryInfoFormGroup.get('inventoryName').hasError('minlength') && inventoryInfoFormGroup.get('inventoryName').touched">
-                                                                        Name must have at
-                                                                        least {{inventoryNameMinLength}}
-                                                                        characters.
-                                                                    </li>
                                                                     <li *ngIf="inventoryInfoFormGroup.get('inventoryName').hasError('maxlength') && inventoryInfoFormGroup.get('inventoryName').touched">
                                                                         Name cannot be more
                                                                         than {{inventoryNameMaxLength}}
@@ -212,9 +207,6 @@
                                                                        [ngClass]="{'is-invalid': inventoryInfoFormGroup.get('inventoryCode').invalid && inventoryInfoFormGroup.get('inventoryCode').touched, 'is-valid': inventoryInfoFormGroup.get('inventoryCode').valid}">
                                                                 <ul class="error"
                                                                     *ngIf="inventoryInfoFormGroup.get('inventoryCode').invalid && inventoryInfoFormGroup.get('inventoryCode').touched">
-                                                                    <li *ngIf="inventoryInfoFormGroup.get('inventoryCode').hasError('required') && inventoryInfoFormGroup.get('inventoryCode').touched">
-                                                                        Code is required.
-                                                                    </li>
                                                                     <li *ngIf="inventoryInfoFormGroup.get('inventoryCode').hasError('minlength') && inventoryInfoFormGroup.get('inventoryCode').touched">
                                                                         Code must have at
                                                                         least {{inventoryCodeMinLength}}
@@ -246,9 +238,6 @@
                                                                        [ngClass]="{'is-invalid': inventoryInfoFormGroup.get('inventorySKU').invalid && inventoryInfoFormGroup.get('inventorySKU').touched, 'is-valid': inventoryInfoFormGroup.get('inventorySKU').valid}">
                                                                 <ul class="error"
                                                                     *ngIf="inventoryInfoFormGroup.get('inventorySKU').invalid && inventoryInfoFormGroup.get('inventorySKU').touched">
-                                                                    <li *ngIf="inventoryInfoFormGroup.get('inventorySKU').hasError('required') && inventoryInfoFormGroup.get('inventorySKU').touched">
-                                                                        SKU is required.
-                                                                    </li>
                                                                     <li *ngIf="inventoryInfoFormGroup.get('inventorySKU').hasError('minlength') && inventoryInfoFormGroup.get('inventorySKU').touched">
                                                                         SKU must have at
                                                                         least {{inventoryCodeMinLength}}

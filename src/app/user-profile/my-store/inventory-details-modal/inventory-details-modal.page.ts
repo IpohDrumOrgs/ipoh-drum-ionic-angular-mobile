@@ -110,16 +110,13 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
       this.inventoryInfoFormGroup = new FormGroup({
         inventoryName: new FormControl(null, [
           Validators.required,
-          Validators.minLength(this.inventoryNameMinLength),
           Validators.maxLength(this.inventoryNameMaxLength)
         ]),
         inventoryCode: new FormControl(null, [
-          Validators.required,
           Validators.minLength(this.inventoryCodeMinLength),
           Validators.maxLength(this.inventoryCodeMaxLength)
         ]),
         inventorySKU: new FormControl(null, [
-          Validators.required,
           Validators.minLength(this.inventorySKUMinLength),
           Validators.maxLength(this.inventorySKUMaxLength)
         ]),

@@ -64,7 +64,7 @@
                 </ion-row>
                 <ion-row>
                     <ion-col size="12">
-                        <ng-container *ngIf="currentInventory.promotion else noPromoPrice">
+                        <ng-container *ngIf="currentInventory?.promotion else noPromoPrice">
                             <ion-label style="font-size:20px;text-decoration:line-through;color:#e3e3e3;">
                                 {{currentInventory?.price | myCurrency}}
                             </ion-label>
@@ -73,7 +73,7 @@
                             </ion-chip>
                             <br>
                             <ion-label style="font-size:30px;">
-                                <b>{{currentInventory.promoprice | myCurrency}}</b>
+                                <b>{{currentInventory?.promoprice | myCurrency}}</b>
                             </ion-label>
                         </ng-container>
                         <ng-template #noPromoPrice>
@@ -88,9 +88,9 @@
                         <ng-template #noInventoryRating>
                             No Ratings Yet&nbsp;&nbsp;|&nbsp;&nbsp;
                         </ng-template>-->
-                        <ion-chip color="primary">{{currentInventory.salesqty}}</ion-chip>&nbsp;sold
+                        <ion-chip color="primary">{{currentInventory?.salesqty}}</ion-chip>&nbsp;sold
                         <br>
-                        <ion-chip color="primary">{{currentInventory.qty}}</ion-chip>&nbsp;stock quantity
+                        <ion-chip color="primary">{{currentInventory?.qty}}</ion-chip>&nbsp;stock quantity
                         <br>
                         <ion-chip outline style="margin-left:0;" (click)="openProductVariationsModal()">
                             <ion-icon name="cart" color="primary"></ion-icon>

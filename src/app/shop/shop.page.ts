@@ -23,8 +23,9 @@ export class ShopPage implements OnInit, OnDestroy {
     isLoadingProductFeaturesAndProductInventories = true;
 
     listOfCategories: Array<Type> = [];
-    listOfProductFeatures: Array<ProductFeature> = [];
-    listOfProducts: Array<Inventory> = [];
+    productFeatureUids: Array<string> = [];
+    productFeatureNames: Array<string> = [];
+    listOfProductFeaturesAndItsInventories: Array<any> = [];
     imageObject: Array<object> = [
         {
             image: 'assets/images/ekko.jpg',
@@ -137,18 +138,21 @@ export class ShopPage implements OnInit, OnDestroy {
     }
 
     getListOfProductFeatures() {
+        this.productFeatureUids = [];
+        this.productFeatureNames = [];
+        this.listOfProductFeaturesAndItsInventories = [];
         this.isLoadingProductFeaturesAndProductInventories = true;
         if (this.productFeaturesSubscription) {
             this.productFeaturesSubscription.unsubscribe();
         }
         this.productFeaturesSubscription = this.productFeatureControllerService.getProductFeatures().subscribe(resp => {
             if (resp.code === 200) {
-                this.listOfProductFeatures = resp.data;
-                this.listOfProductFeatures.forEach((prodFeatureObj) => {
-                    this.getListOfInventoriesBasedOnProductFeatures(prodFeatureObj.uid);
+                resp.data.forEach((prodFeatureObj) => {
+                    this.productFeatureUids.push(prodFeatureObj.uid);
+                    this.productFeatureNames.push(prodFeatureObj.name);
                 });
+                this.getListOfInventoriesBasedOnProductFeatures();
             } else {
-                this.listOfProductFeatures = null;
                 this.showPromptAlertWarning();
             }
         }, error => {
@@ -156,22 +160,32 @@ export class ShopPage implements OnInit, OnDestroy {
         });
     }
 
-    getListOfInventoriesBasedOnProductFeatures(prodFeatureUid: string) {
-        this.productFeatureControllerService.getFeaturedProductListByUid(
-            prodFeatureUid,
-            1,
-            6
-        ).subscribe(resp => {
-            if (resp.code === 200) {
-                this.listOfProducts.push(resp.data);
-            } else {
-                this.listOfProducts.push(null);
-            }
-            this.isLoadingProductFeaturesAndProductInventories = false;
-        }, error => {
-            this.isLoadingProductFeaturesAndProductInventories = false;
-            this.showPromptAlertWarning();
-        });
+    getListOfInventoriesBasedOnProductFeatures() {
+        for (let i = 0; i < this.productFeatureUids.length; i++) {
+            setTimeout(() => {
+                this.productFeatureControllerService.getFeaturedProductListByUid(
+                    this.productFeatureUids[i],
+                    1,
+                    6
+                ).subscribe(resp => {
+                    if (resp.code === 200) {
+                        this.listOfProductFeaturesAndItsInventories.push({
+                            productFeatureUid: this.productFeatureUids[i],
+                            productFeatureName: this.productFeatureNames[i],
+                            inventories: resp.data
+                        });
+                    } else {
+                        this.listOfProductFeaturesAndItsInventories.push({
+                            productFeatureUid: this.productFeatureUids[i],
+                            productFeatureName: this.productFeatureNames[i],
+                            inventories: []
+                        });
+                    }
+                }, error => {
+                });
+            }, 500);
+        }
+        this.isLoadingProductFeaturesAndProductInventories = false;
     }
 
     viewProductDetail(inventoryUID: string) {
@@ -214,8 +228,8 @@ export class ShopPage implements OnInit, OnDestroy {
         });
     }
 
-/*    // TODO
-    selectCategory(selectedCategoryUid: string) {
-        console.log('selected ' + selectedCategoryUid);
-    }*/
+    /*    // TODO
+        selectCategory(selectedCategoryUid: string) {
+            console.log('selected ' + selectedCategoryUid);
+        }*/
 }
