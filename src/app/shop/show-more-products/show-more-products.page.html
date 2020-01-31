@@ -214,7 +214,8 @@
     </ion-row>
   </ng-container>
   <ng-template #finishedLoadingListOfInventoriesByProductFeatureUid>
-    <ion-row>
+    <ng-container *ngIf="listOfProductsByProductFeatureUid && listOfProductsByProductFeatureUid.length > 0 else noProductsByProductFeatureUid">
+      <ion-row>
       <ion-col size="6" *ngFor="let listOfItems of listOfProductsByProductFeatureUid">
         <ion-card (click)="viewProductDetail(listOfItems.uid)" style="margin:0;background-color:white;">
           <ion-card-header style="background-color:#ececec;padding:0;">
@@ -300,5 +301,17 @@
         </ion-infinite-scroll-content>
       </ion-infinite-scroll>
     </ion-row>
+    </ng-container>
+    <ng-template #noProductsByProductFeatureUid>
+      <ion-row style="height:100%;">
+        <ion-col size="12" style="text-align:center;">
+          <h3 style="color:white;">
+            <ion-icon name="archive" style="font-size:8rem;"></ion-icon>
+            <br>
+            No Inventories yet!
+          </h3>
+        </ion-col>
+      </ion-row>
+    </ng-template>
   </ng-template>
 </ion-content>
