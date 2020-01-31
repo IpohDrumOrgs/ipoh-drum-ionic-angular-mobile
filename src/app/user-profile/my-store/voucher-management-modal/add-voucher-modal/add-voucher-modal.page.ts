@@ -1,4 +1,4 @@
-import {Component, NgZone, OnInit} from '@angular/core';
+import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {ModalController} from '@ionic/angular';
 import {LoadingService} from '../../../../_dal/common/services/loading.service';
 import {GlobalfunctionService} from '../../../../_dal/common/services/globalfunction.service';
@@ -12,18 +12,14 @@ import {commonConfig} from '../../../../_dal/common/commonConfig';
     styleUrls: ['./add-voucher-modal.page.scss'],
 })
 
-export class AddVoucherModalPage implements OnInit {
+export class AddVoucherModalPage implements OnInit, OnDestroy {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
     selectedStoreUid: string;
-
-    // Regex
     priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
     numericOnlyRegex = commonConfig.numericOnlyRegex;
     percentageRegex = commonConfig.percentageRegex;
 
-    // NgModels
     voucherNameModel: string;
     voucherDescriptionModel: string;
     voucherDiscountByPriceFlagModel = true;
@@ -37,7 +33,6 @@ export class AddVoucherModalPage implements OnInit {
     voucherStartDateModel = new Date().toISOString();
     voucherEndDateModel = new Date().toISOString();
 
-    // Numbers
     selectedStoreId: number;
     voucherNameMinLength = 2;
     voucherNameMaxLength = 15;
@@ -46,10 +41,8 @@ export class AddVoucherModalPage implements OnInit {
     voucherLimitedQuantityMaxLength = 5;
     maxPercentageValue = 100;
 
-    // FormGroups
     storeVoucherFormGroup: FormGroup;
 
-    // Subscriptions
     createVoucherSubscription: any;
 
     constructor(
@@ -58,9 +51,7 @@ export class AddVoucherModalPage implements OnInit {
         private loadingService: LoadingService,
         private globalFunctionService: GlobalfunctionService,
         private voucherControllerService: VoucherControllerServiceService
-    ) {
-        console.log(this.constructorName + 'Initializing component');
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -179,7 +170,6 @@ export class AddVoucherModalPage implements OnInit {
     };
 
     createVoucher() {
-        console.log(this.voucherDiscountedPercentageModel);
         if (this.storeVoucherFormGroup.valid) {
             this.loadingService.present();
             this.createVoucherSubscription = this.voucherControllerService.createVoucher(
@@ -201,11 +191,10 @@ export class AddVoucherModalPage implements OnInit {
                     this.globalFunctionService.simpleToast('SUCCESS', 'The Voucher has been created!', 'success');
                     this.closeCreateVoucherModal(true);
                 } else {
-                    this.globalFunctionService.simpleToast('ERROR', 'Unable to create the Voucher, please try again later!', 'danger');
+                    this.globalFunctionService.simpleToast('WARNING', 'Unable to create the Voucher, please try again later!', 'warning');
                 }
                 this.loadingService.dismiss();
             }, error => {
-                console.log('API Error while creating a new Voucher');
                 this.loadingService.dismiss();
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to create the Voucher, please try again later!', 'danger');
             });

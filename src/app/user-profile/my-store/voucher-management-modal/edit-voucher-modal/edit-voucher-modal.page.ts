@@ -14,26 +14,20 @@ import {commonConfig} from '../../../../_dal/common/commonConfig';
 
 export class EditVoucherModalPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   voucherUid: string;
   selectedStoreId: number;
-
-  // Regex
   priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
   numericOnlyRegex = commonConfig.numericOnlyRegex;
   percentageRegex = commonConfig.percentageRegex;
 
-  // Booleans
   isLoadingVoucher = true;
 
-  // NgModels
   voucherDiscountedByPriceFlagModel = true;
   voucherUnlimitedVoucherFlagModel = true;
   voucherStartDateModel = new Date().toISOString();
   voucherEndDateModel = new Date().toISOString();
 
-  // Numbers
   voucherNameMinLength = 2;
   voucherNameMaxLength = 15;
   voucherDescriptionMinLength = 10;
@@ -41,13 +35,10 @@ export class EditVoucherModalPage implements OnInit, OnDestroy {
   voucherLimitedQuantityMaxLength = 5;
   maxPercentageValue = 100;
 
-  // Objects
   selectedVoucher: Voucher;
 
-  // FormGroups
   storeVoucherFormGroup: FormGroup;
 
-  // Subscriptions
   getCurrentVoucherSubscription: any;
   updateCurrentVoucherSubscription: any;
   deleteCurrentVoucherSubscription: any;
@@ -59,9 +50,7 @@ export class EditVoucherModalPage implements OnInit, OnDestroy {
       private loadingService: LoadingService,
       private voucherControllerService: VoucherControllerServiceService,
       private modalController: ModalController
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -167,14 +156,13 @@ export class EditVoucherModalPage implements OnInit, OnDestroy {
         this.voucherStartDateModel = this.selectedVoucher.startdate;
         this.voucherEndDateModel = this.selectedVoucher.enddate;
       } else {
-        this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the Voucher info, please try again later!', 'danger');
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve the Voucher info, please try again later!', 'warning');
         this.closeEditVoucherModal(false);
       }
       this.loadingService.dismiss();
       this.isLoadingVoucher = false;
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving voucher by uid.');
       this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the Voucher info, please try again later!', 'danger');
       this.closeEditVoucherModal(false);
       this.loadingService.dismiss();
@@ -236,11 +224,10 @@ export class EditVoucherModalPage implements OnInit, OnDestroy {
             this.globalFunctionService.simpleToast('SUCCESS', 'The Voucher has been updated!', 'success');
             this.closeEditVoucherModal(true);
           } else {
-            this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Voucher, please try again later!', 'danger');
+            this.globalFunctionService.simpleToast('WARNING', 'Unable to update the Voucher, please try again later!', 'warning');
           }
           this.loadingService.dismiss();
         }, error => {
-          console.log('API Error while updating Voucher.');
           this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Voucher, please try again later!', 'danger');
           this.loadingService.dismiss();
         });
@@ -248,10 +235,13 @@ export class EditVoucherModalPage implements OnInit, OnDestroy {
   }
 
   deleteVoucher() {
-    this.globalFunctionService.presentAlertConfirm('Warning!',
+    this.globalFunctionService.presentAlertConfirm(
+        'Warning!',
         'Are you sure you want to delete the Voucher?',
-        'Cancel', 'Confirm',
-        undefined, () => this.confirmDeleteVoucher());
+        'Cancel',
+        'Confirm',
+        undefined,
+        () => this.confirmDeleteVoucher());
   }
 
   confirmDeleteVoucher() {
@@ -263,11 +253,10 @@ export class EditVoucherModalPage implements OnInit, OnDestroy {
         this.globalFunctionService.simpleToast('SUCCESS', 'The Voucher has been deleted!', 'success');
         this.closeEditVoucherModal(true);
       } else {
-        this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Voucher, please try again later!', 'danger');
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to delete the Voucher, please try again later!', 'warning');
       }
       this.loadingService.dismiss();
     }, error => {
-      console.log('API Error while deleting the Voucher, please try again later!');
       this.loadingService.dismiss();
       this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Voucher, please try again later!', 'danger');
     });

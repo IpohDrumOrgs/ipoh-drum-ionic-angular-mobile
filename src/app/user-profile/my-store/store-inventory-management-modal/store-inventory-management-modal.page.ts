@@ -16,18 +16,14 @@ import {SalesOrderManagementModalPage} from '../sales-order-management-modal/sal
 
 export class StoreInventoryManagementModalPage implements OnInit {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   selectedStoreUid: string;
 
-  // Numbers
   selectedStoreId: number;
 
   constructor(
       private modalController: ModalController
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
   }

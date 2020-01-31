@@ -14,35 +14,26 @@ import {commonConfig} from '../../../../_dal/common/commonConfig';
 
 export class EditPromotionModalPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   promoUid: string;
-
-  // Regex
   priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
   numericOnlyRegex = commonConfig.numericOnlyRegex;
 
-  // NgModels
   promotionPlanDiscountByPriceFlagModel = true;
 
-  // Booleans
   isLoadingProductPromotion = true;
   allowToModify: boolean;
 
-  // Numbers
   promotionPlanNameMinLength = 2;
   promotionPlanNameMaxLength = 50;
   promotionPlanDescriptionMinLength = 5;
   promotionPlanDescriptionMaxLength = 100;
   promotionPlanLimitedQuantityMaxLength = 5;
 
-  // Objects
   selectedProductPromotion: any;
 
-  // FormGroups
   promotionPlanFormGroup: FormGroup;
 
-  // Subscriptions
   getProductPromotionByUidSubscription: any;
   updateProductPromotionSubscription: any;
   deleteProductPromotionSubscription: any;
@@ -54,9 +45,7 @@ export class EditPromotionModalPage implements OnInit, OnDestroy {
       private globalFunctionService: GlobalfunctionService,
       private loadingService: LoadingService,
       private productPromotionControllerService: ProductPromotionControllerServiceService
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -107,8 +96,7 @@ export class EditPromotionModalPage implements OnInit, OnDestroy {
         this.isLoadingProductPromotion = false;
         this.ref.detectChanges();
       }, error => {
-        console.log('API Error while retrieving product promotion by uid.');
-        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve the Promotion Plan, please try again later!', 'warning');
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the Promotion Plan, please try again later!', 'danger');
         this.loadingService.dismiss();
         this.closeEditProductPromotionModal(false);
         this.isLoadingProductPromotion = false;
@@ -196,11 +184,10 @@ export class EditPromotionModalPage implements OnInit, OnDestroy {
           this.globalFunctionService.simpleToast('SUCCESS', 'The Promotion Plan has been updated!', 'success');
           this.closeEditProductPromotionModal(true);
         } else {
-          this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Promotion Plan, please try again later!', 'danger');
+          this.globalFunctionService.simpleToast('WARNING', 'Unable to update the Promotion Plan, please try again later!', 'warning');
         }
         this.loadingService.dismiss();
       }, error => {
-        console.log('API Error while updating ProductPromotion plan.');
         this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Promotion Plan, please try again later!', 'danger');
         this.loadingService.dismiss();
       });
@@ -208,10 +195,13 @@ export class EditPromotionModalPage implements OnInit, OnDestroy {
   }
 
   deleteProductPromotion() {
-    this.globalFunctionService.presentAlertConfirm('Warning!',
+    this.globalFunctionService.presentAlertConfirm(
+        'Warning!',
         'Are you sure you want to delete the Promotion Plan?',
-        'Cancel', 'Confirm',
-        undefined, () => this.confirmDeleteProductPromotion());
+        'Cancel',
+        'Confirm',
+        undefined,
+        () => this.confirmDeleteProductPromotion());
   }
 
   confirmDeleteProductPromotion() {
@@ -223,11 +213,10 @@ export class EditPromotionModalPage implements OnInit, OnDestroy {
         this.globalFunctionService.simpleToast('SUCCESS', 'The Promotion Plan has been deleted!', 'success');
         this.closeEditProductPromotionModal(true);
       } else {
-        this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Promotion Plan, please try again later!', 'danger');
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to delete the Promotion Plan, please try again later!', 'warning');
       }
       this.loadingService.dismiss();
     }, error => {
-      console.log('API Error while deleting the Promotion Plan, please try again later!');
       this.loadingService.dismiss();
       this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Promotion Plan, please try again later!', 'danger');
     });

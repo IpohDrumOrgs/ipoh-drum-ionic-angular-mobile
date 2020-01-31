@@ -14,29 +14,23 @@ import {commonConfig} from '../../../../_dal/common/commonConfig';
 
 export class AddPromotionModalPage implements OnInit, OnDestroy {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
     selectedStoreUid: string;
-
-    // Numbers
-    selectedStoreId: number;
-
-    // Regex
     priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
     numericOnlyRegex = commonConfig.numericOnlyRegex;
     percentageRegex = commonConfig.percentageRegex;
 
-    // NgModels
+    selectedStoreId: number;
+
     promotionPlanNameModel: string;
     promotionPlanDescriptionModel: string;
     promotionPlanLimitedQuantityModel: number;
     promotionPlanDiscountByPriceFlagModel = true;
-    promotionPlanDiscountedPriceModel: number; // float
-    promotionPlanDiscountedPercentageModel: number; // integer
+    promotionPlanDiscountedPriceModel: number;
+    promotionPlanDiscountedPercentageModel: number;
     promotionPlanStartDateModel = new Date().toISOString();
     promotionPlanEndDateModel = new Date().toISOString();
 
-    // Numbers
     promotionPlanNameMinLength = 2;
     promotionPlanNameMaxLength = 50;
     promotionPlanDescriptionMinLength = 5;
@@ -44,10 +38,8 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
     promotionPlanLimitedQuantityMaxLength = 5;
     percentageMaxValue = 100;
 
-    // FormGroups
     promotionPlanFormGroup: FormGroup;
 
-    // Subscriptions
     createProductPromotionSubscription: any;
 
     constructor(
@@ -58,9 +50,7 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
         private productPromotionController: ProductPromotionControllerServiceService,
         private modalController: ModalController,
         private productPromotionControllerService: ProductPromotionControllerServiceService
-    ) {
-        console.log(this.constructorName + 'Initializing component');
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -183,13 +173,12 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
                   this.globalFunctionService.simpleToast('SUCCESS', 'The Promotion Plan has been created!', 'success');
                   this.closeCreatePromotionModal(true);
                 } else {
-                  this.globalFunctionService.simpleToast('ERROR', 'Unable to create the Promotion Plan, please try again later!', 'danger');
+                  this.globalFunctionService.simpleToast('WARNING', 'Unable to create the Promotion Plan, please try again later!', 'warning');
                 }
                 this.loadingService.dismiss();
             }, error => {
-                console.log('API Error while creating a new Product Promotion');
-                this.loadingService.dismiss();
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to create the Promotion Plan, please try again later!', 'danger');
+                this.loadingService.dismiss();
             });
         }
     }

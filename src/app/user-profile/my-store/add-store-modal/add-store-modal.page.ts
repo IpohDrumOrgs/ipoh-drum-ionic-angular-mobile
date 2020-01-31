@@ -16,12 +16,10 @@ import {GlobalfunctionService} from '../../../_dal/common/services/globalfunctio
 
 export class AddStoreModalPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   temporaryStoreImageURL: string;
   phoneNumberRegex = commonConfig.phoneNumberRegex;
 
-  // NgModels
   selectedStoreBelongsToCompanyFlag = false;
   selectedCompany: Company;
   storeNameModel: string;
@@ -34,7 +32,6 @@ export class AddStoreModalPage implements OnInit, OnDestroy {
   storeStateModel: string;
   storeCityModel: string;
 
-  // Numbers
   currentCompanyPageNumber = 1;
   currentCompanyPageSize = 10;
   companyMaximumPages: number;
@@ -51,26 +48,14 @@ export class AddStoreModalPage implements OnInit, OnDestroy {
   storeStateMaxLength = commonConfig.storeStateMaxLength;
   storeCityMaxLength = commonConfig.storeCityMaxLength;
 
-  // Arrays
   listOfCompanies: Array<Company> = [];
   storeImageAsBlobArray: Array<Blob> = [];
 
-  // ViewChilds
   @ViewChild('storeImageContainer', {static: false}) storeImageContainer: ElementRef;
 
-  // Objects
-  inventoryImageSliderOptions = {
-    autoHeight: true,
-    initialSlide: 0,
-    speed: 400,
-    noSwipingClass: 'no-swipe'
-  };
-
-  // FormGroup
   storeInfoFormGroup: FormGroup;
   storeAddressFormGroup: FormGroup;
 
-  // Subscriptions
   appendListOfCompaniesSubscription: any;
   searchListOfCompaniesSubscription: any;
   createStoreSubscription: any;
@@ -83,9 +68,7 @@ export class AddStoreModalPage implements OnInit, OnDestroy {
       private loadingService: LoadingService,
       private globalFunctionService: GlobalfunctionService,
       private ref: ChangeDetectorRef
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -191,7 +174,7 @@ export class AddStoreModalPage implements OnInit, OnDestroy {
           };
           reader.readAsDataURL(files[0]);
         } else {
-          this.globalFunctionService.simpleToast('ERROR!', 'Invalid file selected! Please select .jpeg, .jpg or .png files.', 'danger');
+          this.globalFunctionService.simpleToast('WARNING!', 'Invalid file selected! Please select .jpeg, .jpg or .png files.', 'warning');
           this.loadingService.dismiss();
         }
       } else {
@@ -218,17 +201,16 @@ export class AddStoreModalPage implements OnInit, OnDestroy {
         this.storeImageAsBlobArray
     ).subscribe(resp => {
       if (resp.code === 200) {
-        this.globalFunctionService.simpleToast('SUCCESS', 'Store has been successfully created!', 'success', 'top');
+        this.globalFunctionService.simpleToast('SUCCESS', 'Store has been successfully created!', 'success');
         this.closeCreateStoreModal(true);
       } else {
         // tslint:disable-next-line:max-line-length
-        this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Store, please try again later!', 'warning', 'top');
+        this.globalFunctionService.simpleToast('WARNING', 'Something went wrong while creating the Store, please try again later!', 'warning');
       }
       this.loadingService.dismiss();
     }, error => {
-      console.log('API Error while creating a new store.');
       // tslint:disable-next-line:max-line-length
-      this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Store, please try again later!', 'warning', 'top');
+      this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Store, please try again later!', 'danger');
       this.loadingService.dismiss();
     });
   }
@@ -269,8 +251,6 @@ export class AddStoreModalPage implements OnInit, OnDestroy {
         event.component.enableInfiniteScroll();
         this.ref.detectChanges();
       }, error => {
-        console.log('API error while retrieving list of companies.');
-        console.log(error);
       });
       return;
     }
@@ -289,7 +269,6 @@ export class AddStoreModalPage implements OnInit, OnDestroy {
       event.component.enableInfiniteScroll();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving filtered company list, error: ' + error);
     });
   }
 
@@ -335,7 +314,6 @@ export class AddStoreModalPage implements OnInit, OnDestroy {
           event.component.endInfiniteScroll();
           this.ref.detectChanges();
         }, error => {
-          console.log('API error while retrieving list of companies, error: ' + error);
           event.component.endInfiniteScroll();
         });
       }

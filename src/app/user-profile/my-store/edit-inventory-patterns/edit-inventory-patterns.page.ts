@@ -12,17 +12,12 @@ import {commonConfig} from '../../../_dal/common/commonConfig';
 
 export class EditInventoryPatternsPage implements OnInit {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
-
-    // Regex
     priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
     numericOnlyRegex = commonConfig.numericOnlyRegex;
 
-    // Booleans
     inventoryPatternOnSaleFlagModel: boolean;
 
-    // Numbers
     inventoryPatternNameMaxLength = commonConfig.inventoryPatternNameMaxLength;
     inventoryPatternDescMinLength = commonConfig.inventoryPatternDescMinLength;
     inventoryPatternDescMaxLength = commonConfig.inventoryPatternDescMaxLength;
@@ -30,20 +25,16 @@ export class EditInventoryPatternsPage implements OnInit {
     inventoryPatternSellingPriceMaxLength = commonConfig.inventoryPatternSellingPriceMaxLength;
     inventoryPatternStockQuantityMaxLength = commonConfig.inventoryPatternStockQuantityMaxLength;
 
-    // Objects
     inventoryPatternToEdit: Pattern;
     referenceInventoryPatternsToEdit: Pattern;
 
-    // FormGroups
     inventoryPatternFormGroup: FormGroup;
 
     constructor(
         private ref: ChangeDetectorRef,
         private ngZone: NgZone,
         private modalController: ModalController
-    ) {
-        console.log(this.constructorName + 'Initializing component');
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {

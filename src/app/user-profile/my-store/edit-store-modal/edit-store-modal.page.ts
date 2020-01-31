@@ -15,12 +15,10 @@ import {GlobalfunctionService} from '../../../_dal/common/services/globalfunctio
 
 export class EditStoreModalPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   selectedStoreUid: string;
   phoneNumberRegex = commonConfig.phoneNumberRegex;
 
-  // Numbers
   currentPageNumber = 1;
   currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
@@ -37,25 +35,19 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
   storeStateMaxLength = commonConfig.storeStateMaxLength;
   storeCityMaxLength = commonConfig.storeCityMaxLength;
 
-  // Booleans
   isLoadingStoreInfo = true;
   companyBelongingsFlag = false;
 
-  // Arrays
   storeImageAsBlobArray: Array<Blob> = [];
   listOfCompanies: Array<Company> = [];
 
-  // ViewChilds
   @ViewChild('storeImageContainer', {static: false}) storeImageContainer: ElementRef;
 
-  // Objects
   selectedStore: Store;
   temporaryStoreImageURL: Blob;
 
-  // FormGroups
   storeInfoFormGroup: FormGroup;
 
-  // Subscriptions
   getStoreByUidSubscription: any;
   updateStoreSubscription: any;
   searchListOfCompaniesSubscription: any;
@@ -70,7 +62,6 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
       private globalFunctionService: GlobalfunctionService,
       private ref: ChangeDetectorRef
   ) {
-    console.log(this.constructorName + 'Initializing component');
     this.loadingService.present();
   }
 
@@ -135,8 +126,7 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
         this.loadingService.dismiss();
         this.ref.detectChanges();
       }, error => {
-        console.log('API Error while retrieving store by uid.');
-        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store\'s info, please try again later!', 'warning', 'top');
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Store\'s info, please try again later!', 'danger', 'top');
         this.isLoadingStoreInfo = false;
         this.loadingService.dismiss();
         this.closeEditStoreModal(false);
@@ -195,7 +185,7 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
           };
           reader.readAsDataURL(files[0]);
         } else {
-          this.globalFunctionService.simpleToast('ERROR!', 'Invalid file selected! Please select .jpeg, .jpg or .png files.', 'danger');
+          this.globalFunctionService.simpleToast('WARNING!', 'Invalid file selected! Please select .jpeg, .jpg or .png files.', 'warning');
           this.loadingService.dismiss();
         }
       } else {
@@ -225,16 +215,15 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
           this.storeImageAsBlobArray[0] !== undefined || this.storeImageAsBlobArray[0] !== null ? this.storeImageAsBlobArray : null
       ).subscribe(resp => {
         if (resp.code === 200) {
-          this.globalFunctionService.simpleToast('SUCCESS', 'Store has been updated.', 'success', 'top');
+          this.globalFunctionService.simpleToast('SUCCESS', 'Store has been updated.', 'success');
           this.closeEditStoreModal(true);
         } else {
-          this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Store, please try again later!', 'danger', 'top');
+          this.globalFunctionService.simpleToast('WARNING', 'Unable to update the Store, please try again later!', 'warning');
         }
         this.loadingService.dismiss();
       }, error => {
-        console.log('API Error while updating store');
         this.loadingService.dismiss();
-        this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Store, please try again later!', 'danger', 'top');
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Store, please try again later!', 'danger');
       });
     }
   }
@@ -275,8 +264,6 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
         event.component.enableInfiniteScroll();
         this.ref.detectChanges();
       }, error => {
-        console.log('API error while retrieving list of companies.');
-        console.log(error);
       });
       return;
     }
@@ -295,8 +282,6 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
       event.component.enableInfiniteScroll();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving filtered company list.');
-      console.log(error);
     });
   }
 
@@ -361,8 +346,6 @@ export class EditStoreModalPage implements OnInit, OnDestroy {
           event.component.endInfiniteScroll();
           this.ref.detectChanges();
         }, error => {
-          console.log('API error while retrieving list of companies.');
-          console.log(error);
           event.component.endInfiniteScroll();
         });
       }

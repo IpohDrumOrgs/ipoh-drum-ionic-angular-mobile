@@ -15,24 +15,19 @@ import {commonConfig} from '../../../_dal/common/commonConfig';
 
 export class PromotionManagementModalPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   selectedStoreUid: string;
 
-  // Numbers
   selectedStoreId: number;
   currentPageNumber = 1;
   currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 
-  // Arrays
   listOfProductPromotions: Array<any> = [];
 
-  // Objects
   referInfiniteScroll: any;
 
-  // Subscriptions
   getListOfProductPromotionsByStoreUidSubscription: any;
   appendListOfProductPromotionByStoreUidSubscription: any;
 
@@ -43,9 +38,7 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
       private globalFunctionService: GlobalfunctionService,
       private productPromotionControllerService: ProductPromotionControllerServiceService,
       private storeControllerService: StoreControllerServiceService
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -91,13 +84,16 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
         // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Promotion Plans, please try again later!', 'warning');
         this.listOfProductPromotions = [];
+        this.maximumPages = 0;
+        this.totalResult = 0;
       }
       this.loadingService.dismiss();
     }, error => {
-      console.log('API Error while retrieving list of productpromotion by store uid.');
-      this.loadingService.dismiss();
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Promotion Plans, please try again later!', 'warning');
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of Promotion Plans, please try again later!', 'danger');
       this.listOfProductPromotions = [];
+      this.maximumPages = 0;
+      this.totalResult = 0;
+      this.loadingService.dismiss();
     });
   }
 
@@ -142,7 +138,6 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
           }
           this.referInfiniteScroll.target.complete();
         }, error => {
-          console.log('API Error while retrieving list of promos of current storeuid.');
           this.referInfiniteScroll.target.complete();
         });
       }
@@ -189,12 +184,15 @@ export class PromotionManagementModalPage implements OnInit, OnDestroy {
         // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Promotion Plans, please try again later!', 'warning');
         this.listOfProductPromotions = [];
+        this.maximumPages = 0;
+        this.totalResult = 0;
       }
       event.target.complete();
     }, error => {
-      console.log('API Error while retrieving list of productpromotion by store uid.');
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Promotion Plans, please try again later!', 'warning');
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of Promotion Plans, please try again later!', 'danger');
       this.listOfProductPromotions = [];
+      this.maximumPages = 0;
+      this.totalResult = 0;
       event.target.complete();
     });
   }

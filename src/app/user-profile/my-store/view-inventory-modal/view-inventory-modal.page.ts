@@ -14,19 +14,15 @@ import {ViewInventoryFamiliesPatternModalPage} from '../view-inventory-families-
 
 export class ViewInventoryModalPage implements OnInit, OnDestroy {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
     selectedInventoryUid: string;
     selectedStoreUid: string;
 
-    // Numbers
     selectedStoreId: number;
     selectedInventoryId: number;
 
-    // Booleans
     isLoadingInventoryInfo = true;
 
-    // Objects
     selectedInventory: Inventory;
     ionSliderOptions = {
         autoHeight: true,
@@ -35,14 +31,11 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
     };
     temporaryInventoryThumbnail: Blob;
 
-    // ViewChild
     @ViewChild('inventoryThumbnailContainer', {static: false}) inventoryThumbnailContainer: ElementRef;
     @ViewChild('inventorySlidersContainer', {static: false}) inventorySlidersContainer: ElementRef;
 
-    // Arrays
     inventoryThumbnailAsArray: Array<Blob> = [];
 
-    // Subscriptions
     getSelectedInventorySubscription: any;
     uploadThumbnailSubscription: any;
     uploadSlidersSubscription: any;
@@ -56,9 +49,7 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
         private modalController: ModalController,
         private globalFunctionService: GlobalfunctionService,
         private inventoryImageControllerService: InventoryImageControllerServiceService
-    ) {
-        console.log(this.constructorName + 'Initializing component');
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -125,15 +116,13 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
             this.selectedInventoryUid
         ).subscribe(resp => {
             if (resp.code === 200) {
-                console.log(resp);
                 this.selectedInventory = resp.data;
             } else {
-                this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Inventory info, please try again later!', 'danger');
+                this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Inventory info, please try again later!', 'warning');
                 this.closeViewInventoryModal(false);
             }
             this.isLoadingInventoryInfo = false;
         }, error => {
-            console.log('API Error while retrieving selected inventory by uid.');
             this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Inventory info, please try again later!', 'danger');
             this.closeViewInventoryModal(false);
             this.isLoadingInventoryInfo = false;
@@ -164,10 +153,8 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
                         }
                         this.loadingService.dismiss();
                     }, error => {
-                        console.log('API Error while uploading inventory thumbnail by uid.');
                         // tslint:disable-next-line:max-line-length
-                        this.globalFunctionService.simpleToast('WARNING', 'Unable to update the thumbnail, please try again later!', 'warning');
-                        console.log(error);
+                        this.globalFunctionService.simpleToast('ERROR', 'Unable to update the thumbnail, please try again later!', 'danger');
                         this.loadingService.dismiss();
                     });
                 }
@@ -200,14 +187,13 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
                         }
                         this.loadingService.dismiss();
                     }, error => {
-                        console.log('API Error while uploading inventory Sliders by uid.');
                         // tslint:disable-next-line:max-line-length
-                        this.globalFunctionService.simpleToast('WARNING', 'Unable to update the Sliders, please try again later!', 'warning');
-                        console.log(error);
+                        this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Sliders, please try again later!', 'danger');
                         this.loadingService.dismiss();
                     });
                 } else {
-                    this.globalFunctionService.simpleToast('ERROR!', 'Invalid file selected! Please select .jpeg, .jpg or .png files.', 'danger');
+                    // tslint:disable-next-line:max-line-length
+                    this.globalFunctionService.simpleToast('WARNING!', 'Invalid file selected! Please select .jpeg, .jpg or .png files.', 'warning');
                     this.loadingService.dismiss();
                 }
             } else {
@@ -245,9 +231,8 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
                 }
                 this.loadingService.dismiss();
             }, error => {
-                console.log('API Error while deleting sliders image.');
                 this.loadingService.dismiss();
-                this.globalFunctionService.simpleToast('WARNING', 'Unable to remove the Slider image, please try again later!', 'warning');
+                this.globalFunctionService.simpleToast('ERROR', 'Unable to remove the Slider image, please try again later!', 'danger');
             });
         }, 500);
     }
@@ -280,9 +265,8 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
                 }
                 this.loadingService.dismiss();
             }, error => {
-                console.log('API Error while deleting the Inventory by uid.');
                 this.loadingService.dismiss();
-                this.globalFunctionService.simpleToast('WARNING', 'Unable to delete the Inventory, please try again later!', 'warning');
+                this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Inventory, please try again later!', 'danger');
             });
         }, 500);
     }

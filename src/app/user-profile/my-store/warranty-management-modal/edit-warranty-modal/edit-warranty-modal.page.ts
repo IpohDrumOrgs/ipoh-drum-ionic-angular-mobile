@@ -14,18 +14,13 @@ import {commonConfig} from '../../../../_dal/common/commonConfig';
 
 export class EditWarrantyModalPage implements OnInit, OnDestroy {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
     warrantyUid: string;
-
-    // Regex
     numericOnlyRegex = commonConfig.numericOnlyRegex;
 
-    // Boolean
     allowToModify: boolean;
     isLoadingWarranty = true;
 
-    // Numbers
     selectedStoreId: number;
     warrantyNameMinLength = 2;
     warrantyNameMaxLength = 50;
@@ -34,13 +29,10 @@ export class EditWarrantyModalPage implements OnInit, OnDestroy {
     warrantyPeriodMaxLength = 5;
     warrantyPolicyMaxLength = 1500;
 
-    // Objects
     selectedWarranty: any;
 
-    // FormGroups
     warrantyPlanFormGroup: FormGroup;
 
-    // Subscriptions
     getWarrantyByUidSubscription: any;
     updateWarrantySubscription: any;
     deleteWarrantySubscription: any;
@@ -52,9 +44,7 @@ export class EditWarrantyModalPage implements OnInit, OnDestroy {
         private warrantyControllerService: WarrantyControllerServiceService,
         private globalFunctionService: GlobalfunctionService,
         private modalController: ModalController
-    ) {
-        console.log(this.constructorName + 'Initializing component');
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -95,9 +85,8 @@ export class EditWarrantyModalPage implements OnInit, OnDestroy {
                 this.isLoadingWarranty = false;
                 this.ref.detectChanges();
             }, error => {
-                console.log('API Error while retrieving Warranty Plan by uid.');
                 // tslint:disable-next-line:max-line-length
-                this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve the Warranty Plan, please try again later!', 'warning');
+                this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the Warranty Plan, please try again later!', 'danger');
                 this.loadingService.dismiss();
                 this.closeEditWarrantyModal(false);
                 this.isLoadingWarranty = false;
@@ -147,11 +136,11 @@ export class EditWarrantyModalPage implements OnInit, OnDestroy {
                     this.globalFunctionService.simpleToast('SUCCESS', 'The Warranty Plan has been updated!', 'success');
                     this.closeEditWarrantyModal(true);
                 } else {
-                    this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Warranty Plan, please try again later!', 'danger');
+                    // tslint:disable-next-line:max-line-length
+                    this.globalFunctionService.simpleToast('WARNING', 'Unable to update the Warranty Plan, please try again later!', 'warning');
                 }
                 this.loadingService.dismiss();
             }, error => {
-                console.log('API Error while updating Warranty by uid.');
                 this.loadingService.dismiss();
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Warranty Plan, please try again later!', 'danger');
             });
@@ -159,10 +148,13 @@ export class EditWarrantyModalPage implements OnInit, OnDestroy {
     }
 
     deleteWarrantyPlan() {
-        this.globalFunctionService.presentAlertConfirm('Warning!',
+        this.globalFunctionService.presentAlertConfirm(
+            'Warning!',
             'Are you sure you want to delete the Warranty Plan?',
-            'Cancel', 'Confirm',
-            undefined, () => this.confirmDeleteWarranty());
+            'Cancel',
+            'Confirm',
+            undefined,
+            () => this.confirmDeleteWarranty());
     }
 
     confirmDeleteWarranty() {
@@ -177,13 +169,12 @@ export class EditWarrantyModalPage implements OnInit, OnDestroy {
                 this.globalFunctionService.simpleToast('SUCCESS', 'The Warranty Plan has been deleted!', 'success');
                 this.closeEditWarrantyModal(true);
             } else {
-                this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Warranty Plan, please try again later!', 'danger');
+                this.globalFunctionService.simpleToast('WARNING', 'Unable to delete the Warranty Plan, please try again later!', 'warning');
             }
             this.loadingService.dismiss();
         }, error => {
-            console.log('API Error while deleting the Warranty Plan, please try again later!');
-            this.loadingService.dismiss();
             this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Warranty Plan, please try again later!', 'danger');
+            this.loadingService.dismiss();
         });
     }
 }

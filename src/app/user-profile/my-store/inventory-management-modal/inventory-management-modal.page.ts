@@ -15,25 +15,20 @@ import {commonConfig} from '../../../_dal/common/commonConfig';
 
 export class InventoryManagementModalPage implements OnInit, OnDestroy {
 
-    // Strings
   constructorName = '[' + this.constructor.name + ']';
   selectedStoreUid: string;
 
-  // Numbers
   selectedStoreId: number;
   currentPageNumber = 1;
   currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 
-  // Arrays
   listOfInventoriesFromSelectedStore: Array<Inventory> = [];
 
-  // Objects
   selectedStore: Store;
   referInfiniteScroll: any;
 
-  // Subscriptions
   getListOfInventoriesByStoreUidSubscription: any;
   getSelectedStoreByUidSubscription: any;
   appendListOfInventoriesByStoreUidSubscription: any;
@@ -44,9 +39,7 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
       private storeControllerService: StoreControllerServiceService,
       private loadingService: LoadingService,
       private globalFunctionService: GlobalfunctionService
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
       this.ngZone.run(() => {
@@ -55,9 +48,11 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
         ).subscribe(resp => {
           if (resp.code === 200) {
             this.selectedStore = resp.data;
+          } else {
+            this.selectedStore = null;
           }
         }, error => {
-          console.log('API Error while retrieving store by uid');
+          this.selectedStore = null;
         });
         this.retrieveListOfInventoriesByStoreUid();
       });
@@ -101,12 +96,13 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
         // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Inventories, please try again later!', 'warning', 'top');
         this.listOfInventoriesFromSelectedStore = [];
+        this.maximumPages = 0;
+        this.totalResult = 0;
       }
       this.loadingService.dismiss();
     }, error => {
-      console.log('API Error while retrieving list of inventories by store uid.');
       // tslint:disable-next-line:max-line-length
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Inventories, please try again later!', 'warning', 'top');
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of Inventories, please try again later!', 'danger', 'top');
       this.listOfInventoriesFromSelectedStore = [];
       this.loadingService.dismiss();
     });
@@ -173,7 +169,6 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
           }
           this.referInfiniteScroll.target.complete();
         }, error => {
-          console.log('API Error while retrieving list of inventories of current Store');
           this.referInfiniteScroll.target.complete();
         });
       }
@@ -207,9 +202,8 @@ export class InventoryManagementModalPage implements OnInit, OnDestroy {
       }
       event.target.complete();
     }, error => {
-      console.log('API Error while retrieving list of inventories by store uid.');
       // tslint:disable-next-line:max-line-length
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Inventories, please try again later!', 'warning', 'top');
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of Inventories, please try again later!', 'danger', 'top');
       this.listOfInventoriesFromSelectedStore = [];
       event.target.complete();
     });

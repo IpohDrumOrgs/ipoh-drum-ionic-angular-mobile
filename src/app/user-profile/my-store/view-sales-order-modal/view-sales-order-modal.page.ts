@@ -11,21 +11,14 @@ import {GlobalfunctionService} from '../../../_dal/common/services/globalfunctio
 
 export class ViewSalesOrderModalPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   selectedSalesOrderUid: string;
 
-  // Numbers
-  selectedSalesOrderId: number;
-
-  // Booleans
   isLoadingSalesOrderInfo = true;
 
-  // Objects
   selectedSalesOrder: Sale;
   storeObject: Store;
 
-  // Subscriptions
   getSalesOrderByUidSubscription: any;
 
   constructor(
@@ -34,7 +27,7 @@ export class ViewSalesOrderModalPage implements OnInit, OnDestroy {
       private modalController: ModalController,
       private globalFunctionService: GlobalfunctionService,
       private saleControllerService: SaleControllerServiceService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -63,7 +56,6 @@ this.retrieveSalesOrderByUid();
   }
 
   retrieveSalesOrderByUid() {
-    console.log('sales order');
     this.isLoadingSalesOrderInfo = true;
     if (this.getSalesOrderByUidSubscription) {
       this.getSalesOrderByUidSubscription.unsubscribe();
@@ -71,13 +63,12 @@ this.retrieveSalesOrderByUid();
     this.getSalesOrderByUidSubscription = this.saleControllerService.getSaleByUid(
         this.selectedSalesOrderUid
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.selectedSalesOrder = resp.data;
         this.storeObject = this.selectedSalesOrder.store;
       } else {
         this.selectedSalesOrder = null;
-        this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Sales Order info, please try again later!', 'danger');
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Sales Order info, please try again later!', 'warning');
         this.closeViewSalesOrderModal();
       }
       this.isLoadingSalesOrderInfo = false;

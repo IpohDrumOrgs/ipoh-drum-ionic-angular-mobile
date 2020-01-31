@@ -16,14 +16,10 @@ import {commonConfig} from '../../../_dal/common/commonConfig';
 
 export class EditInventoryFamiliesAndPatternsPage implements OnInit {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
-
-    // Regex
     priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
     numericOnlyRegex = commonConfig.numericOnlyRegex;
 
-    // Numbers
     inventoryPatternIndexToReplace: number;
     inventoryFamilyNameMaxLength = commonConfig.inventoryFamilyNameMaxLength;
     inventoryFamilyCodeMinLength = commonConfig.inventoryFamilyCodeMinLength;
@@ -36,12 +32,10 @@ export class EditInventoryFamiliesAndPatternsPage implements OnInit {
     inventoryFamilySellingPriceMaxLength = commonConfig.inventoryFamilySellingPriceMaxLength;
     inventoryFamilyStockQuantityMaxLength = commonConfig.inventoryFamilyStockQuantityMaxLength;
 
-    // Arrays
     inventoryFamiliesAndPatternsToEdit: InventoryFamily;
     referenceInventoryFamiliesAndPatternsToEdit: InventoryFamily;
     tempInventoryPatternsToInsert: Array<Pattern> = [];
 
-    // FormGroups
     inventoryFamilyFormGroup: FormGroup;
 
     constructor(
@@ -49,9 +43,7 @@ export class EditInventoryFamiliesAndPatternsPage implements OnInit {
         private ngZone: NgZone,
         private modalController: ModalController,
         private globalFunctionService: GlobalfunctionService
-    ) {
-        console.log(this.constructorName + 'Initializing component');
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -72,7 +64,6 @@ export class EditInventoryFamiliesAndPatternsPage implements OnInit {
                     Validators.required,
                     Validators.minLength(this.inventoryFamilySKUMinLength),
                     Validators.maxLength(this.inventoryFamilySKUMaxLength)
-                    // Validators.pattern(this.alphaNumericOnlyRegex)
                 ]),
                 inventoryFamilyDescription: new FormControl(null, [
                     Validators.required,
@@ -138,7 +129,6 @@ export class EditInventoryFamiliesAndPatternsPage implements OnInit {
 
     async openEditInventoryPatternsModal(inventoryPatternToEdit: Pattern, inventoryPatternIndex: number) {
         this.inventoryPatternIndexToReplace = inventoryPatternIndex;
-        console.log('inv index: ' + this.inventoryPatternIndexToReplace);
         const modal = await this.modalController.create({
             component: EditInventoryPatternsPage,
             componentProps: {

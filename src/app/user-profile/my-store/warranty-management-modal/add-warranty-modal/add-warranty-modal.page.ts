@@ -14,20 +14,15 @@ import {commonConfig} from '../../../../_dal/common/commonConfig';
 
 export class AddWarrantyModalPage implements OnInit, OnDestroy {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
     selectedStoreUid: string;
-
-    // Regex
     numericOnlyRegex = commonConfig.numericOnlyRegex;
 
-    // NgModels
     warrantyNameModel: string;
     warrantyDescriptionModel: string;
     warrantyPeriodModel: number;
     warrantyPolicyModel: string;
 
-    // Numbers
     selectedStoreId: number;
     warrantyNameMinLength = 2;
     warrantyNameMaxLength = 50;
@@ -36,10 +31,8 @@ export class AddWarrantyModalPage implements OnInit, OnDestroy {
     warrantyPeriodMaxLength = 5;
     warrantyPolicyMaxLength = 1500;
 
-    // FormGroups
     warrantyPlanFormGroup: FormGroup;
 
-    // Subscriptions
     createWarrantySubscription: any;
 
     constructor(
@@ -48,9 +41,7 @@ export class AddWarrantyModalPage implements OnInit, OnDestroy {
         private globalFunctionService: GlobalfunctionService,
         private warrantyControllerService: WarrantyControllerServiceService,
         private modalController: ModalController
-    ) {
-        console.log(this.constructorName + 'Initializing component');
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -113,11 +104,10 @@ export class AddWarrantyModalPage implements OnInit, OnDestroy {
                     this.closeCreateWarrantyModal(true);
                 } else {
                   // tslint:disable-next-line:max-line-length
-                    this.globalFunctionService.simpleToast('ERROR', 'Unable to create the Warranty Plan, please try again later!', 'danger');
+                    this.globalFunctionService.simpleToast('WARNING', 'Unable to create the Warranty Plan, please try again later!', 'warning');
                 }
                 this.loadingService.dismiss();
             }, error => {
-                console.log('API Error while creating a new warranty plan.');
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to create the Warranty Plan, please try again later!', 'danger');
                 this.loadingService.dismiss();
             });

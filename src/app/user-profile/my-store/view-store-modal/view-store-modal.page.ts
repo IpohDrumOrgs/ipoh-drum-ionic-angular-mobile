@@ -13,21 +13,16 @@ import {EditStoreModalPage} from '../edit-store-modal/edit-store-modal.page';
 
 export class ViewStoreModalPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   selectedStoreUid: string;
 
-  // Numbers
   selectedStoreId: number;
 
-  // Booleans
   isLoadingStoreInfo = true;
   companyBelongingsFlag = false;
 
-  // Objects
   selectedStore: Store;
 
-  // Subscriptions
   getSelectedStoreSubscription: any;
   deleteSelectedStoreSubscription: any;
 
@@ -38,9 +33,7 @@ export class ViewStoreModalPage implements OnInit, OnDestroy {
       private modalController: ModalController,
       private storeControllerService: StoreControllerServiceService,
       private globalFunctionService: GlobalfunctionService
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -60,12 +53,11 @@ export class ViewStoreModalPage implements OnInit, OnDestroy {
         this.selectedStore = resp.data;
         this.companyBelongingsFlag = resp.data.companyBelongings === 1;
       } else {
-        this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Store info, please try again later!', 'danger');
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store info, please try again later!', 'warning');
         this.closeViewStoreModal();
       }
       this.isLoadingStoreInfo = false;
     }, error => {
-      console.log('API Error while retrieving selected store by uid.');
       this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Store info, please try again later!', 'danger');
       this.closeViewStoreModal();
       this.isLoadingStoreInfo = false;
@@ -134,13 +126,11 @@ export class ViewStoreModalPage implements OnInit, OnDestroy {
         this.globalFunctionService.simpleToast('SUCCESS', 'The Store has been deleted!', 'success');
         this.closeViewStoreModal();
       } else {
-        this.globalFunctionService.simpleToast('ERROR', 'Unable to delete Store, please try again later!', 'danger');
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to delete Store, please try again later!', 'warning');
       }
       this.loadingService.dismiss();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while deleting the Store');
-      console.log(error);
       this.loadingService.dismiss();
       this.globalFunctionService.simpleToast('ERROR', 'Unable to delete Store, please try again later!', 'danger');
       this.ref.detectChanges();

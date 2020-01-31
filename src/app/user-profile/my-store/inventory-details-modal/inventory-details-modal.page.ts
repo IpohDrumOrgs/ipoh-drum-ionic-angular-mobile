@@ -25,23 +25,18 @@ import {IonicSelectableComponent} from 'ionic-selectable';
 
 export class InventoryDetailsModalPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   defaultNoPlanSelectedStr = 'Default (None)';
   selectedInventoryUid: string;
   selectedStoreUid: string;
-
-  // Regex
   priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
   numericOnlyRegex = commonConfig.numericOnlyRegex;
 
-  // Booleans
   isLoadingInventoryDetails = true;
   isLoadingPromotionInfo = true;
   isLoadingWarrantyInfo = true;
   isLoadingShippingInfo = true;
 
-  // Numbers
   inventoryNameMinLength = commonConfig.inventoryNameMinLength;
   inventoryNameMaxLength = commonConfig.inventoryNameMaxLength;
   inventoryCodeMinLength = commonConfig.inventoryCodeMinLength;
@@ -55,7 +50,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
   inventoryStockThresholdMaxLength = commonConfig.inventoryStockThresholdMaxLength;
   selectedStoreId: number;
 
-  // Ionic selectable numbers
   currentPageSize = commonConfig.currentPageSize;
 
   currentPromotionPageNumber = 1;
@@ -67,7 +61,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
   currentShippingPageNumber = 1;
   shippingMaxPages: number;
 
-  // Objects
   selectedInventory: Inventory;
   defaultSelection = {
     id: null,
@@ -78,19 +71,15 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
   selectedWarrantyPlan: Warranty;
   selectedShippingPlan: Shipping;
 
-  // Arrays
   listOfStorePromotions: ProductPromotion [] = [];
   listOfStoreWarranties: Warranty[] = [];
   listOfStoreShippings: Shipping[] = [];
 
-  // ViewChild
   @ViewChild('inventoryThumbnailContainer', {static: false}) inventoryThumbnailContainer: ElementRef;
   @ViewChild('inventorySlidersContainer', {static: false}) inventorySlidersContainer: ElementRef;
 
-  // FormGroups
   inventoryInfoFormGroup: FormGroup;
 
-  // Subscriptions
   getInventoryDetailsSubscription: any;
   getListOfProductPromotionSubscription: any;
   getListOfWarrantySubscription: any;
@@ -114,9 +103,7 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
       private productPromotionControllerService: ProductPromotionControllerServiceService,
       private warrantyControllerService: WarrantyControllerServiceService,
       private shippingControllerService: ShippingControllerServiceService
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -130,13 +117,11 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(this.inventoryCodeMinLength),
           Validators.maxLength(this.inventoryCodeMaxLength)
-          // Validators.pattern(this.alphaNumericOnlyRegex)
         ]),
         inventorySKU: new FormControl(null, [
           Validators.required,
           Validators.minLength(this.inventorySKUMinLength),
           Validators.maxLength(this.inventorySKUMaxLength)
-          // Validators.pattern(this.alphaNumericOnlyRegex)
         ]),
         inventoryDescription: new FormControl(null, [
           Validators.required,
@@ -234,8 +219,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
           this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Inventory details, please try again later!', 'warning', 'top');
           this.closeInventoryDetailsModal(false);
         }
-
-        // Callbacks
         this.retrieveListOfProductPromotions();
         this.retrieveListOfWarranties();
         this.retrieveListOfShippings();
@@ -244,12 +227,10 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
         this.isLoadingInventoryDetails = false;
         this.ref.detectChanges();
       }, error => {
-        console.log('API error unable to retrieve inventory details');
-        console.log(error);
         this.loadingService.dismiss();
         this.isLoadingInventoryDetails = false;
         // tslint:disable-next-line:max-line-length
-        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Inventory details, please try again later!', 'warning', 'top');
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Inventory details, please try again later!', 'danger', 'top');
         this.closeInventoryDetailsModal(false);
         this.ref.detectChanges();
       });
@@ -333,12 +314,10 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
           this.globalFunctionService.simpleToast('SUCCESS', 'The Inventory has been updated!', 'success');
           this.closeInventoryDetailsModal(true);
         } else {
-          this.globalFunctionService.simpleToast('ERROR', 'Unable to update Inventory Info, please try again later!', 'danger');
+          this.globalFunctionService.simpleToast('WARNING', 'Unable to update Inventory Info, please try again later!', 'warning');
         }
         this.loadingService.dismiss();
       }, error => {
-        console.log('API Error while updating Inventory');
-        console.log(error);
         this.loadingService.dismiss();
         this.globalFunctionService.simpleToast('ERROR', 'Unable to update Inventory Info, please try again later!', 'danger');
       });
@@ -428,8 +407,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
         this.ref.detectChanges();
         this.retrieveMorePromotions(event);
       }, error => {
-        console.log('API error while retrieving list of Product Promotions.');
-        console.log(error);
       });
       return;
     }
@@ -456,8 +433,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
       event.component.enableInfiniteScroll();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving filtered Product Promotions.');
-      console.log(error);
     });
   }
 
@@ -512,15 +487,11 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
           event.component.endInfiniteScroll();
           this.ref.detectChanges();
         }, error => {
-          console.log('API error while retrieving list of Product Promotions.');
-          console.log(error);
           event.component.endInfiniteScroll();
         });
       }
     }
   }
-
-  ////////////////////////////////////////////////////////////////////////
 
   retrieveListOfWarranties() {
     this.loadingService.present();
@@ -611,8 +582,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
         this.ref.detectChanges();
         this.retrieveMoreWarranties(event);
       }, error => {
-        console.log('API error while retrieving list of Warranties.');
-        console.log(error);
       });
       return;
     }
@@ -639,8 +608,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
       event.component.enableInfiniteScroll();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving filtered Warranties.');
-      console.log(error);
     });
   }
 
@@ -695,15 +662,11 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
           event.component.endInfiniteScroll();
           this.ref.detectChanges();
         }, error => {
-          console.log('API error while retrieving list of Warranties.');
-          console.log(error);
           event.component.endInfiniteScroll();
         });
       }
     }
   }
-
-  ////////////////////////////////////////////////////////////////////////
 
   retrieveListOfShippings() {
     this.loadingService.present();
@@ -788,8 +751,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
         this.ref.detectChanges();
         this.retrieveMoreShippings(event);
       }, error => {
-        console.log('API error while retrieving list of Shippings.');
-        console.log(error);
       });
       return;
     }
@@ -816,8 +777,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
       event.component.enableInfiniteScroll();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving filtered Shippings.');
-      console.log(error);
     });
   }
 
@@ -872,8 +831,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
           event.component.endInfiniteScroll();
           this.ref.detectChanges();
         }, error => {
-          console.log('API error while retrieving list of Shippings.');
-          console.log(error);
           event.component.endInfiniteScroll();
         });
       }

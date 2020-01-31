@@ -5,17 +5,20 @@
         <ion-col size="2" style="text-align:left;padding:0;">
           <ion-icon name="arrow-back" style="font-size:25px;" (click)="closeInventoryManagementModal()"></ion-icon>
         </ion-col>
-        <ion-col size="7" style="text-align:left;padding-right:15px;white-space:normal;word-wrap:break-word;">
-          <b>Inventory Management</b>
-        </ion-col>
-        <ion-col size="3">
-          <ng-container *ngIf="selectedStore?.imgpath else noStoreImg">
-            <img [src]="selectedStore?.imgpath" style="border-radius:50%;height:50px;width:50px;object-fit:cover;">
-          </ng-container>
-          <ng-template #noStoreImg>
-            <img src="../../../../assets/images/default_product.png" style="border-radius:50%;height:50px;width:50px;object-fit:cover;">
-          </ng-template>
-        </ion-col>
+        <ng-container *ngIf="selectedStore else cannotRetrieveStore">
+          <ion-col size="7" style="text-align:left;padding-right:15px;white-space:normal;word-wrap:break-word;">
+            <b>Inventory Management</b>
+          </ion-col>
+          <ion-col size="3">
+            <img [src]="selectedStore?.imgpath ? selectedStore?.imgpath : '../../../../assets/images/default_product.png'"
+                 style="border-radius:50%;height:50px;width:50px;object-fit:cover;">
+          </ion-col>
+        </ng-container>
+        <ng-template #cannotRetrieveStore>
+          <ion-col size="10" style="text-align:left;padding-right:15px;white-space:normal;word-wrap:break-word;">
+            <b>Inventory Management</b>
+          </ion-col>
+        </ng-template>
       </ion-row>
     </ion-title>
   </ion-toolbar>

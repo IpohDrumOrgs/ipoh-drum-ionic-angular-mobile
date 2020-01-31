@@ -15,24 +15,19 @@ import {commonConfig} from '../../../_dal/common/commonConfig';
 
 export class ShippingManagementModalPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   selectedStoreUid: string;
 
-  // Numbers
   selectedStoreId: number;
   currentPageNumber = 1;
   currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 
-  // Arrays
   listOfShippingsByStoreUid: Array<any> = [];
 
-  // Objects
   referInfiniteScroll: any;
 
-  // Subscriptions
   getListOfShippingsByStoreUidSubscription: any;
   appendListOfShippingsByStoreUidSubscription: any;
 
@@ -42,9 +37,7 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
       private loadingService: LoadingService,
       private storeControllerService: StoreControllerServiceService,
       private globalFunctionService: GlobalfunctionService
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -93,8 +86,7 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
       }
       this.loadingService.dismiss();
     }, error => {
-      console.log('API Error while retrieving list of shippings by storeuid.');
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Shippings, please try again later!', 'warning');
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of Shippings, please try again later!', 'danger');
       this.listOfShippingsByStoreUid = [];
       this.loadingService.dismiss();
     });
@@ -152,7 +144,6 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
           }
           this.referInfiniteScroll.target.complete();
         }, error => {
-          console.log('API Error while retrieving list of shipping of current storeuid.');
           this.referInfiniteScroll.target.complete();
         });
       }
@@ -181,13 +172,16 @@ export class ShippingManagementModalPage implements OnInit, OnDestroy {
         this.totalResult = resp.totalResult;
       } else {
         this.listOfShippingsByStoreUid = [];
+        this.maximumPages = 0;
+        this.totalResult = 0;
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Shippings, please try again later!', 'warning');
       }
       event.target.complete();
     }, error => {
-      console.log('API Error while retrieving list of shippings by storeuid.');
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Shippings, please try again later!', 'warning');
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of Shippings, please try again later!', 'danger');
       this.listOfShippingsByStoreUid = [];
+      this.maximumPages = 0;
+      this.totalResult = 0;
       event.target.complete();
     });
   }

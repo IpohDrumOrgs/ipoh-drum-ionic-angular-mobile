@@ -15,13 +15,9 @@ import {commonConfig} from '../../../../_dal/common/commonConfig';
 export class InvFamilyPatternModalPage implements OnInit {
 
   constructorName = '[' + this.constructor.name + ']';
-
-  // Regex
-  alphaNumericOnlyRegex = '^[a-zA-Z0-9_]+$';
   priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
   numericOnlyRegex = commonConfig.numericOnlyRegex;
 
-  // NgModels
   inventoryFamilyNameModel: string;
   inventoryFamilyCodeModel: string;
   inventoryFamilySKUModel: string;
@@ -31,7 +27,6 @@ export class InvFamilyPatternModalPage implements OnInit {
   inventoryFamilyStockQuantityModel: number;
   selectedFamilyOnSaleToggle = true;
 
-  // Numbers
   inventoryFamilyNameMaxLength = commonConfig.inventoryFamilyNameMaxLength;
   inventoryFamilyCodeMinLength = commonConfig.inventoryFamilyCodeMinLength;
   inventoryFamilyCodeMaxLength = commonConfig.inventoryFamilyCodeMaxLength;
@@ -43,13 +38,10 @@ export class InvFamilyPatternModalPage implements OnInit {
   inventoryFamilySellingPriceMaxLength = commonConfig.inventoryFamilySellingPriceMaxLength;
   inventoryFamilyStockQuantityMaxLength = commonConfig.inventoryFamilyStockQuantityMaxLength;
 
-  // Arrays
   listOfInventoryPatterns: any[] = [];
 
-  // Objects
   inventoryPatternToInsert: any;
 
-  // FormGroups
   inventoryFamilyFormGroup: FormGroup;
 
   constructor(
@@ -57,9 +49,7 @@ export class InvFamilyPatternModalPage implements OnInit {
       private router: Router,
       private modalController: ModalController,
       private globalFunctionService: GlobalfunctionService
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -78,7 +68,6 @@ export class InvFamilyPatternModalPage implements OnInit {
           Validators.required,
           Validators.minLength(this.inventoryFamilySKUMinLength),
           Validators.maxLength(this.inventoryFamilySKUMaxLength)
-          // Validators.pattern(this.alphaNumericOnlyRegex)
         ]),
         inventoryFamilyDescription: new FormControl(null, [
           Validators.required,
@@ -153,28 +142,6 @@ export class InvFamilyPatternModalPage implements OnInit {
       onsale: this.selectedFamilyOnSaleToggle,
       patterns: this.listOfInventoryPatterns,
     };
-
-    // TODO: Hard-coded data
-    // const inventoryFamilyToInsert = {
-    //   code: 'familycode123',
-    //   cost: '4',
-    //   // created_at
-    //   desc: 'family description hahaha',
-    //   // id
-    //   // imgpath
-    //   // imgpublicid
-    //   // inventory_id
-    //   name: 'family name here',
-    //   onsale: true,
-    //   patterns: this.listOfInventoryPatterns,
-    //   price: '6',
-    //   qty: '30',
-    //   // salesqty
-    //   sku: 'familysku9987'
-    //   // status
-    //   // uid
-    //   // updated_at
-    // };
     this.modalController.dismiss(inventoryFamilyToInsert);
   }
 

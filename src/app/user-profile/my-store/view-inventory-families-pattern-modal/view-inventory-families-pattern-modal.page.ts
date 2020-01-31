@@ -11,17 +11,13 @@ import {InventoryFamily, Pattern} from '../../../_dal/ipohdrum';
 
 export class ViewInventoryFamiliesPatternModalPage implements OnInit {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
 
-  // Objects
   invFamilyPattern: InventoryFamily;
 
   constructor(
       private modalController: ModalController
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
   }

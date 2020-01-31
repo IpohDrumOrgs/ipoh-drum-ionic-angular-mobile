@@ -15,24 +15,19 @@ import {commonConfig} from '../../../_dal/common/commonConfig';
 
 export class WarrantyManagementModalPage implements OnInit, OnDestroy {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
     selectedStoreUid: string;
 
-    // Numbers
     selectedStoreId: number;
     currentPageNumber = 1;
     currentPageSize = commonConfig.currentPageSize;
     maximumPages: number;
     totalResult: number;
 
-    // Arrays
     listOfWarrantiesByStoreUid: Array<Warranty> = [];
 
-    // Objects
     referInfiniteScroll: any;
 
-    // Subscriptions
     getListOfWarrantiesByStoreUidSubscription: any;
     appendListOfWarrantiesSubscription: any;
 
@@ -43,9 +38,7 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
         private warrantyControllerService: WarrantyControllerServiceService,
         private globalFunctionService: GlobalfunctionService,
         private storeControllerService: StoreControllerServiceService
-    ) {
-        console.log(this.constructorName + 'Initializing component');
-    }
+    ) {}
 
     ngOnInit() {
         this.ngZone.run(() => {
@@ -91,12 +84,15 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Warranty list, please try again later!', 'warning');
                 this.listOfWarrantiesByStoreUid = [];
+                this.maximumPages = 0;
+                this.totalResult = 0;
             }
             this.loadingService.dismiss();
         }, error => {
-            console.log('API Error while retrieving list of warranties by store uid.');
-            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Warranty list, please try again later!', 'warning');
+            this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Warranty list, please try again later!', 'danger');
             this.listOfWarrantiesByStoreUid = [];
+            this.maximumPages = 0;
+            this.totalResult = 0;
             this.loadingService.dismiss();
         });
     }
@@ -161,7 +157,6 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
                     }
                     this.referInfiniteScroll.target.complete();
                 }, error => {
-                    console.log('API Error while retrieving list of warranties of current storeuid.');
                     this.referInfiniteScroll.target.complete();
                 });
             }
@@ -192,12 +187,15 @@ export class WarrantyManagementModalPage implements OnInit, OnDestroy {
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Warranty list, please try again later!', 'warning');
                 this.listOfWarrantiesByStoreUid = [];
+                this.maximumPages = 0;
+                this.totalResult = 0;
             }
             event.target.complete();
         }, error => {
-            console.log('API Error while retrieving list of warranties by store uid.');
-            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Warranty list, please try again later!', 'warning');
+            this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Warranty list, please try again later!', 'danger');
             this.listOfWarrantiesByStoreUid = [];
+            this.maximumPages = 0;
+            this.totalResult = 0;
             event.target.complete();
         });
     }

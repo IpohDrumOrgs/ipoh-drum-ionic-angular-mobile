@@ -10,21 +10,15 @@ import {ModalController} from '@ionic/angular';
 
 export class ViewInventoryPatternModalPage implements OnInit {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
 
-  // Objects
   inventoryPatterns: Pattern;
 
   constructor(
       private modalController: ModalController
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
-    console.log('patterns to show');
-    console.log(this.inventoryPatterns);
   }
 
   closeViewInventoryPatternModal() {

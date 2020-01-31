@@ -14,22 +14,17 @@ import {ViewSalesOrderModalPage} from '../view-sales-order-modal/view-sales-orde
 
 export class SalesOrderManagementModalPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
 
-  // Numbers
   currentPageNumber = 1;
   currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 
-  // Arrays
   listOfSalesOrders: Array<Sale> = [];
 
-  // Objects
   referInfiniteScroll: any;
 
-  // Subscriptions
   getListOfSalesOrdersSubscription: any;
   appendListOfSalesOrdersSubscription: any;
 
@@ -85,7 +80,7 @@ export class SalesOrderManagementModalPage implements OnInit, OnDestroy {
         this.maximumPages = 0;
         this.totalResult = 0;
         // tslint:disable-next-line:max-line-length
-        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Sales Order, please try again later!', 'warning', 'top');
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Sales Order, please try again later!', 'warning');
       }
       this.loadingService.dismiss();
     }, error => {
@@ -93,7 +88,7 @@ export class SalesOrderManagementModalPage implements OnInit, OnDestroy {
       this.maximumPages = 0;
       this.totalResult = 0;
       // tslint:disable-next-line:max-line-length
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Sales Order, please try again later!', 'warning', 'top');
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of Sales Order, please try again later!', 'danger');
       this.loadingService.dismiss();
     });
   }
@@ -120,7 +115,7 @@ export class SalesOrderManagementModalPage implements OnInit, OnDestroy {
         this.totalResult = resp.totalResult;
       } else {
         // tslint:disable-next-line:max-line-length
-        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Sales Order, please try again later!', 'warning', 'top');
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Sales Order, please try again later!', 'warning');
         this.listOfSalesOrders = [];
         this.maximumPages = 0;
         this.totalResult = 0;
@@ -128,7 +123,7 @@ export class SalesOrderManagementModalPage implements OnInit, OnDestroy {
       event.target.complete();
     }, error => {
       // tslint:disable-next-line:max-line-length
-      this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Sales Order, please try again later!', 'warning', 'top');
+      this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve list of Sales Order, please try again later!', 'danger');
       this.listOfSalesOrders = [];
       this.maximumPages = 0;
       this.totalResult = 0;

@@ -13,18 +13,13 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 export class EditShippingModalPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   shippingUid: string;
-
-  // Regex
   weightRegex = new RegExp(/^\d+(\.\d+)?$/);
 
-  // Booleans
   allowToModify: boolean;
   isLoadingShipping = true;
 
-  // Numbers
   selectedStoreId: number;
   shippingPlanNameMaxLength = 50;
   shippingPlanDescriptionMinLength = 5;
@@ -33,13 +28,10 @@ export class EditShippingModalPage implements OnInit, OnDestroy {
   shippingPlanMaxWeightageMaxLength = 10;
   shippingPlanMaxDimensionMaxLength = 20;
 
-  // Objects
   selectedShipping: any;
 
-  // FormGroups
   shippingPlanFormGroup: FormGroup;
 
-  // Subscriptions
   getShippingByUidSubscription: any;
   updateShippingByUidSubscription: any;
   deleteShippingByUidSubscription: any;
@@ -51,9 +43,7 @@ export class EditShippingModalPage implements OnInit, OnDestroy {
       private shippingControllerService: ShippingControllerServiceService,
       private globalFunctionService: GlobalfunctionService,
       private loadingService: LoadingService
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -98,8 +88,7 @@ export class EditShippingModalPage implements OnInit, OnDestroy {
         this.isLoadingShipping = false;
         this.ref.detectChanges();
       }, error => {
-        console.log('API Error while retrieving Shipping Plan by uid.');
-        this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve the Shipping Plan, please try again later!', 'warning');
+        this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve the Shipping Plan, please try again later!', 'danger');
         this.loadingService.dismiss();
         this.closeEditShippingModal(false);
         this.isLoadingShipping = false;
@@ -150,11 +139,10 @@ export class EditShippingModalPage implements OnInit, OnDestroy {
           this.globalFunctionService.simpleToast('SUCCESS', 'The Shipping Plan has been updated!', 'success');
           this.closeEditShippingModal(true);
         } else {
-          this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Shipping Plan, please try again later!', 'danger');
+          this.globalFunctionService.simpleToast('WARNING', 'Unable to update the Shipping Plan, please try again later!', 'warning');
         }
         this.loadingService.dismiss();
       }, error => {
-        console.log('API Error while updating Shipping plan.');
         this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Shpping Plan, please try again later!', 'danger');
         this.loadingService.dismiss();
       });
@@ -162,10 +150,13 @@ export class EditShippingModalPage implements OnInit, OnDestroy {
   }
 
   deleteShippingPlan() {
-    this.globalFunctionService.presentAlertConfirm('Warning!',
+    this.globalFunctionService.presentAlertConfirm(
+        'Warning!',
         'Are you sure you want to delete the Shipping Plan?',
-        'Cancel', 'Confirm',
-        undefined, () => this.confirmDeleteShipping());
+        'Cancel',
+        'Confirm',
+        undefined,
+        () => this.confirmDeleteShipping());
   }
 
   confirmDeleteShipping() {
@@ -177,11 +168,10 @@ export class EditShippingModalPage implements OnInit, OnDestroy {
         this.globalFunctionService.simpleToast('SUCCESS', 'The Shipping Plan has been deleted!', 'success');
         this.closeEditShippingModal(true);
       } else {
-        this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Shipping Plan, please try again later!', 'danger');
+        this.globalFunctionService.simpleToast('WARNING', 'Unable to delete the Shipping Plan, please try again later!', 'warning');
       }
       this.loadingService.dismiss();
     }, error => {
-      console.log('API Error while deleting the Shipping Plan, please try again later!');
       this.loadingService.dismiss();
       this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Shipping Plan, please try again later!', 'danger');
     });

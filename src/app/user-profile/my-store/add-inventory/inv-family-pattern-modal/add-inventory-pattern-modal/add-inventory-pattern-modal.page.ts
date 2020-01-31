@@ -11,14 +11,10 @@ import {commonConfig} from '../../../../../_dal/common/commonConfig';
 
 export class AddInventoryPatternModalPage implements OnInit {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
-
-  // Regex
   priceRegex = new RegExp(/^\d+(\.\d{2})?$/);
   numericOnlyRegex = commonConfig.numericOnlyRegex;
 
-  // NgModels
   inventoryPatternNameModel: string;
   inventoryPatternDescriptionModel: string;
   inventoryPatternCostModel: number;
@@ -26,7 +22,6 @@ export class AddInventoryPatternModalPage implements OnInit {
   inventoryPatternStockQuantityModel: number;
   selectedPatternOnSaleToggle = true;
 
-  // Numbers
   inventoryPatternNameMaxLength = commonConfig.inventoryPatternNameMaxLength;
   inventoryPatternDescMinLength = commonConfig.inventoryPatternDescMinLength;
   inventoryPatternDescMaxLength = commonConfig.inventoryPatternDescMaxLength;
@@ -34,15 +29,12 @@ export class AddInventoryPatternModalPage implements OnInit {
   inventoryPatternSellingPriceMaxLength = commonConfig.inventoryPatternSellingPriceMaxLength;
   inventoryPatternStockQuantityMaxLength = commonConfig.inventoryPatternStockQuantityMaxLength;
 
-  // FormGroups
   inventoryPatternFormGroup: FormGroup;
 
   constructor(
       private ngZone: NgZone,
       private modalController: ModalController
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -85,41 +77,12 @@ export class AddInventoryPatternModalPage implements OnInit {
       inventory_id: null,
       uid: null,
       cost: this.inventoryPatternCostModel,
-      // created_at
       desc: this.inventoryPatternDescriptionModel,
-      // id
-      // imgpath
-      // imgpublicid
-      // inventory_family_id
       name: this.inventoryPatternNameModel,
       onsale: this.selectedPatternOnSaleToggle,
       price: this.inventoryPatternSellingPriceModel,
       qty: this.inventoryPatternStockQuantityModel
-      // salesqty
-      // status
-      // uid
-      // updated_at
     };
-
-    // TODO Hardcoded-Data
-    // const inventoryPatternToInsert = {
-    //   cost: '59.60',
-    //   // created_at
-    //   desc: 'pattern desccccf sdfsdfs dfsdfsdfwerwerwer',
-    //   // id
-    //   // imgpath
-    //   // imgpublicid
-    //   // inventory_family_id
-    //   name: 'pattern name',
-    //   onsale: false,
-    //   price: '60',
-    //   qty: '99'
-    //   // salesqty
-    //   // status
-    //   // uid
-    //   // updated_at
-    // };
-    console.log(inventoryPatternToInsert);
     this.modalController.dismiss(inventoryPatternToInsert);
   }
 

@@ -16,22 +16,17 @@ import {commonConfig} from '../../_dal/common/commonConfig';
 
 export class MyStorePage implements OnInit, OnDestroy {
 
-    // Strings
     constructorName = '[' + this.constructor.name + ']';
 
-    // Numbers
     currentPageNumber = 1;
     currentPageSize = commonConfig.currentPageSize;
     maximumPages: number;
     totalResult: number;
 
-    // Objects
     referInfiniteScroll: any;
 
-    // Arrays
     listOfCurrentUsersStores: Array<Store> = [];
 
-    // Subscriptions
     getUsersListOfStoresSubscription: any;
     appendUsersListOfStoresSubscription: any;
 
@@ -85,17 +80,19 @@ export class MyStorePage implements OnInit, OnDestroy {
                 this.totalResult = resp.totalResult;
             } else {
                 this.listOfCurrentUsersStores = [];
+                this.maximumPages = 0;
+                this.totalResult = 0;
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store list info, please try again later!', 'warning', 'top');
-                console.log('Unable to retrieve list of Stores');
             }
             this.loadingService.dismiss();
         }, error => {
             // tslint:disable-next-line:max-line-length
-            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store list info, please try again later!', 'warning', 'top');
+            this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Store list info, please try again later!', 'danger', 'top');
             this.listOfCurrentUsersStores = [];
+            this.maximumPages = 0;
+            this.totalResult = 0;
             this.loadingService.dismiss();
-            console.log('API Error while retrieving list of stores of current User');
         });
     }
 
@@ -142,7 +139,6 @@ export class MyStorePage implements OnInit, OnDestroy {
                     }
                     this.referInfiniteScroll.target.complete();
                 }, error => {
-                    console.log('API Error while retrieving list of stores of current User');
                     this.referInfiniteScroll.target.complete();
                 });
             }
@@ -170,6 +166,8 @@ export class MyStorePage implements OnInit, OnDestroy {
                 this.totalResult = resp.totalResult;
             } else {
                 this.listOfCurrentUsersStores = [];
+                this.maximumPages = 0;
+                this.totalResult = 0;
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store list info, please try again later!', 'warning', 'top');
                 console.log('Unable to retrieve list of Stores');
@@ -177,9 +175,8 @@ export class MyStorePage implements OnInit, OnDestroy {
             event.target.complete();
         }, error => {
             // tslint:disable-next-line:max-line-length
-            this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store list info, please try again later!', 'warning', 'top');
+            this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Store list info, please try again later!', 'danger', 'top');
             this.listOfCurrentUsersStores = [];
-            console.log('API Error while retrieving list of stores of current User');
             event.target.complete();
         });
     }

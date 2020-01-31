@@ -15,24 +15,19 @@ import {EditVoucherModalPage} from './edit-voucher-modal/edit-voucher-modal.page
 
 export class VoucherManagementModalPage implements OnInit, OnDestroy {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
   selectedStoreUid: string;
 
-  // Number
   selectedStoreId: number;
   currentPageNumber = 1;
   currentPageSize = commonConfig.currentPageSize;
   maximumPages: number;
   totalResult: number;
 
-  // Arrays
   listOfVouchersByStoreUid: Array<Voucher> = [];
 
-  // Objects
   referInfiniteScroll: any;
 
-  // Subscriptions
   getListOfVouchersByStoreUidSubscription: any;
   appendListOfVouchersByStoreUidSubscription: any;
 
@@ -42,9 +37,7 @@ export class VoucherManagementModalPage implements OnInit, OnDestroy {
       private loadingService: LoadingService,
       private storeControllerService: StoreControllerServiceService,
       private globalFunctionService: GlobalfunctionService
-  ) {
-    console.log(this.constructorName + 'Initializing component');
-  }
+  ) {}
 
   ngOnInit() {
     this.ngZone.run(() => {
@@ -89,11 +82,14 @@ export class VoucherManagementModalPage implements OnInit, OnDestroy {
       } else {
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Vouchers, please try again later!' , 'warning');
         this.listOfVouchersByStoreUid = [];
+        this.maximumPages = 0;
+        this.totalResult = 0;
       }
       this.loadingService.dismiss();
     }, error => {
-      console.log('API Error while retrieving list of vouchers of this storeuid.');
       this.listOfVouchersByStoreUid = [];
+      this.maximumPages = 0;
+      this.totalResult = 0;
       this.loadingService.dismiss();
     });
   }
@@ -154,7 +150,6 @@ export class VoucherManagementModalPage implements OnInit, OnDestroy {
           }
           this.referInfiniteScroll.target.complete();
         }, error => {
-          console.log('API Error while retrieving list of Vouchers of current storeuid.');
           this.referInfiniteScroll.target.complete();
         });
       }
@@ -184,11 +179,14 @@ export class VoucherManagementModalPage implements OnInit, OnDestroy {
       } else {
         this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Vouchers, please try again later!' , 'warning');
         this.listOfVouchersByStoreUid = [];
+        this.maximumPages = 0;
+        this.totalResult = 0;
       }
       event.target.complete();
     }, error => {
-      console.log('API Error while retrieving list of vouchers of this storeuid.');
       this.listOfVouchersByStoreUid = [];
+      this.maximumPages = 0;
+      this.totalResult = 0;
       event.target.complete();
     });
   }
