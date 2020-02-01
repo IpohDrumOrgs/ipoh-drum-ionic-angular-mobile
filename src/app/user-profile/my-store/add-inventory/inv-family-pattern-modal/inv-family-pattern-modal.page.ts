@@ -59,14 +59,9 @@ export class InvFamilyPatternModalPage implements OnInit {
           Validators.maxLength(this.inventoryFamilyNameMaxLength)
         ]),
         inventoryFamilyCode: new FormControl(null, [
-          Validators.required,
-          Validators.minLength(this.inventoryFamilyCodeMinLength),
           Validators.maxLength(this.inventoryFamilyCodeMaxLength)
-          // Validators.pattern(this.alphaNumericOnlyRegex)
         ]),
         inventoryFamilySKU: new FormControl(null, [
-          Validators.required,
-          Validators.minLength(this.inventoryFamilySKUMinLength),
           Validators.maxLength(this.inventoryFamilySKUMaxLength)
         ]),
         inventoryFamilyDescription: new FormControl(null, [

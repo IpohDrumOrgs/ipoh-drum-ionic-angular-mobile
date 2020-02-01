@@ -39,8 +39,8 @@
                     <li *ngIf="promotionPlanFormGroup.get('promotionPlanName').hasError('required')">
                       Name is required.
                     </li>
-                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanName').hasError('minlength') || promotionPlanFormGroup.get('promotionPlanName').hasError('maxlength')">
-                      Name must be between {{promotionPlanNameMinLength}} to {{promotionPlanNameMaxLength}} characters.
+                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanName').hasError('maxlength')">
+                      Name cannot contain more than {{promotionPlanNameMaxLength}} characters.
                     </li>
                   </ul>
                 </ion-col>
@@ -56,9 +56,6 @@
                             [ngClass]="{'is-invalid': promotionPlanFormGroup.get('promotionPlanDescription').invalid && promotionPlanFormGroup.get('promotionPlanDescription').touched, 'is-valid': promotionPlanFormGroup.get('promotionPlanDescription').valid}"></textarea>
                   <ul class="error"
                       *ngIf="promotionPlanFormGroup.get('promotionPlanDescription').invalid && promotionPlanFormGroup.get('promotionPlanDescription').touched">
-                    <li *ngIf="promotionPlanFormGroup.get('promotionPlanDescription').hasError('required')">
-                      Description is required.
-                    </li>
                     <li *ngIf="(promotionPlanFormGroup.get('promotionPlanDescription').hasError('minlength') || promotionPlanFormGroup.get('promotionPlanDescription').hasError('maxlength'))">
                       Description must be between {{promotionPlanDescriptionMinLength}} to {{promotionPlanDescriptionMaxLength}} characters.
                     </li>

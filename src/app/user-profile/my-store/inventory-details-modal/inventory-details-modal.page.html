@@ -140,18 +140,10 @@
                             </ion-item>
                             <ul class="error"
                                 *ngIf="inventoryInfoFormGroup.get('inventoryCode').invalid && inventoryInfoFormGroup.get('inventoryCode').touched">
-                                <li *ngIf="inventoryInfoFormGroup.get('inventoryCode').hasError('minlength') && inventoryInfoFormGroup.get('inventoryCode').touched">
-                                    Code must have at
-                                    least {{inventoryCodeMinLength}}
-                                    characters.
-                                </li>
                                 <li *ngIf="inventoryInfoFormGroup.get('inventoryCode').hasError('maxlength') && inventoryInfoFormGroup.get('inventryCode').touched">
                                     Code cannot be more
                                     than {{inventoryCodeMaxLength}}
                                     characters.
-                                </li>
-                                <li *ngIf="inventoryInfoFormGroup.get('inventoryCode').hasError('pattern') && inventoryInfoFormGroup.get('inventryCode').touched">
-                                    Code must contain alphanumeric characters only.
                                 </li>
                             </ul>
                             <ion-item>
@@ -161,18 +153,10 @@
                             </ion-item>
                             <ul class="error"
                                 *ngIf="inventoryInfoFormGroup.get('inventorySKU').invalid && inventoryInfoFormGroup.get('inventorySKU').touched">
-                                <li *ngIf="inventoryInfoFormGroup.get('inventorySKU').hasError('minlength') && inventoryInfoFormGroup.get('inventorySKU').touched">
-                                    SKU must have at
-                                    least {{inventoryCodeMinLength}}
-                                    characters.
-                                </li>
                                 <li *ngIf="inventoryInfoFormGroup.get('inventorySKU').hasError('maxlength') && inventoryInfoFormGroup.get('inventorySKU').touched">
                                     SKU cannot be more
                                     than {{inventoryCodeMaxLength}}
                                     characters.
-                                </li>
-                                <li *ngIf="inventoryInfoFormGroup.get('inventorySKU').hasError('pattern') && inventoryInfoFormGroup.get('inventorySKU').touched">
-                                    SKU must contain alphanumeric characters only.
                                 </li>
                             </ul>
                             <ion-item>

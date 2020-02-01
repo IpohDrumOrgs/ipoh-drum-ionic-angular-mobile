@@ -48,11 +48,9 @@ export class AddWarrantyModalPage implements OnInit, OnDestroy {
             this.warrantyPlanFormGroup = new FormGroup({
                 warrantyName: new FormControl(null, [
                     Validators.required,
-                    Validators.minLength(this.warrantyNameMinLength),
                     Validators.maxLength(this.warrantyNameMaxLength)
                 ]),
                 warrantyDescription: new FormControl(null, [
-                    Validators.required,
                     Validators.minLength(this.warrantyDescriptionMinLength),
                     Validators.maxLength(this.warrantyDescriptionMaxLength)
                 ]),

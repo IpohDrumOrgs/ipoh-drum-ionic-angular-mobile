@@ -54,7 +54,6 @@ export class EditShippingModalPage implements OnInit, OnDestroy {
           Validators.maxLength(this.shippingPlanNameMaxLength)
         ]),
         shippingPlanDescription: new FormControl(null, [
-          Validators.required,
           Validators.minLength(this.shippingPlanDescriptionMinLength),
           Validators.maxLength(this.shippingPlanDescriptionMaxLength)
         ]),

@@ -56,19 +56,9 @@
                              [ngClass]="{'is-invalid': inventoryFamilyFormGroup.get('inventoryFamilyCode').invalid && inventoryFamilyFormGroup.get('inventoryFamilyCode').touched, 'is-valid': inventoryFamilyFormGroup.get('inventoryFamilyCode').valid}">
                       <ul class="error"
                           *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyCode').invalid && inventoryFamilyFormGroup.get('inventoryFamilyCode').touched">
-                        <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyCode').hasError('required') && inventoryFamilyFormGroup.get('inventoryFamilyCode').touched">
-                          Family Code is required.
-                        </li>
-                        <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyCode').hasError('minlength') && inventoryFamilyFormGroup.get('inventoryFamilyCode').touched">
-                          Family Code must have at least {{inventoryFamilyCodeMinLength}}
-                          characters.
-                        </li>
                         <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyCode').hasError('maxlength') && inventoryFamilyFormGroup.get('inventoryFamilyCode').touched">
                           Family Code cannot be more than {{inventoryFamilyCodeMaxLength}}
                           characters.
-                        </li>
-                        <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilyCode').hasError('pattern') && inventoryFamilyFormGroup.get('inventoryFamilyCode').touched">
-                          Family Code must contain alphanumeric characters only.
                         </li>
                       </ul>
                     </ion-col>
@@ -84,17 +74,8 @@
                              [ngClass]="{'is-invalid': inventoryFamilyFormGroup.get('inventoryFamilySKU').invalid && inventoryFamilyFormGroup.get('inventoryFamilySKU').touched, 'is-valid': inventoryFamilyFormGroup.get('inventoryFamilySKU').valid}">
                       <ul class="error"
                           *ngIf="inventoryFamilyFormGroup.get('inventoryFamilySKU').invalid && inventoryFamilyFormGroup.get('inventoryFamilySKU').touched">
-                        <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilySKU').hasError('required') && inventoryFamilyFormGroup.get('inventoryFamilySKU').touched">
-                          Family SKU is required.
-                        </li>
-                        <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilySKU').hasError('minlength') && inventoryFamilyFormGroup.get('inventoryFamilySKU').touched">
-                          Family SKU must have at least {{inventoryFamilySKUMinLength}} characters.
-                        </li>
                         <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilySKU').hasError('maxlength') && inventoryFamilyFormGroup.get('inventoryFamilySKU').touched">
                           Family SKU cannot be more than {{inventoryFamilySKUMaxLength}} characters.
-                        </li>
-                        <li *ngIf="inventoryFamilyFormGroup.get('inventoryFamilySKU').hasError('pattern') && inventoryFamilyFormGroup.get('inventoryFamilySKU').touched">
-                          Family SKU must contain alphanumeric characters only.
                         </li>
                       </ul>
                     </ion-col>

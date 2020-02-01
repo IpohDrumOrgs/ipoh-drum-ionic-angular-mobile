@@ -63,9 +63,6 @@
                     </ion-item>
                     <ul class="error"
                         *ngIf="shippingPlanFormGroup.get('shippingPlanDescription').invalid && shippingPlanFormGroup.get('shippingPlanDescription').touched">
-                      <li *ngIf="shippingPlanFormGroup.get('shippingPlanDescription').hasError('required')">
-                        Description is required.
-                      </li>
                       <li *ngIf="(shippingPlanFormGroup.get('shippingPlanDescription').hasError('minlength') || shippingPlanFormGroup.get('shippingPlanDescription').hasError('maxlength'))">
                         Description must be between {{shippingPlanDescriptionMinLength}} to {{shippingPlanDescriptionMaxLength}} characters.
                       </li>

@@ -39,8 +39,8 @@
                     <li *ngIf="warrantyPlanFormGroup.get('warrantyName').hasError('required')">
                       Name is required.
                     </li>
-                    <li *ngIf="warrantyPlanFormGroup.get('warrantyName').hasError('minlength') || warrantyPlanFormGroup.get('warrantyName').hasError('maxlength')">
-                      Name must be between {{warrantyNameMinLength}} to {{warrantyNameMaxLength}} characters.
+                    <li *ngIf="warrantyPlanFormGroup.get('warrantyName').hasError('maxlength')">
+                      Name cannot contain more than {{warrantyNameMaxLength}} characters.
                     </li>
                   </ul>
                 </ion-col>
@@ -56,9 +56,6 @@
                             [ngClass]="{'is-invalid': warrantyPlanFormGroup.get('warrantyDescription').invalid && warrantyPlanFormGroup.get('warrantyDescription').touched, 'is-valid': warrantyPlanFormGroup.get('warrantyDescription').valid}"></textarea>
                   <ul class="error"
                       *ngIf="warrantyPlanFormGroup.get('warrantyDescription').invalid && warrantyPlanFormGroup.get('warrantyDescription').touched">
-                    <li *ngIf="warrantyPlanFormGroup.get('warrantyDescription').hasError('required')">
-                      Description is required.
-                    </li>
                     <li *ngIf="(warrantyPlanFormGroup.get('warrantyDescription').hasError('minlength') || warrantyPlanFormGroup.get('warrantyDescription').hasError('maxlength'))">
                       Description must be between {{warrantyDescriptionMinLength}} to {{warrantyDescriptionMaxLength}} characters.
                     </li>

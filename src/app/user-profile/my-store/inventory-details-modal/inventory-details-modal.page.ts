@@ -113,11 +113,9 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
           Validators.maxLength(this.inventoryNameMaxLength)
         ]),
         inventoryCode: new FormControl(null, [
-          Validators.minLength(this.inventoryCodeMinLength),
           Validators.maxLength(this.inventoryCodeMaxLength)
         ]),
         inventorySKU: new FormControl(null, [
-          Validators.minLength(this.inventorySKUMinLength),
           Validators.maxLength(this.inventorySKUMaxLength)
         ]),
         inventoryDescription: new FormControl(null, [

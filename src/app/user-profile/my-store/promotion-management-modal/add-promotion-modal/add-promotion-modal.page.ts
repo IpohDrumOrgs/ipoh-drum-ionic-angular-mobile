@@ -57,11 +57,9 @@ export class AddPromotionModalPage implements OnInit, OnDestroy {
             this.promotionPlanFormGroup = new FormGroup({
                 promotionPlanName: new FormControl(null, [
                     Validators.required,
-                    Validators.minLength(this.promotionPlanNameMinLength),
                     Validators.maxLength(this.promotionPlanNameMaxLength)
                 ]),
                 promotionPlanDescription: new FormControl(null, [
-                    Validators.required,
                     Validators.minLength(this.promotionPlanDescriptionMinLength),
                     Validators.maxLength(this.promotionPlanDescriptionMaxLength)
                 ]),
