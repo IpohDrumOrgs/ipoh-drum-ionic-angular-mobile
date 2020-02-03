@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import {timer} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +12,9 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 export class AppComponent implements OnInit {
 
-  // Strings
   constructorName = '[' + this.constructor.name + ']';
+
+  showSplash = true;
 
   constructor(
     private platform: Platform,
@@ -27,6 +29,9 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+      timer(3000).subscribe(() => {
+        this.showSplash = false;
+      });
     });
   }
 

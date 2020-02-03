@@ -88,7 +88,6 @@ export class SaleVideosComponent implements OnInit, OnDestroy {
                 this.loadingService.dismiss();
                 this.isLoadingListOfPublicVideos = false;
             }, error => {
-                console.log('API Error while retrieving list of Public Videos');
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Videos, please try again later!', 'danger', 'top');
                 this.isLoadingListOfPublicVideos = false;
                 this.loadingService.dismiss();
