@@ -151,7 +151,7 @@
               <ion-row class="ion-align-items-center">
                 <ion-col size="12" style="text-align:center !important;">
                   <ion-slides pager="true" [options]="ionSliderOptions">
-                    <ion-slide *ngFor="let sliders of selectedInventory?.images">
+                    <ion-slide *ngFor="let sliders of selectedInventory?.images | slice:1">
                       <ion-row>
                         <ion-col size="12">
                           <img [src]="sliders?.imgpath" class="rounded"  style="object-fit:cover;">
