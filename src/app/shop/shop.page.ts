@@ -132,6 +132,7 @@ export class ShopPage implements OnInit, OnDestroy {
         }
         this.sliderSubscription = this.sliderControllerService.getPublicSliders().subscribe(resp => {
             if (resp.code === 200) {
+                //Assign Sliders Image Link To image Object
                 this.imageObject = resp.data;
             } else {
                 this.showPromptAlertWarning();
