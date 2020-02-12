@@ -21,6 +21,7 @@ export class ShopPage implements OnInit, OnDestroy {
 
     isLoadingCategories = true;
     isLoadingProductFeaturesAndProductInventories = true;
+    isLoadingSliders = true;
 
     listOfCategories: Array<Type> = [];
     productFeatureUids: Array<string> = [];
@@ -50,6 +51,7 @@ export class ShopPage implements OnInit, OnDestroy {
 
     inventorySubscription: any;
     typeSubscription: any;
+    sliderSubscription: any;
     productFeaturesSubscription: any;
     subscription: any;
 
@@ -71,6 +73,7 @@ export class ShopPage implements OnInit, OnDestroy {
         this.ngZone.run(() => {
             // this.getListOfCategories();
             this.getListOfProductFeatures();
+            
         });
     }
 
@@ -89,6 +92,9 @@ export class ShopPage implements OnInit, OnDestroy {
             }
             if (this.typeSubscription) {
                 this.typeSubscription.unsubscribe();
+            }
+            if (this.sliderSubscription) {
+                this.sliderSubscription.unsubscribe();
             }
             if (this.productFeaturesSubscription) {
                 this.productFeaturesSubscription.unsubscribe();
@@ -117,6 +123,24 @@ export class ShopPage implements OnInit, OnDestroy {
         if (this.subscription) {
             this.subscription.unsubscribe();
         }
+    }
+
+    getListOfSliders() {
+        this.isLoadingSliders = true;
+        if (this.sliderSubscription) {
+            this.sliderSubscription.unsubscribe();
+        }
+        this.sliderSubscription = this.sliderControllerService.getPublicSliders().subscribe(resp => {
+            if (resp.code === 200) {
+                this.imageObject = resp.data;
+            } else {
+                this.showPromptAlertWarning();
+            }
+            this.isLoadingSliders = false;
+        }, error => {
+            this.isLoadingSliders = false;
+            this.showPromptAlertWarning();
+        });
     }
 
     getListOfCategories() {
