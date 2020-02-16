@@ -57,7 +57,6 @@ export class CreateArticleModalPage implements OnInit, OnDestroy {
         private loadingService: LoadingService,
         private articleControllerService: ArticleControllerServiceService
     ) {
-        console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
@@ -172,8 +171,6 @@ export class CreateArticleModalPage implements OnInit, OnDestroy {
                 this.loadingService.dismiss();
                 this.ref.detectChanges();
             }, error => {
-                console.log('API Error while creating a new Article.');
-                console.log(error);
                 this.loadingService.dismiss();
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Article, please try again later!', 'warning', 'top');

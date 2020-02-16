@@ -21,7 +21,6 @@ export class SharedService {
   constructor(
       private globalFunctionService: GlobalfunctionService
   ) {
-    console.log(this.constructorName + 'Initializing component');
     this.emitSelectedInventoryToCart$ = this.emitSelectedInventoryToCartSubject.asObservable();
     this.emitNumberOfSelectedInventoriesInCart$ = this.emitNumberOfSelectedInventoriesInCartSubject.asObservable();
   }

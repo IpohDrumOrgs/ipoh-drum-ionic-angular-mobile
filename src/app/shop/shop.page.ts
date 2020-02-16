@@ -141,9 +141,6 @@ export class ShopPage implements OnInit, OnDestroy {
         }
         this.sliderSubscription = this.sliderControllerService.getPublicSliders().subscribe(resp => {
             if (resp.code === 200) {
-                //Assign Sliders Image Link To image Object
-                console.log(resp.data);
-                
                 this.imageObject = resp.data;
             } else {
                 this.showPromptAlertWarning();
@@ -266,6 +263,5 @@ export class ShopPage implements OnInit, OnDestroy {
 
     /*    // TODO
         selectCategory(selectedCategoryUid: string) {
-            console.log('selected ' + selectedCategoryUid);
         }*/
 }

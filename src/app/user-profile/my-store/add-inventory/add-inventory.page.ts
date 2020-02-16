@@ -730,7 +730,6 @@ export class AddInventoryPage implements OnInit, OnDestroy {
                             this.listOfStoreWarranties.push(warranty);
                         }
                     }
-                    console.log(this.listOfStoreWarranties);
                     event.component.items = this.listOfStoreWarranties;
                     event.component.endInfiniteScroll();
                     this.ref.detectChanges();

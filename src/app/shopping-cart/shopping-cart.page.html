@@ -30,7 +30,7 @@
           </div>
         </ion-card-header>
         <ion-card-content style="padding:0;">
-          <ion-row class="ion-align-items-center">
+          <ion-row class="ion-align-items-center" style="border-bottom:1px solid #e6e6e6;">
             <ion-col size="12" style="padding-top:0;">
               <ion-row>
                 <ion-col size="5" class="align-self-center">
@@ -72,18 +72,18 @@
                       <div style="font-size:18px;font-weight:bold;">
                         <ng-container *ngIf="inventory?.selectedInventoryPattern?.id === 9999 else showInventoryPatternPrice">
                           <ng-container *ngIf="inventory?.promotion?.discbyprice === 1 else familyDiscountByPercentage">
-                            {{((inventory?.selectedInventoryFamily?.price - inventory?.promotion?.disc) * inventory?.selectedQuantity) | myCurrency}}
+                            {{((inventory?.selectedInventoryFamily?.price - inventory?.promotion?.disc)) | myCurrency}}
                           </ng-container>
                           <ng-template #familyDiscountByPercentage>
-                            {{((inventory?.selectedInventoryFamily?.price - (inventory?.selectedInventoryFamily?.price * (inventory?.promotion?.discpctg / 100))) * inventory?.selectedQuantity) | myCurrency}}
+                            {{((inventory?.selectedInventoryFamily?.price - (inventory?.selectedInventoryFamily?.price * (inventory?.promotion?.discpctg / 100)))) | myCurrency}}
                           </ng-template>
                         </ng-container>
                         <ng-template #showInventoryPatternPrice>
                           <ng-container *ngIf="inventory?.promotion?.discbyprice === 1 else patternDiscountByPercentage">
-                            {{((inventory?.selectedInventoryPattern?.price - inventory?.promotion?.disc) * inventory?.selectedQuantity) | myCurrency}}
+                            {{((inventory?.selectedInventoryPattern?.price - inventory?.promotion?.disc)) | myCurrency}}
                           </ng-container>
                           <ng-template #patternDiscountByPercentage>
-                            {{((inventory?.selectedInventoryPattern?.price - (inventory?.selectedInventoryPattern?.price * (inventory?.promotion?.discpctg / 100))) * inventory?.selectedQuantity) | myCurrency}}
+                            {{((inventory?.selectedInventoryPattern?.price - (inventory?.selectedInventoryPattern?.price * (inventory?.promotion?.discpctg / 100)))) | myCurrency}}
                           </ng-template>
                         </ng-template>
                       </div>
@@ -91,10 +91,10 @@
                     <ng-template #noPromotionsObject>
                       <div style="font-size:18px;">
                         <ng-container *ngIf="inventory?.selectedInventoryFamily && inventory?.selectedInventoryPattern.id === 9999 else showPatternPrice">
-                          {{(inventory?.selectedInventoryFamily?.price * inventory?.selectedQuantity) | myCurrency}}
+                          {{(inventory?.selectedInventoryFamily?.price) | myCurrency}}
                         </ng-container>
                         <ng-template #showPatternPrice>
-                          {{(inventory?.selectedInventoryPattern?.price * inventory?.selectedQuantity) | myCurrency}}
+                          {{(inventory?.selectedInventoryPattern?.price) | myCurrency}}
                         </ng-template>
                       </div>
                     </ng-template>
@@ -116,21 +116,91 @@
               </ion-row>
             </ion-col>
           </ion-row>
+          <ion-row class="ion-align-items-center">
+            <ion-col size="12" style="text-align:right;">
+              Subtotal:
+              <ion-chip color="warning">
+                <ng-container *ngIf="inventory?.promotion else noPromotionsObjectSubtotal">
+                  <span style="text-decoration:line-through;color:#e6e6e6;margin:0;">
+                    <ng-container *ngIf="inventory?.selectedInventoryPattern?.id === 9999 else showOriginalInventoryPatternPriceSubtotal">
+                      {{inventory?.selectedInventoryFamily?.price | myCurrency}}
+                    </ng-container>
+                    <ng-template #showOriginalInventoryPatternPriceSubtotal>
+                      {{inventory?.selectedInventoryPattern?.price | myCurrency}}
+                    </ng-template>
+                  </span>
+                  <ng-container *ngIf="inventory?.promotion.discbyprice === 1 else showDiscountByPercentageSubtotal">
+                    <ion-chip color="primary" style="margin-right:0;margin-bottom:0;font-size:10px;">
+                      -{{inventory?.promotion?.disc | myCurrency}}
+                    </ion-chip>
+                  </ng-container>
+                  <ng-template #showDiscountByPercentageSubtotal>
+                    <ion-chip color="primary" style="margin-right:0;margin-bottom:0;font-size:10px;">
+                      -{{inventory?.promotion?.discpctg}}%
+                    </ion-chip>
+                  </ng-template>
+                  <div style="font-size:18px;font-weight:bold;">
+                    <ng-container *ngIf="inventory?.selectedInventoryPattern?.id === 9999 else showInventoryPatternPriceSubtotal">
+                      <ng-container *ngIf="inventory?.promotion?.discbyprice === 1 else familyDiscountByPercentageSubtotal">
+                        {{((inventory?.selectedInventoryFamily?.price - inventory?.promotion?.disc) * inventory?.selectedQuantity) | myCurrency}}
+                      </ng-container>
+                      <ng-template #familyDiscountByPercentageSubtotal>
+                        {{((inventory?.selectedInventoryFamily?.price - (inventory?.selectedInventoryFamily?.price * (inventory?.promotion?.discpctg / 100))) * inventory?.selectedQuantity) | myCurrency}}
+                      </ng-template>
+                    </ng-container>
+                    <ng-template #showInventoryPatternPriceSubtotal>
+                      <ng-container *ngIf="inventory?.promotion?.discbyprice === 1 else patternDiscountByPercentageSubtotal">
+                        {{((inventory?.selectedInventoryPattern?.price - inventory?.promotion?.disc) * inventory?.selectedQuantity) | myCurrency}}
+                      </ng-container>
+                      <ng-template #patternDiscountByPercentageSubtotal>
+                        {{((inventory?.selectedInventoryPattern?.price - (inventory?.selectedInventoryPattern?.price * (inventory?.promotion?.discpctg / 100))) * inventory?.selectedQuantity) | myCurrency}}
+                      </ng-template>
+                    </ng-template>
+                  </div>
+                </ng-container>
+                <ng-template #noPromotionsObjectSubtotal>
+                  <div style="font-size:18px;">
+                    <ng-container *ngIf="inventory?.selectedInventoryFamily && inventory?.selectedInventoryPattern.id === 9999 else showPatternPriceSubtotal">
+                      {{(inventory?.selectedInventoryFamily?.price * inventory?.selectedQuantity) | myCurrency}}
+                    </ng-container>
+                    <ng-template #showPatternPriceSubtotal>
+                      {{(inventory?.selectedInventoryPattern?.price * inventory?.selectedQuantity) | myCurrency}}
+                    </ng-template>
+                  </div>
+                </ng-template>
+              </ion-chip>
+            </ion-col>
+          </ion-row>
         </ion-card-content>
       </ion-card>
       <ion-card style="background-color:white;">
-        <ion-card-content>
+        <ion-card-content style="padding:5px;">
           <ion-row class="ion-align-items-center">
-            <ion-col size="12">
-              <span style="font-size:20px;">
-                Grand Total
-              </span>
-              &nbsp;&nbsp;
-              <span style="font-size:25px;">
-                <b>
-                  {{totalPriceInCart | myCurrency}}
-                </b>
-              </span>
+            <ion-col size="12" style="padding:0;border-bottom:1px solid #e6e6e6;">
+              <ion-row class="ion-align-items-center">
+                <ion-col size="5">
+                  <b>
+                    Shipping Fee&nbsp;<ion-icon name="boat"></ion-icon>
+                  </b>
+                </ion-col>
+                <ion-col size="7">
+                  {{totalShippingPriceInCart | myCurrency}}
+                </ion-col>
+              </ion-row>
+            </ion-col>
+            <ion-col size="12" style="padding:15px 0 0 0;">
+              <ion-row class="ion-align-items-center">
+                <ion-col size="5">
+                  <b style="font-size:17px;">
+                    Grandtotal
+                  </b>
+                </ion-col>
+                <ion-col size="7">
+                  <ion-chip color="warning" style="font-size:20px;">
+                    {{totalPriceInCart | myCurrency}}
+                  </ion-chip>
+                </ion-col>
+              </ion-row>
             </ion-col>
           </ion-row>
         </ion-card-content>

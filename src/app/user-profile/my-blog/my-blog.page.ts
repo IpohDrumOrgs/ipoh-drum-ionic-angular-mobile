@@ -43,7 +43,6 @@ export class MyBlogPage implements OnInit, OnDestroy {
         private globalFunctionService: GlobalfunctionService,
         private bloggerControllerService: BloggerControllerServiceService
     ) {
-        console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
@@ -91,7 +90,6 @@ export class MyBlogPage implements OnInit, OnDestroy {
                 this.totalResult = 0;
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Blogs list info, please try again later!', 'warning', 'top');
-                console.log('Unable to retrieve list of Blogs');
             }
             this.loadingService.dismiss();
             this.ref.detectChanges();
@@ -101,7 +99,6 @@ export class MyBlogPage implements OnInit, OnDestroy {
             this.listOfCurrentUsersBlogs = [];
             this.loadingService.dismiss();
             this.ref.detectChanges();
-            console.log('API Error while retrieving list of bloggers of current user');
         });
     }
 
@@ -149,7 +146,6 @@ export class MyBlogPage implements OnInit, OnDestroy {
                     this.ref.detectChanges();
                     this.referInfiniteScroll.target.complete();
                 }, error => {
-                    console.log('API Error while retrieving list of Blogs of current User');
                     this.referInfiniteScroll.target.complete();
                 });
             }
@@ -179,7 +175,6 @@ export class MyBlogPage implements OnInit, OnDestroy {
                 this.listOfCurrentUsersBlogs = [];
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Blogs list info, please try again later!', 'warning', 'top');
-                console.log('Unable to retrieve list of Blogs');
             }
             this.ref.detectChanges();
             event.target.complete();
@@ -187,7 +182,6 @@ export class MyBlogPage implements OnInit, OnDestroy {
             // tslint:disable-next-line:max-line-length
             this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Blogs list info, please try again later!', 'warning', 'top');
             this.listOfCurrentUsersBlogs = [];
-            console.log('API Error while retrieving list of blogs of current User');
             event.target.complete();
         });
     }

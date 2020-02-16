@@ -45,7 +45,6 @@ export class ViewArticleModalPage implements OnInit, OnDestroy {
       private globalFunctionService: GlobalfunctionService,
       private articleControllerService: ArticleControllerServiceService
   ) {
-    console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {
@@ -81,7 +80,6 @@ export class ViewArticleModalPage implements OnInit, OnDestroy {
     this.getSelectedArticleByUidSubscription = this.articleControllerService.getArticleByUid(
         this.selectedArticleUid
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.selectedArticle = resp.data;
         this.selectedArticle.scope === 'public' ? this.isArticlePublicScope = true : this.isArticlePublicScope = false;
@@ -92,8 +90,6 @@ export class ViewArticleModalPage implements OnInit, OnDestroy {
       this.isLoadingArticleInfo = false;
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving selected Article by uid.');
-      console.log(error);
       this.isLoadingArticleInfo = false;
       this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Article info, please try again later!', 'danger');
       this.closeViewArticleModal();
@@ -150,8 +146,6 @@ export class ViewArticleModalPage implements OnInit, OnDestroy {
       this.loadingService.dismiss();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while deleting the Article');
-      console.log(error);
       this.loadingService.dismiss();
       this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Article, please try again later!', 'danger');
       this.ref.detectChanges();

@@ -37,7 +37,6 @@ export class ViewChannelModalPage implements OnInit, OnDestroy {
       private channelControllerService: ChannelControllerServiceService,
       private modalController: ModalController
   ) {
-    console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {
@@ -70,7 +69,6 @@ export class ViewChannelModalPage implements OnInit, OnDestroy {
     this.getSelectedChannelByUidSubscription = this.channelControllerService.getChannelByUid(
         this.selectedChannelUid
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.selectedChannel = resp.data;
         this.companyBelongingsFlag = resp.data.companyBelongings === 1;
@@ -81,8 +79,6 @@ export class ViewChannelModalPage implements OnInit, OnDestroy {
       this.isLoadingChannelInfo = false;
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retriving selected Channel by uid.');
-      console.log(error);
       this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Channel info, please try again later!', 'danger');
       this.closeViewChannelModal();
       this.isLoadingChannelInfo = false;
@@ -141,8 +137,6 @@ export class ViewChannelModalPage implements OnInit, OnDestroy {
       this.loadingService.dismiss();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while deleting the Channel');
-      console.log(error);
       this.loadingService.dismiss();
       this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Channel, please try again later!', 'danger');
       this.ref.detectChanges();

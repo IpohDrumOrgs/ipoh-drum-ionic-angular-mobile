@@ -44,7 +44,6 @@ export class VideoManagementModalPage implements OnInit, OnDestroy {
       private loadingService: LoadingService,
       private channelControllerService: ChannelControllerServiceService
   ) {
-    console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {
@@ -129,8 +128,6 @@ export class VideoManagementModalPage implements OnInit, OnDestroy {
       this.loadingService.dismiss();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving list of Videos by Channel Uid.');
-      console.log(error);
       this.loadingService.dismiss();
       this.listOfVideosByChannelUid = [];
       // tslint:disable-next-line:max-line-length
@@ -164,7 +161,6 @@ export class VideoManagementModalPage implements OnInit, OnDestroy {
       this.ref.detectChanges();
       event.target.complete();
     }, error => {
-      console.log('API Error while retrieving list of Videos by Channel uid.');
       // tslint:disable-next-line:max-line-length
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Videos, please try again later!', 'warning', 'top');
       this.listOfVideosByChannelUid = [];
@@ -190,8 +186,6 @@ export class VideoManagementModalPage implements OnInit, OnDestroy {
           this.ref.detectChanges();
           this.referInfiniteScroll.target.complete();
         }, error => {
-          console.log('API Error while retrieving list of Videos by Channel uid.');
-          console.log(error);
           this.referInfiniteScroll.target.complete();
         });
       }

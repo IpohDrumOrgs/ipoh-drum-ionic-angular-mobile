@@ -304,7 +304,6 @@ export class InventoryDetailsModalPage implements OnInit, OnDestroy {
           this.selectedInventory.desc,
           this.selectedInventory.stockthreshold
       ).subscribe(resp => {
-        console.log(resp);
         if (resp.code === 200) {
           this.globalFunctionService.simpleToast('SUCCESS', 'The Inventory has been updated!', 'success');
           this.closeInventoryDetailsModal(true);

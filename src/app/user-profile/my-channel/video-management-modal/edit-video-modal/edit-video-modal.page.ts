@@ -65,7 +65,6 @@ export class EditVideoModalPage implements OnInit, OnDestroy {
         private modalController: ModalController,
         private videoControllerService: VideoControllerServiceService
     ) {
-        console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
@@ -144,8 +143,6 @@ export class EditVideoModalPage implements OnInit, OnDestroy {
             this.isLoadingVideoInfo = false;
             this.ref.detectChanges();
         }, error => {
-            console.log('API Error while retrieving selected Video by uid.');
-            console.log(error);
             this.loadingService.dismiss();
             this.isLoadingVideoInfo = false;
             this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve selected Video info, please try again later!', 'warning');
@@ -271,8 +268,6 @@ export class EditVideoModalPage implements OnInit, OnDestroy {
                 this.loadingService.dismiss();
                 this.ref.detectChanges();
             }, error => {
-                console.log('API Error while updating Video');
-                console.log(error);
                 this.loadingService.dismiss();
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to update Video, please try again later!', 'danger');
                 this.ref.detectChanges();

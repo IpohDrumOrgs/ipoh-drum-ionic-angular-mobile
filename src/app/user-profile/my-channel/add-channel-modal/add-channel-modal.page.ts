@@ -71,7 +71,6 @@ export class AddChannelModalPage implements OnInit, OnDestroy {
       private channelControllerService: ChannelControllerServiceService,
       private companyControllerService: CompanyControllerServiceService
   ) {
-    console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {
@@ -200,8 +199,6 @@ export class AddChannelModalPage implements OnInit, OnDestroy {
         event.component.enableInfiniteScroll();
         this.ref.detectChanges();
       }, error => {
-        console.log('API error while retrieving list of companies.');
-        console.log(error);
       });
       return;
     }
@@ -220,7 +217,6 @@ export class AddChannelModalPage implements OnInit, OnDestroy {
       event.component.enableInfiniteScroll();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving filtered company list, error: ' + error);
     });
   }
 
@@ -266,7 +262,6 @@ export class AddChannelModalPage implements OnInit, OnDestroy {
           event.component.endInfiniteScroll();
           this.ref.detectChanges();
         }, error => {
-          console.log('API error while retrieving list of companies, error: ' + error);
           event.component.endInfiniteScroll();
         });
       }
@@ -285,7 +280,6 @@ export class AddChannelModalPage implements OnInit, OnDestroy {
           this.channelContactNumModel,
           this.channelImageAsBlobArray
       ).subscribe(resp => {
-        console.log(resp);
         if (resp.code === 200) {
           this.globalFunctionService.simpleToast('SUCCESS', 'Channel has been successfully created!', 'success', 'top');
           this.closeCreateChannelModal(true);
@@ -296,8 +290,6 @@ export class AddChannelModalPage implements OnInit, OnDestroy {
         this.loadingService.dismiss();
         this.ref.detectChanges();
       }, error => {
-        console.log('API Error while creating a new Channel.');
-        console.log(error);
         this.loadingService.dismiss();
         // tslint:disable-next-line:max-line-length
         this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Channel, please try again later!', 'warning', 'top');

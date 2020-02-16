@@ -63,7 +63,6 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
       private companyControllerService: CompanyControllerServiceService,
       private bloggerControllerService: BloggerControllerServiceService
   ) {
-    console.log(this.constructorName + 'Initializing component');
     this.loadingService.present();
   }
 
@@ -118,7 +117,6 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
     this.getBloggerSubscription = this.bloggerControllerService.getBloggerByUid(
         this.selectedBloggerUid
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.selectedBlogger = resp.data;
         this.companyBelongingsFlag = resp.data.companyBelongings === 1;
@@ -131,8 +129,6 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
       this.loadingService.dismiss();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving Blogger by uid.');
-      console.log(error);
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Blogger\'s info, please try again later!', 'warning', 'top');
       this.isLoadingBloggerInfo = false;
       this.loadingService.dismiss();
@@ -230,8 +226,6 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
         event.component.enableInfiniteScroll();
         this.ref.detectChanges();
       }, error => {
-        console.log('API error while retrieving list of companies.');
-        console.log(error);
       });
       return;
     }
@@ -250,8 +244,6 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
       event.component.enableInfiniteScroll();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving filtered company list.');
-      console.log(error);
     });
   }
 
@@ -297,8 +289,6 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
           event.component.endInfiniteScroll();
           this.ref.detectChanges();
         }, error => {
-          console.log('API error while retrieving list of companies.');
-          console.log(error);
           event.component.endInfiniteScroll();
         });
       }
@@ -320,7 +310,6 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
           'PUT',
           this.bloggerImageAsBlobArray[0] !== undefined || this.bloggerImageAsBlobArray[0] !== null ? this.bloggerImageAsBlobArray : null
       ).subscribe(resp => {
-        console.log(resp);
         if (resp.code === 200) {
           this.globalFunctionService.simpleToast('SUCCESS', 'Blogger has been updated.', 'success', 'top');
           this.closeEditBlogModal(true);
@@ -330,8 +319,6 @@ export class EditBlogModalPage implements OnInit, OnDestroy {
         this.loadingService.dismiss();
         this.ref.detectChanges();
       }, error => {
-        console.log('API Error while updating the Blogger by uid.');
-        console.log(error);
         this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Blogger, please try again later!', 'danger', 'top');
         this.loadingService.dismiss();
         this.ref.detectChanges();

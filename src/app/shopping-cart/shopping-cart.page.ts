@@ -21,6 +21,7 @@ export class ShoppingCartPage implements OnInit {
 
     nullSelectedInventoryPatternId = commonConfig.nullSelectedInventoryPatternId;
     totalPriceInCart = 0;
+    totalShippingPriceInCart = 0;
 
     listOfInventoriesInCart: Array<any> = [];
     selectedInventoryStoreIds: Array<number> = [];
@@ -185,6 +186,7 @@ export class ShoppingCartPage implements OnInit {
     countTotalPriceToPay() {
         this.eachItemPriceToPay = [];
         this.totalPriceInCart = 0;
+        this.totalShippingPriceInCart = 0;
         // tslint:disable-next-line:prefer-for-of
         for (let c = 0 ; c < this.listOfInventoriesInCart.length ; c++) {
             if (this.listOfInventoriesInCart[c].promotion) {
@@ -213,16 +215,20 @@ export class ShoppingCartPage implements OnInit {
             } else {
                 // If no promotion
                 // If selects only family
-                if (this.listOfInventoriesInCart[c].selectedInventoryPattern.id === 9999) {
-                    this.eachItemPriceToPay.push(this.listOfInventoriesInCart[c].selectedInventoryPattern.price);
+                if (this.listOfInventoriesInCart[c].selectedInventoryPattern.id !== 9999) {
+                    // tslint:disable-next-line:max-line-length
+                    this.eachItemPriceToPay.push(this.listOfInventoriesInCart[c].selectedInventoryPattern.price * this.listOfInventoriesInCart[c].selectedQuantity);
                 } else {
-                    this.eachItemPriceToPay.push(this.listOfInventoriesInCart[c].selectedInventoryFamily.price);
+                    // tslint:disable-next-line:max-line-length
+                    this.eachItemPriceToPay.push(this.listOfInventoriesInCart[c].selectedInventoryFamily.price * this.listOfInventoriesInCart[c].selectedQuantity);
                 }
             }
+            this.totalShippingPriceInCart += +this.listOfInventoriesInCart[c].shipping.price;
         }
         for (let d = 0 ; d < this.eachItemPriceToPay.length ; d++) {
-            this.totalPriceInCart += this.eachItemPriceToPay[d];
+            this.totalPriceInCart += +this.eachItemPriceToPay[d];
         }
+        this.totalPriceInCart += +this.totalShippingPriceInCart;
     }
 
     actuallyRouteToLoginPage() {

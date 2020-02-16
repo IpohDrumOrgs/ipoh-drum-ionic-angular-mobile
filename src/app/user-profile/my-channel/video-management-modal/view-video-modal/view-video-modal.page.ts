@@ -40,7 +40,6 @@ export class ViewVideoModalPage implements OnInit, OnDestroy {
       private globalFunctionService: GlobalfunctionService,
       private videoControllerService: VideoControllerServiceService
   ) {
-    console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {
@@ -76,7 +75,6 @@ export class ViewVideoModalPage implements OnInit, OnDestroy {
     this.getSelectedVideoByUidSubscription = this.videoControllerService.getVideoByUid(
         this.selectedVideoUid
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.selectedVideo = resp.data;
         this.selectedVideo.scope === 'public' ? this.isVideoPublicScope = true : this.isVideoPublicScope = false;
@@ -87,8 +85,6 @@ export class ViewVideoModalPage implements OnInit, OnDestroy {
       this.isLoadingVideoInfo = false;
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving selected Video by uid.');
-      console.log(error);
       this.isLoadingVideoInfo = false;
       this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Video info, please try again later!', 'danger');
       this.closeViewVideoModal();
@@ -144,8 +140,6 @@ export class ViewVideoModalPage implements OnInit, OnDestroy {
       this.loadingService.dismiss();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while deleting the Video');
-      console.log(error);
       this.loadingService.dismiss();
       this.globalFunctionService.simpleToast('ERROR', 'Unable to delete Video, please try again later!', 'danger');
       this.ref.detectChanges();

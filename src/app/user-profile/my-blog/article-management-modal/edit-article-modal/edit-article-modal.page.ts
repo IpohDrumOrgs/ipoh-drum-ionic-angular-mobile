@@ -61,13 +61,10 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
         private articleControllerService: ArticleControllerServiceService,
         private articleImageControllerService: ArticleImageControllerServiceService
     ) {
-        console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
         this.ngZone.run(() => {
-            console.log('article uid: ' + this.selectedArticleUid);
-            console.log('article id: ' + this.selectedArticleId);
             this.articleInfoFormGroup = new FormGroup({
                 articleTitle: new FormControl(null, [
                     Validators.required,
@@ -117,7 +114,6 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
         this.getSelectedArticleSubscription = this.articleControllerService.getArticleByUid(
             this.selectedArticleUid
         ).subscribe(resp => {
-            console.log(resp);
             if (resp.code === 200) {
                 this.selectedArticle = resp.data;
                 this.selectedArticle.scope === 'public' ? this.isArticlePublicScope = true : this.isArticlePublicScope = false;
@@ -130,8 +126,6 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
             this.loadingService.dismiss();
             this.ref.detectChanges();
         }, error => {
-            console.log('API Error while retrieving Article by uid.');
-            console.log(error);
             // tslint:disable-next-line:max-line-length
             this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Article\'s info, please try again later!', 'warning', 'top');
             this.isLoadingArticleInfo = false;
@@ -174,7 +168,6 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
                 }
                 this.loadingService.dismiss();
             }, error => {
-                console.log('API Error while deleting sliders image.');
                 this.loadingService.dismiss();
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to remove the Slider image, please try again later!', 'warning');
             });
@@ -206,10 +199,8 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
                 }
                 this.loadingService.dismiss();
               }, error => {
-                console.log('API Error while uploading inventory Sliders by uid.');
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to update the Sliders, please try again later!', 'warning');
-                console.log(error);
                 this.loadingService.dismiss();
               });
             } else {
@@ -242,8 +233,6 @@ export class EditArticleModalPage implements OnInit, OnDestroy {
                 }
                 this.loadingService.dismiss();
             }, error => {
-                console.log('API Error while updating the Article');
-                console.log(error);
                 this.loadingService.dismiss();
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to update the Article, please try again later!', 'danger', 'top');
             });

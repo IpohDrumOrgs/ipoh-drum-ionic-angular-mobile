@@ -44,7 +44,6 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
         private loadingService: LoadingService,
         private bloggerControllerService: BloggerControllerServiceService
     ) {
-        console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
@@ -123,7 +122,6 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
             this.currentPageNumber,
             this.currentPageSize
         ).subscribe(resp => {
-            console.log(resp);
             if (resp.code === 200) {
                 this.listOfArticlesByBloggerUid = resp.data;
                 this.maximumPages = resp.maximumPages;
@@ -138,8 +136,6 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
             this.loadingService.dismiss();
             this.ref.detectChanges();
         }, error => {
-            console.log('API Error while retrieving list of Articles by Blogger Uid.');
-            console.log(error);
             this.listOfArticlesByBloggerUid = [];
             this.loadingService.dismiss();
             // tslint:disable-next-line:max-line-length
@@ -166,8 +162,6 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
                     this.ref.detectChanges();
                     this.referInfiniteScroll.target.complete();
                 }, error => {
-                    console.log('API Error while retrieving list of Articles by blogger uid.');
-                    console.log(error);
                     this.referInfiniteScroll.target.complete();
                 });
             }
@@ -202,7 +196,6 @@ export class ArticleManagementModalPage implements OnInit, OnDestroy {
             this.ref.detectChanges();
             event.target.complete();
         }, error => {
-            console.log('API Error while retrieving list of Articles by blogger uid.');
             // tslint:disable-next-line:max-line-length
             this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve list of Articles, please try again later!', 'warning', 'top');
             this.listOfArticlesByBloggerUid = [];

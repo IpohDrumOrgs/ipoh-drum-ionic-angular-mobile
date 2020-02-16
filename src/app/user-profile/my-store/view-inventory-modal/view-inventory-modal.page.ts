@@ -53,7 +53,6 @@ export class ViewInventoryModalPage implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.ngZone.run(() => {
-            console.log(this.selectedInventoryUid);
             this.retrieveSelectedInventory();
         });
     }

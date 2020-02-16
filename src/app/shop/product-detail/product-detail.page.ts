@@ -82,8 +82,6 @@ export class ProductDetailPage implements OnInit, OnDestroy {
             this.currentInventorySubscription = this.inventoryControllerService.getOnSaleInventoryByUid(
                 this.inventoryUID.toString()
             ).subscribe(resp => {
-                console.log('item info');
-                console.log(resp);
                 if (resp.code === 200) {
                     this.currentInventory = resp.data;
                 } else {

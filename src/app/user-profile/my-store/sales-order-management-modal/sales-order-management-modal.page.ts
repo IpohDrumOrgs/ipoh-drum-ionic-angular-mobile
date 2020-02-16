@@ -70,7 +70,6 @@ export class SalesOrderManagementModalPage implements OnInit, OnDestroy {
         this.currentPageNumber,
         this.currentPageSize
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.listOfSalesOrders = resp.data;
         this.maximumPages = resp.maximumPages;

@@ -21,7 +21,6 @@ export class MainBlogManagementModalPage implements OnInit {
   constructor(
       private modalController: ModalController
   ) {
-    console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {

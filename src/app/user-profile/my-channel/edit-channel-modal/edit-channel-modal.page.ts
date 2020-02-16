@@ -64,7 +64,6 @@ export class EditChannelModalPage implements OnInit, OnDestroy {
       private companyControllerService: CompanyControllerServiceService,
       private channelControllerService: ChannelControllerServiceService
   ) {
-    console.log(this.constructorName + 'Initializing component');
     this.loadingService.present();
   }
 
@@ -125,7 +124,6 @@ export class EditChannelModalPage implements OnInit, OnDestroy {
     this.getChannelSubscription = this.channelControllerService.getChannelByUid(
         this.selectedChannelUid
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.selectedChannel = resp.data;
         this.companyBelongingsFlag = resp.data.companyBelongings === 1;
@@ -138,8 +136,6 @@ export class EditChannelModalPage implements OnInit, OnDestroy {
       this.loadingService.dismiss();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving Channel by uid.');
-      console.log(error);
       this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Channel\'s info, please try again later!', 'warning', 'top');
       this.isLoadingChannelInfo = false;
       this.loadingService.dismiss();
@@ -218,8 +214,6 @@ export class EditChannelModalPage implements OnInit, OnDestroy {
         event.component.enableInfiniteScroll();
         this.ref.detectChanges();
       }, error => {
-        console.log('API error while retrieving list of companies.');
-        console.log(error);
       });
       return;
     }
@@ -238,8 +232,6 @@ export class EditChannelModalPage implements OnInit, OnDestroy {
       event.component.enableInfiniteScroll();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retrieving filtered company list.');
-      console.log(error);
     });
   }
 
@@ -285,8 +277,6 @@ export class EditChannelModalPage implements OnInit, OnDestroy {
           event.component.endInfiniteScroll();
           this.ref.detectChanges();
         }, error => {
-          console.log('API error while retrieving list of companies.');
-          console.log(error);
           event.component.endInfiniteScroll();
         });
       }
@@ -327,7 +317,6 @@ export class EditChannelModalPage implements OnInit, OnDestroy {
           'PUT',
           this.channelImageAsBlobArray[0] !== undefined || this.channelImageAsBlobArray[0] !== null ? this.channelImageAsBlobArray : null
       ).subscribe(resp => {
-        console.log(resp);
         if (resp.code === 200) {
           this.globalFunctionService.simpleToast('SUCCESS', 'Channel has been updated.', 'success', 'top');
           this.closeEditChannelModal(true);
@@ -337,8 +326,6 @@ export class EditChannelModalPage implements OnInit, OnDestroy {
         this.loadingService.dismiss();
         this.ref.detectChanges();
       }, error => {
-        console.log('API Error while updating the Channel by uid.');
-        console.log(error);
         this.globalFunctionService.simpleToast('ERROR', 'Unable to update Channel, please try again later!', 'danger', 'top');
         this.loadingService.dismiss();
         this.ref.detectChanges();

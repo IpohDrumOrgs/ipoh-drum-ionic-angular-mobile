@@ -27,7 +27,6 @@ export class AuthenticationService {
         private loadingService: LoadingService,
         private deviceService: DeviceDetectorService
     ) {
-        console.log(this.constructorName + 'Initializing component');
         this.baseLink = commonConfig.baseLink;
     }
 

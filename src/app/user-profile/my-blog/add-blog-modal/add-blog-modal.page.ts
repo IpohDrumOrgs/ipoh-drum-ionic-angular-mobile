@@ -67,7 +67,6 @@ export class AddBlogModalPage implements OnInit, OnDestroy {
         private bloggerControllerService: BloggerControllerServiceService,
         private companyControllerService: CompanyControllerServiceService
     ) {
-        console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
@@ -191,8 +190,6 @@ export class AddBlogModalPage implements OnInit, OnDestroy {
                 event.component.enableInfiniteScroll();
                 this.ref.detectChanges();
             }, error => {
-                console.log('API error while retrieving list of companies.');
-                console.log(error);
             });
             return;
         }
@@ -211,7 +208,6 @@ export class AddBlogModalPage implements OnInit, OnDestroy {
             event.component.enableInfiniteScroll();
             this.ref.detectChanges();
         }, error => {
-            console.log('API Error while retrieving filtered company list, error: ' + error);
         });
     }
 
@@ -257,7 +253,6 @@ export class AddBlogModalPage implements OnInit, OnDestroy {
                     event.component.endInfiniteScroll();
                     this.ref.detectChanges();
                 }, error => {
-                    console.log('API error while retrieving list of companies, error: ' + error);
                     event.component.endInfiniteScroll();
                 });
             }
@@ -285,8 +280,6 @@ export class AddBlogModalPage implements OnInit, OnDestroy {
                 this.loadingService.dismiss();
                 this.ref.detectChanges();
             }, error => {
-                console.log('API Error while creating a new Blogger.');
-                console.log(error);
                 this.loadingService.dismiss();
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('ERROR', 'Something went wrong while creating the Blogger, please try again later!', 'warning', 'top');

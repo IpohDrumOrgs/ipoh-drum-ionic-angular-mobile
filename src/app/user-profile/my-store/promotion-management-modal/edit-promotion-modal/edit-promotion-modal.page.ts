@@ -81,7 +81,6 @@ export class EditPromotionModalPage implements OnInit, OnDestroy {
       this.getProductPromotionByUidSubscription = this.productPromotionControllerService.getProductPromotionByUid(
       this.promoUid
       ).subscribe(resp => {
-        console.log(resp);
         if (resp.code === 200) {
           this.selectedProductPromotion = resp.data;
           // tslint:disable-next-line:max-line-length

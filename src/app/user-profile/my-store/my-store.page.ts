@@ -170,7 +170,6 @@ export class MyStorePage implements OnInit, OnDestroy {
                 this.totalResult = 0;
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Store list info, please try again later!', 'warning', 'top');
-                console.log('Unable to retrieve list of Stores');
             }
             event.target.complete();
         }, error => {

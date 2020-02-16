@@ -37,7 +37,6 @@ export class ViewBlogModalPage implements OnInit, OnDestroy {
       private globalFunctionService: GlobalfunctionService,
       private modalController: ModalController
   ) {
-    console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {
@@ -83,8 +82,6 @@ export class ViewBlogModalPage implements OnInit, OnDestroy {
       this.isLoadingBloggerInfo = false;
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while retriving selected Blogger by uid.');
-      console.log(error);
       this.globalFunctionService.simpleToast('ERROR', 'Unable to retrieve Blogger info, please try again later!', 'danger');
       this.closeViewBloggerModal();
       this.isLoadingBloggerInfo = false;
@@ -139,8 +136,6 @@ export class ViewBlogModalPage implements OnInit, OnDestroy {
       this.loadingService.dismiss();
       this.ref.detectChanges();
     }, error => {
-      console.log('API Error while deleting the blogger');
-      console.log(error);
       this.loadingService.dismiss();
       this.globalFunctionService.simpleToast('ERROR', 'Unable to delete the Blogger, please try again later!', 'danger');
       this.ref.detectChanges();

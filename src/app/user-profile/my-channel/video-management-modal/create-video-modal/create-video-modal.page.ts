@@ -68,12 +68,10 @@ export class CreateVideoModalPage implements OnInit, OnDestroy {
         private globalFunctionService: GlobalfunctionService,
         private videoControllerService: VideoControllerServiceService
     ) {
-        console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
         this.ngZone.run(() => {
-            console.log('channl id to create ivdoe: ' + this.selectedChannelId);
             this.videoInfoFormGroup = new FormGroup({
                 videoTitle: new FormControl(null, [
                     Validators.required,
@@ -244,8 +242,6 @@ export class CreateVideoModalPage implements OnInit, OnDestroy {
                 }
                 this.loadingService.dismiss();
             }, error => {
-                console.log('API Error while creating a new Video');
-                console.log(error);
                 this.loadingService.dismiss();
                 this.globalFunctionService.simpleToast('ERROR', 'Unable to create Video, please try again later!', 'danger');
             });

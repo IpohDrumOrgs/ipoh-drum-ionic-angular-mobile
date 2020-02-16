@@ -47,7 +47,6 @@ export class MyChannelPage implements OnInit, OnDestroy {
         private globalFunctionService: GlobalfunctionService,
         private channelControllerService: ChannelControllerServiceService
     ) {
-        console.log(this.constructorName + 'Initializing component');
     }
 
     ngOnInit() {
@@ -85,7 +84,6 @@ export class MyChannelPage implements OnInit, OnDestroy {
             this.currentPageNumber,
             this.currentPageSize
         ).subscribe(resp => {
-            console.log(resp);
             if (resp.code === 200) {
                 this.listOfCurrentUsersChannels = resp.data;
                 this.maximumPages = resp.maximumPages;
@@ -96,7 +94,6 @@ export class MyChannelPage implements OnInit, OnDestroy {
                 this.totalResult = 0;
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Channels list info, please try again later!', 'warning', 'top');
-                console.log('Unable to retrieve list of Channels');
             }
             this.loadingService.dismiss();
             this.ref.detectChanges();
@@ -106,7 +103,6 @@ export class MyChannelPage implements OnInit, OnDestroy {
             this.listOfCurrentUsersChannels = [];
             this.loadingService.dismiss();
             this.ref.detectChanges();
-            console.log('API Error while retrieving list of Channels of current user');
         });
     }
 
@@ -170,7 +166,6 @@ export class MyChannelPage implements OnInit, OnDestroy {
                     this.ref.detectChanges();
                     this.referInfiniteScroll.target.complete();
                 }, error => {
-                    console.log('API Error while retrieving list of Channels of current User');
                     this.referInfiniteScroll.target.complete();
                 });
             }
@@ -200,7 +195,6 @@ export class MyChannelPage implements OnInit, OnDestroy {
                 this.listOfCurrentUsersChannels = [];
                 // tslint:disable-next-line:max-line-length
                 this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Channels list info, please try again later!', 'warning', 'top');
-                console.log('Unable to retrieve list of Channels');
             }
             this.ref.detectChanges();
             event.target.complete();
@@ -208,7 +202,6 @@ export class MyChannelPage implements OnInit, OnDestroy {
             // tslint:disable-next-line:max-line-length
             this.globalFunctionService.simpleToast('WARNING', 'Unable to retrieve Channels list info, please try again later!', 'warning', 'top');
             this.listOfCurrentUsersChannels = [];
-            console.log('API Error while retrieving list of Channels of current User');
             event.target.complete();
         });
     }

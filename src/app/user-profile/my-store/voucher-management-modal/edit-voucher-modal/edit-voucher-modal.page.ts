@@ -147,7 +147,6 @@ export class EditVoucherModalPage implements OnInit, OnDestroy {
     this.getCurrentVoucherSubscription = this.voucherControllerService.getVoucherByUid(
         this.voucherUid
     ).subscribe(resp => {
-      console.log(resp);
       if (resp.code === 200) {
         this.selectedVoucher = resp.data;
         // tslint:disable-next-line:max-line-length

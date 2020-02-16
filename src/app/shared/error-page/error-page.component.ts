@@ -14,7 +14,6 @@ export class ErrorPageComponent implements OnInit {
   constructor(
       private router: Router
   ) {
-    console.log(this.constructorName + 'Initializing component');
   }
 
   ngOnInit() {}
