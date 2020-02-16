@@ -22,6 +22,7 @@ import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables'
 import { Configuration }                                     from '../configuration';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -47,6 +48,38 @@ export class CompanyControllerServiceService {
 
 
 
+    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object") {
+            httpParams = this.addToHttpParamsRecursive(httpParams, value);
+        } else {
+            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
+        }
+        return httpParams;
+    }
+
+    private addToHttpParamsRecursive(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object") {
+            if (Array.isArray(value)) {
+                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+            } else if (value instanceof Date) {
+                if (key != null) {
+                    httpParams = httpParams.append(key,
+                        (value as Date).toISOString().substr(0, 10));
+                } else {
+                   throw Error("key may not be null if value is Date");
+                }
+            } else {
+                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
+                    httpParams, value[k], key != null ? `${key}.${k}` : k));
+            }
+        } else if (key != null) {
+            httpParams = httpParams.append(key, value);
+        } else {
+            throw Error("key may not be null if value is not object or array");
+        }
+        return httpParams;
+    }
+
     /**
      * Creates a company.
      * @param name Companyname
@@ -67,10 +100,10 @@ export class CompanyControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createCompany(name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createCompany(name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createCompany(name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createCompany(name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createCompany(name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public createCompany(name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public createCompany(name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public createCompany(name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createCompany.');
         }
@@ -83,66 +116,90 @@ export class CompanyControllerServiceService {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>name, 'name');
         }
         if (company_type_id !== undefined && company_type_id !== null) {
-            queryParameters = queryParameters.set('company_type_id', <any>company_type_id);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>company_type_id, 'company_type_id');
         }
         if (email1 !== undefined && email1 !== null) {
-            queryParameters = queryParameters.set('email1', <any>email1);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>email1, 'email1');
         }
         if (email2 !== undefined && email2 !== null) {
-            queryParameters = queryParameters.set('email2', <any>email2);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>email2, 'email2');
         }
         if (regno !== undefined && regno !== null) {
-            queryParameters = queryParameters.set('regno', <any>regno);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>regno, 'regno');
         }
         if (tel1 !== undefined && tel1 !== null) {
-            queryParameters = queryParameters.set('tel1', <any>tel1);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>tel1, 'tel1');
         }
         if (tel2 !== undefined && tel2 !== null) {
-            queryParameters = queryParameters.set('tel2', <any>tel2);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>tel2, 'tel2');
         }
         if (fax1 !== undefined && fax1 !== null) {
-            queryParameters = queryParameters.set('fax1', <any>fax1);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>fax1, 'fax1');
         }
         if (fax2 !== undefined && fax2 !== null) {
-            queryParameters = queryParameters.set('fax2', <any>fax2);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>fax2, 'fax2');
         }
         if (address1 !== undefined && address1 !== null) {
-            queryParameters = queryParameters.set('address1', <any>address1);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>address1, 'address1');
         }
         if (address2 !== undefined && address2 !== null) {
-            queryParameters = queryParameters.set('address2', <any>address2);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>address2, 'address2');
         }
         if (postcode !== undefined && postcode !== null) {
-            queryParameters = queryParameters.set('postcode', <any>postcode);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>postcode, 'postcode');
         }
         if (state !== undefined && state !== null) {
-            queryParameters = queryParameters.set('state', <any>state);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>state, 'state');
         }
         if (city !== undefined && city !== null) {
-            queryParameters = queryParameters.set('city', <any>city);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>city, 'city');
         }
         if (country !== undefined && country !== null) {
-            queryParameters = queryParameters.set('Country', <any>country);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>country, 'Country');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/api/company`,
             null,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -157,27 +214,36 @@ export class CompanyControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteCompanyByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteCompanyByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteCompanyByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteCompanyByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteCompanyByUid(uid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public deleteCompanyByUid(uid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public deleteCompanyByUid(uid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public deleteCompanyByUid(uid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling deleteCompanyByUid.');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.delete<any>(`${this.configuration.basePath}/api/company/${encodeURIComponent(String(uid))}`,
             {
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -198,45 +264,60 @@ export class CompanyControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterCompanies(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterCompanies(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterCompanies(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterCompanies(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterCompanies(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public filterCompanies(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public filterCompanies(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public filterCompanies(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (page_number !== undefined && page_number !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>page_number);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page_number, 'pageNumber');
         }
         if (page_size !== undefined && page_size !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>page_size);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page_size, 'pageSize');
         }
         if (keyword !== undefined && keyword !== null) {
-            queryParameters = queryParameters.set('keyword', <any>keyword);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>keyword, 'keyword');
         }
         if (fromdate !== undefined && fromdate !== null) {
-            queryParameters = queryParameters.set('fromdate', <any>fromdate);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>fromdate, 'fromdate');
         }
         if (todate !== undefined && todate !== null) {
-            queryParameters = queryParameters.set('todate', <any>todate);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>todate, 'todate');
         }
         if (status !== undefined && status !== null) {
-            queryParameters = queryParameters.set('status', <any>status);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>status, 'status');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/company`,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -253,33 +334,44 @@ export class CompanyControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCompanies(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getCompanies(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getCompanies(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getCompanies(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getCompanies(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public getCompanies(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public getCompanies(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public getCompanies(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (page_number !== undefined && page_number !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>page_number);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page_number, 'pageNumber');
         }
         if (page_size !== undefined && page_size !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>page_size);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page_size, 'pageSize');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/company`,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -294,27 +386,36 @@ export class CompanyControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getCompanyByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getCompanyByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getCompanyByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getCompanyByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getCompanyByUid(uid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public getCompanyByUid(uid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public getCompanyByUid(uid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public getCompanyByUid(uid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling getCompanyByUid.');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/company/${encodeURIComponent(String(uid))}`,
             {
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -344,10 +445,10 @@ export class CompanyControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateCompanyByUid(uid: string, name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateCompanyByUid(uid: string, name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateCompanyByUid(uid: string, name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateCompanyByUid(uid: string, name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateCompanyByUid(uid: string, name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public updateCompanyByUid(uid: string, name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public updateCompanyByUid(uid: string, name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public updateCompanyByUid(uid: string, name: string, company_type_id: number, regno: string, email1?: string, email2?: string, tel1?: string, tel2?: string, fax1?: string, fax2?: string, address1?: string, address2?: string, postcode?: string, state?: string, city?: string, country?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateCompanyByUid.');
         }
@@ -363,66 +464,90 @@ export class CompanyControllerServiceService {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>name, 'name');
         }
         if (company_type_id !== undefined && company_type_id !== null) {
-            queryParameters = queryParameters.set('company_type_id', <any>company_type_id);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>company_type_id, 'company_type_id');
         }
         if (email1 !== undefined && email1 !== null) {
-            queryParameters = queryParameters.set('email1', <any>email1);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>email1, 'email1');
         }
         if (email2 !== undefined && email2 !== null) {
-            queryParameters = queryParameters.set('email2', <any>email2);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>email2, 'email2');
         }
         if (regno !== undefined && regno !== null) {
-            queryParameters = queryParameters.set('regno', <any>regno);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>regno, 'regno');
         }
         if (tel1 !== undefined && tel1 !== null) {
-            queryParameters = queryParameters.set('tel1', <any>tel1);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>tel1, 'tel1');
         }
         if (tel2 !== undefined && tel2 !== null) {
-            queryParameters = queryParameters.set('tel2', <any>tel2);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>tel2, 'tel2');
         }
         if (fax1 !== undefined && fax1 !== null) {
-            queryParameters = queryParameters.set('fax1', <any>fax1);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>fax1, 'fax1');
         }
         if (fax2 !== undefined && fax2 !== null) {
-            queryParameters = queryParameters.set('fax2', <any>fax2);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>fax2, 'fax2');
         }
         if (address1 !== undefined && address1 !== null) {
-            queryParameters = queryParameters.set('address1', <any>address1);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>address1, 'address1');
         }
         if (address2 !== undefined && address2 !== null) {
-            queryParameters = queryParameters.set('address2', <any>address2);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>address2, 'address2');
         }
         if (postcode !== undefined && postcode !== null) {
-            queryParameters = queryParameters.set('postcode', <any>postcode);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>postcode, 'postcode');
         }
         if (state !== undefined && state !== null) {
-            queryParameters = queryParameters.set('state', <any>state);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>state, 'state');
         }
         if (city !== undefined && city !== null) {
-            queryParameters = queryParameters.set('city', <any>city);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>city, 'city');
         }
         if (country !== undefined && country !== null) {
-            queryParameters = queryParameters.set('Country', <any>country);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>country, 'Country');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.put<any>(`${this.configuration.basePath}/api/company/${encodeURIComponent(String(uid))}`,
             null,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

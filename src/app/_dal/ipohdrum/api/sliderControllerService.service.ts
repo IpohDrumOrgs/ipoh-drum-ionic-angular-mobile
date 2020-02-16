@@ -26,7 +26,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class WarrantyControllerServiceService {
+export class SliderControllerServiceService {
 
     protected basePath = 'http://172.104.45.205';
     public defaultHeaders = new HttpHeaders();
@@ -46,6 +46,19 @@ export class WarrantyControllerServiceService {
         this.encoder = this.configuration.encoder || new CustomHttpParameterCodec();
     }
 
+    /**
+     * @param consumes string[] mime-types
+     * @return true: consumes contains 'multipart/form-data', false: otherwise
+     */
+    private canConsumeForm(consumes: string[]): boolean {
+        const form = 'multipart/form-data';
+        for (const consume of consumes) {
+            if (form === consume) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 
     private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
@@ -81,49 +94,42 @@ export class WarrantyControllerServiceService {
     }
 
     /**
-     * Creates a warranty.
-     * @param name Warrantyname
-     * @param period Warranty Period
-     * @param policy Warranty Policy
-     * @param store_id Store ID
-     * @param desc Warranty description
+     * Creates a slider.
+     * @param blogger_id Slider belongs To which Blogger
+     * @param title Slider title
+     * @param desc Slider description
+     * @param scope Is this slider public?
+     * @param imgs Slider Images
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createWarranty(name: string, period: number, policy: string, store_id?: number, desc?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public createWarranty(name: string, period: number, policy: string, store_id?: number, desc?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public createWarranty(name: string, period: number, policy: string, store_id?: number, desc?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public createWarranty(name: string, period: number, policy: string, store_id?: number, desc?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling createWarranty.');
+    public createSlider(blogger_id: number, title: string, desc?: string, scope?: string, imgs?: Array<Blob>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public createSlider(blogger_id: number, title: string, desc?: string, scope?: string, imgs?: Array<Blob>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public createSlider(blogger_id: number, title: string, desc?: string, scope?: string, imgs?: Array<Blob>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public createSlider(blogger_id: number, title: string, desc?: string, scope?: string, imgs?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+        if (blogger_id === null || blogger_id === undefined) {
+            throw new Error('Required parameter blogger_id was null or undefined when calling createSlider.');
         }
-        if (period === null || period === undefined) {
-            throw new Error('Required parameter period was null or undefined when calling createWarranty.');
-        }
-        if (policy === null || policy === undefined) {
-            throw new Error('Required parameter policy was null or undefined when calling createWarranty.');
+        if (title === null || title === undefined) {
+            throw new Error('Required parameter title was null or undefined when calling createSlider.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (name !== undefined && name !== null) {
+        if (blogger_id !== undefined && blogger_id !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
-            <any>name, 'name');
+            <any>blogger_id, 'blogger_id');
         }
-        if (store_id !== undefined && store_id !== null) {
+        if (title !== undefined && title !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
-            <any>store_id, 'store_id');
+            <any>title, 'title');
         }
         if (desc !== undefined && desc !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
             <any>desc, 'desc');
         }
-        if (period !== undefined && period !== null) {
+        if (scope !== undefined && scope !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
-            <any>period, 'period');
-        }
-        if (policy !== undefined && policy !== null) {
-          queryParameters = this.addToHttpParams(queryParameters,
-            <any>policy, 'policy');
+            <any>scope, 'scope');
         }
 
         let headers = this.defaultHeaders;
@@ -139,14 +145,42 @@ export class WarrantyControllerServiceService {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'multipart/form-data'
+        ];
+
+        const canConsumeForm = this.canConsumeForm(consumes);
+
+        let formParams: { append(param: string, value: any): any; };
+        let useForm = false;
+        let convertFormParamsToString = false;
+        // use FormData to transmit files using content-type "multipart/form-data"
+        // see https://stackoverflow.com/questions/4007969/application-x-www-form-urlencoded-or-multipart-form-data
+        useForm = canConsumeForm;
+        if (useForm) {
+            formParams = new FormData();
+        } else {
+            formParams = new HttpParams({encoder: this.encoder});
+        }
+
+        if (imgs) {
+            if (useForm) {
+                imgs.forEach((element) => {
+                    formParams = formParams.append('imgs[]', <any>element) as any || formParams;
+            })
+            } else {
+                formParams = formParams.append('imgs[]', imgs.join(COLLECTION_FORMATS['csv'])) as any || formParams;
+            }
+        }
 
         let responseType: 'text' | 'json' = 'json';
         if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
             responseType = 'text';
         }
 
-        return this.httpClient.post<any>(`${this.configuration.basePath}/api/warranty`,
-            null,
+        return this.httpClient.post<any>(`${this.configuration.basePath}/api/slider`,
+            convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,
                 responseType: <any>responseType,
@@ -159,17 +193,17 @@ export class WarrantyControllerServiceService {
     }
 
     /**
-     * Set warranty\&#39;s \&#39;status\&#39; to 0.
-     * @param uid Warranty ID, NOT \&#39;ID\&#39;.
+     * Set slider\&#39;s \&#39;status\&#39; to 0.
+     * @param uid Slider ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteWarrantyByUid(uid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public deleteWarrantyByUid(uid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public deleteWarrantyByUid(uid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public deleteWarrantyByUid(uid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+    public deleteSliderByUid(uid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public deleteSliderByUid(uid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public deleteSliderByUid(uid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public deleteSliderByUid(uid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling deleteWarrantyByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling deleteSliderByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -191,7 +225,7 @@ export class WarrantyControllerServiceService {
             responseType = 'text';
         }
 
-        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/warranty/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.delete<any>(`${this.configuration.basePath}/api/slider/${encodeURIComponent(String(uid))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -203,22 +237,22 @@ export class WarrantyControllerServiceService {
     }
 
     /**
-     * Filter list of warranties
-     * Returns list of filtered warranties
+     * Filter list of sliders
+     * Returns list of filtered sliders
      * @param page_number Page number
      * @param page_size number of pageSize
      * @param keyword Keyword for filter
      * @param fromdate From Date for filter
-     * @param todate To date for filter
+     * @param todate To string for filter
      * @param status status for filter
-     * @param store_id store id for filter
+     * @param company_id Company id for filter
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterWarranties(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, store_id?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public filterWarranties(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, store_id?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public filterWarranties(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, store_id?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public filterWarranties(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, store_id?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+    public filterSliders(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public filterSliders(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public filterSliders(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public filterSliders(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, company_id?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (page_number !== undefined && page_number !== null) {
@@ -245,9 +279,9 @@ export class WarrantyControllerServiceService {
           queryParameters = this.addToHttpParams(queryParameters,
             <any>status, 'status');
         }
-        if (store_id !== undefined && store_id !== null) {
+        if (company_id !== undefined && company_id !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
-            <any>store_id, 'store_id');
+            <any>company_id, 'company_id');
         }
 
         let headers = this.defaultHeaders;
@@ -269,7 +303,7 @@ export class WarrantyControllerServiceService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/warranty`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/slider`,
             {
                 params: queryParameters,
                 responseType: <any>responseType,
@@ -282,17 +316,16 @@ export class WarrantyControllerServiceService {
     }
 
     /**
-     * Get list of warranties
-     * Returns list of warranties
+     * Retrieves all public sliders.
      * @param page_number Page number
      * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getWarranties(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public getWarranties(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public getWarranties(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public getWarranties(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+    public getPublicSliders(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public getPublicSliders(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public getPublicSliders(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public getPublicSliders(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (page_number !== undefined && page_number !== null) {
@@ -323,7 +356,7 @@ export class WarrantyControllerServiceService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/warranty`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/public/sliders`,
             {
                 params: queryParameters,
                 responseType: <any>responseType,
@@ -336,17 +369,17 @@ export class WarrantyControllerServiceService {
     }
 
     /**
-     * Retrieves warranty by Uid.
-     * @param uid Warranty_ID, NOT \&#39;ID\&#39;.
+     * Retrieves slider by Uid.
+     * @param uid Slider_ID, NOT \&#39;ID\&#39;.
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getWarrantyByUid(uid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public getWarrantyByUid(uid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public getWarrantyByUid(uid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public getWarrantyByUid(uid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+    public getSliderByUid(uid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public getSliderByUid(uid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public getSliderByUid(uid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public getSliderByUid(uid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling getWarrantyByUid.');
+            throw new Error('Required parameter uid was null or undefined when calling getSliderByUid.');
         }
 
         let headers = this.defaultHeaders;
@@ -368,7 +401,7 @@ export class WarrantyControllerServiceService {
             responseType = 'text';
         }
 
-        return this.httpClient.get<any>(`${this.configuration.basePath}/api/warranty/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/slider/${encodeURIComponent(String(uid))}`,
             {
                 responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
@@ -380,53 +413,26 @@ export class WarrantyControllerServiceService {
     }
 
     /**
-     * Update warranty by Uid.
-     * @param uid Warranty_ID, NOT \&#39;ID\&#39;.
-     * @param name Warrantyname
-     * @param period Warranty Period
-     * @param policy Warranty Policy
-     * @param store_id Store ID
-     * @param desc Warranty description
+     * Get list of sliders
+     * Returns list of sliders
+     * @param page_number Page number
+     * @param page_size number of pageSize
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, store_id?: number, desc?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
-    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, store_id?: number, desc?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
-    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, store_id?: number, desc?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
-    public updateWarrantyByUid(uid: string, name: string, period: number, policy: string, store_id?: number, desc?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
-        if (uid === null || uid === undefined) {
-            throw new Error('Required parameter uid was null or undefined when calling updateWarrantyByUid.');
-        }
-        if (name === null || name === undefined) {
-            throw new Error('Required parameter name was null or undefined when calling updateWarrantyByUid.');
-        }
-        if (period === null || period === undefined) {
-            throw new Error('Required parameter period was null or undefined when calling updateWarrantyByUid.');
-        }
-        if (policy === null || policy === undefined) {
-            throw new Error('Required parameter policy was null or undefined when calling updateWarrantyByUid.');
-        }
+    public getSliders(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public getSliders(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public getSliders(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public getSliders(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
-        if (name !== undefined && name !== null) {
+        if (page_number !== undefined && page_number !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
-            <any>name, 'name');
+            <any>page_number, 'pageNumber');
         }
-        if (store_id !== undefined && store_id !== null) {
+        if (page_size !== undefined && page_size !== null) {
           queryParameters = this.addToHttpParams(queryParameters,
-            <any>store_id, 'store_id');
-        }
-        if (desc !== undefined && desc !== null) {
-          queryParameters = this.addToHttpParams(queryParameters,
-            <any>desc, 'desc');
-        }
-        if (period !== undefined && period !== null) {
-          queryParameters = this.addToHttpParams(queryParameters,
-            <any>period, 'period');
-        }
-        if (policy !== undefined && policy !== null) {
-          queryParameters = this.addToHttpParams(queryParameters,
-            <any>policy, 'policy');
+            <any>page_size, 'pageSize');
         }
 
         let headers = this.defaultHeaders;
@@ -448,7 +454,80 @@ export class WarrantyControllerServiceService {
             responseType = 'text';
         }
 
-        return this.httpClient.put<any>(`${this.configuration.basePath}/api/warranty/${encodeURIComponent(String(uid))}`,
+        return this.httpClient.get<any>(`${this.configuration.basePath}/api/slider`,
+            {
+                params: queryParameters,
+                responseType: <any>responseType,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * Update slider by Uid.
+     * @param uid Slider_ID, NOT \&#39;ID\&#39;.
+     * @param blogger_id Slider belongs To which Blogger
+     * @param title Slider title
+     * @param desc Slider description
+     * @param scope Is this slider public?
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public updateSliderByUid(uid: string, blogger_id: number, title: string, desc?: string, scope?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public updateSliderByUid(uid: string, blogger_id: number, title: string, desc?: string, scope?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public updateSliderByUid(uid: string, blogger_id: number, title: string, desc?: string, scope?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public updateSliderByUid(uid: string, blogger_id: number, title: string, desc?: string, scope?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
+        if (uid === null || uid === undefined) {
+            throw new Error('Required parameter uid was null or undefined when calling updateSliderByUid.');
+        }
+        if (blogger_id === null || blogger_id === undefined) {
+            throw new Error('Required parameter blogger_id was null or undefined when calling updateSliderByUid.');
+        }
+        if (title === null || title === undefined) {
+            throw new Error('Required parameter title was null or undefined when calling updateSliderByUid.');
+        }
+
+        let queryParameters = new HttpParams({encoder: this.encoder});
+        if (blogger_id !== undefined && blogger_id !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>blogger_id, 'blogger_id');
+        }
+        if (title !== undefined && title !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>title, 'title');
+        }
+        if (desc !== undefined && desc !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>desc, 'desc');
+        }
+        if (scope !== undefined && scope !== null) {
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>scope, 'scope');
+        }
+
+        let headers = this.defaultHeaders;
+
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
+        if (httpHeaderAcceptSelected !== undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
+        return this.httpClient.put<any>(`${this.configuration.basePath}/api/slider/${encodeURIComponent(String(uid))}`,
             null,
             {
                 params: queryParameters,

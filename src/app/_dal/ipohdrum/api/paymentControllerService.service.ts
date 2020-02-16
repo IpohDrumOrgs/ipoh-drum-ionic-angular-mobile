@@ -22,6 +22,7 @@ import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables'
 import { Configuration }                                     from '../configuration';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -60,6 +61,38 @@ export class PaymentControllerServiceService {
     }
 
 
+    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object") {
+            httpParams = this.addToHttpParamsRecursive(httpParams, value);
+        } else {
+            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
+        }
+        return httpParams;
+    }
+
+    private addToHttpParamsRecursive(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object") {
+            if (Array.isArray(value)) {
+                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+            } else if (value instanceof Date) {
+                if (key != null) {
+                    httpParams = httpParams.append(key,
+                        (value as Date).toISOString().substr(0, 10));
+                } else {
+                   throw Error("key may not be null if value is Date");
+                }
+            } else {
+                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
+                    httpParams, value[k], key != null ? `${key}.${k}` : k));
+            }
+        } else if (key != null) {
+            httpParams = httpParams.append(key, value);
+        } else {
+            throw Error("key may not be null if value is not object or array");
+        }
+        return httpParams;
+    }
+
     /**
      * Creates an inventory payment.
      * @param token Stripe token id
@@ -69,10 +102,10 @@ export class PaymentControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public createInventoryPayment(token: string, email: string, contact: string, selectedstores: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (token === null || token === undefined) {
             throw new Error('Required parameter token was null or undefined when calling createInventoryPayment.');
         }
@@ -88,33 +121,46 @@ export class PaymentControllerServiceService {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (token !== undefined && token !== null) {
-            queryParameters = queryParameters.set('token', <any>token);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>token, 'token');
         }
         if (email !== undefined && email !== null) {
-            queryParameters = queryParameters.set('email', <any>email);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>email, 'email');
         }
         if (contact !== undefined && contact !== null) {
-            queryParameters = queryParameters.set('contact', <any>contact);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>contact, 'contact');
         }
         if (selectedstores !== undefined && selectedstores !== null) {
-            queryParameters = queryParameters.set('selectedstores', <any>selectedstores);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>selectedstores, 'selectedstores');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/api/inventorypayment`,
             null,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -129,34 +175,44 @@ export class PaymentControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createPayment(selectedstores: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createPayment(selectedstores: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createPayment(selectedstores: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createPayment(selectedstores: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createPayment(selectedstores: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public createPayment(selectedstores: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public createPayment(selectedstores: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public createPayment(selectedstores: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (selectedstores === null || selectedstores === undefined) {
             throw new Error('Required parameter selectedstores was null or undefined when calling createPayment.');
         }
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (selectedstores !== undefined && selectedstores !== null) {
-            queryParameters = queryParameters.set('selectedstores', <any>selectedstores);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>selectedstores, 'selectedstores');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/api/payment`,
             null,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -172,10 +228,10 @@ export class PaymentControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createTestPayment(token: string, email: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createTestPayment(token: string, email: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createTestPayment(token: string, email: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createTestPayment(token: string, email: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createTestPayment(token: string, email: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public createTestPayment(token: string, email: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public createTestPayment(token: string, email: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public createTestPayment(token: string, email: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (token === null || token === undefined) {
             throw new Error('Required parameter token was null or undefined when calling createTestPayment.');
         }
@@ -185,27 +241,38 @@ export class PaymentControllerServiceService {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (token !== undefined && token !== null) {
-            queryParameters = queryParameters.set('token', <any>token);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>token, 'token');
         }
         if (email !== undefined && email !== null) {
-            queryParameters = queryParameters.set('email', <any>email);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>email, 'email');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/api/testpayment`,
             null,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -222,10 +289,10 @@ export class PaymentControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createVideoPayment(token: string, email: string, video_id: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createVideoPayment(token: string, email: string, video_id: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createVideoPayment(token: string, email: string, video_id: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createVideoPayment(token: string, email: string, video_id: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createVideoPayment(token: string, email: string, video_id: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public createVideoPayment(token: string, email: string, video_id: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public createVideoPayment(token: string, email: string, video_id: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public createVideoPayment(token: string, email: string, video_id: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (token === null || token === undefined) {
             throw new Error('Required parameter token was null or undefined when calling createVideoPayment.');
         }
@@ -238,30 +305,42 @@ export class PaymentControllerServiceService {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (token !== undefined && token !== null) {
-            queryParameters = queryParameters.set('token', <any>token);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>token, 'token');
         }
         if (email !== undefined && email !== null) {
-            queryParameters = queryParameters.set('email', <any>email);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>email, 'email');
         }
         if (video_id !== undefined && video_id !== null) {
-            queryParameters = queryParameters.set('video_id', <any>video_id);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>video_id, 'video_id');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/api/videopayment`,
             null,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -276,27 +355,36 @@ export class PaymentControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deletePaymentByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deletePaymentByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deletePaymentByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deletePaymentByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deletePaymentByUid(uid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public deletePaymentByUid(uid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public deletePaymentByUid(uid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public deletePaymentByUid(uid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling deletePaymentByUid.');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.delete<any>(`${this.configuration.basePath}/api/payment/${encodeURIComponent(String(uid))}`,
             {
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -318,48 +406,64 @@ export class PaymentControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterPayments(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterPayments(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterPayments(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterPayments(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterPayments(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public filterPayments(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public filterPayments(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public filterPayments(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, onsale?: string, status?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (page_number !== undefined && page_number !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>page_number);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page_number, 'pageNumber');
         }
         if (page_size !== undefined && page_size !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>page_size);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page_size, 'pageSize');
         }
         if (keyword !== undefined && keyword !== null) {
-            queryParameters = queryParameters.set('keyword', <any>keyword);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>keyword, 'keyword');
         }
         if (fromdate !== undefined && fromdate !== null) {
-            queryParameters = queryParameters.set('fromdate', <any>fromdate);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>fromdate, 'fromdate');
         }
         if (todate !== undefined && todate !== null) {
-            queryParameters = queryParameters.set('todate', <any>todate);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>todate, 'todate');
         }
         if (onsale !== undefined && onsale !== null) {
-            queryParameters = queryParameters.set('onsale', <any>onsale);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>onsale, 'onsale');
         }
         if (status !== undefined && status !== null) {
-            queryParameters = queryParameters.set('status', <any>status);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>status, 'status');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/payment`,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -374,27 +478,36 @@ export class PaymentControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPaymentByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getPaymentByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getPaymentByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getPaymentByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getPaymentByUid(uid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public getPaymentByUid(uid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public getPaymentByUid(uid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public getPaymentByUid(uid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling getPaymentByUid.');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/payment/${encodeURIComponent(String(uid))}`,
             {
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -411,33 +524,44 @@ export class PaymentControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getPayments(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getPayments(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getPayments(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getPayments(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getPayments(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public getPayments(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public getPayments(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public getPayments(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (page_number !== undefined && page_number !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>page_number);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page_number, 'pageNumber');
         }
         if (page_size !== undefined && page_size !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>page_size);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page_size, 'pageSize');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/payment`,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -468,10 +592,10 @@ export class PaymentControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updatePaymentByUid(uid: string, name: string, store_id: number, paymentfamilies: string, cost: number, price: number, qty: number, onsale: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, _method?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updatePaymentByUid(uid: string, name: string, store_id: number, paymentfamilies: string, cost: number, price: number, qty: number, onsale: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, _method?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updatePaymentByUid(uid: string, name: string, store_id: number, paymentfamilies: string, cost: number, price: number, qty: number, onsale: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, _method?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updatePaymentByUid(uid: string, name: string, store_id: number, paymentfamilies: string, cost: number, price: number, qty: number, onsale: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, _method?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updatePaymentByUid(uid: string, name: string, store_id: number, paymentfamilies: string, cost: number, price: number, qty: number, onsale: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, _method?: string, img?: Array<Blob>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public updatePaymentByUid(uid: string, name: string, store_id: number, paymentfamilies: string, cost: number, price: number, qty: number, onsale: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, _method?: string, img?: Array<Blob>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public updatePaymentByUid(uid: string, name: string, store_id: number, paymentfamilies: string, cost: number, price: number, qty: number, onsale: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, _method?: string, img?: Array<Blob>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public updatePaymentByUid(uid: string, name: string, store_id: number, paymentfamilies: string, cost: number, price: number, qty: number, onsale: number, product_promotion_id?: number, warranty_id?: number, shipping_id?: number, code?: string, sku?: string, desc?: string, stockthreshold?: number, _method?: string, img?: Array<Blob>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updatePaymentByUid.');
         }
@@ -499,57 +623,75 @@ export class PaymentControllerServiceService {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>name, 'name');
         }
         if (store_id !== undefined && store_id !== null) {
-            queryParameters = queryParameters.set('store_id', <any>store_id);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>store_id, 'store_id');
         }
         if (product_promotion_id !== undefined && product_promotion_id !== null) {
-            queryParameters = queryParameters.set('product_promotion_id', <any>product_promotion_id);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>product_promotion_id, 'product_promotion_id');
         }
         if (warranty_id !== undefined && warranty_id !== null) {
-            queryParameters = queryParameters.set('warranty_id', <any>warranty_id);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>warranty_id, 'warranty_id');
         }
         if (shipping_id !== undefined && shipping_id !== null) {
-            queryParameters = queryParameters.set('shipping_id', <any>shipping_id);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>shipping_id, 'shipping_id');
         }
         if (paymentfamilies !== undefined && paymentfamilies !== null) {
-            queryParameters = queryParameters.set('paymentfamilies', <any>paymentfamilies);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>paymentfamilies, 'paymentfamilies');
         }
         if (code !== undefined && code !== null) {
-            queryParameters = queryParameters.set('code', <any>code);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>code, 'code');
         }
         if (sku !== undefined && sku !== null) {
-            queryParameters = queryParameters.set('sku', <any>sku);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>sku, 'sku');
         }
         if (desc !== undefined && desc !== null) {
-            queryParameters = queryParameters.set('desc', <any>desc);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>desc, 'desc');
         }
         if (cost !== undefined && cost !== null) {
-            queryParameters = queryParameters.set('cost', <any>cost);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>cost, 'cost');
         }
         if (price !== undefined && price !== null) {
-            queryParameters = queryParameters.set('price', <any>price);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>price, 'price');
         }
         if (qty !== undefined && qty !== null) {
-            queryParameters = queryParameters.set('qty', <any>qty);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>qty, 'qty');
         }
         if (stockthreshold !== undefined && stockthreshold !== null) {
-            queryParameters = queryParameters.set('stockthreshold', <any>stockthreshold);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>stockthreshold, 'stockthreshold');
         }
         if (onsale !== undefined && onsale !== null) {
-            queryParameters = queryParameters.set('onsale', <any>onsale);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>onsale, 'onsale');
         }
         if (_method !== undefined && _method !== null) {
-            queryParameters = queryParameters.set('_method', <any>_method);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>_method, '_method');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
@@ -583,10 +725,16 @@ export class PaymentControllerServiceService {
             }
         }
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/api/payment/${encodeURIComponent(String(uid))}`,
             convertFormParamsToString ? formParams.toString() : formParams,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

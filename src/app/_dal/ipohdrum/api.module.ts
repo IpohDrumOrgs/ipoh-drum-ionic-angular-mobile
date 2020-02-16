@@ -22,6 +22,7 @@ import { ProductReviewControllerServiceService } from './api/productReviewContro
 import { RoleControllerServiceService } from './api/roleControllerService.service';
 import { SaleControllerServiceService } from './api/saleControllerService.service';
 import { ShippingControllerServiceService } from './api/shippingControllerService.service';
+import { SliderControllerServiceService } from './api/sliderControllerService.service';
 import { StoreControllerServiceService } from './api/storeControllerService.service';
 import { StoreReviewControllerServiceService } from './api/storeReviewControllerService.service';
 import { TicketControllerServiceService } from './api/ticketControllerService.service';
@@ -37,36 +38,7 @@ import { WarrantyControllerServiceService } from './api/warrantyControllerServic
   imports:      [],
   declarations: [],
   exports:      [],
-  providers: [
-    ArticleControllerServiceService,
-    ArticleImageControllerServiceService,
-    BloggerControllerServiceService,
-    CategoryControllerServiceService,
-    ChannelControllerServiceService,
-    CommentControllerServiceService,
-    CompanyControllerServiceService,
-    CompanyTypeControllerServiceService,
-    GroupControllerServiceService,
-    InventoryControllerServiceService,
-    InventoryImageControllerServiceService,
-    ModuleControllerServiceService,
-    PaymentControllerServiceService,
-    ProductFeatureControllerServiceService,
-    ProductPromotionControllerServiceService,
-    ProductReviewControllerServiceService,
-    RoleControllerServiceService,
-    SaleControllerServiceService,
-    ShippingControllerServiceService,
-    StoreControllerServiceService,
-    StoreReviewControllerServiceService,
-    TicketControllerServiceService,
-    TypeControllerServiceService,
-    UserControllerServiceService,
-    VerificationCodeControllerServiceService,
-    VideoControllerServiceService,
-    VoucherCodeControllerServiceService,
-    VoucherControllerServiceService,
-    WarrantyControllerServiceService ]
+  providers: []
 })
 export class ApiModule {
     public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders {

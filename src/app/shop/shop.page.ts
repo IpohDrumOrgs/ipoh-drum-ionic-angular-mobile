@@ -1,6 +1,7 @@
 import {ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit} from '@angular/core';
 import {
     InventoryControllerServiceService,
+    SliderControllerServiceService,
     TypeControllerServiceService,
     Type,
     ProductFeatureControllerServiceService, ProductFeature, Inventory
@@ -29,23 +30,29 @@ export class ShopPage implements OnInit, OnDestroy {
     listOfProductFeaturesAndItsInventories: Array<any> = [];
     imageObject: Array<object> = [
         {
-            image: 'assets/images/ekko.jpg',
-            thumbImage: 'assets/images/ekko.jpg',
-            alt: 'ekko alt of image',
-            title: 'Ekko'
+            image: "https://res.cloudinary.com/ipoh-drum/image/upload/v1581001036/rsz_190810_24drums_zoom__174_edited_1_jypihu.jpg",
+            thumbImage: "https://res.cloudinary.com/ipoh-drum/image/upload/v1581001036/rsz_190810_24drums_zoom__174_edited_1_jypihu.jpg",
+            alt: '',
+            title: '1'
         },
         {
-            image: 'assets/images/deku.jpeg',
-            thumbImage: 'assets/images/deku.jpeg',
-            alt: 'deku alt of image',
-            title: 'Deku'
+            image: "https://res.cloudinary.com/ipoh-drum/image/upload/v1581001036/rsz_190810_24drums_zoom__174_edited_1_jypihu.jpg",
+            thumbImage: "https://res.cloudinary.com/ipoh-drum/image/upload/v1581001036/rsz_190810_24drums_zoom__174_edited_1_jypihu.jpg",
+            alt: '',
+            title: '2'
         },
         {
-            image: 'assets/images/kitty.jpg',
-            thumbImage: 'assets/images/kitty.jpg',
-            alt: 'kitty alt of image',
-            title: 'Kitty'
-        }
+            image: "https://res.cloudinary.com/ipoh-drum/image/upload/v1581001036/rsz_190810_24drums_zoom__174_edited_1_jypihu.jpg",
+            thumbImage: "https://res.cloudinary.com/ipoh-drum/image/upload/v1581001036/rsz_190810_24drums_zoom__174_edited_1_jypihu.jpg",
+            alt: '',
+            title: '3'
+        },
+        {
+            image: "https://res.cloudinary.com/ipoh-drum/image/upload/v1581001036/rsz_190810_24drums_zoom__174_edited_1_jypihu.jpg",
+            thumbImage: "https://res.cloudinary.com/ipoh-drum/image/upload/v1581001036/rsz_190810_24drums_zoom__174_edited_1_jypihu.jpg",
+            alt: '',
+            title: '4'
+        },
     ];
     referInfiniteScroll: any;
 
@@ -62,6 +69,7 @@ export class ShopPage implements OnInit, OnDestroy {
         private navController: NavController,
         private router: Router,
         private route: ActivatedRoute,
+        private sliderControllerService: SliderControllerServiceService,
         private typeControllerService: TypeControllerServiceService,
         private productFeatureControllerService: ProductFeatureControllerServiceService,
         private globalFunctionService: GlobalfunctionService,
@@ -73,6 +81,7 @@ export class ShopPage implements OnInit, OnDestroy {
         this.ngZone.run(() => {
             // this.getListOfCategories();
             this.getListOfProductFeatures();
+            this.getListOfSliders();
             
         });
     }
@@ -133,6 +142,8 @@ export class ShopPage implements OnInit, OnDestroy {
         this.sliderSubscription = this.sliderControllerService.getPublicSliders().subscribe(resp => {
             if (resp.code === 200) {
                 //Assign Sliders Image Link To image Object
+                console.log(resp.data);
+                
                 this.imageObject = resp.data;
             } else {
                 this.showPromptAlertWarning();

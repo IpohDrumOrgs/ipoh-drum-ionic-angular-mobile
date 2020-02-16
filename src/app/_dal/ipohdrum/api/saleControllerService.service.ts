@@ -22,6 +22,7 @@ import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables'
 import { Configuration }                                     from '../configuration';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -47,6 +48,38 @@ export class SaleControllerServiceService {
 
 
 
+    private addToHttpParams(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object") {
+            httpParams = this.addToHttpParamsRecursive(httpParams, value);
+        } else {
+            httpParams = this.addToHttpParamsRecursive(httpParams, value, key);
+        }
+        return httpParams;
+    }
+
+    private addToHttpParamsRecursive(httpParams: HttpParams, value: any, key?: string): HttpParams {
+        if (typeof value === "object") {
+            if (Array.isArray(value)) {
+                (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
+            } else if (value instanceof Date) {
+                if (key != null) {
+                    httpParams = httpParams.append(key,
+                        (value as Date).toISOString().substr(0, 10));
+                } else {
+                   throw Error("key may not be null if value is Date");
+                }
+            } else {
+                Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
+                    httpParams, value[k], key != null ? `${key}.${k}` : k));
+            }
+        } else if (key != null) {
+            httpParams = httpParams.append(key, value);
+        } else {
+            throw Error("key may not be null if value is not object or array");
+        }
+        return httpParams;
+    }
+
     /**
      * Creates a sale.
      * @param name Salename
@@ -67,10 +100,10 @@ export class SaleControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public createSale(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public createSale(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public createSale(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public createSale(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public createSale(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public createSale(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public createSale(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public createSale(name: string, storeid: number, sku: string, cost: number, price: number, stock: number, onsale: number, code?: string, desc?: string, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, stockthreshold?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (name === null || name === undefined) {
             throw new Error('Required parameter name was null or undefined when calling createSale.');
         }
@@ -95,66 +128,90 @@ export class SaleControllerServiceService {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>name, 'name');
         }
         if (storeid !== undefined && storeid !== null) {
-            queryParameters = queryParameters.set('storeid', <any>storeid);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>storeid, 'storeid');
         }
         if (code !== undefined && code !== null) {
-            queryParameters = queryParameters.set('code', <any>code);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>code, 'code');
         }
         if (sku !== undefined && sku !== null) {
-            queryParameters = queryParameters.set('sku', <any>sku);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>sku, 'sku');
         }
         if (desc !== undefined && desc !== null) {
-            queryParameters = queryParameters.set('desc', <any>desc);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>desc, 'desc');
         }
         if (cost !== undefined && cost !== null) {
-            queryParameters = queryParameters.set('cost', <any>cost);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>cost, 'cost');
         }
         if (price !== undefined && price !== null) {
-            queryParameters = queryParameters.set('price', <any>price);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>price, 'price');
         }
         if (disc !== undefined && disc !== null) {
-            queryParameters = queryParameters.set('disc', <any>disc);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>disc, 'disc');
         }
         if (promoprice !== undefined && promoprice !== null) {
-            queryParameters = queryParameters.set('promoprice', <any>promoprice);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>promoprice, 'promoprice');
         }
         if (promostartdate !== undefined && promostartdate !== null) {
-            queryParameters = queryParameters.set('promostartdate', <any>promostartdate);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>promostartdate, 'promostartdate');
         }
         if (promoenddate !== undefined && promoenddate !== null) {
-            queryParameters = queryParameters.set('promoenddate', <any>promoenddate);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>promoenddate, 'promoenddate');
         }
         if (stock !== undefined && stock !== null) {
-            queryParameters = queryParameters.set('stock', <any>stock);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>stock, 'stock');
         }
         if (warrantyperiod !== undefined && warrantyperiod !== null) {
-            queryParameters = queryParameters.set('warrantyperiod', <any>warrantyperiod);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>warrantyperiod, 'warrantyperiod');
         }
         if (stockthreshold !== undefined && stockthreshold !== null) {
-            queryParameters = queryParameters.set('stockthreshold', <any>stockthreshold);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>stockthreshold, 'stockthreshold');
         }
         if (onsale !== undefined && onsale !== null) {
-            queryParameters = queryParameters.set('onsale', <any>onsale);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>onsale, 'onsale');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.post<any>(`${this.configuration.basePath}/api/sale`,
             null,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -169,27 +226,36 @@ export class SaleControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public deleteSaleByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public deleteSaleByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public deleteSaleByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public deleteSaleByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public deleteSaleByUid(uid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public deleteSaleByUid(uid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public deleteSaleByUid(uid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public deleteSaleByUid(uid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling deleteSaleByUid.');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.delete<any>(`${this.configuration.basePath}/api/sale/${encodeURIComponent(String(uid))}`,
             {
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -211,48 +277,64 @@ export class SaleControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public filterSaleList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public filterSaleList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public filterSaleList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public filterSaleList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public filterSaleList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public filterSaleList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public filterSaleList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public filterSaleList(page_number?: number, page_size?: number, keyword?: string, fromdate?: string, todate?: string, status?: string, onsale?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (page_number !== undefined && page_number !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>page_number);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page_number, 'pageNumber');
         }
         if (page_size !== undefined && page_size !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>page_size);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page_size, 'pageSize');
         }
         if (keyword !== undefined && keyword !== null) {
-            queryParameters = queryParameters.set('keyword', <any>keyword);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>keyword, 'keyword');
         }
         if (fromdate !== undefined && fromdate !== null) {
-            queryParameters = queryParameters.set('fromdate', <any>fromdate);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>fromdate, 'fromdate');
         }
         if (todate !== undefined && todate !== null) {
-            queryParameters = queryParameters.set('todate', <any>todate);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>todate, 'todate');
         }
         if (status !== undefined && status !== null) {
-            queryParameters = queryParameters.set('status', <any>status);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>status, 'status');
         }
         if (onsale !== undefined && onsale !== null) {
-            queryParameters = queryParameters.set('onsale', <any>onsale);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>onsale, 'onsale');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/filter/sale`,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -267,27 +349,36 @@ export class SaleControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getSaleByUid(uid: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getSaleByUid(uid: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getSaleByUid(uid: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getSaleByUid(uid: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getSaleByUid(uid: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public getSaleByUid(uid: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public getSaleByUid(uid: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public getSaleByUid(uid: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling getSaleByUid.');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/sale/${encodeURIComponent(String(uid))}`,
             {
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -304,33 +395,44 @@ export class SaleControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getSales(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getSales(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getSales(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getSales(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getSales(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public getSales(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public getSales(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public getSales(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (page_number !== undefined && page_number !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>page_number);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page_number, 'pageNumber');
         }
         if (page_size !== undefined && page_size !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>page_size);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page_size, 'pageSize');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/sale`,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -346,33 +448,44 @@ export class SaleControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public getUserSales(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public getUserSales(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public getUserSales(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public getUserSales(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public getUserSales(page_number?: number, page_size?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public getUserSales(page_number?: number, page_size?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public getUserSales(page_number?: number, page_size?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public getUserSales(page_number?: number, page_size?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (page_number !== undefined && page_number !== null) {
-            queryParameters = queryParameters.set('pageNumber', <any>page_number);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page_number, 'pageNumber');
         }
         if (page_size !== undefined && page_size !== null) {
-            queryParameters = queryParameters.set('pageSize', <any>page_size);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>page_size, 'pageSize');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.get<any>(`${this.configuration.basePath}/api/usersales`,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
@@ -403,10 +516,10 @@ export class SaleControllerServiceService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public updateSaleByUid(uid: string, name: string, storeid: number, userid: number, sku: number, totalcost: number, totaldisc: number, stock: number, stockthreshold: number, onsale: number, sono?: string, linetotal?: number, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'body', reportProgress?: boolean): Observable<any>;
-    public updateSaleByUid(uid: string, name: string, storeid: number, userid: number, sku: number, totalcost: number, totaldisc: number, stock: number, stockthreshold: number, onsale: number, sono?: string, linetotal?: number, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
-    public updateSaleByUid(uid: string, name: string, storeid: number, userid: number, sku: number, totalcost: number, totaldisc: number, stock: number, stockthreshold: number, onsale: number, sono?: string, linetotal?: number, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
-    public updateSaleByUid(uid: string, name: string, storeid: number, userid: number, sku: number, totalcost: number, totaldisc: number, stock: number, stockthreshold: number, onsale: number, sono?: string, linetotal?: number, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public updateSaleByUid(uid: string, name: string, storeid: number, userid: number, sku: number, totalcost: number, totaldisc: number, stock: number, stockthreshold: number, onsale: number, sono?: string, linetotal?: number, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<any>;
+    public updateSaleByUid(uid: string, name: string, storeid: number, userid: number, sku: number, totalcost: number, totaldisc: number, stock: number, stockthreshold: number, onsale: number, sono?: string, linetotal?: number, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpResponse<any>>;
+    public updateSaleByUid(uid: string, name: string, storeid: number, userid: number, sku: number, totalcost: number, totaldisc: number, stock: number, stockthreshold: number, onsale: number, sono?: string, linetotal?: number, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined}): Observable<HttpEvent<any>>;
+    public updateSaleByUid(uid: string, name: string, storeid: number, userid: number, sku: number, totalcost: number, totaldisc: number, stock: number, stockthreshold: number, onsale: number, sono?: string, linetotal?: number, disc?: number, promoprice?: string, promostartdate?: string, promoenddate?: string, warrantyperiod?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined}): Observable<any> {
         if (uid === null || uid === undefined) {
             throw new Error('Required parameter uid was null or undefined when calling updateSaleByUid.');
         }
@@ -440,69 +553,94 @@ export class SaleControllerServiceService {
 
         let queryParameters = new HttpParams({encoder: this.encoder});
         if (name !== undefined && name !== null) {
-            queryParameters = queryParameters.set('name', <any>name);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>name, 'name');
         }
         if (storeid !== undefined && storeid !== null) {
-            queryParameters = queryParameters.set('storeid', <any>storeid);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>storeid, 'storeid');
         }
         if (userid !== undefined && userid !== null) {
-            queryParameters = queryParameters.set('userid', <any>userid);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>userid, 'userid');
         }
         if (sono !== undefined && sono !== null) {
-            queryParameters = queryParameters.set('sono', <any>sono);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>sono, 'sono');
         }
         if (sku !== undefined && sku !== null) {
-            queryParameters = queryParameters.set('sku', <any>sku);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>sku, 'sku');
         }
         if (linetotal !== undefined && linetotal !== null) {
-            queryParameters = queryParameters.set('linetotal', <any>linetotal);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>linetotal, 'linetotal');
         }
         if (totalcost !== undefined && totalcost !== null) {
-            queryParameters = queryParameters.set('totalcost', <any>totalcost);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>totalcost, 'totalcost');
         }
         if (totaldisc !== undefined && totaldisc !== null) {
-            queryParameters = queryParameters.set('totaldisc', <any>totaldisc);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>totaldisc, 'totaldisc');
         }
         if (disc !== undefined && disc !== null) {
-            queryParameters = queryParameters.set('disc', <any>disc);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>disc, 'disc');
         }
         if (promoprice !== undefined && promoprice !== null) {
-            queryParameters = queryParameters.set('promoprice', <any>promoprice);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>promoprice, 'promoprice');
         }
         if (promostartdate !== undefined && promostartdate !== null) {
-            queryParameters = queryParameters.set('promostartdate', <any>promostartdate);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>promostartdate, 'promostartdate');
         }
         if (promoenddate !== undefined && promoenddate !== null) {
-            queryParameters = queryParameters.set('promoenddate', <any>promoenddate);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>promoenddate, 'promoenddate');
         }
         if (stock !== undefined && stock !== null) {
-            queryParameters = queryParameters.set('stock', <any>stock);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>stock, 'stock');
         }
         if (warrantyperiod !== undefined && warrantyperiod !== null) {
-            queryParameters = queryParameters.set('warrantyperiod', <any>warrantyperiod);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>warrantyperiod, 'warrantyperiod');
         }
         if (stockthreshold !== undefined && stockthreshold !== null) {
-            queryParameters = queryParameters.set('stockthreshold', <any>stockthreshold);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>stockthreshold, 'stockthreshold');
         }
         if (onsale !== undefined && onsale !== null) {
-            queryParameters = queryParameters.set('onsale', <any>onsale);
+          queryParameters = this.addToHttpParams(queryParameters,
+            <any>onsale, 'onsale');
         }
 
         let headers = this.defaultHeaders;
 
-        // to determine the Accept header
-        const httpHeaderAccepts: string[] = [
-        ];
-        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
+        if (httpHeaderAcceptSelected === undefined) {
+            // to determine the Accept header
+            const httpHeaderAccepts: string[] = [
+            ];
+            httpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        }
         if (httpHeaderAcceptSelected !== undefined) {
             headers = headers.set('Accept', httpHeaderAcceptSelected);
         }
 
 
+        let responseType: 'text' | 'json' = 'json';
+        if(httpHeaderAcceptSelected && httpHeaderAcceptSelected.startsWith('text')) {
+            responseType = 'text';
+        }
+
         return this.httpClient.put<any>(`${this.configuration.basePath}/api/sale/${encodeURIComponent(String(uid))}`,
             null,
             {
                 params: queryParameters,
+                responseType: <any>responseType,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

@@ -316,7 +316,7 @@ export class AddInventoryPage implements OnInit, OnDestroy {
 
     createInventory() {
         if (this.inventoryInfoFormGroup.valid
-            && this.temporaryInventorySliders.length > 0
+            // && this.temporaryInventorySliders.length > 0
             && this.temporaryInventoryThumbnail !== undefined
             && this.temporaryInventoryThumbnail !== null
             && this.inventoryFamilyAndOrPatternsToInsert.length > 0

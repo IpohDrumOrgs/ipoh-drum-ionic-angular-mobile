@@ -22,16 +22,13 @@
                     <ion-button fill="clear" style="width:100%;text-align:center;font-size:25px;"
                                 (click)="showWhichPage(1)">
                         <ion-label [color]="inventoryInfoFormGroup.valid
-                        && temporaryInventorySliders.length > 0
                         && temporaryInventoryThumbnail ? 'success' : 'danger'">1
                         </ion-label>
                         <ion-icon name="close" color="danger" style="font-size:10px;"
                                   *ngIf="inventoryInfoFormGroup.invalid
-                        || temporaryInventorySliders.length <= 0
                         || !temporaryInventoryThumbnail"></ion-icon>
                         <ion-icon name="checkmark" color="success" style="font-size:15px;"
                                   *ngIf="inventoryInfoFormGroup.valid
-                        && temporaryInventorySliders.length > 0
                         && temporaryInventoryThumbnail"></ion-icon>
                     </ion-button>
                 </ion-col>
@@ -634,7 +631,6 @@
                         <ion-button expand="full" fill="clear" (click)="createInventory()"
                                     [disabled]="inventoryInfoFormGroup.invalid
                                         || inventoryFamilyAndOrPatternsToInsert.length <= 0
-                                        || temporaryInventorySliders.length <= 0
                                         || temporaryInventoryThumbnail === undefined
                                         || temporaryInventoryThumbnail === null
                                         || inventoryFamilyAndOrPatternsToInsert.length <= 0">
