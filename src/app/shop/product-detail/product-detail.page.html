@@ -99,6 +99,21 @@
                         </ion-chip>
                     </ion-col>
                 </ion-row>
+                <ng-container *ngIf="currentInventory.shipping">
+                    <ion-row style="border-top:1px solid #e6e6e6;">
+                        <ion-col size="12">
+                            <b>
+                                Shipping Fee
+                            </b>
+                        </ion-col>
+                        <ion-col size="12">
+                            {{currentInventory?.shipping?.name}}&nbsp;-&nbsp;
+                            <span style="font-size:15px;">
+                                {{currentInventory?.shipping?.price | myCurrency}}
+                            </span>
+                        </ion-col>
+                    </ion-row>
+                </ng-container>
             </ng-template>
         </ion-col>
     </ion-row>

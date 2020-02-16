@@ -223,7 +223,9 @@ export class ShoppingCartPage implements OnInit {
                     this.eachItemPriceToPay.push(this.listOfInventoriesInCart[c].selectedInventoryFamily.price * this.listOfInventoriesInCart[c].selectedQuantity);
                 }
             }
-            this.totalShippingPriceInCart += +this.listOfInventoriesInCart[c].shipping.price;
+            if (this.listOfInventoriesInCart[c].shipping) {
+                this.totalShippingPriceInCart += +this.listOfInventoriesInCart[c].shipping.price;
+            }
         }
         for (let d = 0 ; d < this.eachItemPriceToPay.length ; d++) {
             this.totalPriceInCart += +this.eachItemPriceToPay[d];

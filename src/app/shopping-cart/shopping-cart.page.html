@@ -72,18 +72,18 @@
                       <div style="font-size:18px;font-weight:bold;">
                         <ng-container *ngIf="inventory?.selectedInventoryPattern?.id === 9999 else showInventoryPatternPrice">
                           <ng-container *ngIf="inventory?.promotion?.discbyprice === 1 else familyDiscountByPercentage">
-                            {{((inventory?.selectedInventoryFamily?.price - inventory?.promotion?.disc)) | myCurrency}}
+                            {{((inventory?.selectedInventoryFamily?.price - inventory?.promotion?.disc)) | myCurrency}}<span style="font-size:12px;">&nbsp;x1 unit</span>
                           </ng-container>
                           <ng-template #familyDiscountByPercentage>
-                            {{((inventory?.selectedInventoryFamily?.price - (inventory?.selectedInventoryFamily?.price * (inventory?.promotion?.discpctg / 100)))) | myCurrency}}
+                            {{((inventory?.selectedInventoryFamily?.price - (inventory?.selectedInventoryFamily?.price * (inventory?.promotion?.discpctg / 100)))) | myCurrency}}<span style="font-size:12px;">&nbsp;x1 unit</span>
                           </ng-template>
                         </ng-container>
                         <ng-template #showInventoryPatternPrice>
                           <ng-container *ngIf="inventory?.promotion?.discbyprice === 1 else patternDiscountByPercentage">
-                            {{((inventory?.selectedInventoryPattern?.price - inventory?.promotion?.disc)) | myCurrency}}
+                            {{((inventory?.selectedInventoryPattern?.price - inventory?.promotion?.disc)) | myCurrency}}<span style="font-size:12px;">&nbsp;x1 unit</span>
                           </ng-container>
                           <ng-template #patternDiscountByPercentage>
-                            {{((inventory?.selectedInventoryPattern?.price - (inventory?.selectedInventoryPattern?.price * (inventory?.promotion?.discpctg / 100)))) | myCurrency}}
+                            {{((inventory?.selectedInventoryPattern?.price - (inventory?.selectedInventoryPattern?.price * (inventory?.promotion?.discpctg / 100)))) | myCurrency}}<span style="font-size:12px;">&nbsp;x1 unit</span>
                           </ng-template>
                         </ng-template>
                       </div>
@@ -91,10 +91,10 @@
                     <ng-template #noPromotionsObject>
                       <div style="font-size:18px;">
                         <ng-container *ngIf="inventory?.selectedInventoryFamily && inventory?.selectedInventoryPattern.id === 9999 else showPatternPrice">
-                          {{(inventory?.selectedInventoryFamily?.price) | myCurrency}}
+                          {{(inventory?.selectedInventoryFamily?.price) | myCurrency}}<span style="font-size:12px;">&nbsp;x1 unit</span>
                         </ng-container>
                         <ng-template #showPatternPrice>
-                          {{(inventory?.selectedInventoryPattern?.price) | myCurrency}}
+                          {{(inventory?.selectedInventoryPattern?.price) | myCurrency}}<span style="font-size:12px;">&nbsp;x1 unit</span>
                         </ng-template>
                       </div>
                     </ng-template>
