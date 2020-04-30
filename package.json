@@ -41,7 +41,7 @@
     "cordova-plugin-telerik-imagepicker": "^2.3.3",
     "core-js": "^2.6.11",
     "ionic-selectable": "^4.5.2",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "laravel-passport": "0.0.6",
     "lodash": "^4.17.15",
     "ng-image-slider": "^2.3.0",
