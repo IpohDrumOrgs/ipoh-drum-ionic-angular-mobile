@@ -50,7 +50,7 @@
     "ngx-show-hide-password": "^2.1.0",
     "rxjs": "^6.5.4",
     "select2": "^4.0.12",
-    "swiper": "^5.3.0",
+    "swiper": "^6.5.1",
     "tslib": "^1.9.0",
     "videogular2": "^7.0.1",
     "zone.js": "~0.9.1"
